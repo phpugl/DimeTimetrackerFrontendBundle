@@ -12,47 +12,10 @@
           "email": "info@phpugl.de"
       }
   ],
-  "repositories": {
-      "ruian-twitter-bootstrap-bundle": {
-          "package": {
-              "name": "vendor/ruian-twitter-bootstrap-bundle",
-              "version": "1.0.0",
-              "source": {
-                  "url": "git://github.com/ruian/TwitterBootstrapBundle.git",
-                  "type": "git",
-                  "reference": "master"
-              }
-          }
-      },
-      "twitter-bootstrapv2": {
-          "package": {
-              "name": "vendor/twitter-bootstrapv2",
-              "version": "2.0.0",
-              "source": {
-                  "url": "git://github.com/twitter/bootstrap.git",
-                  "type": "git",
-                  "reference": "v2.0.0"
-              }
-          }
-      },
-      "lessphp": {
-          "package": {
-              "name": "vendor/lessphp",
-              "version": "1.0.0",
-              "source": {
-                  "url": "git://github.com/leafo/lessphp.git",
-                  "type": "git",
-                  "reference": "master"
-              }
-          }
-      }
-  },
   "require": {
       "php": ">=5.3.3",
       "phpugl/dime-timetracker-bundle": "master-dev",
-      "vendor/ruian-twitter-bootstrap-bundle": "1.0.0",
-      "vendor/twitter-bootstrapv2": "2.0.0",
-      "vendor/lessphp": "1.0.0"
+      "RuianTwitterBootstrap": "1.0.0"
   },
   "suggest": {
       "phpugl/dime-invoice-bundle": "master-dev",
