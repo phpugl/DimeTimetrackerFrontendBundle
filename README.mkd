@@ -1,10 +1,20 @@
-# DimeTimetrackerFrontendBundle
+# Dime - TimetrackerFrontendBundle
 
-A time tracker based on Symfony2, Bootstrap and Backbone.js.
+A time tracker frontend based on Symfony2, Bootstrap and Backbone.js.
 
 ## General Proposal
 
 Dime is a time tracker based on Symfony2. It provide an REST API and this Bundle will be the Frontend for it. At the moment we use Bootstrap as HTML framework and 
 Backbone.js as rest client.
 
+## Requirements
 
+- RuianTwitterBootstrapBundle: https://github.com/ruian/TwitterBootstrapBundle
+
+## Initialization
+
+Take a look want to you have to setup for the RuianTwitterBootstrapBundle after the just do the following steps.
+
+	app/console twitter:compile v2
+	app/console assets:install --symlink --relative web
+	app/console cache:clear
