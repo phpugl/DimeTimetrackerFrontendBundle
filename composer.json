@@ -1,0 +1,64 @@
+{
+  "name": "phpugl/dime-timetracker-frontend-bundle",
+  "type": "frontend",
+  "description": "HTML5 REST Client for the DimeTimetracker REST API",
+  "keywords": ["timetracker", "frontend", "backbone.js"],
+  "homepage": "https://github.com/phpugl/DimeTimetrackerFrontendBundle",
+  "license": "MIT",
+  "version": "1.0"
+  "authors": [
+      {
+          "name": "PHPUGL"
+          "email": "info@phpugl.de"
+      }
+  ],
+  "repositories": {
+      "ruian-twitter-bootstrap-bundle": {
+          "package": {
+              "name": "vendor/ruian-twitter-bootstrap-bundle",
+              "version": "1.0.0",
+              "source": {
+                  "url": "git://github.com/ruian/TwitterBootstrapBundle.git",
+                  "type": "git",
+                  "reference": "master"
+              }
+          }
+      },
+      "twitter-bootstrapv2": {
+          "package": {
+              "name": "vendor/twitter-bootstrapv2",
+              "version": "2.0.0",
+              "source": {
+                  "url": "git://github.com/twitter/bootstrap.git",
+                  "type": "git",
+                  "reference": "v2.0.0"
+              }
+          }
+      },
+      "lessphp": {
+          "package": {
+              "name": "vendor/lessphp",
+              "version": "1.0.0",
+              "source": {
+                  "url": "git://github.com/leafo/lessphp.git",
+                  "type": "git",
+                  "reference": "master"
+              }
+          }
+      }
+  },
+  "require": {
+      "php": ">=5.3.3",
+      "phpugl/dime-timetracker-bundle": "master-dev",
+      "vendor/ruian-twitter-bootstrap-bundle": "1.0.0",
+      "vendor/twitter-bootstrapv2": "2.0.0",
+      "vendor/lessphp": "1.0.0"
+  },
+  "suggest": {
+      "phpugl/dime-invoice-bundle": "master-dev",
+      "phpugl/dime-import-bundle": "master-dev"
+  },
+  "autoload": {
+      "psr-0": {"Predis": "lib/"}
+  }
+}

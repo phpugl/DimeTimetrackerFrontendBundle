@@ -1,0 +1,10 @@
+# DimeTimetrackerFrontendBundle
+
+A time tracker based on Symfony2, Bootstrap and Backbone.js.
+
+## General Proposal
+
+Dime is a time tracker based on Symfony2. It provide an REST API and this Bundle will be the Frontend for it. At the moment we use Bootstrap as HTML framework and 
+Backbone.js as rest client.
+
+
