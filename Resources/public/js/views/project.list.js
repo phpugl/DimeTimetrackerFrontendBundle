@@ -1,50 +1,13 @@
-/*
- * Dime - project list view
+/**
+ * Dime - views/project.list.js
  */
+(function ($, App) {
 
-(function ($, app) {
-
-  // init views
-  if ('undefined' == typeof(app.views.project)) {
-    app.views['project'] = {};
-  }
-
-  // project list view
-  app.views.project.list = Backbone.View.extend({
+  // provide list view in App.Views.Project
+  App.provide('Views.Project.List', App.Views.Base.List.extend({
     el: '#projects',
-    initialize: function(obj) {
-      _.bindAll(this);
+    prefix: 'project-',
+    ItemView: App.Views.Project.Item
+  }));
 
-      this.collection.bind('reset', this.addAll);
-      this.collection.bind('add', this.addOne);
-      this.collection.bind('change', this.change);
-      this.collection.bind('destroy', this.destroy);
-
-      if (obj && obj.form) {
-        this.form = obj.form;
-      }
-
-      this.itemTagName = (obj && obj.itemTagName) ? obj.itemTagName : "div";
-    },
-    render: function() {
-      return this;
-    },
-    addAll: function() {
-      this.$el.html('');
-      this.collection.each(this.addOne);
-    },
-    addOne: function(item) {
-      this.$el.append(new app.views.project.item({model: item, form: this.form, tagName: this.itemTagName}).render().el);
-    },
-    change: function(item) {
-      if (item.id != undefined) {
-        $('#project-' + item.id).html(new app.views.project.item({model: item, form: this.form, tagName: this.itemTagName}).render().el);
-      } else {
-        this.addAll();
-      }
-    },
-    destroy: function() {
-      // not needed at the moment
-    }
-  });
 })(jQuery, Dime);

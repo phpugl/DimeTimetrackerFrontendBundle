@@ -1,13 +1,14 @@
-/*
- * Dime - project collection
+/**
+ * Dime - collection/projects.js
+ *
+ * Register Projects collection to namespace App
  */
+(function ($, App) {
 
-(function ($, app) {
-
-  // register project module with model, collection and views
-  var collection = app.collection['projects'] = Backbone.Collection.extend({
+  // Create Projects collection and add it to App.Collection
+  App.provide('Collection.Projects', Backbone.Collection.extend({
       url: 'api/projects'
-  });
+  }));
 
 })(jQuery, Dime);
 

@@ -106,15 +106,15 @@
 
 {% block js %}
 <script type="text/javascript">
-  (function ($, app) {
-    var projects = new app.collection.projects();
-    var form = new app.views.project.form({el: '#project-form', collection: projects});
-    new app.views.project.list({collection: projects, itemTagName: "div", form: form}).render();
+  (function ($, App) {
+    var projects = new App.Collection.Projects();
+    var form = new App.Views.Project.Form({el: '#project-form', collection: projects});
+    new App.Views.Project.List({collection: projects, itemTagName: "div", form: form}).render();
     projects.fetch();
 
     $('.project-new').bind('click', function(e) {
       e.preventDefault();
-      form.model = new app.model.project();
+      form.model = new App.Model.Project();
       form.render();
     });
   })(jQuery, Dime);
