@@ -1,30 +1,28 @@
-/*
- * Dime - service list view
+/**
+ * Dime - views/service.list.js
  */
+(function ($, App) {
 
-(function ($, app) {
-
-  // init views
-  if ('undefined' == typeof(app.views.service)) {
-    app.views['service'] = {};
-  }
-  
-  // service list view
-  app.views.service.list = Backbone.View.extend({
+  // provide Service namespace in App.Views
+  var SericeListView = App.provide('Views.Service.List', Backbone.View.extend({
     el: '#services',
-    initialize: function(obj) {
+    ItemView: App.Views.Service.Item,
+    initialize: function(opt) {
       _.bindAll(this);
-      
+
+      // Assign function to collection events
       this.collection.bind('reset', this.addAll, this);
       this.collection.bind('add', this.addOne, this);
       this.collection.bind('change', this.change, this);
       this.collection.bind('destroy', this.destroy, this);
 
-      if (obj && obj.form) {
-        this.form = obj.form;
+      // Grep form from options
+      if (opt && opt.form) {
+        this.form = opt.form;
       }
 
-      this.itemTagName = (obj && obj.itemTagName) ? obj.itemTagName : "div";
+      // Grep itemTagName from options
+      this.itemTagName = (opt && opt.itemTagName) ? opt.itemTagName : "div";
     },
     render: function() {
       return this;
@@ -34,11 +32,11 @@
       this.collection.each(this.addOne);
     },
     addOne: function(item) {
-      this.$el.append(new app.views.service.item({model: item, form: this.form, tagName: this.itemTagName}).render().el);
+      this.$el.append(new this.ItemView({model: item, form: this.form, tagName: this.itemTagName}).render().el);
     },
     change: function(item) {
       if (item.id != undefined) {
-        $('#service-' + item.id).html(new app.views.service.item({model: item, form: this.form, tagName: this.itemTagName}).render().el);
+        $('#service-' + item.id).replaceWith(new this.ItemView({model: item, form: this.form, tagName: this.itemTagName}).render().el);
       } else {
         this.addAll();
       }
@@ -46,5 +44,6 @@
     destroy: function() {
       // not needed at the moment
     }
-  });
+  }));
+
 })(jQuery, Dime);

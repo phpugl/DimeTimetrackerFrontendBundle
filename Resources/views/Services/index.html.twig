@@ -72,15 +72,15 @@
 
 {% block js %}
 <script type="text/javascript">
-  (function ($, app) {
-    var services = new app.collection.services();
-    var form = new app.views.service.form({el: '#service-form', collection: services});
-    new app.views.service.list({collection: services, itemTagName: "tr", form: form}).render();
+  (function ($, App) {
+    var services = new App.Collection.Services();
+    var form = new App.Views.Service.Form({el: '#service-form', collection: services});
+    new App.Views.Service.List({collection: services, itemTagName: "tr", form: form}).render();
     services.fetch();
 
     $('.service-new').bind('click', function(e) {
       e.preventDefault();
-      form.model = new app.model.service();
+      form.model = new App.Model.Service();
       form.render();
     });
   })(jQuery, Dime);

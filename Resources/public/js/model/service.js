@@ -1,11 +1,12 @@
-/*
- * Dime - service model
+/**
+ * Dime - model/service.js
+ *
+ * Register Service model to namespace App.
  */
+(function ($, App) {
 
-(function ($, app) {
-
-  // register service module with model, collection and views
-  var service = app.model['service'] = Backbone.Model.extend({});
+  // create Service model and add it to App.Model
+  var Service = App.provide('Model.Service', Backbone.Model.extend({}));
 
 })(jQuery, Dime);
 

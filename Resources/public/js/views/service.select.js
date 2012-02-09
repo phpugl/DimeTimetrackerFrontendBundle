@@ -2,14 +2,12 @@
  * Dime - service list view
  */
 
-(function ($, app) {
+(function ($, App) {
 
-  // init views
-  if ('undefined' == typeof(app.views.service)) {
-    app.views['service'] = {};
-  }
+  // provide Service namespace in App.Views
+  var SericeView = App.provide('Views.Service');
   
-  app.views.service.option = Backbone.View.extend({
+  SericeView.Option = Backbone.View.extend({
     tagName: "option",
     initialize: function() {
         _.bindAll(this, 'render');
@@ -20,7 +18,7 @@
     }
   });
 
-  app.views.service.select = Backbone.View.extend({
+  SericeView.Select = Backbone.View.extend({
     initialize: function(opt){
         _.bindAll(this, 'addOne', 'addAll');
         this.collection.bind('reset', this.addAll);
@@ -31,7 +29,7 @@
         }
     },
     addOne: function(obj){
-        var optionView = new app.views.service.option({ model: obj });
+        var optionView = new SericeView.Option({ model: obj });
         this.selectViews.push(optionView);
         this.$el.append(optionView.render().el);
     },
