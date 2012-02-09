@@ -6,7 +6,7 @@
 (function ($, App) {
 
   // Create Services collection and add it to App.Collection
-  var Services = App.provide('Collection.Services', Backbone.Collection.extend({
+  App.provide('Collection.Services', Backbone.Collection.extend({
     url: 'api/services'
   }));
 
