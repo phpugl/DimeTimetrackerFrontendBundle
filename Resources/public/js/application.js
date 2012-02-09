@@ -17,19 +17,26 @@
        *   Dime.provide('Views.Service') -> create Service in Views
        *
        * @param name Namspace items splitted by dot (.)
+       * @param obj optional, set to the last item in path
        */
-      provide: function(name) {
+      provide: function(name, obj) {
+        if (!name) throw "Give a name for Dime.provide(name)";     
         var parent = this;
 
         var parts = name.split('.');
         if (parts) {
           for (var i=0; i<parts.length; i++) {
             if (!parent[parts[i]]) {
-              parent[parts[i]] = {};
+              if (i >= parts.length - 1 && obj) {
+                parent[parts[i]] = obj
+              } else {
+                parent[parts[i]] = {};
+              }
             }
             parent = parent[parts[i]];
           }
         }
+
         return parent;
       }
     };
