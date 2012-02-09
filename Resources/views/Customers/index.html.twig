@@ -48,15 +48,15 @@
 
 {% block js %}
 <script type="text/javascript">
-  (function ($, app) {
-    var customers = new app.collection.customers();
-    var form = new app.views.customer.form({el: '#customer-form', collection: customers});
-    new app.views.customer.list({collection: customers, itemTagName: "div", form: form}).render();
+  (function ($, App) {
+    var customers = new App.Collection.Customers();
+    var form = new App.Views.Customer.Form({el: '#customer-form', collection: customers});
+    new App.Views.Customer.List({collection: customers, itemTagName: "div", form: form}).render();
     customers.fetch();
 
     $('.customer-new').bind('click', function(e) {
       e.preventDefault();
-      form.model = new app.model.customer();
+      form.model = new App.Model.Customer();
       form.render();
     });
   })(jQuery, Dime);

@@ -1,13 +1,14 @@
-/*
- * Dime - customer collection
+/**
+ * Dime - collection/customer.js
+ *
+ * Register Customers collection to namespace App
  */
+(function ($, App) {
 
-(function ($, app) {
-
-  // register customer module with model, collection and views
-  var collection = app.collection['customers'] = Backbone.Collection.extend({
+  // Create Customers collection and add it to App.Collection
+  App.provide('Collection.Customers', Backbone.Collection.extend({
       url: 'api/customers'
-  });
+  }));
 
 })(jQuery, Dime);
 

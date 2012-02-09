@@ -1,21 +1,19 @@
 /*
- * Dime - customer form view
+ * Dime - views/customer.form.js
  */
 
-(function ($, app) {
-
-  // init views
-  if ('undefined' == typeof(app.views.customer)) {
-    app.views['customer'] = {};
-  }
-
+(function ($, App) {
   // customer form view
-  app.views.customer.form = app.views.base.form.extend({
+  App.provide('Views.Customer.Form', App.Views.Base.Form.extend({
     render: function() {
+        // clear form
         this.form.clear();
+        // fill form with model data
         this.form.fill(this.model.toJSON());
-        this.$el.modal({backdrop: 'static', show: true});
+        // show bootstrap modal
+        this.$el.modal('show');
+
         return this;
     }
-  });
+  }));
 })(jQuery, Dime);

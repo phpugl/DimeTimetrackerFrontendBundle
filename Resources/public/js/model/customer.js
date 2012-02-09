@@ -1,11 +1,12 @@
-/*
- * Dime - customer model
+/**
+ * Dime - model/customer.js
+ *
+ * Register Customer model to namespace App.
  */
+(function ($, App) {
 
-(function ($, app) {
-
-  // register customer module with model, collection and views
-  var customer = app.model['customer'] = Backbone.Model.extend({});
+  // Create Customer model and add it to App.Model
+  App.provide('Model.Customer', Backbone.Model.extend({}));
 
 })(jQuery, Dime);
 
