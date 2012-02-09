@@ -2,22 +2,20 @@
  * Dime - activity form view
  */
 
-(function ($, app) {
+(function ($, App) {
 
-  // init views
-  if ('undefined' == typeof(app.views.base)) {
-    app.views['base'] = {};
-  }
+  // provide Base namespace in App.Views
+  var BaseView = App.provide('Views.Base');
 
   // activity form view
-  app.views.base.form = Backbone.View.extend({
+  BaseView.Form = Backbone.View.extend({
     events: {
       'click .save': 'save',
       'click .close': 'close',
       'click .cancel': 'close'
     },
    initialize: function() {
-      _.bindAll(this);
+      //_.bindAll(this);
       this.form = this.$el.form();
     },
     save: function() {
