@@ -7,7 +7,18 @@
   App.provide('Views.Activity.List', App.Views.Base.List.extend({
     el: '#activities',
     prefix: 'activity-',
-    ItemView: App.Views.Activity.Item
+    ItemView: App.Views.Activity.Item,
+    addOne: function(item) {
+      // append new ItemView to element
+      this.$el.prepend(new this.ItemView({
+          model: item,
+          form: this.form,
+          tagName: this.itemTagName
+        }).render().el
+      );
+
+      return this;
+    }
   }));
   
 })(jQuery, Dime);
