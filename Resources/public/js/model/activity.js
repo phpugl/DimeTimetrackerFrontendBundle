@@ -1,11 +1,12 @@
-/*
- * Dime - activity model
+/**
+ * Dime - model/activity.js
+ *
+ * Register Activity model to namespace App.
  */
+(function ($, App) {
 
-(function ($, app) {
-
-  // register activity module with model, collection and views
-  var activity = app.model['activity'] = Backbone.Model.extend({});
+  // Create Activity model and add it to App.Model
+  App.provide('Model.Activity', Backbone.Model.extend({}));
 
 })(jQuery, Dime);
 

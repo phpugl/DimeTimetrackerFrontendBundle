@@ -103,15 +103,15 @@
 
 {% block js %}
 <script type="text/javascript">
-  (function ($, app) {
-    var activities = new app.collection.activities();
-    var form = new app.views.activity.form({el: '#activity-form', collection: activities});
-    new app.views.activity.list({collection: activities, itemTagName: "div", form: form}).render();
+  (function ($, App) {
+    var activities = new App.Collection.Activities();
+    var form = new App.Views.Activity.Form({el: '#activity-form', collection: activities});
+    new App.Views.Activity.List({collection: activities, itemTagName: "div", form: form}).render();
     activities.fetch();
 
     $('.activity-new').bind('click', function(e) {
       e.preventDefault();
-      form.model = new app.model.activity();
+      form.model = new App.Model.Activity();
       form.render();
     });
   })(jQuery, Dime);

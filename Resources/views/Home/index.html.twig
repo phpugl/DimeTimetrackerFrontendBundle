@@ -95,9 +95,9 @@
 
 {% block js %}
 <script type="text/javascript">
-  (function ($, app) {
-    var activities = new app.collection.activities();
-    new app.views.activity.list({collection: activities, itemTagName: "tr"}).render();
+  (function ($, App) {
+    var activities = new App.Collection.Activities();
+    new App.Views.Activity.List({collection: activities, itemTagName: "tr"}).render();
     activities.fetch();
   })(jQuery, Dime);
 </script>

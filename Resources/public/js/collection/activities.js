@@ -6,9 +6,9 @@
 (function ($, App) {
 
   // Create Activities collection and add it to App.Collection
-  var Activities = App.Collection['Activities'] = Backbone.Collection.extend({
+  App.provide('Collection.Activities', Backbone.Collection.extend({
       url: 'api/activities'
-  });
+  }));
 
 })(jQuery, Dime);
 
