@@ -6,7 +6,9 @@
 (function ($, App) {
 
   // Create Customer model and add it to App.Model
-  App.provide('Model.Customer', Backbone.Model.extend({}));
+  App.provide('Model.Customer', Backbone.Model.extend({
+    urlRoot: App.Route.Customers
+  }));
 
 })(jQuery, Dime);
 

@@ -6,7 +6,9 @@
 (function ($, App) {
 
   // Create Project model and add it to App.Model
-  App.provide('Model.Project', Backbone.Model.extend({}));
+  App.provide('Model.Project', Backbone.Model.extend({
+    urlRoot: App.Route.Projects
+  }));
 
 })(jQuery, Dime);
 

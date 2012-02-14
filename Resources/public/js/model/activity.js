@@ -6,7 +6,9 @@
 (function ($, App) {
 
   // Create Activity model and add it to App.Model
-  App.provide('Model.Activity', Backbone.Model.extend({}));
+  App.provide('Model.Activity', Backbone.Model.extend({
+    urlRoot: App.Route.Activities
+  }));
 
 })(jQuery, Dime);
 
