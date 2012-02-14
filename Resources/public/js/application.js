@@ -11,6 +11,13 @@
       Collection: {},
       Model: {},
       Views: {},
+      Route: {
+        Activities: 'api/activities',
+        Customers:  'api/customers',
+        Projects:   'api/projects',
+        Services:   'api/services',
+        Timeslices: 'api/timeslices'
+      },
       /**
        * Create namespace object if needed in Dime splitted by dot (.).
        * Example:
