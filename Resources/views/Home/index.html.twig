@@ -38,11 +38,11 @@
   </td>
   <td><%- data.description %></td>
   <% if (model.runningTimeslice()) { %>
-  <td>(running)</td>
-  <td><button class="stop btn btn-danger span2" data-toggle="toggle">Stop</button></td>
+  <td class="duration" data-duration="<%- data.duration %>">(running)</td>
+  <td><button class="track stop btn btn-danger span2">Stop</button></td>
   <% } else { %>
-  <td><%- model.formatDuration(data.duration) %></td>
-  <td><button class="continue btn btn-success span2" data-toggle="toggle">Continue</button></td>
+  <td class="duration" data-duration="<%- data.duration %>"><%- model.formatDuration(data.duration) %></td>
+  <td><button class="track start btn btn-success span2">Continue</button></td>
   <% } %>
 </script>
 

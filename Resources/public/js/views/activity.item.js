@@ -10,22 +10,31 @@
     events: {
       'click .edit': 'edit',
       'click .delete': 'delete',
-      'click .continue': 'continue',
-      'click .stop': 'stop'
+      'click .track': 'track'
     },
-    'continue': function() {
-      var timeslices = this.model.relation('timeslices');
-      timeslices.create(new App.Model.Timeslice({
-        activity: this.model.get('id'),
-        startedAt: moment(new Date).format('YYYY-MM-DD HH:mm:ss')
-      }));
-    },
-    stop: function() { 
-      var timeslice = this.model.runningTimeslice();
-      if (timeslice) {
-        timeslice.set('stoppedAt', moment(new Date).format('YYYY-MM-DD HH:mm:ss')).save({success: function() {
-            // TODO
-        }, wait: true});
+    track: function() {
+      var button = $('.track', '#' + this.prefix + this.model.id),
+          duration = $('.duration', '#' + this.prefix + this.model.id),
+          model = this.model;
+      if (button.hasClass('start')) {
+        this.model.start({wait: true, success: function(item) {
+            button
+            .removeClass('start btn-success')
+            .addClass('stop btn-danger')
+            .text('Stop');
+        }});
+      } else if (button.hasClass('stop')) {
+        this.model.stop({wait: true, success: function (item) {
+           button
+            .removeClass('stop btn-danger')
+            .addClass('start btn-success')
+            .text('Continue');
+
+           var d = duration.data('duration');
+            d += item.get('duration');
+            duration.data('duration', d);
+            duration.text(model.formatDuration(d));
+        }});
       }
     }
   }));
