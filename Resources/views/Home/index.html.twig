@@ -24,20 +24,19 @@
 </table>
 
 <script type="text/template" id="tpl-activity-item">
-  <% var customerName  = (model.relation.customer) ? model.relation.customer.get('name')  : '' %>
-  <% var customerAlias = (model.relation.customer) ? model.relation.customer.get('alias') : '' %>
+  <% var customerName  = (model.relation('customer')) ? model.relation('customer').get('name')  : '' %>
+  <% var customerAlias = (model.relation('customer')) ? model.relation('customer').get('alias') : '' %>
   <td>
       <% if (customerAlias.length > 0 && customerName.length > 0) { %>
       <a href="#" class="client-project" data-placement="below" rel="twipsy" title="<%- customerName %>">
         <%- customerAlias %>
       </a>
       <% } %>
-      <% if (model.relation.project) { %>
-      <a href="#"><%- model.relation.project.get('name') %></a>
+      <% if (model.relation('project')) { %>
+      <a href="#"><%- model.relation('project').get('name') %></a>
       <% } %>
   </td>
   <td><%- data.description %></td>
-
   <% if (model.runningTimeslice()) { %>
   <td>(running)</td>
   <td><button class="stop btn btn-danger span2" data-toggle="toggle">Stop</button></td>

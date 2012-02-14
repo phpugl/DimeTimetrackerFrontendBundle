@@ -13,8 +13,16 @@
       startedAt: undefined,
       stoppedAt: undefined
     },
+    parse: function(response) {
+      response.relation = {};
+      if (response.activity) {
+        response.relation.activity = new App.Model.Activity(response.activity);
+        response.activity = response.activity.id;
+      }
+    },
     isRunning: function() {
-      return !(this.get('stoppedAt') && this.get('stoppedAt').length > 0);
+      return this.get('duration') <= 0
+             && !(this.get('stoppedAt') && this.get('stoppedAt').length > 0);
     }
   }));
 
