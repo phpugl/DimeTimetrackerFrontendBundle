@@ -52,6 +52,25 @@
 
       return response;
     },
+    start: function(opt) {
+      var timeslices = this.relation('timeslices');
+      if (timeslices && !timeslices.firstRunning()) {
+        timeslices.create(new App.Model.Timeslice({
+          activity: this.get('id'),
+          startedAt: moment(new Date).format('YYYY-MM-DD HH:mm:ss')
+        }), opt);
+      }
+    },
+    stop: function(opt) {
+      var timeslices = this.relation('timeslices');
+      if (timeslices && timeslices.firstRunning()) {
+        var timeslice = timeslices.firstRunning();
+        timeslice.save(
+          {'stoppedAt': moment(new Date).format('YYYY-MM-DD HH:mm:ss')},
+          opt
+        );
+      }
+    },
     runningTimeslice: function() {
       return (this.relation('timeslices')) ? this.relation('timeslices').firstRunning() : undefined;
     },
