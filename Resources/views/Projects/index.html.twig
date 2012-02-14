@@ -12,8 +12,8 @@
 
 <script type="text/template" id="tpl-project-item">
 <div class="buttons pull-right"><button class="edit btn">Edit</button> <button class="delete btn btn-danger">Delete</button></div>
-<h3><%- name %> <% if (typeof(rate) != "undefined") { %>(Rate: <%- rate %>)<% } %></h3>
-<% if (typeof(description) != "undefined") { %><p><%- description %></p><% } %>
+<h3><%- data.name %> <% if (typeof(data.rate) != "undefined") { %>(Rate: <%- data.rate %>)<% } %></h3>
+<% if (typeof(data.description) != "undefined") { %><p><%- data.description %></p><% } %>
 </script>
 
 <div id="project-form" class="modal hide" data-prefix="project-">

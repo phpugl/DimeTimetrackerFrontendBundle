@@ -12,7 +12,7 @@
 
 <script type="text/template" id="tpl-customer-item">
 <div class="buttons pull-right"><button class="edit btn">Edit</button> <button class="delete btn btn-danger">Delete</button></div>
-<h3><%- name %> <% if (typeof(alias) != "undefined") { %>(Alias: <%- alias %>)<% } %></h3>
+<h3><%- data.name %> <% if (typeof(data.alias) != "undefined") { %>(Alias: <%- data.alias %>)<% } %></h3>
 </script>
 
 <div id="customer-form" class="modal hide" data-prefix="customer-">

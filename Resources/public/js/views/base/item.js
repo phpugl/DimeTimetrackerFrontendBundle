@@ -30,7 +30,7 @@
       var temp = _.template($(this.template).html());
 
       // fill model date into template and push it into element html
-      this.$el.html(temp(this.model.toJSON()));
+      this.$el.html(temp({model: this.model, data: this.model.toJSON()}));
 
       // add element id with prefix
       this.$el.attr('id', this.prefix + this.model.get('id'));

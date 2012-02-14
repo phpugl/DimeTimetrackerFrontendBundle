@@ -12,8 +12,8 @@
 
 <script type="text/template" id="tpl-activity-item">
 <div class="buttons pull-right"><button class="edit btn">Edit</button> <button class="delete btn btn-danger">Delete</button></div>
-<h3><%= typeof(duration)=="undefined" ? '' : duration %> <% if (typeof(customer) != "undefined") { %>(@<%- customer.alias %>)<% } %></h3>
-<% if (typeof(description) != "undefined") { %><p><%- description %></p><% } %>
+<h3><%= typeof(data.duration)=="undefined" ? '' : data.duration %> <% if (typeof(data.customer) != "undefined") { %>(@<%- data.customer.alias %>)<% } %></h3>
+<% if (typeof(data.description) != "undefined") { %><p><%- data.description %></p><% } %>
 </script>
 
 <div id="activity-form" class="modal hide" data-prefix="activity-">

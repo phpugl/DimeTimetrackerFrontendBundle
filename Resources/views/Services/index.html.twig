@@ -22,9 +22,9 @@
 </table>
 
 <script type="text/template" id="tpl-service-item">
-  <td><%- name %></td>
-  <td><% if (typeof(rate) != "undefined") { %><%- rate %><% } %></td>
-  <td><% if (typeof(description) != "undefined") { %><%- description %><% } %></td>
+  <td><%- data.name %></td>
+  <td><% if (typeof(data.rate) != "undefined") { %><%- data.rate %><% } %></td>
+  <td><% if (typeof(data.description) != "undefined") { %><%- data.description %><% } %></td>
   <td><button class="edit btn">Edit</button> <button class="delete btn btn-danger">Delete</button></td>
 </script>
 
