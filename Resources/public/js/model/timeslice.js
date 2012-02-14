@@ -19,6 +19,7 @@
         response.relation.activity = new App.Model.Activity(response.activity);
         response.activity = response.activity.id;
       }
+      return response;
     },
     isRunning: function() {
       return this.get('duration') <= 0
