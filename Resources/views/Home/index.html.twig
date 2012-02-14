@@ -24,32 +24,27 @@
 </table>
 
 <script type="text/template" id="tpl-activity-item">
-    <% var customerName  = (typeof(customer) != "undefined") ? customer.name  : '' %>
-    <% var customerAlias = (typeof(customer) != "undefined") ? customer.alias : '' %>
-    <td>
-        <% if (typeof(customer) != "undefined" && typeof(customer.name) != "undefined" && customer.name.length) { %>
-            <a href="#" class="client-project" data-placement="below" rel="twipsy" title="<%- customer.name %>">
-                <%- customerAlias %>
-            </a>
-        <% } %>
-        <% if (project.length) { %>
-            <a href="#"><%- project %></a>
-        <% } %>
-    </td>
-    <td>
-        <%- description %>
-    </td>
-    <% if (typeof(duration) != "undefined" && 0 < duration) { %>
-        <% var durationObject = new Date(duration * 60 * 1000) %>
-        <td><%= durationObject.getHours() %>h <%= durationObject.getMinutes() %>min</td>
-        <td><button class="continue btn btn-success span2" data-toggle="toggle">Continue</button></td>
-    <% } else if (typeof(startedAt) == "undefined") { %>
-        <td>(unknown)</td>
-        <td></td>
-    <% } else { %>
-        <td>(running)</td>
-        <td><button class="stop btn btn-danger span2" data-toggle="toggle">Stop</button></td>
-    <% } %>
+  <% var customerName  = (model.relation.customer) ? model.relation.customer.get('name')  : '' %>
+  <% var customerAlias = (model.relation.customer) ? model.relation.customer.get('alias') : '' %>
+  <td>
+      <% if (customerAlias.length > 0 && customerName.length > 0) { %>
+      <a href="#" class="client-project" data-placement="below" rel="twipsy" title="<%- customerName %>">
+        <%- customerAlias %>
+      </a>
+      <% } %>
+      <% if (model.relation.project) { %>
+      <a href="#"><%- model.relation.project.get('name') %></a>
+      <% } %>
+  </td>
+  <td><%- data.description %></td>
+
+  <% if (model.runningTimeslice()) { %>
+  <td>(running)</td>
+  <td><button class="stop btn btn-danger span2" data-toggle="toggle">Stop</button></td>
+  <% } else { %>
+  <td><%- model.formatDuration(data.duration) %></td>
+  <td><button class="continue btn btn-success span2" data-toggle="toggle">Continue</button></td>
+  <% } %>
 </script>
 
 <div id="edit-modal" class="modal hide fade" style="display: none; ">
@@ -75,23 +70,7 @@
         <a href="#" class="btn secondary">Cancel</a>
     </div>
 </div>
-
 {% endblock %}    
-
-
-{% block sidebar %}
-    <h2>Filter</h2>
-    <h3>Data Filter</h3>
-    <em>filter list goes here</em>
-
-    <h4>by Tag</h4>
-    <span class="label">Tag 1</span> <span class="label">Tag 2</span> <span class="label">Tag 3</span>
-    <span class="label">Tag 4</span> <span class="label">Tag 5</span> <span class="label">Tag 6</span>
-
-    <h4>by Project</h4>
-
-    <h4>by Customer</h4>
-{% endblock %}
 
 {% block js %}
 <script type="text/javascript">
