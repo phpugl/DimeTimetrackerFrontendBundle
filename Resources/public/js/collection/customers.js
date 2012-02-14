@@ -7,7 +7,8 @@
 
   // Create Customers collection and add it to App.Collection
   App.provide('Collection.Customers', Backbone.Collection.extend({
-      url: 'api/customers'
+    model: App.Model.Customer,
+    url: App.Route.Customers
   }));
 
 })(jQuery, Dime);

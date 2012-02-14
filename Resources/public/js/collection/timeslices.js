@@ -7,7 +7,8 @@
 
   // Create Timeslices collection and add it to App.Collection
   App.provide('Collection.Timeslices', Backbone.Collection.extend({
-    url: 'api/timeslices'
+    model: App.Model.Timeslice,
+    url: App.Route.Timeslices
   }));
 
 })(jQuery, Dime);

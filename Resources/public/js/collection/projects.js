@@ -7,7 +7,8 @@
 
   // Create Projects collection and add it to App.Collection
   App.provide('Collection.Projects', Backbone.Collection.extend({
-      url: 'api/projects'
+    model: App.Model.Project,
+    url: App.Route.Projects
   }));
 
 })(jQuery, Dime);
