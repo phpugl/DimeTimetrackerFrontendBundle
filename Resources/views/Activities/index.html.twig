@@ -12,7 +12,8 @@
 
 <script type="text/template" id="tpl-activity-item">
 <div class="buttons pull-right"><button class="edit btn">Edit</button> <button class="delete btn btn-danger">Delete</button></div>
-<h3><%= typeof(data.duration)=="undefined" ? '' : data.duration %> <% if (typeof(data.customer) != "undefined") { %>(@<%- data.customer.alias %>)<% } %></h3>
+<% var customerAlias = (model.relation('customer')) ? model.relation('customer').get('alias') : undefined %>
+<h3><%- model.formatDuration(data.duration) %> <% if (typeof(customerAlias) != "undefined") { %>(@<%- customerAlias %>)<% } %></h3>
 <% if (typeof(data.description) != "undefined") { %><p><%- data.description %></p><% } %>
 </script>
 
