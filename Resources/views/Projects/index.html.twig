@@ -22,13 +22,13 @@
         <h3 class="title">Add project</h3>
     </div>
     <div class="modal-body">
-        <ul class="tabs nav nav-tabs">
-            <li class="active"><a href="#common">Common</a></li>
-            <li><a href="#prices">Prices</a></li>
-            <li><a href="#dates">Dates</a></li>
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#common" data-toggle="tab">Common</a></li>
+            <li><a href="#prices" data-toggle="tab">Prices</a></li>
+            <li><a href="#dates" data-toggle="tab">Dates</a></li>
         </ul>
         <form class="form-horizontal tab-content">
-            <fieldset class="tab-pane active" id="common">
+            <fieldset id="common" class="tab-pane active">
                 <div class="control-group">
                     <label for="project-name" class="control-label">Name:</label>
                     <div class="controls">
@@ -77,13 +77,13 @@
             </fieldset>
             <fieldset id="dates" class="tab-pane">
                 <div class="control-group">
-                    <label for="project-startedAt" class="control-label">StartedAt:</label>
+                    <label for="project-startedAt" class="control-label">Started at:</label>
                     <div class="controls">
                         <input id="project-startedAt" class="project-startedAt input-xlarge" type="date" value="" >
                     </div>
                 </div>
                 <div class="control-group">
-                    <label for="project-stoppedAt" class="control-label">StoppedAt:</label>
+                    <label for="project-stoppedAt" class="control-label">Stopped at:</label>
                     <div class="controls">
                         <input id="project-stoppedAt" class="project-stoppedAt input-xlarge" type="date" value="" >
                     </div>
