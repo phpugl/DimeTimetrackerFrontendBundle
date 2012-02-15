@@ -32,3 +32,8 @@ body {
 .input-full {
   width: 90%;
 }
+
+.loading {
+  background: url('../images/loader.gif') no-repeat center center;
+  height: 150px;
+}
