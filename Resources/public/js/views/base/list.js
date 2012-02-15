@@ -34,7 +34,7 @@
     },
     addAll: function() {
       // remove all content
-      this.$el.html('');
+      this.$el.html('').removeClass('loading');
       // run addOne on each collection item
       this.collection.each(this.addOne);
       
