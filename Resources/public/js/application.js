@@ -56,10 +56,5 @@
 
   // Run after some plugins after DOM is ready
   $(function() {
-    //$('.tabs').tab('show');
-
-    //$('nav').dropdown();
-
-    //$('.loading').css({height: '50px', width: '100%'}).spin('large', 'black');
   });
 })(jQuery, window);
