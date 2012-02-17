@@ -8,27 +8,15 @@
 {% endblock %}
 
 {% block content %}
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Rate</th>
-      <th>Description</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody id="services">
-      <tr>
-        <td colspan="4" class="loading"></td>
-      </tr>
-  </tbody>
-</table>
+<div id="services" class="loading striped"></div>
 
 <script type="text/template" id="tpl-service-item">
-  <td><%- data.name %></td>
-  <td><% if (typeof(data.rate) != "undefined") { %><%- data.rate %><% } %></td>
-  <td><% if (typeof(data.description) != "undefined") { %><%- data.description %><% } %></td>
-  <td><button class="edit btn">Edit</button> <button class="delete btn btn-danger">Delete</button></td>
+<div class="pull-right">
+  <button class="edit btn">Edit</button>
+  <button class="delete btn btn-danger">Delete</button>
+</div>
+<h3><%- data.name %><% if (data.rate) { %> <em>(Rate: <%- data.rate %>)</em><% } %></h3>
+<% if (data.description) { %><p><%- data.description %></p><% } %>
 </script>
 
 <div id="service-form" class="modal hide" data-prefix="service-">
@@ -78,7 +66,7 @@
   (function ($, App) {
     var services = new App.Collection.Services();
     var form = new App.Views.Service.Form({el: '#service-form', collection: services});
-    new App.Views.Service.List({collection: services, itemTagName: "tr", form: form}).render();
+    new App.Views.Service.List({collection: services, itemTagName: "section", form: form}).render();
     services.fetch();
 
     $('.service-new').bind('click', function(e) {

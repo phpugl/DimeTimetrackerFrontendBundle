@@ -37,3 +37,13 @@ body {
   background: url('../images/loader.gif') no-repeat center center;
   height: 150px;
 }
+
+section {
+  border-top: 1px solid #DDDDDD;
+  line-height: 18px;
+  padding: 8px;
+}
+
+.striped section:nth-child(2n+1), .striped > div:nth-child(2n+1) {
+    background-color: #F9F9F9;
+}

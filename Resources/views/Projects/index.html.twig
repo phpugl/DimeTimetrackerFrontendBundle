@@ -8,11 +8,14 @@
 {% endblock %}
 
 {% block content %}
-<div id="projects" class="loading"></div>
+<div id="projects" class="loading striped"></div>
 
 <script type="text/template" id="tpl-project-item">
-<div class="buttons pull-right"><button class="edit btn">Edit</button> <button class="delete btn btn-danger">Delete</button></div>
-<h3><%- data.name %> <% if (typeof(data.rate) != "undefined") { %>(Rate: <%- data.rate %>)<% } %></h3>
+<div class="pull-right">
+  <button class="edit btn">Edit</button>
+  <button class="delete btn btn-danger">Delete</button>
+</div>
+<h3><%- data.name %> <% if (data.rate) { %>(Rate: <%- data.rate %>)<% } %></h3>
 <% if (typeof(data.description) != "undefined") { %><p><%- data.description %></p><% } %>
 </script>
 
@@ -109,7 +112,7 @@
   (function ($, App) {
     var projects = new App.Collection.Projects();
     var form = new App.Views.Project.Form({el: '#project-form', collection: projects});
-    new App.Views.Project.List({collection: projects, itemTagName: "div", form: form}).render();
+    new App.Views.Project.List({collection: projects, itemTagName: "section", form: form}).render();
     projects.fetch();
 
     $('.project-new').bind('click', function(e) {

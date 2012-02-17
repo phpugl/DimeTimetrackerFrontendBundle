@@ -8,10 +8,14 @@
 {% endblock %}
 
 {% block content %}
-<div id="customers" class="loading"></div>
+<div id="customers" class="loading striped"></div>
 
 <script type="text/template" id="tpl-customer-item">
-<div class="buttons pull-right"><button class="edit btn">Edit</button> <button class="delete btn btn-danger">Delete</button></div>
+<div class="pull-right">
+  <button class="edit btn">Edit</button>
+  <button class="delete btn btn-danger">Delete</button>
+</div>
+
 <h3><%- data.name %> <% if (typeof(data.alias) != "undefined") { %>(Alias: <%- data.alias %>)<% } %></h3>
 </script>
 
@@ -51,7 +55,7 @@
   (function ($, App) {
     var customers = new App.Collection.Customers();
     var form = new App.Views.Customer.Form({el: '#customer-form', collection: customers});
-    new App.Views.Customer.List({collection: customers, itemTagName: "div", form: form}).render();
+    new App.Views.Customer.List({collection: customers, itemTagName: "section", form: form}).render();
     customers.fetch();
 
     $('.customer-new').bind('click', function(e) {
