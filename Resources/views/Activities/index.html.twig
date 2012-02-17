@@ -2,7 +2,7 @@
 
 {% block header %}
   <div class="pull-right">
-    <button class="activity-new btn btn-primary btn-small">Add activity</button>
+    <button class="activity-new btn btn-primary">Add activity</button>
   </div>
   <h1>Activities</h1>
 {% endblock %}
@@ -12,12 +12,16 @@
 
 <script type="text/template" id="tpl-activity-item">
 <div class="pull-right">
-  <button data-activity="<%- model.get('id') %>" class="timeslice-new btn">Add timeslice</button>
+  <% if (model.runningTimeslice()) { %>
+  <button data-activity="<%- model.get('id') %>" class="track stop btn btn-danger">Stop</button>
+  <% } else { %>
+  <button data-activity="<%- model.get('id') %>" class="track start btn btn-success">Continue</button>
+  <% } %>
   <button class="edit btn">Edit</button>
   <button class="delete btn btn-danger">Delete</button>
 </div>
 <h3>
-  <%- model.formatDuration(data.duration) %>
+  <span class="duration" data-duration="<%- data.duration %>"><%- model.formatDuration(data.duration) %></span>
   <em><%- (model.relation('customer')) ? '@' + model.relation('customer').get('alias') : '' %>
       <%- (model.relation('project')) ? '/' + model.relation('project').get('name') : '' %>
   </em>
