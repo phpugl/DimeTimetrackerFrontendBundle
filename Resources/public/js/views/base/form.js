@@ -15,7 +15,11 @@
       'click .cancel': 'close'
     },
    initialize: function() {
-      //_.bindAll(this);
+      // Bind all to this, because you want to use
+      // "this" view in callback functions
+      _.bindAll(this);
+
+      // create jquery.form
       this.form = this.$el.form();
     },
     save: function() {
@@ -31,7 +35,7 @@
       }
     },
     close: function() {
-        this.$el.data('modal').hide();
+        this.$el.modal('hide');
     }
   });
   
