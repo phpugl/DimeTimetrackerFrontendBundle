@@ -8,97 +8,25 @@
 {% endblock %}
 
 {% block content %}
-<div id="activities" class="loading"></div>
+<div id="activities" class="loading striped"></div>
 
 <script type="text/template" id="tpl-activity-item">
-<div class="buttons pull-right"><button class="edit btn">Edit</button> <button class="delete btn btn-danger">Delete</button></div>
-<% var customerAlias = (model.relation('customer')) ? model.relation('customer').get('alias') : undefined %>
-<h3><%- model.formatDuration(data.duration) %> <% if (typeof(customerAlias) != "undefined") { %>(@<%- customerAlias %>)<% } %></h3>
-<% if (typeof(data.description) != "undefined") { %><p><%- data.description %></p><% } %>
+<div class="pull-right">
+  <button data-activity="<%- model.get('id') %>" class="timeslice-new btn">Add timeslice</button>
+  <button class="edit btn">Edit</button>
+  <button class="delete btn btn-danger">Delete</button>
+</div>
+<h3>
+  <%- model.formatDuration(data.duration) %>
+  <em><%- (model.relation('customer')) ? '@' + model.relation('customer').get('alias') : '' %>
+      <%- (model.relation('project')) ? '/' + model.relation('project').get('name') : '' %>
+  </em>
+</h3>
+<% if (data.description) { %><p><%- data.description %></p><% } %>
 </script>
 
-<div id="activity-form" class="modal hide" data-prefix="activity-">
-    <div class="modal-header">
-        <a href="#" class="close">×</a>
-        <h3 class="title">Add activity</h3>
-    </div>
-    <div class="modal-body">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#relation" data-toggle="tab">Relation</a></li>
-            <li><a href="#dates" data-toggle="tab">Dates</a></li>
-            <li><a href="#prices" data-toggle="tab">Prices</a></li>
-        </ul>
-        <form class="form-horizontal tab-content">
-            <fieldset id="relation" class="tab-pane active">
-                <div class="control-group">
-                    <label for="activity-customer" class="control-label">Customer:</label>
-                    <div class="controls">
-                        <select id="activity-customer" class="activity-customer input-xlarge">
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label for="activity-project" class="control-label">Project:</label>
-                    <div class="controls">
-                        <select id="activity-project" class="activity-project input-xlarge">
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label for="activity-description" class="control-label">Description:</label>
-                    <div class="controls">
-                        <textarea id="activity-description" class="activity-description input-xlarge" rows="3"></textarea>
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset class="tab-pane" id="dates">
-                <div class="control-group">
-                    <label for="activity-startedAt" class="control-label">Started at:</label>
-                    <div class="controls">
-                        <input id="activity-startedAt" class="activity-startedAt input-xlarge" type="datetime" value="" >
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label for="activity-stoppedAt" class="control-label">Stopped at:</label>
-                    <div class="controls">
-                        <input id="activity-stoppedAt" class="activity-stoppedAt input-xlarge" type="datetime" value="" >
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label for="activity-duration" class="control-label">Duration:</label>
-                    <div class="controls">
-                        <input id="activity-duration" class="activity-duration input-xlarge" type="number" value="" >
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset class="tab-pane" id="prices">
-                <div class="control-group">
-                    <label for="activity-service" class="control-label">Service:</label>
-                    <div class="controls">
-                        <select id="activity-service" class="activity-service input-xlarge">
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label for="activity-rate" class="control-label">Rate:</label>
-                    <div class="controls">
-                        <input id="activity-rate" class="activity-rate input-xlarge" type="number" value="" >
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label for="activity-rateReference" class="control-label">Rate reference:</label>
-                    <div class="controls">
-                        <input id="activity-rateReference" class="activity-rateReference input-xlarge" type="text" value="" >
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button class="save btn btn-primary span2">Save</button>
-        <button class="cancel btn">Cancel</button>
-    </div>
-</div>
+{% include 'DimeTimetrackerFrontendBundle:Activities:activityForm.html.twig' %}
+{% include 'DimeTimetrackerFrontendBundle:Activities:timesliceForm.html.twig' %}
 
 {% endblock %}
 
@@ -106,14 +34,14 @@
 <script type="text/javascript">
   (function ($, App) {
     var activities = new App.Collection.Activities();
-    var form = new App.Views.Activity.Form({el: '#activity-form', collection: activities});
-    new App.Views.Activity.List({collection: activities, itemTagName: "div", form: form}).render();
+    var activityForm = new App.Views.Activity.Form({el: '#activity-form', collection: activities});
+    new App.Views.Activity.List({collection: activities, itemTagName: "section", form: activityForm}).render();
     activities.fetch();
 
-    $('.activity-new').bind('click', function(e) {
+    $('.activity-new').on('click', function(e) {
       e.preventDefault();
-      form.model = new App.Model.Activity();
-      form.render();
+      activityForm.model = new App.Model.Activity();
+      activityForm.render();
     });
   })(jQuery, Dime);
 </script>

@@ -8,9 +8,19 @@
     prefix: 'activity-',
     template: '#tpl-activity-item',
     events: {
+      'click .timeslice-new': 'add',
       'click .edit': 'edit',
       'click .delete': 'delete',
       'click .track': 'track'
+    },
+    add: function() {
+      var timesliceForm = new App.Views.Timeslice.Form({
+        el: '#timeslice-form',
+        collection: this.model.relation('timeslices'),
+        model: new App.Model.Timeslice({activity: this.model.get('id') })
+      });
+      timesliceForm.render();
+
     },
     track: function() {
       var button = $('.track', '#' + this.prefix + this.model.id),

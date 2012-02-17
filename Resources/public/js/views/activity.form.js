@@ -21,7 +21,7 @@
       var selectBox = new App.Views.Base.Select({el: this.form.get('project'), collection: projects, selected: this.model.get('project')});
       projects.fetch();
 
-      this.$el.modal({backdrop: 'static', show: true});
+      this.$el.modal('show');
       return this;
     }
   }));
