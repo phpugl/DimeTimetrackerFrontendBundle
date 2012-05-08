@@ -1,33 +1,38 @@
 {
   "name": "phpugl/dime-timetracker-frontend-bundle",
-  "type": "frontend",
+  "type": "symfony-bundle",
   "description": "HTML5 REST Client for the DimeTimetracker REST API",
   "keywords": ["timetracker", "frontend", "backbone.js"],
   "homepage": "https://github.com/phpugl/DimeTimetrackerFrontendBundle",
   "license": "MIT",
-  "version": "1.0",
   "authors": [
       {
           "name": "PHPUGL",
           "email": "info@phpugl.de"
       }
   ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ruian/TwitterBootstrapBundle"
-        }
-    ],
+  "repositories": [
+      {
+          "type": "vcs",
+          "url": "http://github.com/phpugl/DimeTimetrackerBundle"
+      },
+      {
+          "type": "vcs",
+          "url": "https://github.com/ruian/TwitterBootstrapBundle"
+      }
+  ],
   "require": {
       "php": ">=5.3.3",
+      "symfony/symfony": ">=2.0",
       "phpugl/dime-timetracker-bundle": "dev-master",
-      "ruian/twitter-bootstrap-bundle": "dev-master"
+      "RuianTwitterBootstrap": "1.0.0"
   },
   "suggest": {
       "phpugl/dime-invoice-bundle": "dev-master",
       "phpugl/dime-import-bundle": "dev-master"
   },
   "autoload": {
-      "psr-0": {"Predis": "lib/"}
-  }
+      "psr-0": { "Dime\\TimetrackerFrontendBundle": "" }
+  },
+  "target-dir": "Dime/TimetrackerFrontendBundle"
 }
