@@ -75,22 +75,7 @@
       return (this.relation('timeslices')) ? this.relation('timeslices').firstRunning() : undefined;
     },
     formatDuration: function(seconds) {
-      var d = new Date(seconds * 1000),
-        result = [];
-
-      if (d.getHours() > 0) {
-        result[result.length] = d.getHours() + 'h';
-      }
-
-      if (d.getMinutes() > 0) {
-        result[result.length] = d.getMinutes() + 'm';
-      }
-
-      if (d.getSeconds() > 0) {
-        result[result.length] = d.getSeconds() + 's';
-      }
-
-      return result.join(' ');
+      return moment.humanizeDuration(seconds * 1000);
     }
   }));
 
