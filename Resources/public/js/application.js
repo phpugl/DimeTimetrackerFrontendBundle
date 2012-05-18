@@ -27,7 +27,7 @@
              * @return Dime
              */
             log: function(msg, level) {
-                if (!msg) throw "Give a name for Dime.provide(name)";
+                if (!msg) throw "Provide a message for Dime.log(msg)";
                 var text = msg;
                 if (level) {
                     text =+ "[" + level + "]: ";
@@ -75,7 +75,4 @@
     if (!window.Dime) {
         window.Dime = Dime;
     }
-
-    // Run after some plugins after DOM is ready
-    $(function() {});
 })(jQuery, window);
