@@ -6,36 +6,18 @@
         Purpose of the stylesheet follows.
 */
 
-html, body {
-    background-color: #eee;
-}
+html, body {}
 
 body { padding-top: 60px; }
 
-section {
-    border-top: 1px solid #DDDDDD;
-    line-height: 18px;
-    padding: 8px;
-}
-
 #area-header {}
 
-#area-content {
-    background-color: #fff;
-    padding: 20px;
-    -webkit-border-radius: 0 0 6px 6px;
-    -moz-border-radius: 0 0 6px 6px;
-    border-radius: 0 0 6px 6px;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-    box-shadow: 0 1px 2px rgba(0,0,0,.15);
-}
+#area-content {}
 
 #area-footer {
     margin-top: 15px;
     text-align: center;
 }
-
 
 .input-full {
     width: 90%;
@@ -48,4 +30,30 @@ section {
 
 .striped section:nth-child(2n+1), .striped > div:nth-child(2n+1) {
     background-color: #F9F9F9;
+}
+
+.activity {
+  border: 1px solid #CCC;
+  background-color: #EFEFEF;
+  -webkit-border-radius: 0 0 6px 6px;
+  -moz-border-radius: 0 0 6px 6px;
+  border-radius: 0 0 6px 6px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  margin-bottom: 30px;
+}
+
+.activity h1 {
+  background-color: #FFF;
+  border-bottom: 1px solid #CCC;
+  padding: 10px;
+}
+
+.activity p {
+  padding: 5px;
+}
+
+.activity .btn-toolbar {
+  margin: 10px 10px 0 0;
 }
