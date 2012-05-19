@@ -31,6 +31,8 @@
       
       // Grep itemTagName from options
       this.itemTagName = (opt && opt.itemTagName) ? opt.itemTagName : "div";
+      // Grep itemAttributes from options
+      this.itemAttributes = (opt && opt.itemAttributes) ? opt.itemAttributes : {};
     },
     addAll: function() {
       // remove all content
@@ -45,7 +47,8 @@
       this.$el.append(new this.ItemView({
           model: item,
           form: this.form,
-          tagName: this.itemTagName
+          tagName: this.itemTagName,
+          attributes: this.itemAttributes
         }).render().el
       );
         
@@ -57,7 +60,8 @@
         $(this.prefix + item.id).replaceWith(new this.ItemView({
           model: item,
           form: this.form,
-          tagName: this.itemTagName
+          tagName: this.itemTagName,
+          attributes: this.itemAttributes
           }).render().el
         );
       } else { // run addAll if item has no Id

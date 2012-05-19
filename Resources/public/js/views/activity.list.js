@@ -13,7 +13,8 @@
       this.$el.prepend(new this.ItemView({
           model: item,
           form: this.form,
-          tagName: this.itemTagName
+          tagName: this.itemTagName,
+          attributes: this.itemAttributes
         }).render().el
       );
 
