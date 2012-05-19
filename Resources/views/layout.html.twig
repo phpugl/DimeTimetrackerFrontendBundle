@@ -10,10 +10,10 @@
     <!-- Le styles -->
     <link href="{{ asset('bundles/ruiantwitterbootstrap/css/bootstrap.css') }}" rel="stylesheet">
     <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
+        body {
+          padding-top: 60px;
+          padding-bottom: 40px;
+        }
     </style>
     <link href="{{ asset('bundles/ruiantwitterbootstrap/css/bootstrap-responsive.css') }}" rel="stylesheet">
     <link href="{{ asset('bundles/dimetimetrackerfrontend/css/style.css') }}" rel="stylesheet">
@@ -27,36 +27,41 @@
     <div id="area-nav-main" class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Dime</a>
+          <a href="#" class="brand">Dime</a>
           <div class="nav-collapse">
-            <ul id="nav-main" class="nav">
+            <ul class="nav">
               <li class="active"><a href="#">Dashboard</a></li>
             </ul>
-          </div><!--/.nav-collapse -->
+            <form id="activity-track" class="navbar-search pull-right">
+              <i class="icon-time icon-white"></i>
+              <input id="activity-track-input" class="search-query" placeholder="Track you activity..." type="text" />
+            </form>
+          </div><!-- /.nav-collapse -->
         </div>
-      </div>
+      </div><!-- /navbar-inner -->
     </div>
+
 
     <div class="container">
       <header id="area-header">
-      {% block header %}{% endblock %}
+        {% block header %}{% endblock %}
       </header>
 
       <section id="area-content">
-      {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
       </section>
-      
+
       <footer id="area-footer" class="footer">
         <p>PHPUGL 2011-2012 | Powered by Symfony2, Backbone.js and Bootstrap</p>
         {% block footer %}{% endblock %}
       </footer>
     </div> <!-- /container -->
-    
+
     <!-- javascript
     ================================================== -->
     {% javascripts
