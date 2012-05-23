@@ -24,6 +24,15 @@
     isRunning: function() {
       return this.get('duration') <= 0
              && !(this.get('stoppedAt') && this.get('stoppedAt').length > 0);
+    },
+    formatDuration: function() {
+      var duration = moment.duration(this.get('duration'), 'seconds');
+      return moment()
+      .hours(duration.hours())
+      .minutes(duration.minutes())
+      .seconds(duration.seconds())
+      .milliseconds(duration.milliseconds())
+      .format('HH:mm:ss');
     }
   }));
 

@@ -35,7 +35,6 @@
       }
     },
     close: function() {
-        this.$el.modal('hide');
     }
   });
   

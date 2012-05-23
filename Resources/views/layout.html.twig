@@ -65,18 +65,20 @@
     <!-- javascript
     ================================================== -->
     {% javascripts
-      '@DimeTimetrackerFrontendBundle/Resources/public/js/lib/json2.js'
-      '@DimeTimetrackerFrontendBundle/Resources/public/js/lib/jquery.min.js'
-      '@DimeTimetrackerFrontendBundle/Resources/public/js/lib/underscore.min.js'
-      '@DimeTimetrackerFrontendBundle/Resources/public/js/lib/backbone.min.js'
-      '@DimeTimetrackerFrontendBundle/Resources/public/js/lib/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/json2.js'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/jquery.min.js'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/underscore.min.js'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/backbone.min.js'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/*'
       '@RuianTwitterBootstrapBundle/Resources/public/js/*'
       '@DimeTimetrackerFrontendBundle/Resources/public/js/plugins/*'
       '@DimeTimetrackerFrontendBundle/Resources/public/js/application.js'
-      '@DimeTimetrackerFrontendBundle/Resources/public/js/model/*'
-      '@DimeTimetrackerFrontendBundle/Resources/public/js/collection/*'
-      '@DimeTimetrackerFrontendBundle/Resources/public/js/views/base/*'
-      '@DimeTimetrackerFrontendBundle/Resources/public/js/views/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/core/model/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/core/views/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/app/dashboard/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/app/activity/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/app/*'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}

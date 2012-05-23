@@ -1,18 +1,4 @@
-{% extends "DimeTimetrackerFrontendBundle::layout.html.twig" %}
-
-{% block footer %}
-<div>
-  <h2>ToDo</h2>
-  <p>
-    <ul>
-      <li>Edit Activity</li>
-      <li>Delete Activity</li>
-    </ul>
-  </p>
-</div>
-{% endblock %}
-
-{% block content %}
+{# Dime/TimetrackerFrontednBundle/Resources/views/Dashboard/index.html.twig #}
 
 <div id="activities" class="loading"></div>
 
@@ -32,8 +18,8 @@
   </h3>
   <div class="details">
     <div class="pull-right">
-      <a class="edit" href="#"><i class="icon-pencil"></i> Edit</a>
-      <a class="delete" href="#"><i class="icon-remove"></i> Delete</a>
+      <a class="edit" href="#activity/edit/<%- data.id %>"><i class="icon-pencil"></i> Edit</a>
+      <a class="delete" href="#delete"><i class="icon-remove"></i> Delete</a>
     </div>
     <p>
     <% var customerName  = model.relation('customer', 'name', ''); %>
@@ -44,16 +30,9 @@
     <% if (model.relation('project')) { %>
     / <a href="#"><%- model.relation('project', 'name') %></a>
     <% } %>
+    <% if (model.relation('service')) { %>
+    : <a href="#"><%- model.relation('service', 'name') %></a>
+    <% } %>
     </p>
   </div>
 </script>
-{% endblock %}
-
-{% block js %}
-<script type="text/javascript">
-(function ($, App) {
-    var dashboard = new App.Views.Dashboard();
-    dashboard.render();
-})(jQuery, Dime);
-</script>
-{% endblock %}

@@ -6,14 +6,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class CustomersController extends Controller
+class AppController extends Controller
 {
     /**
-     * @Route("/customers")
+     * @Route("/")
      * @Template()
      */
     public function indexAction()
     {
         return array();
+    }
+
+    /**
+     * @Route("/template/{name}")
+     * @param string $name
+     * @return Response A Response instance
+     */
+    public function templateAction($name) {
+
+
+      return $this->render($name . '.html.twig');
     }
 }

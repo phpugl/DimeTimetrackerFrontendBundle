@@ -4,14 +4,35 @@
 (function ($, App) {
 
   // activity item view
-  App.provide('Views.Activity.Item', App.Views.Base.Item.extend({
-    prefix: 'activity-',
+  App.provide('Views.Activity.Item', Backbone.View.extend({
     template: '#tpl-activity-item',
     events: {
+      'click .edit': 'edit',
+      'click .delete': 'delete',
       'click .track': 'track'
     },
+    defaults: {
+      prefix: 'activity-'
+    },
+    initialize: function(opt) {
+      // Bind all to this, because you want to use
+      // "this" view in callback functions
+      _.bindAll(this);
+
+      // Grep default values from option
+      if (opt && opt.defaults) {
+        this.defaults = _.extend({}, this.defaults, opt.defaults);
+      }
+
+      // bind remove function to model
+      this.model.bind('destroy', this.remove, this);
+    },
+    elId: function() {
+      var id = this.$el.attr('id');
+      return (id) ? id : this.defaults.prefix + this.model.get('id');
+    },
     render: function() {
-      var _this = this;
+      var that = this;
 
       // grep template with jquery and generate template stub
       var temp = _.template($(this.template).html());
@@ -20,12 +41,12 @@
       this.$el.html(temp({
         model: this.model,
         data: this.model.toJSON()
-        }));
+      }));
 
       // add element id with prefix
-      this.$el.attr('id', this.prefix + this.model.get('id'));
+      this.$el.attr('id', this.elId());
 
-      // activate timer
+      // activate timer if any running timeslice is found
       var activeTimeslice = this.model.runningTimeslice();
       if (activeTimeslice) {
         var duration = $('.duration', this.$el),
@@ -34,40 +55,48 @@
         duration.data('start', moment(activeTimeslice.get('startedAt'), 'YYYY-MM-DD HH:mm:ss'));
         this.timer = setInterval(function() {
           var d = moment().diff(duration.data('start'), 'seconds');
-
           duration.text(model.formatDuration(duration.data('duration') + d));
         }, 1000);
       }
 
-      this.$el.data('open', false);
-
-      this.$el.click(function () {
-        if (!_this.$el.data('open')) {
-          $('.details', _this.$el).show();
-          _this.$el.css({
-            'margin-bottom': '20px'
-          });
-          _this.$el.data('open', true);
-        } else {
-          $('.details', _this.$el).hide();
-          _this.$el.css({
-            'margin-bottom': '0pt'
-          });
-          _this.$el.data('open', false);
-        }
-            
-      });
+      // open item and show details
+      this.$el
+        .data('open', false)
+        .click(function () {
+          if (!that.$el.data('open')) {
+            $('.details', that.$el).show();
+            that.$el.css('margin-bottom', '20px').data('open', true);
+          } else {
+            $('.details', that.$el).hide();
+            that.$el.css('margin-bottom', '0pt').data('open', false);
+          }
+        });
 
       return this;
+    },
+    edit: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      App.UI.router.navigate("activity/edit/" + this.model.id, true);
+    },
+    'delete': function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // confirm destroy action
+      if (confirm("Are you sure?")) {
+        this.model.destroy({wait: true});
+      }
     },
     track: function(e) {
       e.preventDefault();
       e.stopPropagation();
             
-      var button = $('.track', '#' + this.prefix + this.model.id),
-      duration = $('.duration', '#' + this.prefix + this.model.id),
-      model = this.model
-      _this = this;
+      var button = $('.track', '#' + this.elId()),
+          duration = $('.duration', '#' + this.elId()),
+          model = this.model,
+          that = this;
                 
       if (button.hasClass('start')) {
         duration.data('start', moment());
@@ -79,7 +108,7 @@
             .removeClass('start btn-success')
             .addClass('stop btn-danger');
 
-            _this.timer = setInterval(function() {
+            that.timer = setInterval(function() {
               var d = moment().diff(duration.data('start'), 'seconds');
               duration.text(model.formatDuration(duration.data('duration') + d));
             }, 1000);
@@ -94,8 +123,8 @@
             .removeClass('stop btn-danger')
             .addClass('start btn-success');
 
-            if (_this.timer) {
-              clearInterval(_this.timer);
+            if (that.timer) {
+              clearInterval(that.timer);
             }
                         
             var d = duration.data('duration');
