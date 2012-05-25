@@ -1,48 +1,24 @@
 /**
- * Dime - app/project/form.js
+ * Dime - app/service/form.js
  */
 (function ($, App) {
 
-  App.provide('Views.Project.Form', App.Views.Core.Form.extend({
+  App.provide('Views.Service.Form', App.Views.Core.Form.extend({
     ui: {
       aliasModified: false
     },
     events: {
-      'keypress #project-name': 'slugify',
-      'keypress #project-alias': 'alias'
-    },
-    render: function() {
-      this.setElement(this.defaults.templateEl);
-
-      // Set title
-      $('h1.title', this.$el).text(this.defaults.title);
-
-      // Fill form
-      this.form = this.$el.form();
-      this.form.clear();
-      this.form.fill(this.model.toJSON());
-
-      // get Customers collection
-      var customers = new App.Collection.Customers();
-      var selectBox = new App.Views.Base.Select({
-        el: this.form.get('customer'),
-        collection: customers,
-        defaults: {
-          selected: this.model.get('customer')
-        }
-      });
-      customers.fetch();
-      
-      return this;
+      'keypress #service-name': 'slugify',
+      'keypress #service-alias': 'alias'
     },
     slugify: function(e) {
-      var alias = $('#project-alias', this.$el);
+      var alias = $('#service-alias', this.$el);
       if (alias.val() === '') {
         this.aliasModified = false;
       }
 
       if (!this.aliasModified) {
-        var text = $('#project-name', this.$el).val().toLowerCase();
+        var text = $('#service-name', this.$el).val().toLowerCase();
 
         // Source: http://milesj.me/snippets/javascript/slugify
         text = text.replace(/[^-a-zA-Z0-9&\s]+/ig, '');

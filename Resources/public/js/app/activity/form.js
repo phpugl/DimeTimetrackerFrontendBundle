@@ -66,16 +66,16 @@
       projects.fetch();
 
       // Render timeslices
-      this.activityList = new App.Views.Base.List({
+      this.activityList = new App.Views.Core.List({
         el: '#timeslices',
         collection: this.model.relation('timeslices'),
         defaults: {
           prefix: 'timeslice-',
-          prependItem: true,
-          itemView: App.Views.Timeslice.Item,
-          itemTagName: "tr",
-          itemAttributes: {
-            "class": "timeslice"
+          item: {
+            attributes: { "class": "timeslice" },
+            prepend: true,
+            tagName: "tr",
+            View: App.Views.Timeslice.Item
           }
         }
       }).render();

@@ -20,7 +20,7 @@
     var model = new App.Model.Service();
     
     App.UI.menu.activateItem('service');
-    App.UI.router.switchView(new App.Views.Core.Form({
+    App.UI.router.switchView(new App.Views.Service.Form({
       defaults: {
         title: 'Add Service',
         template: 'DimeTimetrackerFrontendBundle:Services:form',
@@ -35,7 +35,7 @@
     model.fetch({async: false});
 
     App.UI.menu.activateItem('service');
-    App.UI.router.switchView(new App.Views.Core.Form({
+    App.UI.router.switchView(new App.Views.Service.Form({
       defaults: {
         title: 'Edit Service',
         template: 'DimeTimetrackerFrontendBundle:Services:form',

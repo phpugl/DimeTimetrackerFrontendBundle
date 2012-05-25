@@ -20,7 +20,7 @@
     var model = new App.Model.Customer();
 
     App.UI.menu.activateItem('customer');
-    App.UI.router.switchView(new App.Views.Core.Form({
+    App.UI.router.switchView(new App.Views.Customer.Form({
       defaults: {
         title: 'Add Customer',
         template: 'DimeTimetrackerFrontendBundle:Customers:form',
@@ -35,7 +35,7 @@
     model.fetch({async: false});
 
     App.UI.menu.activateItem('customer');
-    App.UI.router.switchView(new App.Views.Core.Form({
+    App.UI.router.switchView(new App.Views.Customer.Form({
       defaults: {
         title: 'Edit Customer',
         template: 'DimeTimetrackerFrontendBundle:Customers:form',
