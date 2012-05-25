@@ -69,11 +69,11 @@
       var model = this.collection.where({name: name});
 
       if (model.length > 0) {
-//        this.currentActive.set('active', false);
-//        for (var i=0; i<model.length; i++) {
-//          model[i].set('active', true);
-//          this.currentActive = model[i];
-//        }
+        this.currentActive.set('active', false);
+        for (var i=0; i<model.length; i++) {
+          model[i].set('active', true);
+          this.currentActive = model[i];
+        }
       }
     }
   }));

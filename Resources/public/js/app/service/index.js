@@ -51,15 +51,16 @@
     template: 'DimeTimetrackerFrontendBundle:Services:index',
     render: function() {
       this.services = new App.Collection.Services();
-      this.serviceList = new App.Views.Base.List({
+      this.serviceList = new App.Views.Core.List({
         el: '#services',
         collection: this.services,
         defaults: {
           prefix: 'service-',
-          itemTagName: "tr",
-          itemView: App.Views.Service.Item,
-          itemAttributes: {
-            "class": "service"
+          item: {
+            attributes: { "class": "service" },
+            tagName: "tr",
+            template: '#tpl-service-item',
+            View: App.Views.Service.Item
           }
         }
       }).render();

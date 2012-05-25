@@ -21,10 +21,12 @@
 
     App.UI.menu.activateItem('activity');
     App.UI.router.switchView(new App.Views.Activity.Form({
-      title: 'Add Activity',
-      templateEl: '#activity-form',
-      template: 'DimeTimetrackerFrontendBundle:Activities:form',
-      backNavigation: 'activity',
+      defaults: {
+        title: 'Add Activity',
+        template: 'DimeTimetrackerFrontendBundle:Activities:form',
+        templateEl: '#activity-form',
+        backNavigation: 'activity'
+      },
       model: model
     }));
   });
@@ -35,10 +37,12 @@
 
     App.UI.menu.activateItem('activity');
     App.UI.router.switchView(new App.Views.Activity.Form({
-      title: 'Edit Activity',
-      templateEl: '#activity-form',
-      template: 'DimeTimetrackerFrontendBundle:Activities:form',
-      backNavigation: 'activity',
+      defaults: {
+        title: 'Edit Activity',
+        template: 'DimeTimetrackerFrontendBundle:Activities:form',
+        templateEl: '#activity-form',
+        backNavigation: 'activity'
+      },
       model: model
     }));
   });
@@ -50,17 +54,18 @@
       this.activities = App.provide('UI.activities', new App.Collection.Activities());
     },
     render: function() {
-      this.list = new App.Views.Base.List({
+      this.list = new App.Views.Core.List({
         el: '#activities',
         collection: this.activities,
         defaults: {
           prefix: 'activity-',
-          prependItem: true,
-          itemView: App.Views.Activity.Item,
-          itemTagName: "section",
-          itemAttributes: {
-            "class": "activity"
+          item: {
+            attributes: { "class": "activity" },
+            prepend: true,
+            tagName: "section",
+            View: App.Views.Activity.Item
           }
+          
         }
       }).render();
       this.activities.fetch();

@@ -11,8 +11,8 @@
     App.UI.router.switchView(new App.Views.Core.Form({
       defaults: {
         title: 'Edit Timeslice',
-        templateEl: '#timeslice-form',
         template: 'DimeTimetrackerFrontendBundle:Timeslices:form',
+        templateEl: '#timeslice-form',
         backNavigation: 'activity/' + model.relation('activity').get('id') + '/edit'
       },
       model: model
@@ -22,11 +22,11 @@
   // Activity form view
   App.provide('Views.Activity.Form', App.Views.Core.Form.extend({
     render: function() {
-      this.setElement(this.templateEl);
+      this.setElement(this.defaults.templateEl);
       
       // Set title
-      if (this.title) {
-        $('h1.title', this.$el).text(this.title);
+      if (this.defaults.title) {
+        $('h1.title', this.$el).text(this.defaults.title);
       }
 
       // Fill form

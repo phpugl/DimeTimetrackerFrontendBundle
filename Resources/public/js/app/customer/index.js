@@ -51,15 +51,16 @@
     template: 'DimeTimetrackerFrontendBundle:Customers:index',
     render: function() {
       this.customers = new App.Collection.Customers();
-      this.customerList = new App.Views.Base.List({
+      this.customerList = new App.Views.Core.List({
         el: '#customers',
         collection: this.customers,
         defaults: {
           prefix: 'customer-',
-          itemTagName: "tr",
-          itemView: App.Views.Customer.Item,
-          itemAttributes: {
-            "class": "customer"
+          item: {
+            attributes: { "class": "customer" },
+            tagName: 'tr',
+            template: '#tpl-customer-item',
+            View: App.Views.Customer.Item
           }
         }
       }).render();

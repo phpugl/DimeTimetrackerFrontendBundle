@@ -51,15 +51,16 @@
     template: 'DimeTimetrackerFrontendBundle:Projects:index',
     render: function() {
       this.projects = new App.Collection.Projects();
-      this.projectList = new App.Views.Base.List({
+      this.projectList = new App.Views.Core.List({
         el: '#projects',
         collection: this.projects,
         defaults: {
           prefix: 'project-',
-          itemTagName: "tr",
-          itemView: App.Views.Project.Item,
-          itemAttributes: {
-            "class": "project"
+          item: {
+            attributes: { "class": "project" },
+            tagName: "tr",
+            template: '#tpl-project-item',
+            View: App.Views.Project.Item
           }
         }
       }).render();
