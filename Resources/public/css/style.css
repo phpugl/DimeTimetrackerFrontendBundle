@@ -66,3 +66,7 @@
   margin: 0pt;
   /*  margin: 10px 10px 0 0;*/
 }
+
+header .title {
+  margin-bottom: 20px;
+}
