@@ -11,7 +11,33 @@
       routes: {},
       templates: {}
     };
+    // Main menu collection
+    var init = new Backbone.Collection();
+    init.comparator = function(model) {
+      return model.get('weight');
+    }
 
+    // Main menu collection
+    var menu = new Backbone.Collection();
+    // Comparator for menu sorting
+    menu.comparator = function(first, second) {
+      var fW = first.get('weight'), sW = second.get('weight');
+      if (fW > sW) {
+        return 1;
+      } else if (fW < sW) {
+        return -1;
+      } else {
+        var fN = first.get('name'), sN = second.get('name');
+        if (fN > sN) {
+          return 1;
+        } else if (fN < sN) {
+          return -1;
+        }
+        return 0;
+      }
+    }
+
+    // Return Dime object
     return {
       Collection: {},
       Model: {},
@@ -27,18 +53,20 @@
       },
       UI: {},
       /**
-       * App initialize function
+       * Initialization hook
        *
+       * @param item Object {name: 'Unique name', weight: 0, callback: func}
        * @return Dime
        */
-      initialize: function() {
-        this.log('Starting application', 'INFO');
-
-        this.UI.main = new this.Views.Main();
-        this.UI.main.render();
-        this.UI.router = new this.Router.Main({routes: store.routes});
-        Backbone.history.start();
-              
+      initialize: function(item) {
+        if (item) {
+          item = _.extend({ weight: 0 }, item);
+          init.add(item);
+          return this;
+        } else {
+          return init;
+        }
+        
         return this;
       },
       /**
@@ -69,15 +97,32 @@
         return this;
       },
       /**
+       * add a menu item to main menu
+       *
+       * @param item object { name: 'identifier', title: 'Title', weight: 0, route: 'route/to/:id', callback: func}
+       * @return Dime or menu collection
+       */
+      menu: function(item) {
+        if (item) {
+          item = _.extend({ weight: 0 }, item);
+          menu.add(item);
+          this.route(item.name, item.route, item.callback);
+          return this;
+        } else {
+          return menu;
+        }
+      },
+      /**
        * Create namespace object if needed in Dime splitted by dot (.).
        * Example:
        *   Dime.provide('Views.Service') -> create Service in Views
        *
        * @param name Namspace items splitted by dot (.)
        * @param obj optional, set to the last item in path
+       * @param force optinal, force set of object
        * @return parent object
        */
-      provide: function(name, obj) {
+      provide: function(name, obj, force) {
         if (!name) throw "Give a name for Dime.provide(name)";
         var parent = this;
 
@@ -93,9 +138,37 @@
             }
             parent = parent[parts[i]];
           }
+
+          if (force) {
+            parent = obj;
+          }
         }
 
         return parent;
+      },
+      /**
+       * Initialize the whole app
+       * @return Dime
+       */
+      run: function() {
+        this.log('Starting application', 'INFO');
+
+        // Initialize router
+        this.UI.router = new this.Router.Main({ routes: store.routes });
+
+        // Initialize
+        if (init.length > 0) {
+          for (var i=0; i<init.length; i++) {
+            var model = init.at(i);
+            this.log('Init ' + model.get('name'), 'DEBUG');
+            model.get('callback')();
+          }
+        }
+
+        // last action - start history without pushState
+        Backbone.history.start();
+
+        return this;
       },
       /**
        * 
@@ -146,6 +219,6 @@
   }
 
   $(function() {
-    Dime.initialize();
+    Dime.run();
   });
 })(jQuery, window);

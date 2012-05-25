@@ -1,41 +1,60 @@
 /*
- * Dime - activity form view
+ * Dime - core/view/form.js
  */
-
 (function ($, App) {
 
-  // provide Base namespace in App.Views
-  var BaseView = App.provide('Views.Base');
-
-  // activity form view
-  BaseView.Form = Backbone.View.extend({
+  App.provide('Views.Core.Form', App.Views.Core.Content.extend({
     events: {
-      'click .save': 'save',
+      'submit': 'save',
       'click .close': 'close',
       'click .cancel': 'close'
     },
-   initialize: function() {
+    defaults: {
+      backNavigation: ''
+    },
+    initialize: function(opt) {
       // Bind all to this, because you want to use
       // "this" view in callback functions
-      _.bindAll(this);
+      _.bindAll(this, 'render', 'save', 'close');
 
-      // create jquery.form
-      this.form = this.$el.form();
-    },
-    save: function() {
-      if (this.model) {
-        if (this.model.isNew()) {
-          this.model.set(this.form.data());
-          if (this.collection) {
-            this.collection.create(this.model, {success: this.close});
-          }
-        } else {
-          this.model.save(this.form.data(), {success: this.close});
-        }
+      if (opt && opt.defaults) {
+        this.defaults = _.extend({}, this.defaults, opt.defaults);
       }
+
+      this.template = this.defaults.template;
     },
-    close: function() {
+    render: function() {
+      this.setElement(this.defaults.templateEl);
+
+      // Set title
+      if (this.defaults.title) {
+        $('h1.title', this.$el).text(this.defaults.title);
+      }
+
+      // Fill form
+      this.form = this.$el.form();
+      this.form.clear();
+      this.form.fill(this.model.toJSON());
+
+      return this;
+    },
+    save: function(e) {
+      e.preventDefault();
+      
+      var that = this;
+
+      this.model.save(this.form.data(), {
+        success: function() {
+          that.close();
+          return true;
+        }
+      });
+    },
+    close: function(e) {
+      App.log(this.defaults.backNavigation);
+      App.UI.router.navigate(this.defaults.backNavigation, { trigger: true });
     }
-  });
+  }));
+
   
 })(jQuery, Dime);

@@ -1,5 +1,5 @@
 /**
- * Dime - views/activity.item.js
+ * Dime - app/activity/item.js
  */
 (function ($, App) {
 
@@ -75,10 +75,8 @@
       return this;
     },
     edit: function(e) {
-      e.preventDefault();
+      //e.preventDefault();
       e.stopPropagation();
-
-      App.UI.router.navigate("activity/edit/" + this.model.id, true);
     },
     'delete': function(e) {
       e.preventDefault();

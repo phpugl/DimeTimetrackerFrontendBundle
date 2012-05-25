@@ -1,0 +1,32 @@
+{# Dime/TimetrackerFrontendBundle/Resources/views/Activities/timesliceForm.html.twig #}
+<form id="timeslice-form" data-prefix="timeslice-" class="form-horizontal">
+  <header>
+    <h1 class="title">Edit Timeslice</h1>
+  </header>
+  <fieldset>
+    <div class="control-group">
+      <label for="timeslice-startedAt" class="control-label">Started at:</label>
+      <div class="controls">
+        <input id="timeslice-startedAt" class="timeslice-startedAt input-xlarge" type="datetime" value="" >
+      </div>
+    </div>
+    <div class="control-group">
+      <label for="timeslice-stoppedAt" class="control-label">Stopped at:</label>
+      <div class="controls">
+        <input id="timeslice-stoppedAt" class="timeslice-stoppedAt input-xlarge" type="datetime" value="" >
+      </div>
+    </div>
+    <div class="control-group">
+      <label for="timeslice-duration" class="control-label">Duration:</label>
+      <div class="controls">
+        <input id="timeslice-duration" class="timeslice-duration input-xlarge" type="number" value="" >
+      </div>
+    </div>
+  </fieldset>
+  <div class="form-actions">
+    <div class="pull-right">
+      <button class="cancel btn">Cancel</button>
+      <button type="submit" class="save btn btn-primary">Save</button>
+    </div>
+  </div>
+</form>

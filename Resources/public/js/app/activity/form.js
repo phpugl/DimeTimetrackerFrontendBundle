@@ -1,27 +1,35 @@
 /**
- * Dime - app/activity/edit.js
+ * Dime - app/activity/form.js
  */
 (function ($, App) {
 
-  // Dashboard view
-  App.provide('Views.Activity.Edit', App.Views.Core.Content.extend({
-    templateEl: '#activity-form',
-    template: 'DimeTimetrackerFrontendBundle:Activities:edit',
-    events: {
-      'click .save': 'save',
-      'click .close': 'close',
-      'click .cancel': 'close'
-    },
-    initialize: function(model) {
-      if (!model) throw "Initialize Activity.Edit with a Activity model";
-      this.model = model;
+  App.route("timeslice:edit", "timeslice/:id/edit", function(id) {
+    var model = new App.Model.Timeslice({id: id});
+    model.fetch({async: false});
 
-      // Bind all to this, because you want to use
-      // "this" view in callback functions
-      _.bindAll(this);
-    },
+    App.UI.menu.activateItem('activity');
+    App.UI.router.switchView(new App.Views.Core.Form({
+      defaults: {
+        title: 'Edit Timeslice',
+        templateEl: '#timeslice-form',
+        template: 'DimeTimetrackerFrontendBundle:Timeslices:form',
+        backNavigation: 'activity/' + model.relation('activity').get('id') + '/edit'
+      },
+      model: model
+    }));
+  });
+
+  // Activity form view
+  App.provide('Views.Activity.Form', App.Views.Core.Form.extend({
     render: function() {
       this.setElement(this.templateEl);
+      
+      // Set title
+      if (this.title) {
+        $('h1.title', this.$el).text(this.title);
+      }
+
+      // Fill form
       this.form = this.$el.form();
       this.form.clear();
       this.form.fill(this.model.toJSON());
@@ -73,13 +81,6 @@
       }).render();
       
       return this;
-    },
-    save: function() {
-      this.model.save(this.form.data(), { success: this.close });
-    },
-    close: function() {
-      // TODO Hardcoded is bad
-      App.UI.router.navigate('', true);
     }
   }));
 

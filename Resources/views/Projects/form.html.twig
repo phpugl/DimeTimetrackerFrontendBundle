@@ -1,0 +1,86 @@
+{# Dime/TimetrackerFrontednBundle/Resources/views/Projects/form.html.twig #}
+<div id="project-form" data-prefix="project-">
+  <header>
+    <h1 class="title">Add project</h1>
+  </header>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab-common" data-toggle="tab">Common</a></li>
+    <li><a href="#tab-prices" data-toggle="tab">Prices</a></li>
+    <li><a href="#tab-dates" data-toggle="tab">Dates</a></li>
+  </ul>
+  <form class="form-horizontal tab-content">
+    <fieldset id="tab-common" class="tab-pane active">
+      <div class="control-group">
+        <label for="project-name" class="control-label">Name:</label>
+        <div class="controls">
+          <input id="project-name" class="project-name input-full" type="text" value="" >
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="project-customer" class="control-label">Customer:</label>
+        <div class="controls">
+          <select id="project-customer" class="project-customer input-full">
+          </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="project-rate" class="control-label">Rate:</label>
+        <div class="controls">
+          <input id="project-rate" class="project-rate input-full" type="number" value="" >
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="project-description" class="control-label">Description:</label>
+        <div class="controls">
+          <textarea id="project-description" class="project-description input-full" rows="3"></textarea>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset id="tab-prices" class="tab-pane">
+      <div class="control-group">
+        <label for="project-budgetPrice" class="control-label">Budget price:</label>
+        <div class="controls">
+          <input id="project-budgetPrice" class="project-budgetPrice input-full" type="number" value="" >
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="project-fixedPrice" class="control-label">Fixed price:</label>
+        <div class="controls">
+          <input id="project-fixedPrice" class="project-fixedPrice input-full" type="number" value="" >
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="project-budgetTime" class="control-label">Budget time:</label>
+        <div class="controls">
+          <input id="project-budgetTime" class="project-budgetTime input-full" type="number" value="" >
+        </div>
+      </div>
+    </fieldset>
+    <fieldset id="tab-dates" class="tab-pane">
+      <div class="control-group">
+        <label for="project-startedAt" class="control-label">Started at:</label>
+        <div class="controls">
+          <input id="project-startedAt" class="project-startedAt input-full" type="date" value="" >
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="project-stoppedAt" class="control-label">Stopped at:</label>
+        <div class="controls">
+          <input id="project-stoppedAt" class="project-stoppedAt input-full" type="date" value="" >
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="project-deadline" class="control-label">Deadline:</label>
+        <div class="controls">
+          <input id="project-deadline" class="project-deadline input-full" type="date" value="" >
+        </div>
+      </div>
+    </fieldset>
+    <div class="form-actions">
+      <div class="pull-right">
+        <button class="cancel btn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </form>
+</div>

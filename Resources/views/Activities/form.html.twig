@@ -66,21 +66,21 @@
         </tbody>
       </table>
     </fieldset>
-  </form>
-  <div class="form-actions">
-    <div class="pull-right">
-      <button class="cancel btn">Cancel</button>
-      <button type="submit" class="save btn btn-primary">Save</button>
+    <div class="form-actions">
+      <div class="pull-right">
+        <button class="cancel btn">Cancel</button>
+        <button type="submit" class="save btn btn-primary">Save</button>
+      </div>
     </div>
-  </div>
+  </form>
 </div>
 
 <script type="text/template" id="tpl-timeslice-item">
-<td><%- model.formatDuration() %></td>
-<td><%- data.startedAt %></td>
-<td><%- data.stoppedAt %></td>
-<td>
-    <a class="edit" href="#timeslice/edit/<%- data.id %>"><i class="icon-pencil"></i> Edit</a>
+  <td><%- model.formatDuration() %></td>
+  <td><%- data.startedAt %></td>
+  <td><%- data.stoppedAt %></td>
+  <td>
+    <a class="edit" href="#timeslice/<%- data.id %>/edit"><i class="icon-pencil"></i> Edit</a>
     <a class="delete" href="#delete"><i class="icon-remove"></i> Delete</a>
-</td>
+  </td>
 </script>

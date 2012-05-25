@@ -33,10 +33,7 @@
             <span class="icon-bar"></span>
           </a>
           <a href="#" class="brand">Dime</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Dashboard</a></li>
-            </ul>
+          <div id="nav-main" class="nav-collapse">
             <form id="activity-track" class="navbar-search pull-right">
               <i class="icon-time icon-white"></i>
               <input id="activity-track-input" class="search-query" placeholder="Track you activity..." type="text" />
@@ -76,9 +73,13 @@
       '@DimeTimetrackerFrontendBundle/Resources/public/js/core/model/*'
       '@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/*'
       '@DimeTimetrackerFrontendBundle/Resources/public/js/core/views/*'
-      '@DimeTimetrackerFrontendBundle/Resources/public/js/app/dashboard/*'
       '@DimeTimetrackerFrontendBundle/Resources/public/js/app/activity/*'
-      '@DimeTimetrackerFrontendBundle/Resources/public/js/app/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/app/service/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/app/customer/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/app/project/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/app/timeslice/*'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/app/main.js'
+      '@DimeTimetrackerFrontendBundle/Resources/public/js/app/router.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}

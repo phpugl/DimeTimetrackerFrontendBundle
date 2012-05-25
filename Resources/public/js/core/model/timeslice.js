@@ -13,6 +13,25 @@
       startedAt: undefined,
       stoppedAt: undefined
     },
+    relation: function(name, item, defaultValue) {
+      var relation = this.get('relation'),
+          result = defaultValue;
+
+      if (name) {
+        if (relation && relation[name]) {
+          if (item && relation[name].get(item)) {
+            result = relation[name].get(item);
+          } else {
+            result = relation[name];
+          }
+          return result;
+        } else {
+          return undefined;
+        }
+      } else {
+        return relation;
+      }
+    },
     parse: function(response) {
       response.relation = {};
       if (response.activity) {

@@ -1,52 +1,43 @@
-{% extends "DimeTimetrackerFrontendBundle::layout.html.twig" %}
+{# Dime/TimetrackerFrontednBundle/Resources/views/Dashboard/index.html.twig #}
+<div class="pull-right">
+  <a href="#activity/add" class="btn btn-primary btn-small">Add activity</a>
+</div>
+<h1 class="title">Activity</h1>
 
-{% block header %}
-  <div class="pull-right">
-    <button class="activity-new btn btn-primary">Add activity</button>
-  </div>
-  <h1>Activities</h1>
-{% endblock %}
 
-{% block content %}
-<div id="activities" class="loading striped"></div>
+<div id="activities" class="loading"></div>
 
 <script type="text/template" id="tpl-activity-item">
-<div class="pull-right">
-  <% if (model.runningTimeslice()) { %>
-  <button data-activity="<%- model.get('id') %>" class="track stop btn btn-danger">Stop</button>
-  <% } else { %>
-  <button data-activity="<%- model.get('id') %>" class="track start btn btn-success">Continue</button>
-  <% } %>
-  <button class="edit btn">Edit</button>
-  <button class="delete btn btn-danger">Delete</button>
-</div>
-<h3>
-  <span class="duration" data-duration="<%- data.duration %>"><%- model.formatDuration(data.duration) %></span>
-  <em><%- (model.relation('customer')) ? '@' + model.relation('customer').get('alias') : '' %>
-      <%- (model.relation('project')) ? '/' + model.relation('project').get('name') : '' %>
-  </em>
-</h3>
-<% if (data.description) { %><p><%- data.description %></p><% } %>
+  <h3 class="title">
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group">
+        <% if (model.runningTimeslice()) { %>
+        <button class="track stop btn btn-danger"><i class="icon-time icon-white"></i></button>
+        <% } else { %>
+        <button class="track start btn btn-success"><i class="icon-time icon-white"></i></button>
+        <% } %>
+        <button data-duration="<%- data.duration %>" class="duration btn disabled" disabled><%- model.formatDuration(data.duration) %></button>
+      </div>
+    </div>
+    <%- data.description %>
+  </h3>
+  <div class="details">
+    <div class="pull-right">
+      <a class="edit" href="#activity/<%- data.id %>/edit"><i class="icon-pencil"></i> Edit</a>
+      <a class="delete" href="#activity/<%- data.id %>/delete"><i class="icon-remove"></i> Delete</a>
+    </div>
+    <p>
+    <% var customerName  = model.relation('customer', 'name', ''); %>
+    <% var customerAlias = model.relation('customer', 'alias', ''); %>
+    <% if (customerAlias.length > 0 && customerName.length > 0) { %>
+    <a href="#" class="client-project" title="@<%- customerAlias %>"><%- customerName %></a>
+    <% } %>
+    <% if (model.relation('project')) { %>
+    / <a href="#"><%- model.relation('project', 'name') %></a>
+    <% } %>
+    <% if (model.relation('service')) { %>
+    : <a href="#"><%- model.relation('service', 'name') %></a>
+    <% } %>
+    </p>
+  </div>
 </script>
-
-{% include 'DimeTimetrackerFrontendBundle:Activities:activityForm.html.twig' %}
-{% include 'DimeTimetrackerFrontendBundle:Activities:timesliceForm.html.twig' %}
-
-{% endblock %}
-
-{% block js %}
-<script type="text/javascript">
-  (function ($, App) {
-    var activities = new App.Collection.Activities();
-    var activityForm = new App.Views.Activity.Form({el: '#activity-form', collection: activities});
-    new App.Views.Activity.List({collection: activities, itemTagName: "section", form: activityForm}).render();
-    activities.fetch();
-
-    $('.activity-new').on('click', function(e) {
-      e.preventDefault();
-      activityForm.model = new App.Model.Activity();
-      activityForm.render();
-    });
-  })(jQuery, Dime);
-</script>
-{% endblock %}

@@ -1,0 +1,26 @@
+{# Dime/TimetrackerFrontednBundle/Resources/views/Customers/form.html.twig #}
+<form id="customer-form" class="form-horizontal" data-prefix="customer-">
+  <header>
+    <h1 class="title">Customer</h1>
+  </header>
+  <fieldset>
+    <div class="control-group">
+      <label for="customer-name" class="control-label">Name:</label>
+      <div class="controls">
+        <input id="customer-name" class="customer-name input-xlarge" type="text" value="" >
+      </div>
+    </div>
+    <div class="control-group">
+      <label for="customer-alias" class="control-label">Alias:</label>
+      <div class="controls">
+        <input id="customer-alias" class="customer-alias input-xlarge" type="text" value="" >
+      </div>
+    </div>
+  </fieldset>
+  <div class="form-actions">
+    <div class="pull-right">
+      <button class="cancel btn">Cancel</button>
+      <button type="submit" class="save btn btn-primary">Save</button>
+    </div>
+  </div>
+</form>
