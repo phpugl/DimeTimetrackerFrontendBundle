@@ -1,14 +1,14 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Projects/form.html.twig #}
-<div id="project-form" data-prefix="project-">
+<section id="project-form">
   <header>
     <h1 class="title">Add project</h1>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#tab-common" data-toggle="tab">Common</a></li>
+      <li><a href="#tab-prices" data-toggle="tab">Prices</a></li>
+      <li><a href="#tab-dates" data-toggle="tab">Dates</a></li>
+    </ul>
   </header>
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#tab-common" data-toggle="tab">Common</a></li>
-    <li><a href="#tab-prices" data-toggle="tab">Prices</a></li>
-    <li><a href="#tab-dates" data-toggle="tab">Dates</a></li>
-  </ul>
-  <form class="form-horizontal tab-content">
+  <form class="form-horizontal tab-content" data-prefix="project-">
     <fieldset id="tab-common" class="tab-pane active">
       <div class="control-group">
         <label for="project-name" class="control-label">Name:</label>
@@ -82,11 +82,11 @@
         </div>
       </div>
     </fieldset>
-    <div class="form-actions">
-      <div class="pull-right">
-        <button class="cancel btn">Cancel</button>
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
-    </div>
   </form>
-</div>
+  <footer class="form-actions">
+    <div class="pull-right">
+      <button class="cancel btn">Cancel</button>
+      <button class="save btn btn-primary">Save</button>
+    </div>
+  </footer>
+</section>

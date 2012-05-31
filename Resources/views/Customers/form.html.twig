@@ -1,26 +1,28 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Customers/form.html.twig #}
-<form id="customer-form" class="form-horizontal" data-prefix="customer-">
+<section id="customer-form">
   <header>
     <h1 class="title">Customer</h1>
   </header>
-  <fieldset>
-    <div class="control-group">
-      <label for="customer-name" class="control-label">Name:</label>
-      <div class="controls">
-        <input id="customer-name" class="customer-name input-xlarge" type="text" value="" >
+  <form class="form-horizontal" data-prefix="customer-">
+    <fieldset>
+      <div class="control-group">
+        <label for="customer-name" class="control-label">Name:</label>
+        <div class="controls">
+          <input id="customer-name" class="customer-name input-full" type="text" value="" >
+        </div>
       </div>
-    </div>
-    <div class="control-group">
-      <label for="customer-alias" class="control-label">Alias:</label>
-      <div class="controls">
-        <input id="customer-alias" class="customer-alias input-xlarge" type="text" value="" maxlength="30" >
+      <div class="control-group">
+        <label for="customer-alias" class="control-label">Alias:</label>
+        <div class="controls">
+          <input id="customer-alias" class="customer-alias input-full" type="text" value="" maxlength="30" >
+        </div>
       </div>
-    </div>
-  </fieldset>
-  <div class="form-actions">
+    </fieldset>
+  </form>
+  <footer class="form-actions">
     <div class="pull-right">
       <button class="cancel btn">Cancel</button>
-      <button type="submit" class="save btn btn-primary">Save</button>
+      <button class="save btn btn-primary">Save</button>
     </div>
-  </div>
-</form>
+  </footer>
+</section>
