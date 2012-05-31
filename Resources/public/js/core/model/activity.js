@@ -88,13 +88,7 @@
       return (this.relation('timeslices')) ? this.relation('timeslices').firstRunning() : undefined;
     },
     formatDuration: function(seconds) {
-      var duration = moment.duration(seconds, 'seconds');
-      return moment()
-      .hours(duration.hours())
-      .minutes(duration.minutes())
-      .seconds(duration.seconds())
-      .milliseconds(duration.milliseconds())
-      .format('HH:mm:ss');
+      return App.Helper.Format.Duration(seconds);
     }
   }));
 
