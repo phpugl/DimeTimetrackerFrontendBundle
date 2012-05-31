@@ -9,6 +9,7 @@
   var Dime = window.Dime || function() {
     var store = {
       routes: {},
+      session: {},
       templates: {}
     };
     // Main menu collection
@@ -40,6 +41,7 @@
     // Return Dime object
     return {
       Collection: {},
+      Helper: {},
       Model: {},
       Views: {},
       Router: {},
@@ -185,6 +187,25 @@
           route: route,
           callback: callback
         }
+
+        return this;
+      },
+      /**
+       * App session store
+       *
+       * @param name
+       * @param opt can be anything
+       * @return Dime || Named session content || Session container
+       */
+      session: function(name, opt) {
+        if (name === undefined) {
+          return store.session;
+        }
+        if (opt === undefined) {
+          return store.session[name];
+        }
+
+        store.session[name] = opt;
 
         return this;
       },
