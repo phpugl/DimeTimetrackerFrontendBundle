@@ -51,7 +51,11 @@
           that.close();
         },
         error: function(model, response, scope) {
-          App.log(response, 'ERROR');
+          var data = $.parseJSON(response.responseText);
+
+          if (data.errors) {
+            that.form.errors(data.errors);
+          }
         }
       });
     },

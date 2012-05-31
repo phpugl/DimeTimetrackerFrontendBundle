@@ -45,6 +45,22 @@
         }
         return obj;
       },
+      errors: function(data) {
+        if ($form) {
+          $('.control-group', $form).removeClass('error');
+          
+          if (data) {
+            for (var name in data) if (data.hasOwnProperty(name)) {
+              var input = $('#' + prefix + name, $form);
+              if (input) {
+                var group = input.parents('.control-group');
+                group.addClass('error');
+                $('span.help-inline', group).text(data[name]);
+              }
+            }
+          }
+        }
+      },
       fill: function(data) {
         if ($form && data) {
           for (var name in data) if (data.hasOwnProperty(name)) {
