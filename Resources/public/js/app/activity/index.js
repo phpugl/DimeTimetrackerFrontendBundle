@@ -4,9 +4,9 @@
 (function ($, App) {
 
   App.menu({
-    name: "home",
+    name: "activity",
     title: "Activity",
-    route: "",
+    route: "activity",
     weight: -20,
     active: true,
     callback: function() {
@@ -15,12 +15,7 @@
     }
   });
 
-  // Define Routes
-  App.route("activity", "activity", function() {
-      App.UI.menu.activateItem('activity');
-      App.UI.router.switchView(new App.Views.Activity.Index());
-  });
-  
+  // Define Routes  
   App.route("activity:add", "activity/add", function() {
     var model = new App.Model.Activity();
 

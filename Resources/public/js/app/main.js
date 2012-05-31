@@ -17,5 +17,11 @@
     }
   });
 
+  // Define home route
+  App.route("home", "", function() {
+      App.UI.menu.activateItem('activity');
+      App.UI.router.switchView(new App.Views.Activity.Index());
+  });
+
 })(jQuery, Dime);
 
