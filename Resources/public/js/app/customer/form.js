@@ -8,6 +8,9 @@
       aliasModified: false
     },
     events: {
+      'click .save': 'save',
+      'click .close': 'close',
+      'click .cancel': 'close',
       'keypress #customer-name': 'slugify',
       'keypress #customer-alias': 'alias'
     },

@@ -23,7 +23,7 @@
   // 
   $.fn.form = function() {
     var $form = $(this),
-        prefix = $form.data('prefix') || '';
+        prefix = $form.data('prefix') || $('form', $form).data('prefix') || '';
 
     return {
       data: function() {

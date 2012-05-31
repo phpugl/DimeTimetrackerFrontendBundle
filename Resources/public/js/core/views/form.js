@@ -5,7 +5,8 @@
 
   App.provide('Views.Core.Form', App.Views.Core.Content.extend({
     events: {
-      'submit': 'save',
+      'submit form': 'save',
+      'click .save': 'save',
       'click .close': 'close',
       'click .cancel': 'close'
     },
@@ -15,16 +16,18 @@
     initialize: function(opt) {
       // Bind all to this, because you want to use
       // "this" view in callback functions
-      _.bindAll(this, 'render', 'save', 'close');
+      _.bindAll(this);
 
       if (opt && opt.defaults) {
         this.defaults = _.extend({}, this.defaults, opt.defaults);
       }
 
-      this.template = this.defaults.template;
+      if (this.defaults.template) {
+        this.template = this.defaults.template;
+      }
     },
     render: function() {
-      this.setElement(this.defaults.templateEl);
+      this.setElement(this.defaults.templateEl, true);
 
       // Set title
       if (this.defaults.title) {
@@ -40,21 +43,22 @@
     },
     save: function(e) {
       e.preventDefault();
-      
       var that = this;
 
       this.model.save(this.form.data(), {
+        wait: true,
         success: function() {
           that.close();
-          return true;
+        },
+        error: function(model, response, scope) {
+          App.log(response, 'ERROR');
         }
       });
     },
-    close: function(e) {
-      App.log(this.defaults.backNavigation);
+    close: function() {
       App.UI.router.navigate(this.defaults.backNavigation, { trigger: true });
     }
   }));
 
-  
+
 })(jQuery, Dime);
