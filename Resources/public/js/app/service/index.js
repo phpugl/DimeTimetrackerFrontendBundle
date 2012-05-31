@@ -25,7 +25,7 @@
         title: 'Add Service',
         template: 'DimeTimetrackerFrontendBundle:Services:form',
         templateEl: '#service-form',
-        backNavigation: 'serivce'
+        backNavigation: 'service'
       },
       model: model
     }));
@@ -40,7 +40,7 @@
         title: 'Edit Service',
         template: 'DimeTimetrackerFrontendBundle:Services:form',
         templateEl: '#service-form',
-        backNavigation: 'serivce'
+        backNavigation: 'service'
       },
       model: model
     }));
