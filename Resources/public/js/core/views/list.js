@@ -74,11 +74,34 @@
       if (opt && opt.defaults) {
         this.defaults = _.extend({}, this.defaults, opt.defaults);
       }
+
+      if (opt && opt.template) {
+        this.template = opt.template;
+
+        if (opt && opt.templateEl) {
+          this.templateEl = opt.templateEl;
+        } else {
+          throw "You have to setup a templateEl option together with template.";
+        }
+      }
+
+      
     },
     render: function() {
-      if (this.collection && this.collection.length > 0) {
-        this.addAll();
+      // grep template with jquery and generate template stub
+      if (this.template) {
+        var temp = _.template($(this.template).html());
+
+        // fill model date into template and push it into element html
+        this.$el.html(temp({
+          model: this.model,
+          data: this.model.toJSON()
+        }));
+
+        this.setElement(this.templateEl);
       }
+
+      this.addAll();
     },
     addAll: function() {
       // remove all content
