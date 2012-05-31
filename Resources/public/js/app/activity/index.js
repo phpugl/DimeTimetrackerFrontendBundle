@@ -4,7 +4,7 @@
 (function ($, App) {
 
   App.menu({
-    name: "activity",
+    name: "home",
     title: "Activity",
     route: "",
     weight: -20,
@@ -16,6 +16,11 @@
   });
 
   // Define Routes
+  App.route("activity", "activity", function() {
+      App.UI.menu.activateItem('activity');
+      App.UI.router.switchView(new App.Views.Activity.Index());
+  });
+  
   App.route("activity:add", "activity/add", function() {
     var model = new App.Model.Activity();
 
@@ -47,6 +52,40 @@
     }));
   });
 
+  App.route("activity:add-timeslice", "activity/:id/timeslice/add", function(id) {
+    var activity = new App.Model.Activity({id: id});
+    activity.fetch({async: false});
+
+    var model = new App.Model.Timeslice({ activity: activity.get('id') });
+    
+    App.UI.menu.activateItem('activity');
+    App.UI.router.switchView(new App.Views.Timeslice.Form({
+      defaults: {
+        title: 'Edit Timeslice',
+        template: 'DimeTimetrackerFrontendBundle:Timeslices:form',
+        templateEl: '#timeslice-form',
+        backNavigation: 'activity/' + activity.get('id') + '/edit'
+      },
+      model: model
+    }));
+  });
+  
+  App.route("timeslice:edit", "timeslice/:id/edit", function(id) {
+    var model = new App.Model.Timeslice({id: id});
+    model.fetch({async: false});
+
+    App.UI.menu.activateItem('activity');
+    App.UI.router.switchView(new App.Views.Core.Form({
+      defaults: {
+        title: 'Edit Timeslice',
+        template: 'DimeTimetrackerFrontendBundle:Timeslices:form',
+        templateEl: '#timeslice-form',
+        backNavigation: 'activity/' + model.relation('activity').get('id') + '/edit'
+      },
+      model: model
+    }));
+  });
+ 
   // Activity index view
   App.provide('Views.Activity.Index', App.Views.Core.Content.extend({
     template: 'DimeTimetrackerFrontendBundle:Activities:index',

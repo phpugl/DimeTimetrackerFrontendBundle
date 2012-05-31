@@ -3,41 +3,12 @@
  */
 (function ($, App) {
 
-  App.route("timeslice:add", "timeslice/add", function() {
-    var model = new App.Model.Timeslice();
-
-    App.UI.menu.activateItem('activity');
-    App.UI.router.switchView(new App.Views.Core.Form({
-      defaults: {
-        title: 'Edit Timeslice',
-        template: 'DimeTimetrackerFrontendBundle:Timeslices:form',
-        templateEl: '#timeslice-form',
-        backNavigation: 'activity/' + model.relation('activity').get('id') + '/edit'
-      },
-      model: model
-    }));
-  });
-
-  App.route("timeslice:edit", "timeslice/:id/edit", function(id) {
-    var model = new App.Model.Timeslice({id: id});
-    model.fetch({async: false});
-
-    App.UI.menu.activateItem('activity');
-    App.UI.router.switchView(new App.Views.Core.Form({
-      defaults: {
-        title: 'Edit Timeslice',
-        template: 'DimeTimetrackerFrontendBundle:Timeslices:form',
-        templateEl: '#timeslice-form',
-        backNavigation: 'activity/' + model.relation('activity').get('id') + '/edit'
-      },
-      model: model
-    }));
-  });
-
   // Activity form view
   App.provide('Views.Activity.Form', App.Views.Core.Form.extend({
     render: function() {
       this.setElement(this.defaults.templateEl);
+
+      App.session('current.model', this.model);
       
       // Set title
       if (this.defaults.title) {
@@ -81,19 +52,28 @@
       projects.fetch();
 
       // Render timeslices
-      this.activityList = new App.Views.Core.List({
-        el: '#timeslices',
-        collection: this.model.relation('timeslices'),
-        defaults: {
-          prefix: 'timeslice-',
-          item: {
-            attributes: { "class": "timeslice" },
-            prepend: true,
-            tagName: "tr",
-            View: App.Views.Timeslice.Item
+      if (this.model.relation('timeslices')) {
+        this.activityList = new App.Views.Core.List({
+          el: '#tab-timeslices',
+          template: '#tpl-timeslices',
+          templateEl: '#timeslices',
+          model: this.model,
+          collection: this.model.relation('timeslices'),
+          defaults: {
+            prefix: 'timeslice-',
+
+            item: {
+              attributes: { "class": "timeslice" },
+              prepend: true,
+              tagName: "tr",
+              View: App.Views.Timeslice.Item
+            }
           }
-        }
-      }).render();
+        }).render();
+      } else {
+        $('a[href="#tab-timeslices"]',this.$el).remove();
+      }
+      
       
       return this;
     }

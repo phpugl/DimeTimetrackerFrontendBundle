@@ -58,25 +58,7 @@
         </div>
       </div>
     </fieldset>
-    <fieldset id="tab-timeslices" class="tab-pane">
-      <div class="pull-right">
-        <a href="#timeslice/add" class="btn" title="Add timeslice"><i class="icon-plus"></i> timeslice</a>
-      </div>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Duration</th>
-            <th>Start</th>
-            <th>Stop</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="timeslices">
-          <tr>
-            <td class="loading" colspan="4"></td>
-          </tr>
-        </tbody>
-      </table>
+    <fieldset id="tab-timeslices" class="tab-pane">      
     </fieldset>
   </form>
   <footer class="form-actions">
@@ -86,6 +68,27 @@
     </div>
   </footer>
 </div>
+
+<script type="text/template" id="tpl-timeslices">
+  <div class="pull-right">
+    <a href="#activity/<%- data.id %>/timeslice/add" class="btn" title="Add timeslice"><i class="icon-plus"></i> timeslice</a>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Duration</th>
+        <th>Start</th>
+        <th>Stop</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="timeslices">
+      <tr>
+        <td class="loading" colspan="4"></td>
+      </tr>
+    </tbody>
+  </table>
+</script>
 
 <script type="text/template" id="tpl-timeslice-item">
   <td><%- model.formatDuration() %></td>
