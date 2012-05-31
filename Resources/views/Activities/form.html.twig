@@ -4,9 +4,9 @@
     <h1 class="title">Activity</h1>
   </header>
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#tab-common" data-toggle="tab">Common</a></li>
-    <li><a href="#tab-prices" data-toggle="tab">Prices</a></li>
-    <li><a href="#tab-timeslices" data-toggle="tab">Timeslices</a></li>
+    <li class="active"><a href="#tab-common" data-toggle="tab"><i class="icon-tasks"></i> Common</a></li>
+    <li><a href="#tab-prices" data-toggle="tab"><b class="icon">$</b> Prices</a></li>
+    <li><a href="#tab-timeslices" data-toggle="tab"><i class="icon-time"></i> Timeslices</a></li>
   </ul>
   <form class="form-horizontal tab-content">
     <fieldset id="tab-common" class="tab-pane active">
@@ -21,7 +21,7 @@
         <label for="activity-customer" class="control-label">Customer:</label>
         <div class="controls">
           <select id="activity-customer" class="activity-customer input-full">
-          <span class="help-inline"></span>
+            <span class="help-inline"></span>
           </select>
         </div>
       </div>
@@ -29,7 +29,7 @@
         <label for="activity-project" class="control-label">Project:</label>
         <div class="controls">
           <select id="activity-project" class="activity-project input-full">
-          <span class="help-inline"></span>
+            <span class="help-inline"></span>
           </select>
         </div>
       </div>
@@ -37,7 +37,7 @@
         <label for="activity-service" class="control-label">Service:</label>
         <div class="controls">
           <select id="activity-service" class="activity-service input-full">
-          <span class="help-inline"></span>
+            <span class="help-inline"></span>
           </select>
         </div>
       </div>      
@@ -60,7 +60,7 @@
     </fieldset>
     <fieldset id="tab-timeslices" class="tab-pane">
       <div class="pull-right">
-        <a href="#timeslice/add" class="btn btn-primary btn-small">Add timeslice</a>
+        <a href="#timeslice/add" class="btn" title="Add timeslice"><i class="icon-plus"></i> timeslice</a>
       </div>
       <table class="table table-striped">
         <thead>
@@ -78,19 +78,19 @@
         </tbody>
       </table>
     </fieldset>
-    <div class="form-actions">
-      <div class="pull-right">
-        <button class="cancel btn">Cancel</button>
-        <button type="submit" class="save btn btn-primary">Save</button>
-      </div>
-    </div>
   </form>
+  <footer class="form-actions">
+    <div class="pull-right">
+      <button class="cancel btn">Cancel</button>
+      <button type="submit" class="save btn btn-primary">Save</button>
+    </div>
+  </footer>
 </div>
 
 <script type="text/template" id="tpl-timeslice-item">
   <td><%- model.formatDuration() %></td>
-  <td><%- data.startedAt %></td>
-  <td><%- data.stoppedAt %></td>
+  <td><%= _.escape(data.startedAt || '') %></td>
+  <td><%= _.escape(data.stoppedAt || '') %></td>
   <td>
     <a class="edit" href="#timeslice/<%- data.id %>/edit"><i class="icon-pencil"></i> Edit</a>
     <a class="delete" href="#delete"><i class="icon-remove"></i> Delete</a>
