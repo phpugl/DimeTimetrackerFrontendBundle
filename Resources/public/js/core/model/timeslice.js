@@ -33,25 +33,51 @@
       }
     },
     parse: function(response) {
+      // bind activity relation
       response.relation = {};
       if (response.activity) {
         response.relation.activity = new App.Model.Activity(response.activity);
         response.activity = response.activity.id;
       }
+
+      // look for duration and format it
+      if (response.duration !== undefined) {
+        response.formatDuration = App.Helper.Format.Duration(response.duration);
+      }
+
+      // split datetime into date and time
+      if (response.startedAt) {
+        var startedAt = moment(response.startedAt, 'YYYY-MM-DD HH:mm:ss"');
+        response['startedAt-date'] = startedAt.format('YYYY-MM-DD');
+        response['startedAt-time'] = startedAt.format('HH:mm:ss');
+      }
+
+      // split datetime into date and time
+      if (response.stoppedAt) {
+        var stoppedAt = moment(response.stoppedAt, 'YYYY-MM-DD HH:mm:ss"');
+        response['stoppedAt-date'] = stoppedAt.format('YYYY-MM-DD');
+        response['stoppedAt-time'] = stoppedAt.format('HH:mm:ss');
+      }
+      
       return response;
+    },
+    validate: function(attrs) {
+      // concat date and time to one string
+      if (attrs["startedAt-date"] && attrs["startedAt-time"]) {
+        this.set({ startedAt: attrs["startedAt-date"] + ' ' + attrs["startedAt-time"] }, {silent: true});
+      }
+
+      // concat date and time to one string
+      if (attrs["stoppedAt-date"] && attrs["stoppedAt-time"]) {
+        this.set({ stoppedAt: attrs["stoppedAt-date"] + ' ' + attrs["stoppedAt-time"] }, {silent: true});
+      }
     },
     isRunning: function() {
       return this.get('duration') <= 0
              && !(this.get('stoppedAt') && this.get('stoppedAt').length > 0);
     },
     formatDuration: function() {
-      var duration = moment.duration(this.get('duration'), 'seconds');
-      return moment()
-      .hours(duration.hours())
-      .minutes(duration.minutes())
-      .seconds(duration.seconds())
-      .milliseconds(duration.milliseconds())
-      .format('HH:mm:ss');
+      return App.Helper.Format.Duration(this.get('duration'));
     }
   }));
 

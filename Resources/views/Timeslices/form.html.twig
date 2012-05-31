@@ -1,35 +1,40 @@
 {# Dime/TimetrackerFrontendBundle/Resources/views/Activities/timesliceForm.html.twig #}
-<form id="timeslice-form" data-prefix="timeslice-" class="form-horizontal">
+<section id="timeslice-form">
   <header>
     <h1 class="title">Edit Timeslice</h1>
   </header>
-  <fieldset>
-    <div class="control-group">
-      <label for="timeslice-startedAt" class="control-label">Started at:</label>
-      <div class="controls">
-        <input id="timeslice-startedAt" class="timeslice-startedAt input-xlarge" type="datetime" value="" data-toggle="datepicker" data-date-format="yyyy-mm-dd">
+  <div  class="nav nav-tabs"></div>
+  <form class="form-horizontal" data-prefix="timeslice-">
+    <fieldset>
+      <div class="control-group">
+        <label for="timeslice-startedAt-date" class="control-label">Started at:</label>
+        <div class="controls">
+          <input id="timeslice-startedAt-date" class="timeslice-startedAt-date input-medium" type="date" value="" placeholder="YYYY-MM-DD" data-toggle="datepicker" data-date-format="yyyy-mm-dd">
+          <input id="timeslice-startedAt-time" class="timeslice-startedAt-time input-small" type="time" value="" placeholder="HH:mm:ss">
           <span class="help-inline"></span>
+        </div>
       </div>
-    </div>
-    <div class="control-group">
-      <label for="timeslice-stoppedAt" class="control-label">Stopped at:</label>
-      <div class="controls">
-        <input id="timeslice-stoppedAt" class="timeslice-stoppedAt input-xlarge" type="datetime" value="" data-toggle="datepicker" data-date-format="yyyy-mm-dd">
-        <span class="help-inline"></span>
+      <div class="control-group">
+        <label for="timeslice-stoppedAt-date" class="control-label">Stopped at:</label>
+        <div class="controls">
+          <input id="timeslice-stoppedAt-date" class="timeslice-stoppedAt-date input-medium" type="date" value="" placeholder="YYYY-MM-DD" data-toggle="datepicker" data-date-format="yyyy-mm-dd">
+          <input id="timeslice-stoppedAt-time" class="timeslice-stoppedAt-time input-small" type="time" value="" placeholder="HH:mm:ss">
+          <span class="help-inline"></span>
+        </div>
       </div>
-    </div>
-    <div class="control-group">
-      <label for="timeslice-duration" class="control-label">Duration:</label>
-      <div class="controls">
-        <input id="timeslice-duration" class="timeslice-duration input-xlarge" type="number" value="" >
-        <span class="help-inline"></span>
+      <div class="control-group">
+        <label for="timeslice-formatDuration" class="control-label">Duration:</label>
+        <div class="controls">
+          <input id="timeslice-formatDuration" class="timeslice-formatDuration input-xlarge" type="number" value="" ><button type="button" class="calculate btn" title="Re-calculate duration"><i class="icon-refresh"></i></button>
+          <span class="help-inline"></span>
+        </div>
       </div>
-    </div>
-  </fieldset>
-  <div class="form-actions">
+    </fieldset>
+  </form>
+  <footer class="form-actions">
     <div class="pull-right">
       <button class="cancel btn">Cancel</button>
-      <button type="submit" class="save btn btn-primary">Save</button>
+      <button class="save btn btn-primary">Save</button>
     </div>
-  </div>
-</form>
+  </footer>
+</section>
