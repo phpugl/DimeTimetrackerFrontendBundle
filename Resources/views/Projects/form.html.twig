@@ -3,9 +3,9 @@
   <header>
     <h1 class="title">Add project</h1>
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#tab-common" data-toggle="tab">Common</a></li>
-      <li><a href="#tab-prices" data-toggle="tab">Prices</a></li>
-      <li><a href="#tab-dates" data-toggle="tab">Dates</a></li>
+      <li class="active"><a href="#tab-common" data-toggle="tab"><i class="icon-tasks"></i> Common</a></li>
+      <li><a href="#tab-prices" data-toggle="tab"><b class="icon">$</b> Prices</a></li>
+      <li><a href="#tab-dates" data-toggle="tab"><i class="icon-calendar"></i> Dates</a></li>
     </ul>
   </header>
   <form class="form-horizontal tab-content" data-prefix="project-">
@@ -74,21 +74,22 @@
       <div class="control-group">
         <label for="project-startedAt" class="control-label">Started at:</label>
         <div class="controls">
-          <input id="project-startedAt" class="project-startedAt input-full" type="date" value="" >
-          <span class="help-inline"></span>
+          <input id="project-startedAt" class="project-startedAt input-full" type="date" value="" data-toggle="datepicker" data-date-format="yyyy-mm-dd" >
         </div>
+        <span class="help-inline"></span>
+      </div>
       </div>
       <div class="control-group">
         <label for="project-stoppedAt" class="control-label">Stopped at:</label>
         <div class="controls">
-          <input id="project-stoppedAt" class="project-stoppedAt input-full" type="date" value="" >
+          <input id="project-stoppedAt" class="project-stoppedAt input-full" type="date" value="" data-toggle="datepicker" data-date-format="yyyy-mm-dd" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
         <label for="project-deadline" class="control-label">Deadline:</label>
         <div class="controls">
-          <input id="project-deadline" class="project-deadline input-full" type="date" value="" >
+          <input id="project-deadline" class="project-deadline input-full" type="date" value="" data-toggle="datepicker" data-date-format="yyyy-mm-dd" >
           <span class="help-inline"></span>
         </div>
       </div>

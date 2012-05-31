@@ -3,6 +3,21 @@
  */
 (function ($, App) {
 
+  App.route("timeslice:add", "timeslice/add", function() {
+    var model = new App.Model.Timeslice();
+
+    App.UI.menu.activateItem('activity');
+    App.UI.router.switchView(new App.Views.Core.Form({
+      defaults: {
+        title: 'Edit Timeslice',
+        template: 'DimeTimetrackerFrontendBundle:Timeslices:form',
+        templateEl: '#timeslice-form',
+        backNavigation: 'activity/' + model.relation('activity').get('id') + '/edit'
+      },
+      model: model
+    }));
+  });
+
   App.route("timeslice:edit", "timeslice/:id/edit", function(id) {
     var model = new App.Model.Timeslice({id: id});
     model.fetch({async: false});
