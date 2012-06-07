@@ -85,9 +85,14 @@
   App.provide('Views.Activity.Index', App.Views.Core.Content.extend({
     template: 'DimeTimetrackerFrontendBundle:Activities:index',
     initialize: function() {
-      this.activities = App.provide('UI.activities', new App.Collection.Activities());
+      this.activities = App.session('activities');
+      if (!this.activities) {
+        this.activities = new App.Collection.Activities()
+        App.session('activities', this.activities);
+      }
     },
     render: function() {
+      
       this.list = new App.Views.Core.List({
         el: '#activities',
         collection: this.activities,
@@ -103,6 +108,7 @@
         }
       }).render();
       this.activities.fetch();
+      
     }
   }));
 

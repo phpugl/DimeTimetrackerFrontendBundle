@@ -20,7 +20,11 @@
       this.form.clear();
       this.form.fill(this.model.toJSON());
 
-      var customers = new App.Collection.Customers();
+
+      var customers = App.session('customers');
+      if (!customers) {
+        customers = App.session('customers', new App.Collection.Customers());
+      }
       var selectBox = new App.Views.Core.Select({
         el: this.form.get('customer'),
         collection: customers,
@@ -30,18 +34,12 @@
       });
       customers.fetch();
 
-      var services  = new App.Collection.Services();
-      selectBox = new App.Views.Core.Select({
-        el: this.form.get('service'),
-        collection: services,
-        defaults: {
-          selected: this.model.get('service')
-        }
-      });
-      services.fetch();
-
       // Render select box for project
-      var projects  = new App.Collection.Projects();
+
+      var projects = App.session('projects');
+      if (!projects) {
+        projects = App.session('projects', new App.Collection.Projects());
+      }
       selectBox = new App.Views.Core.Select({
         el: this.form.get('project'),
         collection: projects,
@@ -50,6 +48,19 @@
         }
       });
       projects.fetch();
+
+      var services = App.session('services');
+      if (!services) {
+        services = App.session('services', new App.Collection.Services());
+      }
+      selectBox = new App.Views.Core.Select({
+        el: this.form.get('service'),
+        collection: services,
+        defaults: {
+          selected: this.model.get('service')
+        }
+      });
+      services.fetch();
 
       // Render timeslices
       if (this.model.relation('timeslices')) {

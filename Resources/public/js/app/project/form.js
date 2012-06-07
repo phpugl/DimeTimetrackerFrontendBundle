@@ -26,7 +26,10 @@
       this.form.fill(this.model.toJSON());
 
       // get Customers collection
-      var customers = new App.Collection.Customers();
+      var customers = App.session('customers');
+      if (!customers) {
+        customers = App.session('customers', new App.Collection.Customers());
+      }
       var selectBox = new App.Views.Core.Select({
         el: this.form.get('customer'),
         collection: customers,

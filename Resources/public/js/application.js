@@ -195,19 +195,24 @@
        *
        * @param name
        * @param opt can be anything
-       * @return Dime || Named session content || Session container
+       * @return Named session content || Session container
        */
       session: function(name, opt) {
         if (name === undefined) {
           return store.session;
         }
         if (opt === undefined) {
-          return store.session[name];
+          if (store.session[name]) {
+            this.log('Retrieve [' + name + '] from session store', 'DEBUG');
+            return store.session[name];
+          }
+          return undefined;
         }
 
+        this.log('Add [' + name + '] to session store', 'DEBUG');
         store.session[name] = opt;
 
-        return this;
+        return opt;
       },
       /**
        * Fetch remote template and save it for later use
