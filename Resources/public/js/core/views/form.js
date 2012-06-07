@@ -19,7 +19,7 @@
       _.bindAll(this);
 
       if (opt && opt.defaults) {
-        this.defaults = _.extend({}, this.defaults, opt.defaults);
+        this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
       }
 
       if (this.defaults.template) {
