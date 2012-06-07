@@ -20,7 +20,7 @@
         <button data-duration="<%- data.duration %>" class="duration btn disabled" disabled><%- model.formatDuration(data.duration) %></button>
       </div>
     </div>
-    <%- data.description %>
+    <%= _.escape(data.description || '<no description>') %>
   </h3>
   <div class="details">
     <div class="pull-right">
@@ -29,16 +29,14 @@
       <a class="delete" href="#activity/<%- data.id %>/delete"><i class="icon-remove"></i> Delete</a>
     </div>
     <p>
-    <% var customerName  = model.relation('customer', 'name', ''); %>
-    <% var customerAlias = model.relation('customer', 'alias', ''); %>
-    <% if (customerAlias.length > 0 && customerName.length > 0) { %>
-    <a href="#" class="client-project" title="@<%- customerAlias %>"><%- customerName %></a>
+    <% if (model.relation('customer')) { %>
+    <a href="#customer/<%- model.relation('customer', 'id') %>/edit" title="@<%- model.relation('customer', 'alias') %>"><%- model.relation('customer', 'name') %></a>
     <% } %>
     <% if (model.relation('project')) { %>
-    / <a href="#"><%- model.relation('project', 'name') %></a>
+    / <a href="#project/<%- model.relation('project', 'id') %>/edit" title="@<%- model.relation('project', 'alias') %>"><%- model.relation('project', 'name') %></a>
     <% } %>
     <% if (model.relation('service')) { %>
-    : <a href="#"><%- model.relation('service', 'name') %></a>
+    : <a href="#service/<%- model.relation('service', 'id') %>/edit"  title="@<%- model.relation('service', 'alias') %>"><%- model.relation('service', 'name') %></a>
     <% } %>
     </p>
   </div>
