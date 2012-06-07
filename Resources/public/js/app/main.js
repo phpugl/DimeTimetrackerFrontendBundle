@@ -23,5 +23,21 @@
       App.UI.router.switchView(new App.Views.Activity.Index());
   });
 
+  // Define help menu
+  App.menu({
+    name: "help",
+    title: "Help",
+    route: "help",
+    weight: 1000,
+    callback: function() {
+      App.UI.menu.activateItem('help');
+      App.UI.router.switchView(new App.Views.Help());
+    }
+  });
+
+  App.provide('Views.Help', App.Views.Core.Content.extend({
+    template: 'DimeTimetrackerFrontendBundle:App:help'
+  }));
+
 })(jQuery, Dime);
 
