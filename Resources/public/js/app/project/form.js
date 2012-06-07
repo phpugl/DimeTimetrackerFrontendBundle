@@ -27,7 +27,7 @@
 
       // get Customers collection
       var customers = new App.Collection.Customers();
-      var selectBox = new App.Views.Base.Select({
+      var selectBox = new App.Views.Core.Select({
         el: this.form.get('customer'),
         collection: customers,
         defaults: {

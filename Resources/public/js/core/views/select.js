@@ -4,10 +4,8 @@
 
 (function ($, App) {
 
-  // provide Base namespace in App.Views
-  var BaseView = App.provide('Views.Base');
-  
-  BaseView.Option = Backbone.View.extend({
+  // Create option item view in App.Views.Core
+  App.provide('Views.Core.SelectOption', Backbone.View.extend({
     tagName: "option",
     defaults: {
       name: 'name',
@@ -18,7 +16,7 @@
       _.bindAll(this, 'render');
 
       if (opt && opt.defaults) {
-        this.defaults = _.extend({}, this.defaults, opt.defaults);
+        this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
       }
     },
     render: function() {
@@ -33,14 +31,15 @@
       }
       return this;
     }
-  });
+  }));
 
-  BaseView.Select = Backbone.View.extend({
+  // Create select item view in App.Views.Core
+  App.provide('Views.Core.Select', Backbone.View.extend({
     tagName: "select",
     defaults: {
       withBlank: true,
       selected: undefined,
-      view: BaseView.Option
+      view: App.Views.Core.SelectOption
     },
     initialize: function(opt){
       _.bindAll(this, 'addBlank', 'addOne', 'addAll');
@@ -52,7 +51,7 @@
           opt.defaults.selected = (opt.defaults.selected.id) ? opt.defaults.selected.id : opt.defaults.selected;
         }
 
-        this.defaults = _.extend({}, this.defaults, opt.defaults);
+        this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
       }
     },
     addBlank: function() {
@@ -85,6 +84,6 @@
         this.$el.val(this.defaults.selected);
       }
     }
-  });
+  }));
 
 })(jQuery, Dime);

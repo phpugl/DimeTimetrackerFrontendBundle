@@ -21,7 +21,7 @@
       this.form.fill(this.model.toJSON());
 
       var customers = new App.Collection.Customers();
-      var selectBox = new App.Views.Base.Select({
+      var selectBox = new App.Views.Core.Select({
         el: this.form.get('customer'),
         collection: customers,
         defaults: {
@@ -31,7 +31,7 @@
       customers.fetch();
 
       var services  = new App.Collection.Services();
-      selectBox = new App.Views.Base.Select({
+      selectBox = new App.Views.Core.Select({
         el: this.form.get('service'),
         collection: services,
         defaults: {
@@ -42,7 +42,7 @@
 
       // Render select box for project
       var projects  = new App.Collection.Projects();
-      selectBox = new App.Views.Base.Select({
+      selectBox = new App.Views.Core.Select({
         el: this.form.get('project'),
         collection: projects,
         defaults: {
