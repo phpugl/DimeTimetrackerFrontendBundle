@@ -9,7 +9,7 @@
 <div id="activities" class="loading"></div>
 
 <script type="text/template" id="tpl-activity-item">
-  <h3 class="title">
+  <h3 class="title" data-description="">
     <div class="btn-toolbar pull-right">
       <div class="btn-group">
         <% if (model.runningTimeslice()) { %>
@@ -20,8 +20,9 @@
         <button data-duration="<%- data.duration %>" class="duration btn disabled" disabled><%- model.formatDuration(data.duration) %></button>
       </div>
     </div>
-    <%= _.escape(data.description || '<no description>') %>
+    <%- model.shortDescription(50) %>
   </h3>
+  <pre class="details"><%= _.escape(data.description || '') %></pre>
   <div class="details">
     <div class="pull-right">
       <a class="edit" href="#activity/<%- data.id %>/timeslice/add"><i class="icon-plus"></i> Timeslice</a>

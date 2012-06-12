@@ -84,6 +84,9 @@
         );
       }
     },
+    shortDescription: function(length, endChars) {
+      return App.Helper.Format.Truncate(this.get('description'), length, endChars);
+    },
     runningTimeslice: function() {
       return (this.relation('timeslices')) ? this.relation('timeslices').firstRunning() : undefined;
     },
