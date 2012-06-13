@@ -9,21 +9,29 @@
 <div id="activities" class="loading"></div>
 
 <script type="text/template" id="tpl-activity-item">
-  <h3 class="title" data-description="">
+  <h3 class="title">
     <div class="btn-toolbar pull-right">
       <div class="btn-group">
-        <% if (model.runningTimeslice()) { %>
+      <% if (model.runningTimeslice()) { %>
         <button class="track stop btn btn-danger"><i class="icon-time icon-white"></i></button>
-        <% } else { %>
+      <% } else { %>
         <button class="track start btn btn-success"><i class="icon-time icon-white"></i></button>
-        <% } %>
-        <button data-duration="<%- data.duration %>" class="duration btn disabled" disabled><%- model.formatDuration(data.duration) %></button>
+      <% } %>
+      <span data-duration="<%- data.duration %>" class="duration btn disabled"><%- model.formatDuration(data.duration) %></span>
+      <% if (model.relation('customer')) { %>
+      <span class="btn disabled t-left">@<%- model.relation('customer', 'alias') %></span>
+      <% } %>
       </div>
     </div>
     <%- model.shortDescription(50) %>
+    <% if (model.relation('project')) {  %>
+    <span class="project">/<%- model.relation('project', 'alias') %></span>
+    <% } %>
   </h3>
-  <pre class="details"><%= _.escape(data.description || '') %></pre>
   <div class="details">
+    <% if (data.description) { %>
+    <pre><%- data.description %></pre>
+    <% } %>
     <div class="pull-right">
       <a class="edit" href="#activity/<%- data.id %>/timeslice/add"><i class="icon-plus"></i> Timeslice</a>
       <a class="edit" href="#activity/<%- data.id %>/edit"><i class="icon-pencil"></i> Edit</a>
@@ -34,10 +42,10 @@
     <a href="#customer/<%- model.relation('customer', 'id') %>/edit" title="@<%- model.relation('customer', 'alias') %>"><%- model.relation('customer', 'name') %></a>
     <% } %>
     <% if (model.relation('project')) { %>
-    / <a href="#project/<%- model.relation('project', 'id') %>/edit" title="@<%- model.relation('project', 'alias') %>"><%- model.relation('project', 'name') %></a>
+    /<a href="#project/<%- model.relation('project', 'id') %>/edit" title="@<%- model.relation('project', 'alias') %>"><%- model.relation('project', 'name') %></a>
     <% } %>
     <% if (model.relation('service')) { %>
-    : <a href="#service/<%- model.relation('service', 'id') %>/edit"  title="@<%- model.relation('service', 'alias') %>"><%- model.relation('service', 'name') %></a>
+    :<a href="#service/<%- model.relation('service', 'id') %>/edit"  title="@<%- model.relation('service', 'alias') %>"><%- model.relation('service', 'name') %></a>
     <% } %>
     </p>
   </div>

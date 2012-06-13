@@ -6,6 +6,10 @@
         Purpose of the stylesheet follows.
 */
 
+.t-left { text-align: left; }
+.t-center { text-align: center; }
+.t-right { text-align: right; }
+
 #area-header {}
 
 #area-content {}
@@ -45,6 +49,11 @@
   background-color: #FFF;
   cursor: pointer;
   padding: 10px;
+}
+
+.activity .title .customer, .activity .title .project {
+  color: #CCC;
+  font-size: .7em;
 }
 
 .activity .title:hover {
