@@ -13,7 +13,7 @@
           'class': 'nav'
         }
       });
-      $('#nav-main').append(App.UI.menu.render().el);
+      $('#nav-main').prepend(App.UI.menu.render().el);
     }
   });
 

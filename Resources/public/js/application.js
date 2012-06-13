@@ -51,7 +51,8 @@
         Parser:     'api/process',
         Projects:   'api/projects',
         Services:   'api/services',
-        Timeslices: 'api/timeslices'
+        Timeslices: 'api/timeslices',
+        Users:      'api/users'
       },
       UI: {},
       /**
