@@ -3,6 +3,7 @@ namespace Dime\TimetrackerFrontendBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -19,6 +20,7 @@ class InitCommand extends ContainerAwareCommand
         $this
             ->setName('dime:init')
             ->setDescription('Initialize app')
+            ->addOption('dev', null, InputOption::VALUE_NONE, 'Install assets with symlinks and relative');
         ;
     }
 
@@ -26,7 +28,12 @@ class InitCommand extends ContainerAwareCommand
     {
         $returnCode = $this->runExternalCommand('twitter-bootstrap:clear', $output);
         $returnCode = $this->runExternalCommand('twitter-bootstrap:compile', $output);
-        $returnCode = $this->runExternalCommand('assetic:dump', $output);
+
+        if ($input->getOption('dev')) {
+            $returnCode = $this->runExternalCommand('assets:install', $output, array('--symlink' => true, '--relative' => true, 'target' => 'web/'));
+        } else {
+            $returnCode = $this->runExternalCommand('assetic:dump', $output);
+        }
     }
 
     protected function runExternalCommand($name, $output, array $input = array())
