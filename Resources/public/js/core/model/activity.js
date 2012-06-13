@@ -85,7 +85,7 @@
       }
     },
     shortDescription: function(length, endChars) {
-      return App.Helper.Format.Truncate(this.get('description'), length, endChars);
+      return (this.get('description')) ? App.Helper.Format.Truncate(this.get('description'), length, endChars) : '<no description>';
     },
     runningTimeslice: function() {
       return (this.relation('timeslices')) ? this.relation('timeslices').firstRunning() : undefined;
