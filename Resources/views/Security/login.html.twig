@@ -1,0 +1,41 @@
+{% extends "DimeTimetrackerFrontendBundle::layout.html.twig" %}
+
+{% block content %}
+
+{% if error %}
+<div>{{ error|trans({}, 'FOSUserBundle') }}</div>
+{% endif %}
+
+<div class="login-form">
+    <h1>Login</h1>
+    <form action="{{ path("fos_user_security_check") }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+        <fieldset>
+            <div class="control-group">
+                <label for="username" class="control-label hide-text">Username:</label>
+                <div class="controls">
+                    <input id="username" name="_username" class="input-xlarge span3" type="text" value="{{ last_username }}" placeholder="Username">
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="password" class="control-label hide-text">Password:</label>
+                <div class="controls">
+                    <input id="password" name="_password" class="input-large span2" type="password" value="" placeholder="Password">
+                    <input class="btn btn-primary span1" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}"/>
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox" for="remember_me"><input id="remember_me" name="_remember_me" type="checkbox" value="on"> Remember me</label>
+                </div>
+            </div>
+        </fieldset>
+        <div>
+
+        </div>
+    </form>
+</div>
+
+{% endblock %}

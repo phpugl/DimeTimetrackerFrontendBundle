@@ -28,12 +28,15 @@
     <div id="area-nav-main" class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a href="#" class="brand">Dime</a>
+          {% endif %}
+          <a href="{{ path('dime_timetrackerfrontend_app_index') }}" class="brand">Dime</a>
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
           <div id="nav-main" class="nav-collapse">
             <div class="nav pull-right">
               <form id="activity-track" class="navbar-search pull-left">
@@ -42,10 +45,11 @@
               </form>
               <ul class="nav">
                 <li><a href="#profile" title="User profile"><i class="icon-user icon-white"></i></a></li>
-                <li><a href="#logout" title="Logout"><i class="icon-off icon-white"></i></a></li>
+                <li><a href="{{ path('fos_user_security_logout') }}" title="Logout"><i class="icon-off icon-white"></i></a></li>
               </ul>
             </div>
           </div><!-- /.nav-collapse -->
+          {% endif %}
         </div>
       </div><!-- /navbar-inner -->
     </div>
@@ -68,6 +72,7 @@
 
     <!-- javascript
     ================================================== -->
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
     {% javascripts
       '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/json2.js'
       '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/jquery.min.js'
@@ -93,5 +98,6 @@
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% block js %}{% endblock %}
+    {% endif %}
   </body>
 </html>
