@@ -1,9 +1,16 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Dashboard/index.html.twig #}
 <header>
-  <div class="pull-right">
-    <a href="#activity/add" class="btn btn-large" title="Add activity"><i class="icon-plus"></i></a>
+  <div class="btn-toolbar pull-right">
+      <a href="#activity/add" class="btn btn-large" title="Add activity"><i class="icon-plus"></i></a>
+      <button id="filter-button" class="btn btn-large"><i class="icon-filter"></i></button>
   </div>
   <h1 class="title">Activity</h1>
+
+  <ul id="filter" class="nav nav-list hide">
+    <li class="nav-header">Filter</li>
+    <li><i class="icon-calendar hide-text">Date</i><input class="filter input-medium" data-toggle="datepicker" value="2012-06-15" data-date-format="yyyy-mm-dd"></li>
+    <li><i class="icon-user hide-text">Date</i><select class="filter filter-customer input-medium" title="by customer"><option>by customer</option></select></li>
+  </ul>
 </header>
 
 <div id="activities" class="loading"></div>

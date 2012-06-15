@@ -83,7 +83,11 @@
  
   // Activity index view
   App.provide('Views.Activity.Index', App.Views.Core.Content.extend({
+    el: '#area-content',
     template: 'DimeTimetrackerFrontendBundle:Activities:index',
+    events: {
+      'click #filter-button': 'toggleFilter'
+    },
     initialize: function() {
       this.activities = App.session('activities');
       if (!this.activities) {
@@ -92,6 +96,7 @@
       }
     },
     render: function() {
+        App.log(this.el);
       
       this.list = new App.Views.Core.List({
         el: '#activities',
@@ -108,7 +113,24 @@
         }
       }).render();
       this.activities.fetch();
-      
+
+      var customers = App.session('customers');
+      if (!customers) {
+        customers = App.session('customers', new App.Collection.Customers());
+      }
+      var selectBox = new App.Views.Core.Select({
+        el: '.filter-customer',
+        collection: customers,
+        defaults: {
+          blankText: 'Filter by Customer'
+        }
+      });
+      selectBox.refetch();
+
+    },
+    toggleFilter: function(e) {
+        e.preventDefault();
+      $('#filter').toggle();
     }
   }));
 

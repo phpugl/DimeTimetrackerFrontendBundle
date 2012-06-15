@@ -51,7 +51,7 @@
   padding: 10px;
 }
 
-.activity .title .customer, .activity .title .project {
+.activity .title .filter, .activity .title .project {
   color: #CCC;
   font-size: .7em;
 }
@@ -78,6 +78,12 @@
 
 header .title {
   margin-bottom: 20px;
+}
+
+header .title .filter {
+  color: #CCC;
+  font-size: .5em;
+  font-style: italic;
 }
 
 .icon {
@@ -107,4 +113,16 @@ header .title {
 
 .login-form input, .login-form textarea, .login-form select, .login-form .uneditable-input {
   margin-bottom: 0px;
+}
+
+#filter {
+  background-color: #EFEFEF;
+  border: 1px solid #CCC;
+  -webkit-border-radius: 6px 6px 0 0;
+  -moz-border-radius: 6px 6px 0 0;
+  border-radius: 6px 6px 0 0;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  /*  margin-bottom: 20px;*/
 }

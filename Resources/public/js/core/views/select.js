@@ -38,6 +38,7 @@
     tagName: "select",
     defaults: {
       withBlank: true,
+      blankText: '',
       selected: undefined,
       view: App.Views.Core.SelectOption
     },
@@ -55,7 +56,7 @@
       }
     },
     addBlank: function() {
-      var view = new this.defaults.view();
+      var view = new this.defaults.view({ defaults: { blank: this.defaults.blankText }});
       this.selectViews.push(view);
       this.$el.append(view.render().el);
     },
@@ -83,6 +84,11 @@
       if (this.defaults.selected) {
         this.$el.val(this.defaults.selected);
       }
+    },
+    refetch: function(opt) {
+       if (this.collection) {
+           this.collection.fetch(opt);
+       }
     }
   }));
 
