@@ -105,11 +105,12 @@
     },
     addAll: function() {
       // remove all content
-      this.$el.html('').removeClass('loading');
+      this.$el.html('').addClass('loading');
       // run addOne on each collection item
       if (this.collection) {
         this.collection.each(this.addOne);
       }
+      this.$el.removeClass('loading');
       
       return this;
     },
