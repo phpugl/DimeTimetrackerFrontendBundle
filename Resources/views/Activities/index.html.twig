@@ -9,7 +9,7 @@
 
   <ul id="filter" class="nav nav-list hide">
     <li class="nav-header">Filter</li>
-    <li><i class="icon-calendar hide-text">Date</i><input class="filter input-medium" data-toggle="datepicker" value="2012-06-15" data-date-format="yyyy-mm-dd"></li>
+    <li><i class="icon-calendar hide-text">Date</i><input class="filter input-medium" data-toggle="datepicker" value="2012-06-15" data-date-format="YYYY-MM-DD" data-date-with-period="true"></li>
     <li><i class="icon-user hide-text">Date</i><select class="filter filter-customer input-medium" title="by customer"><option>by customer</option></select></li>
   </ul>
 </header>
@@ -55,6 +55,7 @@
     <% if (model.relation('service')) { %>
     :<a href="#service/<%- model.relation('service', 'id') %>/edit"  title="@<%- model.relation('service', 'alias') %>"><%- model.relation('service', 'name') %></a>
     <% } %>
+    &nbsp;
     </p>
   </div>
 </script>
