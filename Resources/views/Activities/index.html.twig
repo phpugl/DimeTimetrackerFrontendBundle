@@ -1,10 +1,11 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Dashboard/index.html.twig #}
 <header>
-  <div class="btn-toolbar pull-right">
+  <div class="pull-right">
       <a href="#activity/add" class="btn btn-large" title="Add activity"><i class="icon-plus"></i></a>
       <button id="filter-button" class="btn btn-large"><i class="icon-filter"></i></button>
   </div>
   <h1 class="title">Activity</h1>
+
 
   <ul id="filter" class="nav nav-list hide">
     <li class="nav-header">Filter</li>
@@ -25,12 +26,12 @@
         <button class="track start btn btn-success"><i class="icon-time icon-white"></i></button>
       <% } %>
       <span data-duration="<%- data.duration %>" class="duration btn disabled"><%- model.formatDuration(data.duration) %></span>
-      <% if (model.relation('customer')) { %>
-      <span class="btn disabled t-left">@<%- model.relation('customer', 'alias') %></span>
-      <% } %>
       </div>
     </div>
     <%- model.shortDescription(50) %>
+    <% if (model.relation('customer')) { %>
+    <span class="customer">@<%- model.relation('customer', 'alias') %></span>
+    <% } %>
     <% if (model.relation('project')) {  %>
     <span class="project">/<%- model.relation('project', 'alias') %></span>
     <% } %>
