@@ -30,13 +30,16 @@
     },
     save: function(e) {
       e.preventDefault();
+      var icon = $('i', '#activity-track').addClass('loading-14-white'),
+          input = $('#activity-track-input');
 
       var data = $('#activity-track-input').val();
       if (data && data !== "") {
         this.activities.create({parse: data}, {
           wait: true,
           success: function() {
-            $('#activity-track-input').val('');
+            input.val('');
+            icon.removeClass('loading-14-white');
           }
         });
       }
