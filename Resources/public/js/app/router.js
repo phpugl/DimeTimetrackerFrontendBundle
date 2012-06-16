@@ -32,10 +32,13 @@
         this.currentView.remove();
         this.$el.addClass('loading');
       }
-      this.$el.removeClass('loading');
-      this.$el.html(App.template(view.template));
+
+      // fetch template
+      view.$el.html(App.template(view.template));
+      this.$el.html(view.el);
       view.render();
       this.currentView = view;
+      this.$el.removeClass('loading');
     }
   }));
 
