@@ -83,7 +83,6 @@
  
   // Activity index view
   App.provide('Views.Activity.Index', App.Views.Core.Content.extend({
-    el: '#area-content',
     template: 'DimeTimetrackerFrontendBundle:Activities:index',
     events: {
       'click #filter-button': 'toggleFilter'
@@ -91,13 +90,10 @@
     initialize: function() {
       this.activities = App.session('activities');
       if (!this.activities) {
-        this.activities = new App.Collection.Activities()
-        App.session('activities', this.activities);
+        this.activities = App.session('activities', new App.Collection.Activities());
       }
     },
     render: function() {
-        App.log(this.el);
-      
       this.list = new App.Views.Core.List({
         el: '#activities',
         collection: this.activities,
