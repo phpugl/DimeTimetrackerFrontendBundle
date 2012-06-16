@@ -218,21 +218,26 @@
       /**
        * Fetch remote template and save it for later use
        *
-       * @param name Name of Symfony2 template (e.g. DimeTimetrackerFrontedBundle:Activity:activityForm)
+       * @param name Name of Symfony2 template (e.g. DimeTimetrackerFrontedBundle:Activity:form)
        * @return HTML template
        */
       template: function(name) {
         if (!name) throw "Give a name for Dime.template(name)";
 
         if (!store.templates[name]) {
-          $.ajax({
-            async: false,
-            url: 'template/' + name,
-            dataType: 'html',
-            success: function(data) {
-              store.templates[name] = data;
-            }
-          });
+          if (name.search(/:/) !== -1) {
+              $.ajax({
+                  async: false,
+                  url: 'template/' + name,
+                  dataType: 'html',
+                  success: function(data) {
+                      store.templates[name] = data;
+                  }
+              });
+
+          } else {
+              store.template[name] = $(name);
+          }
         }
 
         return store.templates[name];
