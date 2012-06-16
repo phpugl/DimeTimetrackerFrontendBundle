@@ -23,7 +23,10 @@
       // "this" view in callback functions
       _.bindAll(this, 'save');
 
-      this.activities = App.provide('UI.activities', new App.Collection.Activities());
+      this.activities = App.session('activities');
+      if (!this.activities) {
+        this.activities = App.session('activities', new App.Collection.Activities());
+      }
     },
     save: function(e) {
       e.preventDefault();
