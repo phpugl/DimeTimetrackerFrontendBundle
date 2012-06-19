@@ -25,6 +25,7 @@
           prefix: 'activity-',
           item: {
             attributes: { "class": "activity" },
+            prepend: true,
             tagName: "section",
             View: App.Views.Activity.Item
           }
