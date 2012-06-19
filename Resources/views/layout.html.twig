@@ -35,7 +35,7 @@
             <span class="icon-bar"></span>
           </a>
           {% endif %}
-          <a href="{{ path('dime_timetrackerfrontend_app_index') }}" class="brand">Dime</a>
+          <div class="brand">Dime</div>
           {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
           <div id="nav-main" class="nav-collapse">
             <div class="nav pull-right">
@@ -54,7 +54,6 @@
       </div><!-- /navbar-inner -->
     </div>
 
-
     <div class="container">
       <header id="area-header">
         {% block header %}{% endblock %}
@@ -64,7 +63,7 @@
         {% block content %}{% endblock %}
       </section>
 
-      <footer id="area-footer" class="footer">
+      <footer id="area-footer">
         <p>PHPUGL 2011-2012 | Powered by Symfony2, Backbone.js and Bootstrap</p>
         {% block footer %}{% endblock %}
       </footer>
