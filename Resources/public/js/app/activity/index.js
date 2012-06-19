@@ -1,91 +1,15 @@
 /**
- * Dime - app/dashboard/index.js
+ * Dime - app/activity/index.js
  */
 (function ($, App) {
-
-  App.menu({
-    name: "activity",
-    title: "Activity",
-    route: "activity",
-    weight: -20,
-    active: true,
-    callback: function() {
-      App.UI.menu.activateItem('activity');
-      App.UI.router.switchView(new App.Views.Activity.Index());
-    }
-  });
-
-  // Define Routes  
-  App.route("activity:add", "activity/add", function() {
-    var model = new App.Model.Activity();
-
-    App.UI.menu.activateItem('activity');
-    App.UI.router.switchView(new App.Views.Activity.Form({
-      defaults: {
-        title: 'Add Activity',
-        template: 'DimeTimetrackerFrontendBundle:Activities:form',
-        templateEl: '#activity-form',
-        backNavigation: 'activity'
-      },
-      model: model
-    }));
-  });
-
-  App.route("activity:edit", "activity/:id/edit", function(id) {
-    var model = new App.Model.Activity({id: id});
-    model.fetch({async: false});
-
-    App.UI.menu.activateItem('activity');
-    App.UI.router.switchView(new App.Views.Activity.Form({
-      defaults: {
-        title: 'Edit Activity',
-        template: 'DimeTimetrackerFrontendBundle:Activities:form',
-        templateEl: '#activity-form',
-        backNavigation: 'activity'
-      },
-      model: model
-    }));
-  });
-
-  App.route("activity:add-timeslice", "activity/:id/timeslice/add", function(id) {
-    var activity = new App.Model.Activity({id: id});
-    activity.fetch({async: false});
-
-    var model = new App.Model.Timeslice({ activity: activity.get('id') });
-    
-    App.UI.menu.activateItem('activity');
-    App.UI.router.switchView(new App.Views.Timeslice.Form({
-      defaults: {
-        title: 'Edit Timeslice',
-        template: 'DimeTimetrackerFrontendBundle:Timeslices:form',
-        templateEl: '#timeslice-form',
-        backNavigation: 'activity/' + activity.get('id') + '/edit'
-      },
-      model: model
-    }));
-  });
-  
-  App.route("timeslice:edit", "timeslice/:id/edit", function(id) {
-    var model = new App.Model.Timeslice({id: id});
-    model.fetch({async: false});
-
-    App.UI.menu.activateItem('activity');
-    App.UI.router.switchView(new App.Views.Core.Form({
-      defaults: {
-        title: 'Edit Timeslice',
-        template: 'DimeTimetrackerFrontendBundle:Timeslices:form',
-        templateEl: '#timeslice-form',
-        backNavigation: 'activity/' + model.relation('activity').get('id') + '/edit'
-      },
-      model: model
-    }));
-  });
  
   // Activity index view
   App.provide('Views.Activity.Index', App.Views.Core.Content.extend({
     template: 'DimeTimetrackerFrontendBundle:Activities:index',
     events: {
-      'click #filter-button': 'toggleFilter'
+      'click #filter-button': 'toggleFilter',
+      'changeDate #filter-date': 'filterDate',
+      'change #filter-customer': 'filterCustomer'
     },
     initialize: function() {
       this.activities = App.session('activities');
@@ -101,14 +25,14 @@
           prefix: 'activity-',
           item: {
             attributes: { "class": "activity" },
-            prepend: true,
             tagName: "section",
             View: App.Views.Activity.Item
           }
           
         }
       }).render();
-      this.activities.fetch();
+      var filter = App.session('activity-filter');
+      this.activities.fetch({data: { filter: filter } });
 
       var customers = App.session('customers');
       if (!customers) {
@@ -118,6 +42,7 @@
         el: '.filter-customer',
         collection: customers,
         defaults: {
+          selected: (filter && filter['customer']) ? filter['customer'] : undefined,
           blankText: 'Filter by Customer'
         }
       });
@@ -126,7 +51,49 @@
     },
     toggleFilter: function(e) {
         e.preventDefault();
-      $('#filter').toggle();
+        $('#filter').toggle();
+    },
+    filterDate: function(e) {
+        e.preventDefault();
+        var filter = App.session('activity-filter') || {},
+            input = $('#filter-date'),
+            date = moment(input.data('datepicker').date).clone();
+
+        switch(input.data('datepicker').period) {
+            case 'D':
+                filter['date'] = date.format('YYYY-MM-DD');
+                input.text(filter['date']);
+                break;
+            case 'W':
+                filter['date'] = [date.day(1).format('YYYY-MM-DD'), date.day(7).format('YYYY-MM-DD')];
+                input.text(filter['date'].join(' - '));
+                break;
+            case 'M':
+                filter['date'] = date.format('YYYY-MM');
+                input.text(filter['date']);
+                break;
+            case 'Y':
+                filter['date'] = date.format('YYYY');
+                input.text(filter['date']);
+                break;
+        }
+
+        App.session('activity-filter', filter);
+        this.activities.fetch({data: { filter: filter } });
+    },
+    filterCustomer: function(e) {
+        e.preventDefault();
+        var filter = App.session('activity-filter') || {},
+            value = $('#filter-customer').val();
+
+        if (value && value.length > 0) {
+            filter['customer'] = $('#filter-customer').val();
+        } else {
+            delete filter.customer;
+        }
+
+        App.session('activity-filter', filter);
+        this.activities.fetch({data: { filter: filter } });
     }
   }));
 
