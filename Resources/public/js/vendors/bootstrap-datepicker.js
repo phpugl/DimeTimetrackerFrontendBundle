@@ -721,6 +721,6 @@
         });
     });
 
-}( window.jQuery )
+}( window.jQuery );
 
 
