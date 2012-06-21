@@ -58,7 +58,7 @@
           prefix: 'service-',
           item: {
             attributes: { "class": "service" },
-            tagName: "tr",
+            tagName: "section",
             template: '#tpl-service-item',
             View: App.Views.Service.Item
           }

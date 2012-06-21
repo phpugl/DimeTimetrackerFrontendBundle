@@ -1,34 +1,30 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Services/index.html.twig #}
-
-<header>
+<header class="page-header">
   <div class="pull-right">
-    <a href="#service/add" class="btn btn-large" title="Add service"><i class="icon-plus"></i></a>
+    <a href="#service/add" class="btn btn-large" title="Add service"><i class="icon-plus hide-text">Add service</i></a>
   </div>
   <h1>Service</h1>
 </header>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Alias</th>
-      <th>Rate</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody id="services">
-    <tr>
-      <td class="loading" colspan="4"></td>
-    </tr>
-  </tbody>
-</table>
+<div id="services" class="loading" colspan="4"></div>
 
 <script type="text/template" id="tpl-service-item">
-<td><%- data.name %></td>
-<td><%- data.alias %></td>
-<td><%- data.rate %></td>
-<td>
-  <a class="edit" href="#service/<%- data.id %>/edit"><i class="icon-pencil"></i> Edit</a>
-  <a class="delete" href="#service/<%- data.id %>/delete"><i class="icon-remove"></i> Delete</a>
-</td>
+    <h3 class="title">
+        <div class="btn-group pull-right">
+            <a class="btn edit" href="#service/<%- data.id %>/edit" title="Edit"><i class="icon-pencil hide-text">Edit</i></a>
+            <a class="btn delete" href="#service/<%- data.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
+        </div>
+        <%- data.name %>
+        <span class="alias">:<%- data.alias %></span>
+    </h3>
+    <div class="details">
+        <dl class="dl-horizontal">
+            <dt>Rate</dt>
+            <dd><%- data.rate %></dd>
+            <% if (data.description)  { %>
+            <dt>Description</dt>
+            <dd><%- data.description %></dd>
+            <% } %>
+        </dl>
+    </div>
 </script>
