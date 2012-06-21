@@ -4,16 +4,111 @@
 (function ($, App) {
 
   // activity item view
+    App.provide('Views.Activity.Item', App.Views.Core.ListItem.extend({
+        events: {
+            'click .edit': 'edit',
+            'click .delete': 'delete',
+            'click .track': 'track',
+            'click': 'showDetails'
+        },
+        render: function() {
+            var that = this;
+
+            // grep template with jquery and generate template stub
+            var temp = _.template($(this.template).html());
+
+            // fill model date into template and push it into element html
+            this.$el.html(temp({
+                model: this.model,
+                data: this.model.toJSON()
+            }));
+
+            // add element id with prefix
+            this.$el.attr('id', this.elId());
+
+            // activate timer if any running timeslice is found
+            var activeTimeslice = this.model.runningTimeslice();
+            if (activeTimeslice) {
+                var duration = $('.duration', this.$el),
+                    model = this.model;
+
+                duration.data('start', moment(activeTimeslice.get('startedAt'), 'YYYY-MM-DD HH:mm:ss'));
+                this.timer = setInterval(function() {
+                    var d = moment().diff(duration.data('start'), 'seconds');
+                    duration.text(model.formatDuration(duration.data('duration') + d));
+                }, 1000);
+            }
+            return this;
+        },
+        showDetails: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            $('.details', this.el).toggle();
+            this.$el.toggleClass('gap-20');
+        },
+        edit: function(e) {
+            e.stopPropagation();
+        },
+        'delete': function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // confirm destroy action
+            if (confirm("Are you sure?")) {
+                this.model.destroy({wait: true});
+            }
+        },
+        track: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var button = $('.track', '#' + this.elId()),
+                duration = $('.duration', '#' + this.elId()),
+                model = this.model,
+                that = this;
+
+            if (button.hasClass('start')) {
+                duration.data('start', moment());
+
+                this.model.start({
+                    wait: true,
+                    success: function(item) {
+                        button
+                            .removeClass('start btn-success')
+                            .addClass('stop btn-danger');
+
+                        that.timer = setInterval(function() {
+                            var d = moment().diff(duration.data('start'), 'seconds');
+                            duration.text(model.formatDuration(duration.data('duration') + d));
+                        }, 1000);
+
+                    }
+                });
+            } else if (button.hasClass('stop')) {
+                this.model.stop({
+                    wait: true,
+                    success: function (item) {
+                        button
+                            .removeClass('stop btn-danger')
+                            .addClass('start btn-success');
+
+                        if (that.timer) {
+                            clearInterval(that.timer);
+                        }
+
+                        var d = duration.data('duration');
+                        d += item.get('duration');
+                        duration.data('duration', d);
+                        duration.text(model.formatDuration(d));
+                    }
+                });
+            }
+        }
+    }));
+/*
   App.provide('Views.Activity.Item', Backbone.View.extend({
     template: '#tpl-activity-item',
-    events: {
-      'click .edit': 'edit',
-      'click .delete': 'delete',
-      'click .track': 'track'
-    },
-    defaults: {
-      prefix: 'activity-'
-    },
     initialize: function(opt) {
       // Bind all to this, because you want to use
       // "this" view in callback functions
@@ -73,67 +168,9 @@
         });
 
       return this;
-    },
-    edit: function(e) {
-      //e.preventDefault();
-      e.stopPropagation();
-    },
-    'delete': function(e) {
-      e.preventDefault();
-      e.stopPropagation();
 
-      // confirm destroy action
-      if (confirm("Are you sure?")) {
-        this.model.destroy({wait: true});
-      }
-    },
-    track: function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-            
-      var button = $('.track', '#' + this.elId()),
-          duration = $('.duration', '#' + this.elId()),
-          model = this.model,
-          that = this;
-                
-      if (button.hasClass('start')) {
-        duration.data('start', moment());
-
-        this.model.start({
-          wait: true,
-          success: function(item) {
-            button
-            .removeClass('start btn-success')
-            .addClass('stop btn-danger');
-
-            that.timer = setInterval(function() {
-              var d = moment().diff(duration.data('start'), 'seconds');
-              duration.text(model.formatDuration(duration.data('duration') + d));
-            }, 1000);
-                        
-          }
-        });
-      } else if (button.hasClass('stop')) {
-        this.model.stop({
-          wait: true,
-          success: function (item) {
-            button
-            .removeClass('stop btn-danger')
-            .addClass('start btn-success');
-
-            if (that.timer) {
-              clearInterval(that.timer);
-            }
-                        
-            var d = duration.data('duration');
-            d += item.get('duration');
-            duration.data('duration', d);
-            duration.text(model.formatDuration(d));
-          }
-        });
-      }
     }
   }));
-
+*/
 })(jQuery, Dime);
 

@@ -1,18 +1,19 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Dashboard/index.html.twig #}
-<header>
+<header class="page-header">
   <div class="pull-right">
+      <button id="filter-button" class="btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show filter</i></button>
       <a href="#activity/add" class="btn btn-large" title="Add activity"><i class="icon-plus"></i></a>
-      <button id="filter-button" class="btn btn-large"><i class="icon-filter"></i></button>
   </div>
-  <h1 class="title">Activity</h1>
+  <h1>Activity</h1>
+</header>
 
-
-  <ul id="filter" class="nav nav-list hide">
+<ul id="filter" class="nav nav-list hide">
     <li class="nav-header">Filter</li>
     <!--<li><i class="icon-calendar hide-text">Date</i><span id="filter-date" class="filter input-medium" data-toggle="datepicker" data-date="2012-06-15" data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="D" data-date-weekstart="1">2012-06-15</span></li>-->
     <li><i class="icon-user hide-text">Customer</i><select id="filter-customer" class="filter filter-customer input-medium" title="by customer"><option>by customer</option></select></li>
-  </ul>
-</header>
+    <li><button id="filter-reset" class="btn">Reset</button></li>
+</ul>
+
 
 <div id="activities" class="loading"></div>
 
@@ -30,10 +31,10 @@
     </div>
     <%- model.shortDescription(50) %>
     <% if (model.relation('customer')) { %>
-    <span class="customer">@<%- model.relation('customer', 'alias') %></span>
+    <span class="alias">@<%- model.relation('customer', 'alias') %></span>
     <% } %>
     <% if (model.relation('project')) {  %>
-    <span class="project">/<%- model.relation('project', 'alias') %></span>
+    <span class="alias">/<%- model.relation('project', 'alias') %></span>
     <% } %>
   </h3>
   <div class="details">
