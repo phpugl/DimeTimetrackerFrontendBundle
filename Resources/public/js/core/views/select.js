@@ -86,12 +86,13 @@
       }
     },
     refetch: function(opt) {
-       if (this.collection) {
-           this.collection.fetch(opt);
-       }
+      if (this.collection) {
+        this.collection.fetch(opt);
+      }
     },
     select: function(id) {
-        this.$el.val(id);
+      this.defaults.selected = id;
+      this.$el.val(id);
     }
 
   }));

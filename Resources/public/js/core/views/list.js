@@ -103,6 +103,12 @@
 
       this.addAll();
     },
+    remove: function() {
+      if (this.collection) {
+        this.collection.off();
+      }
+      return this;
+    },
     addAll: function() {
       // remove all content
       this.$el.html('').addClass('loading');
