@@ -89,7 +89,11 @@
        if (this.collection) {
            this.collection.fetch(opt);
        }
+    },
+    select: function(id) {
+        this.$el.val(id);
     }
+
   }));
 
 })(jQuery, Dime);
