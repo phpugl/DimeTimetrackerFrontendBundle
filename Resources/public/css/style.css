@@ -6,20 +6,33 @@
         Purpose of the stylesheet follows.
 */
 
-.t-left { text-align: left; }
-.t-center { text-align: center; }
-.t-right { text-align: right; }
-.gap-20 { margin-bottom: 20px; }
+.t-left {
+  text-align: left;
+}
 
-#area-header {}
+.t-center {
+  text-align: center;
+}
 
-#area-content {}
+.t-right {
+  text-align: right;
+}
+
+.gap-20 {
+  margin-bottom: 20px;
+}
+
+#area-header {
+}
+
+#area-content {
+}
 
 #area-footer {
-    border-top: 1px solid #f7f7f7;
-    margin-top: 30px;
-    padding-top: 20px;
-    text-align: center;
+  border-top: 1px solid #f7f7f7;
+  margin-top: 30px;
+  padding-top: 20px;
+  text-align: center;
 }
 
 .input-full {
@@ -34,6 +47,7 @@
 .loading-14 {
   background: url('../images/270-14.gif') no-repeat center center;
 }
+
 .loading-14-white {
   background: url('../images/270-14-white.gif') no-repeat center center;
 }
@@ -51,9 +65,9 @@
   -webkit-border-radius: 0 0 6px 6px;
   -moz-border-radius: 0 0 6px 6px;
   border-radius: 0 0 6px 6px;
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
   /*  margin-bottom: 20px;*/
 }
 
@@ -67,17 +81,17 @@
 }
 
 .title .alias {
-    background-color: #f7f7f7;
-    border: 1px solid #CCC;
+  background-color: #f7f7f7;
+  border: 1px solid #CCC;
   color: #aaa;
   font-size: .7em;
-    padding: 3px;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-    box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  padding: 3px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
 }
 
 .activity .title:hover,
@@ -97,12 +111,11 @@
 }
 
 .activity .details pre {
-    background: #fff;
+  background: #fff;
 }
 
 .activity .details p,
 .project .details p {
-
   margin-bottom: 0pt;
 }
 
@@ -135,9 +148,9 @@ header .title .filter {
   -webkit-border-radius: 10px 10px 10px 10px;
   -moz-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
   max-width: 300px;
 }
 
@@ -149,15 +162,19 @@ header .title .filter {
   margin-bottom: 0px;
 }
 
+#activity-track-date {
+  cursor: pointer;
+}
+
 #filter {
   background: #f7f7f7;
   border: 1px solid #CCC;
   -webkit-border-radius: 6px 6px 0 0;
   -moz-border-radius: 6px 6px 0 0;
   border-radius: 6px 6px 6px 6px;
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
   margin-bottom: 20px;
 }
 
@@ -167,5 +184,5 @@ header .title .filter {
 }
 
 #filter li input, #filter li textarea, #filter li select, #filter li .uneditable-input {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }

@@ -1,19 +1,19 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Dashboard/index.html.twig #}
 <header class="page-header">
   <div class="pull-right">
+
       <button id="filter-button" class="btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show filter</i></button>
       <a href="#activity/add" class="btn btn-large" title="Add activity"><i class="icon-plus"></i></a>
   </div>
-  <h1>Activity</h1>
+  <h1>Activity <small id="filter-date-text">{{ 'now'|date('Y-m-d') }}</small></h1>
 </header>
 
 <ul id="filter" class="nav nav-list hide">
     <li class="nav-header">Filter</li>
-    <!--<li><i class="icon-calendar hide-text">Date</i><span id="filter-date" class="filter input-medium" data-toggle="datepicker" data-date="2012-06-15" data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="D" data-date-weekstart="1">2012-06-15</span></li>-->
+    <li><i class="icon-calendar hide-text">Date</i><span id="filter-date" class="filter" data-toggle="datepicker" data-date="{{ 'now'|date('Y-m-d') }}" data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="D" data-date-weekstart="1" data-date-autoclose="true">{{ 'now'|date('Y-m-d') }}</span></li>
     <li><i class="icon-user hide-text">Customer</i><select id="filter-customer" class="filter filter-customer input-medium" title="by customer"><option>by customer</option></select></li>
     <li><button id="filter-reset" class="btn">Reset</button></li>
 </ul>
-
 
 <div id="activities" class="loading"></div>
 
