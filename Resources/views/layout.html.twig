@@ -40,12 +40,13 @@
           <div id="nav-main" class="nav-collapse">
             <div class="nav pull-right">
               <form id="activity-track" class="navbar-search pull-left">
-                <i class="icon-time icon-white"></i>
+                <span id="activity-track-date" class="icon-calendar icon-white" title="{{ 'now'|date('Y-m-d') }}" data-toggle="datepicker" data-date="{{ 'now'|date('Y-m-d') }}" data-toggle="datepicker" data-date-autoclose="true" data-date-format="YYYY-MM-DD" data-date-weekstart="1"></span>
+                <i class="icon-time icon-white" ></i>
                 <input id="activity-track-input" class="search-query" placeholder="Track you activity..." type="text" />
               </form>
               <ul class="nav">
-                <li><a href="#profile" title="User profile"><i class="icon-user icon-white"></i></a></li>
-                <li><a href="{{ path('fos_user_security_logout') }}" title="Logout"><i class="icon-off icon-white"></i></a></li>
+                <li><a href="#profile" title="User profile"><i class="icon-user icon-white hide-text">Profile</i></a></li>
+                <li><a href="{{ path('fos_user_security_logout') }}" title="Logout"><i class="icon-off icon-white hide-text">Logout</i></a></li>
               </ul>
             </div>
           </div><!-- /.nav-collapse -->
