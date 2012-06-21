@@ -26,15 +26,46 @@
         <span class="alias">/<%- data.alias %></span>
     </h3>
     <div class="details">
-        <dl class="dl-horizontal">
-            <% if (data.rate) { %>
-            <dt>Rate</dt>
-            <dd><%- data.rate %></dd>
-            <% } %>
-            <% if (data.description)  { %>
-            <dt>Description</dt>
-            <dd><%- data.description %></dd>
-            <% } %>
-        </dl>
+        <div class="row-fluid">
+            <dl class="span4 dl-horizontal">
+                <% if (data.customer) { %>
+                <dt>Customer</dt>
+                <dd><%- data.customer.name %></dd>
+                <% } %>
+                <% if (data.rate) { %>
+                <dt>Rate</dt>
+                <dd><%- data.rate %></dd>
+                <% } %>
+            </dl>
+            <dl class="span4 dl-horizontal">
+                <dt>Budget</dt>
+                <% if (data.budgetPrice) { %>
+                <dd>Price: <%- data.budgetPrice %></dd>
+                <% } %>
+                <% if (data.fixedPrice) { %>
+                <dd>Fixed: <%- data.fixedPrice %></dd>
+                <% } %>
+                <% if (data.budgetTime) { %>
+                <dd>Time: <%- data.budgetTime %></dd>
+                <% } %>
+            </dl>
+            <dl class="span4 dl-horizontal">
+                <dt>Dates</dt>
+                <% if (data.startedAt) { %>
+                <dd>Start: <%- data.startedAt %></dd>
+                <% } %>
+                <% if (data.stoppedAt) { %>
+                <dd>Stop: <%- data.stoppedAt %></dd>
+                <% } %>
+                <% if (data.deadline) { %>
+                <dd>Deadline: <%- data.deadline %></dd>
+                <% } %>
+            </dl>
+        </div>
+        <div class="row-fluid">
+        <% if (data.description)  { %>
+        <p class="span12"><%- data.description %></p>
+        <% } %>
+        </div>
     </div>
 </script>

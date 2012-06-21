@@ -100,13 +100,14 @@
     background: #fff;
 }
 
-.activity .details p {
+.activity .details p,
+.project .details p {
+
   margin-bottom: 0pt;
 }
 
 .activity .btn-toolbar {
   margin: 0pt;
-  /*  margin: 10px 10px 0 0;*/
 }
 
 header .title {
