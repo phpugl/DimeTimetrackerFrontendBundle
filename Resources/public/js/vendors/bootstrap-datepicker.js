@@ -4,6 +4,7 @@
  * =========================================================
  * Copyright 2012 Stefan Petre
  * Improvements by Andrew Rowls
+ * Modified by NoGo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -439,12 +440,15 @@
                                 element = this.element;
                             } else if (this.component){
                                 element = this.element.find('input');
+
                             }
                             if (element) {
                                 element.change();
                                 if (this.autoclose) {
                                     element.blur();
                                 }
+                            } else if (this.autoclose) {
+                                this.hide();
                             }
                         }
                         break;
