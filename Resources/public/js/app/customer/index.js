@@ -58,7 +58,7 @@
           prefix: 'customer-',
           item: {
             attributes: { "class": "customer" },
-            tagName: 'tr',
+            tagName: 'section',
             template: '#tpl-customer-item',
             View: App.Views.Customer.Item
           }

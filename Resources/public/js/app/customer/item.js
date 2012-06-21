@@ -6,7 +6,12 @@
   // Create item view in App.Views.Customer
   App.provide('Views.Customer.Item', App.Views.Core.ListItem.extend({
     events: {
-      'click .delete': 'delete'
+      'click .delete': 'delete',
+      'click': 'edit'
+    },
+    edit: function(e) {
+      e.stopPropagation();
+      App.UI.router.navigate('#customer/' + this.model.id + '/edit', { trigger: true });
     },
     'delete': function(e) {
       e.preventDefault();
