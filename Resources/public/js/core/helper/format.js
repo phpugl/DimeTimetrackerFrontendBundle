@@ -54,5 +54,26 @@
         }
     });
 
+
+
+    /**
+     * App.Helper.Format.Slugify
+     *
+     * @param text, text to slugify
+     * @return string slugified text
+     */
+    App.provide('Helper.Format.Slugify', function (text) {
+        if (text === undefined || typeof text !== 'string') throw 'Slugify need a text as parameter slugify(text).'
+
+        text = text.toLowerCase();
+
+        // Source: http://milesj.me/snippets/javascript/slugify
+        text = text.replace(/[^-a-zA-Z0-9&\s]+/ig, '');
+        text = text.replace(/-/gi, '_');
+        text = text.replace(/\s/gi, '-');
+
+        return text;
+    });
+
 })(jQuery, Dime);
 

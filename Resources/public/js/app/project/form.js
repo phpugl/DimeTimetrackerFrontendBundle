@@ -12,7 +12,7 @@
             'click .save':'save',
             'click .close':'close',
             'click .cancel':'close',
-            'keypress #project-name':'slugify',
+            'click .slugify':'slugify',
             'keypress #project-alias':'alias'
         },
         render:function () {
@@ -43,36 +43,17 @@
         },
         slugify:function (e) {
             var alias = $('#project-alias', this.$el);
-            if (alias.val() === '') {
-                this.aliasModified = false;
-            }
-
-            if (!this.aliasModified) {
-                var text = $('#project-name', this.$el).val().toLowerCase();
-
-                // Source: http://milesj.me/snippets/javascript/slugify
-                text = text.replace(/[^-a-zA-Z0-9&\s]+/ig, '');
-                text = text.replace(/-/gi, '_');
-                text = text.replace(/\s/gi, '-');
-
-                alias.val(text);
-            }
+            alias.val(App.Helper.Format.Slugify($('#project-name', this.$el).val()));
         },
         alias:function (e) {
-            this.aliasModified = true;
             var keyCode = (e.keyCode) ? e.keyCode : e.which,
                 keyChar = String.fromCharCode(keyCode);
 
-            if ((keyCode == null)
-                || (keyCode == 0)
-                || (keyCode == 8)
-                || (keyCode == 9)
-                || (keyCode == 13)
-                || (keyCode == 27)) {
+            if ((keyCode == null) || $.inArray(keyCode, [0,8,9,13,27,37,39]) > -1) {
                 return true;
             }
 
-            if (keyChar.match(/[a-zA-Z0-9\s]/)) {
+            if (keyChar.match(/[a-zA-Z0-9-_]/)) {
                 return true;
             } else {
                 return false;
