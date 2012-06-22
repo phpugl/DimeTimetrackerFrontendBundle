@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Dime - app/activity/index.js
  */
@@ -17,48 +19,49 @@
             // "this" view in callback functions
             _.bindAll(this);
 
-            this.activities = App.session('activities');
-            if (!this.activities) {
-                this.activities = App.session('activities', new App.Collection.Activities());
-            }
+            this.activities = App.session.get('activities', function () {
+                return new App.Collection.Activities();
+            });
 
-            this.customers = App.session('customers');
-            if (!this.customers) {
-                this.customers = App.session('customers', new App.Collection.Customers());
-            }
+            this.customers = App.session.get('customers', function () {
+                return new App.Collection.Customers();
+            });
         },
         render:function () {
-            var filter = App.session('activity-filter');
+            var filter = App.session.get('activity-filter');
 
-            this.list = new App.Views.Core.List({
-                el:'#activities',
-                collection: this.activities,
-                defaults:{
-                    prefix:'activity-',
-                    item:{
-                        attributes: { "class": "activity" },
-                        prepend: true,
-                        tagName: "section",
-                        template: '#tpl-activity-item',
-                        View: App.Views.Activity.Item
-                    }
-                }
-            }).render();
-
+            // Render a customer select list
             this.customerFilter = new App.Views.Core.Select({
                 el:'.filter-customer',
-                collection: this.customers,
+                collection:this.customers,
                 defaults:{
                     blankText:'Filter by Customer'
                 }
             });
             this.customerFilter.refetch();
 
+            // Render activities list
+            this.list = new App.Views.Core.List({
+                el:'#activities',
+                collection:this.activities,
+                defaults:{
+                    prefix:'activity-',
+                    emptyTemplate: '#tpl-activity-empty',
+                    item:{
+                        attributes:{ "class":"activity" },
+                        prepend:true,
+                        tagName:"section",
+                        template:'#tpl-activity-item',
+                        View:App.Views.Activity.Item
+                    }
+                }
+            }).render();
+
             this.updateFilter();
 
             return this;
         },
-        remove: function() {
+        remove:function () {
             this.activities.off();
 
             // remove element from DOM
@@ -67,44 +70,60 @@
             return this;
         },
         toggleFilter:function (e) {
-            if (e) { e.preventDefault(); }
+            if (e) {
+                e.preventDefault();
+            }
 
-            var filter = App.session('activity-filter') || { data:{} };
+            var filter = App.session.get('activity-filter') || {};
 
             filter['open'] = (filter.open) ? false : true;
             $('#filter').toggle(filter.open);
 
-            App.session('activity-filter', filter);
+            App.session.set('activity-filter', filter);
 
             return this;
         },
-        updateFilter: function() {
-            var filter = App.session('activity-filter');
+        updateFilter:function () {
+            var filter = App.session.get('activity-filter');
 
             if (filter) {
                 var data = {},
                     dateInput = $('#filter-date'), dateText = $('#filter-date-text');
 
                 // Display date
-                dateInput.data('date', filter['date'].format(dateInput.data('date-format')));
-                dateInput.data('date-period', filter['date-period']);
-                dateInput.data('datepicker').update();
-                switch (filter['date-period']) {
-                    case 'W':
-                        var date = filter['date'].clone();
-                        date = [date.day(1).format('YYYY-MM-DD'), date.day(7).format('YYYY-MM-DD')];
-                        data['date'] = date;
-                        dateInput.text(date.join(' - '));
-                        dateText.text(date.join(' - '));
-                        break;
-                    case 'D':
-                    case 'M':
-                    case 'Y':
-                        var date = filter['date'].format('YYYY-MM-DD');
-                        data['date'] = date;
-                        dateInput.text(date);
-                        dateText.text(date);
-                        break;
+                if (filter.date) {
+                    dateInput.data('date', filter['date'].format(dateInput.data('date-format')));
+                    dateInput.data('date-period', filter['date-period']);
+                    if (dateInput.data('datepicker')) {
+                        dateInput.data('datepicker').update();
+                    }
+                    switch (filter['date-period']) {
+                        case 'W':
+                            var date = filter['date'].clone();
+                            date = [date.day(1).format('YYYY-MM-DD'), date.day(7).format('YYYY-MM-DD')];
+                            data['date'] = date;
+                            dateInput.text(date.join(' - '));
+                            dateText.text(date.join(' - '));
+                            break;
+                        case 'D':
+                            var date = filter['date'].format('YYYY-MM-DD');
+                            data['date'] = date;
+                            dateInput.text(date);
+                            dateText.text(date);
+                            break;
+                        case 'M':
+                            var date = filter['date'].format('YYYY-MM');
+                            data['date'] = date;
+                            dateInput.text(date);
+                            dateText.text(date);
+                            break;
+                        case 'Y':
+                            var date = filter['date'].format('YYYY');
+                            data['date'] = date;
+                            dateInput.text(date);
+                            dateText.text(date);
+                            break;
+                    }
                 }
 
                 // Display customer
@@ -116,7 +135,7 @@
                 }
 
                 // fetch activities
-                this.activities.fetch({ data: { filter: data } });
+                this.activities.fetch({ data: { filter:data } });
 
                 if (filter.open) {
                     $('#filter').show();
@@ -126,9 +145,11 @@
             }
         },
         resetFilter:function (e) {
-            if (e) { e.preventDefault(); }
+            if (e) {
+                e.preventDefault();
+            }
 
-            var filter = App.session('activity-filter') || {};
+            var filter = App.session.get('activity-filter') || {};
 
             filter['date'] = moment();
             filter['date-period'] = 'D';
@@ -136,7 +157,7 @@
                 delete filter.customer;
             }
 
-            App.session('activity-filter', filter);
+            App.session.set('activity-filter', filter);
 
             this.updateFilter();
             this.toggleFilter();
@@ -144,23 +165,27 @@
             return this;
         },
         filterDate:function (e) {
-            if (e) { e.preventDefault(); }
+            if (e) {
+                e.preventDefault();
+            }
 
-            var filter = App.session('activity-filter') || {},
+            var filter = App.session.get('activity-filter') || {},
                 input = $('#filter-date');
 
             filter['date'] = moment(input.data('date')).clone();
             filter['date-period'] = input.data('date-period');
 
-            App.session('activity-filter', filter);
+            App.session.set('activity-filter', filter);
             this.updateFilter();
 
             return this;
         },
         filterCustomer:function (e) {
-            if (e) { e.preventDefault(); }
+            if (e) {
+                e.preventDefault();
+            }
 
-            var filter = App.session('activity-filter') || {},
+            var filter = App.session.get('activity-filter') || {},
                 value = $('#filter-customer').val();
 
             if (value && value.length > 0) {
@@ -169,7 +194,7 @@
                 delete filter.customer;
             }
 
-            App.session('activity-filter', filter);
+            App.session.set('activity-filter', filter);
             this.updateFilter();
 
             return this;
