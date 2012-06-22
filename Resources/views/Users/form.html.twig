@@ -1,37 +1,49 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Users/index.html.twig #}
+
 <section id="user-form">
-  <header class="page-header">
-    <h1>User</h1>
-  </header>
-  <form class="form-horizontal" data-prefix="user-">
-    <fieldset>
-      <div class="control-group">
-        <label for="user-firstname" class="control-label">First name:</label>
-        <div class="controls">
-          <input id="user-firstname" class="user-firstname input-full" type="text" value="" >
-          <span class="help-inline"></span>
+    <header class="page-header">
+        <h1>User</h1>
+    </header>
+    <form class="form-horizontal" data-prefix="user-">
+        <fieldset>
+            <div class="control-group">
+                <label for="user-username" class="control-label">Username:</label>
+
+                <div class="controls">
+                    <input id="user-username" class="user-username input-full" type="text" value="">
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="user-firstname" class="control-label">First name:</label>
+
+                <div class="controls">
+                    <input id="user-firstname" class="user-firstname input-full" type="text" value="">
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="user-lastname" class="control-label">Last name:</label>
+
+                <div class="controls">
+                    <input id="user-lastname" class="user-lastname input-full" type="text" value="" maxlength="30">
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="user-email" class="control-label">Email:</label>
+
+                <div class="controls">
+                    <input id="user-email" class="user-email input-full" type="text" value="">
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <footer class="form-actions">
+        <div class="pull-right">
+            <button class="cancel btn">Cancel</button>
+            <button class="save btn btn-primary">Save</button>
         </div>
-      </div>
-      <div class="control-group">
-        <label for="user-lastname" class="control-label">Last name:</label>
-        <div class="controls">
-          <input id="user-lastname" class="user-lastname input-full" type="text" value="" maxlength="30" >
-          <span class="help-inline"></span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label for="user-email" class="control-label">Email:</label>
-        <div class="controls">
-          <input id="user-email" class="user-email input-full" type="text" value="" >
-          <span class="help-inline"></span>
-        </div>
-      </div>
-    </fieldset>
-  </form>
-  <footer class="form-actions">
-    <div class="pull-right">
-      <button class="cancel btn">Cancel</button>
-      <button class="save btn btn-primary">Save</button>
-    </div>
-  </footer>
+    </footer>
 </section>
