@@ -1,93 +1,94 @@
+"use strict";
+
 /**
  * Dime - app/activity/form.js
  */
 (function ($, App) {
 
-  // Activity form view
-  App.provide('Views.Activity.Form', App.Views.Core.Form.extend({
-    render: function() {
-      this.setElement(this.defaults.templateEl);
+    // Activity form view
+    App.provide('Views.Activity.Form', App.Views.Core.Form.extend({
+        render:function () {
+            this.setElement(this.defaults.templateEl);
 
-      App.session('current.model', this.model);
-      
-      // Set title
-      if (this.defaults.title) {
-        $('h1.title', this.$el).text(this.defaults.title);
-      }
+            App.session.set('current.model', this.model);
 
-      // Fill form
-      this.form = this.$el.form();
-      this.form.clear();
-      this.form.fill(this.model.toJSON());
-
-
-      var customers = App.session('customers');
-      if (!customers) {
-        customers = App.session('customers', new App.Collection.Customers());
-      }
-      var selectBox = new App.Views.Core.Select({
-        el: this.form.get('customer'),
-        collection: customers,
-        defaults: {
-          selected: this.model.get('customer')
-        }
-      });
-      customers.fetch();
-
-      // Render select box for project
-
-      var projects = App.session('projects');
-      if (!projects) {
-        projects = App.session('projects', new App.Collection.Projects());
-      }
-      selectBox = new App.Views.Core.Select({
-        el: this.form.get('project'),
-        collection: projects,
-        defaults: {
-          selected: this.model.get('project')
-        }
-      });
-      projects.fetch();
-
-      var services = App.session('services');
-      if (!services) {
-        services = App.session('services', new App.Collection.Services());
-      }
-      selectBox = new App.Views.Core.Select({
-        el: this.form.get('service'),
-        collection: services,
-        defaults: {
-          selected: this.model.get('service')
-        }
-      });
-      services.fetch();
-
-      // Render timeslices
-      if (this.model.relation('timeslices')) {
-        this.activityList = new App.Views.Core.List({
-          el: '#tab-timeslices',
-          template: '#tpl-timeslices',
-          templateEl: '#timeslices',
-          model: this.model,
-          collection: this.model.relation('timeslices'),
-          defaults: {
-            prefix: 'timeslice-',
-
-            item: {
-              attributes: { "class": "timeslice" },
-              prepend: true,
-              tagName: "tr",
-              View: App.Views.Timeslice.Item
+            // Set title
+            if (this.defaults.title) {
+                $('h1.title', this.$el).text(this.defaults.title);
             }
-          }
-        }).render();
-      } else {
-        $('a[href="#tab-timeslices"]',this.$el).remove();
-      }
-      
-      
-      return this;
-    }
-  }));
+
+            // Fill form
+            this.form = this.$el.form();
+            this.form.clear();
+            this.form.fill(this.model.toJSON());
+
+
+            // Render select box for customer
+            var customers = App.session.get('customers', function () {
+                return new App.Collection.Customers();
+            });
+
+            var selectBox = new App.Views.Core.Select({
+                el:this.form.get('customer'),
+                collection:customers,
+                defaults:{
+                    selected:this.model.get('customer')
+                }
+            });
+            customers.fetch();
+
+            // Render select box for project
+            var projects = App.session.get('projects', function () {
+                return App.session('projects', new App.Collection.Projects());
+            });
+
+            selectBox = new App.Views.Core.Select({
+                el:this.form.get('project'),
+                collection:projects,
+                defaults:{
+                    selected:this.model.get('project')
+                }
+            });
+            projects.fetch();
+
+            var services = App.session.get('services', function () {
+                return App.session('services', new App.Collection.Services());
+            });
+            selectBox = new App.Views.Core.Select({
+                el:this.form.get('service'),
+                collection:services,
+                defaults:{
+                    selected:this.model.get('service')
+                }
+            });
+            services.fetch();
+
+            // Render timeslices
+            if (this.model.relation('timeslices')) {
+                this.activityList = new App.Views.Core.List({
+                    el:'#tab-timeslices',
+                    template:'#tpl-timeslices',
+                    templateEl:'#timeslices',
+                    model:this.model,
+                    collection:this.model.relation('timeslices'),
+                    defaults:{
+                        prefix:'timeslice-',
+
+                        item:{
+                            attributes:{ "class":"timeslice" },
+                            prepend:true,
+                            tagName:"tr",
+                            View:App.Views.Timeslice.Item
+                        }
+                    }
+                }).render();
+            } else {
+                $('a[href="#tab-timeslices"]', this.$el).remove();
+            }
+
+
+            return this;
+        }
+    }));
 
 })(jQuery, Dime);
