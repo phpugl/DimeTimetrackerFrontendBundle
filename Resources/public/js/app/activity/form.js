@@ -14,7 +14,7 @@
 
             // Set title
             if (this.defaults.title) {
-                $('h1.title', this.$el).text(this.defaults.title);
+                $('header.page-header h1', this.$el).text(this.defaults.title);
             }
 
             // Fill form
@@ -39,7 +39,7 @@
 
             // Render select box for project
             var projects = App.session.get('projects', function () {
-                return App.session('projects', new App.Collection.Projects());
+                return new App.Collection.Projects();
             });
 
             selectBox = new App.Views.Core.Select({
@@ -52,7 +52,7 @@
             projects.fetch();
 
             var services = App.session.get('services', function () {
-                return App.session('services', new App.Collection.Services());
+                return new App.Collection.Services();
             });
             selectBox = new App.Views.Core.Select({
                 el:this.form.get('service'),
@@ -73,7 +73,7 @@
                     collection:this.model.relation('timeslices'),
                     defaults:{
                         prefix:'timeslice-',
-
+                        emptyTemplate: '#tpl-timeslice-empty',
                         item:{
                             attributes:{ "class":"timeslice" },
                             prepend:true,

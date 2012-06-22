@@ -1,7 +1,7 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Activities/edit.html.twig #}
 <div id="activity-form" data-prefix="activity-">
-  <header>
-    <h1 class="title">Activity</h1>
+  <header class="page-header">
+    <h1>Activity</h1>
   </header>
   <ul class="nav nav-tabs">
     <li class="active"><a href="#tab-common" data-toggle="tab"><i class="icon-tasks"></i> Common</a></li>
@@ -88,6 +88,10 @@
       </tr>
     </tbody>
   </table>
+</script>
+
+<script type="text/template" id="tpl-timeslice-empty">
+    <td colspan="4">No time tracked.</td>
 </script>
 
 <script type="text/template" id="tpl-timeslice-item">
