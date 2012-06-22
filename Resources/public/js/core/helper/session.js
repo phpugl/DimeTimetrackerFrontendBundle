@@ -22,6 +22,8 @@
             set: function(key, value) {
                 if (key === undefined) throw 'No key given to add(key, value) function';
 
+                App.log(key);
+
                 store[key] = value;
 
                 return value;
@@ -33,15 +35,18 @@
              * @return {*}, value or the whole session
              */
             get: function(key, callback) {
-                if (store[key]) {
-                    return store[key];
-                }
+                if (key) {
+                    if (store[key]) {
+                        return store[key];
+                    }
 
-                if (callback && typeof callback == 'function') {
-                    return this.set(key, callback());
+                    if (callback && typeof callback == 'function') {
+                        return this.set(key, callback());
+                    }
+                    return undefined;
+                } else {
+                    return store;
                 }
-
-                return store;
             },
             /**
              * Check if the key exists
@@ -49,7 +54,7 @@
              * @return {Boolean}
              */
             has: function(key) {
-                return (store[key] === undefined);
+                return (key && store[key] !== undefined);
             },
             /**
              * remove the key when key given or the whole session will be cleaned
