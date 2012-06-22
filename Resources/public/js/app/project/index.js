@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Dime - app/project/index.js
  */
@@ -55,12 +56,29 @@
             'change #filter-customer':'filterCustomer'
         },
         initialize:function () {
-            this.projects = App.session('projects');
-            if (!this.projects) {
-                this.projects = App.session('projects', new App.Collection.Projects());
-            }
+            this.projects = App.session.get('projects', function () {
+                return new App.Collection.Projects();
+            });
+
+            this.customers = App.session.get('customers', function () {
+                return new App.Collection.Customers();
+            });
         },
         render:function () {
+            var filter = App.session.get('project-filter');
+
+            // Add customer list for filter customers
+            this.customerFilter = new App.Views.Core.Select({
+                el:'.filter-customer',
+                collection:this.customers,
+                defaults:{
+                    selected:(filter && filter['customer']) ? filter['customer'] : undefined,
+                    blankText:'Filter by Customer'
+                }
+            });
+            this.customerFilter.refetch();
+
+            // Create project list
             this.projectList = new App.Views.Core.List({
                 el:'#projects',
                 collection:this.projects,
@@ -75,51 +93,84 @@
                 }
             }).render();
 
-            var filter = App.session('project-filter');
-            this.projects.fetch({data:{ filter:filter } });
+            this.updateFilter();
 
-            var customers = App.session('customers');
-            if (!customers) {
-                customers = App.session('customers', new App.Collection.Customers());
-            }
-            this.customerFilter = new App.Views.Core.Select({
-                el:'.filter-customer',
-                collection:customers,
-                defaults:{
-                    selected:(filter && filter['customer']) ? filter['customer'] : undefined,
-                    blankText:'Filter by Customer'
-                }
-            });
-            this.customerFilter.refetch();
-
-            if (!$.isEmptyObject(filter)) {
-                $('#filter').show();
-            }
+            return this;
         },
         toggleFilter:function (e) {
-            e.preventDefault();
-            $('#filter').toggle();
+            if (e) {
+                e.preventDefault();
+            }
+
+            var filter = App.session.get('project-filter') || {};
+
+            filter['open'] = (filter.open) ? false : true;
+            $('#filter').toggle(filter.open);
+
+            App.session.set('project-filter', filter);
+
+            return this;
+        },
+        updateFilter:function () {
+            var filter = App.session.get('project-filter');
+            if (filter) {
+                var data = {};
+
+                // Display customer
+                if (filter.customer) {
+                    this.customerFilter.select(filter.customer);
+                    data['customer'] = filter.customer;
+                } else {
+                    this.customerFilter.select('');
+                }
+                // Fetch filtered project data
+                this.projects.fetch({ data:{ filter:data } });
+
+                if (filter.open) {
+                    $('#filter').show();
+                }
+            } else {
+                // Fetch project data
+                this.projects.fetch();
+            }
+            return this;
         },
         resetFilter:function (e) {
-            e.preventDefault();
-            var filter = App.session('project-filter', {});
-            this.customerFilter.select('')
-            $('#filter').toggle();
-            this.projects.fetch({data:{ filter:filter } });
+            if (e) {
+                e.preventDefault();
+            }
+
+            var filter = App.session.get('project-filter') || {};
+
+            if (filter.customer) {
+                delete filter.customer;
+            }
+
+            App.session.set('project-filter', filter);
+
+            this.updateFilter();
+            this.toggleFilter();
+
+            return this;
         },
         filterCustomer:function (e) {
-            e.preventDefault();
-            var filter = App.session('project-filter') || {},
+            if (e) {
+                e.preventDefault();
+            }
+
+            var filter = App.session.get('project-filter') || {},
                 value = $('#filter-customer').val();
 
             if (value && value.length > 0) {
-                filter['customer'] = $('#filter-customer').val();
+                filter['customer'] = value;
             } else {
                 delete filter.customer;
             }
 
-            App.session('project-filter', filter);
-            this.projects.fetch({data:{ filter: filter } });
+            App.session.set('project-filter', filter);
+            this.updateFilter();
+
+            return this;
         }
     }));
 
