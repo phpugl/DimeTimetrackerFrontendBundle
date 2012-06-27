@@ -22,8 +22,6 @@
             set: function(key, value) {
                 if (key === undefined) throw 'No key given to add(key, value) function';
 
-                App.log(key);
-
                 store[key] = value;
 
                 return value;
