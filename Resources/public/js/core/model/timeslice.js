@@ -1,18 +1,18 @@
-"use strict";
+'use strict';
 /**
  * Dime - model/timeslice.js
  *
  * Register Timeslice model to namespace App.
  */
-(function ($, App) {
+(function ($, Backbone, App, moment) {
 
     // create Timeslice model and add it to App.Model
     App.provide('Model.Timeslice', Backbone.Model.extend({
         urlRoot:App.Route.Timeslices,
         defaults:{
             duration:0,
-            startedAt: undefined,
-            stoppedAt: undefined
+            startedAt:undefined,
+            stoppedAt:undefined
         },
         relation:function (name, item, defaultValue) {
             var relation = this.get('relation'),
@@ -32,16 +32,6 @@
             } else {
                 return relation;
             }
-        },
-        prefillDate: function(name, value) {
-            var date = moment(value, 'YYYY-MM-DD HH:mm:ss'),
-                data = {};
-
-            data[name + '-date'] = date.format('YYYY-MM-DD');
-
-            this.set(data, {silent: true});
-
-            return this;
         },
         parse:function (response) {
             // bind activity relation
@@ -73,11 +63,28 @@
             return response;
         },
         validate:function (attrs) {
-            // concat date and time to one string
-            this.set({ startedAt: moment(attrs["startedAt-date"] + ' ' + attrs["startedAt-time"]).format('YYYY-MM-DD HH:mm:ss') }, {silent:true});
+            var format = 'YYYY-MM-DD HH:mm:ss';
 
-            // concat date and time to one string
-            this.set({ stoppedAt: moment(attrs["stoppedAt-date"] + ' ' + attrs["stoppedAt-time"]).format('YYYY-MM-DD HH:mm:ss') }, {silent:true});
+            if (attrs.duration && !attrs["startedAt-time"] && !attrs["stoppedAt-time"]) {
+                this.set({
+                    startedAt: moment(attrs["startedAt-date"] + ' 00:00:00', format).format(format),
+                    stoppedAt: moment(attrs["startedAt-date"] + ' 00:00:00', format).format(format)
+                }, {silent:true});
+            } else {
+                // concat date and time to one string
+                if (attrs["startedAt-date"] && attrs["startedAt-time"]) {
+                    this.set({
+                        startedAt: moment(attrs["startedAt-date"] + ' ' + attrs["startedAt-time"], format).format(format)
+                    }, {silent:true});
+                }
+
+                // concat date and time to one string
+                if (attrs["stoppedAt-date"] && attrs["stoppedAt-time"]) {
+                    this.set({
+                        stoppedAt: moment(attrs["stoppedAt-date"] + ' ' + attrs["stoppedAt-time"], format).format(format)
+                    }, {silent:true});
+                }
+            }
         },
         isRunning:function () {
             return this.get('duration') <= 0
@@ -88,5 +95,5 @@
         }
     }));
 
-})(jQuery, Dime);
+})(window.jQuery, window.Backbone, window.Dime, window.moment);
 
