@@ -92,38 +92,34 @@
 
                 // Display date
                 if (filter.date) {
-                    dateInput.data('date', filter['date'].format(dateInput.data('date-format')));
+                    dateInput.data('date', filter.date.format(dateInput.data('date-format')));
                     dateInput.data('date-period', filter['date-period']);
                     if (dateInput.data('datepicker')) {
                         dateInput.data('datepicker').update();
                     }
+
+                    var date = filter.date.clone(), text = '', help = '';
                     switch (filter['date-period']) {
-                        case 'W':
-                            var date = filter['date'].clone();
-                            date = [date.day(1).format('YYYY-MM-DD'), date.day(7).format('YYYY-MM-DD')];
-                            data['date'] = date;
-                            dateInput.text(date.join(' - '));
-                            dateText.text(date.join(' - '));
-                            break;
                         case 'D':
-                            var date = filter['date'].format('YYYY-MM-DD');
-                            data['date'] = date;
-                            dateInput.text(date);
-                            dateText.text(date);
+                            text = date.format('YYYY-MM-DD');
+                            data.date = date.format('YYYY-MM-DD');
+                            break;
+                        case 'W':
+                            text = 'Week ' + date.format('w, YYYY');
+                            data.date = [date.day(1).format('YYYY-MM-DD'), date.day(7).format('YYYY-MM-DD')];
                             break;
                         case 'M':
-                            var date = filter['date'].format('YYYY-MM');
-                            data['date'] = date;
-                            dateInput.text(date);
-                            dateText.text(date);
+                            text = date.format('MMM YYYY');
+                            data.date = date.format('YYYY-MM');
                             break;
                         case 'Y':
-                            var date = filter['date'].format('YYYY');
-                            data['date'] = date;
-                            dateInput.text(date);
-                            dateText.text(date);
+                            text = date.format('YYYY');
+                            data.date = date.format('YYYY');
                             break;
                     }
+
+                    dateInput.attr('title', text);
+                    dateText.text(text);
                 }
 
                 // Display customer

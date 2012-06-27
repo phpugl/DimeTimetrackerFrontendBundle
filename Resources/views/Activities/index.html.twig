@@ -1,19 +1,29 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Dashboard/index.html.twig #}
-<header class="page-header">
-  <div class="pull-right">
 
-      <button id="filter-button" class="btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show filter</i></button>
-      <a href="#activity/add" class="btn btn-large" title="Add activity"><i class="icon-plus"></i></a>
-  </div>
-  <h1>Activity <small id="filter-date-text">{{ 'now'|date('Y-m-d') }}</small></h1>
+<header class="page-header">
+    <div class="pull-right">
+        <button id="filter-date" class="btn btn-large" data-toggle="datepicker" data-date="{{ 'now'|date('Y-m-d') }}"
+                data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="D" data-date-weekstart="1"
+                data-date-autoclose="true"><i class="icon-calendar"></i> <span id="filter-date-text" class="hidden-phone">{{ 'now'|date('Y-m-d') }}</span></button>
+        <button id="filter-button" class="btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show filter</i></button>
+        <a href="#activity/add" class="btn btn-large" title="Add activity"><i class="icon-plus"></i></a>
+    </div>
+    <h1>Activity</h1>
 </header>
 
 <ul id="filter" class="nav nav-list hide">
     <li class="nav-header">Filter</li>
-    <li><i class="icon-calendar hide-text">Date</i><span id="filter-date" class="filter" data-toggle="datepicker" data-date="{{ 'now'|date('Y-m-d') }}" data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="D" data-date-weekstart="1" data-date-autoclose="true">{{ 'now'|date('Y-m-d') }}</span></li>
-    <li><i class="icon-user hide-text">Customer</i><select id="filter-customer" class="filter filter-customer input-medium" title="by customer"><option>by customer</option></select></li>
-    <li><button id="filter-reset" class="btn">Reset</button></li>
+    <!--<li><i class="icon-calendar hide-text">Date</i><span id="filter-date" class="filter" data-toggle="datepicker" data-date="{{ 'now'|date('Y-m-d') }}" data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="D" data-date-weekstart="1" data-date-autoclose="true">{{ 'now'|date('Y-m-d') }}</span></li>-->
+    <li><i class="icon-user hide-text">Customer</i><select id="filter-customer"
+                                                           class="filter filter-customer input-medium"
+                                                           title="by customer">
+        <option>by customer</option>
+    </select></li>
+    <li>
+        <button id="filter-reset" class="btn">Reset</button>
+    </li>
 </ul>
+
 
 <div id="activities" class="loading"></div>
 
@@ -22,45 +32,48 @@
 </script>
 
 <script type="text/template" id="tpl-activity-item">
-  <h3 class="title">
-    <div class="btn-toolbar pull-right">
-      <div class="btn-group">
-      <% if (model.runningTimeslice()) { %>
-        <button class="track stop btn btn-danger"><i class="icon-time icon-white"></i></button>
-      <% } else { %>
-        <button class="track start btn btn-success"><i class="icon-time icon-white"></i></button>
-      <% } %>
-      <span data-duration="<%- data.duration %>" class="duration btn disabled"><%- model.formatDuration(data.duration) %></span>
-      </div>
+    <h3 class="title">
+        <div class="btn-toolbar pull-right">
+            <div class="btn-group">
+                <% if (model.runningTimeslice()) { %>
+                <button class="track stop btn btn-danger"><i class="icon-time icon-white"></i></button>
+                <% } else { %>
+                <button class="track start btn btn-success"><i class="icon-time icon-white"></i></button>
+                <% } %>
+                <span data-duration="<%- data.duration %>" class="duration btn disabled"><%- model.formatDuration(data.duration) %></span>
+            </div>
+        </div>
+        <%- model.shortDescription(50) %>
+        <% if (model.relation('customer')) { %>
+        <span class="alias">@<%- model.relation('customer', 'alias') %></span>
+        <% } %>
+        <% if (model.relation('project')) { %>
+        <span class="alias">/<%- model.relation('project', 'alias') %></span>
+        <% } %>
+    </h3>
+    <div class="details">
+        <% if (data.description) { %>
+        <pre><%- data.description %></pre>
+        <% } %>
+        <div class="pull-right">
+            <a class="edit" href="#activity/<%- data.id %>/timeslice/add"><i class="icon-plus"></i> Timeslice</a>
+            <a class="edit" href="#activity/<%- data.id %>/edit"><i class="icon-pencil"></i> Edit</a>
+            <a class="delete" href="#activity/<%- data.id %>/delete"><i class="icon-remove"></i> Delete</a>
+        </div>
+        <p>
+            <% if (model.relation('customer')) { %>
+            <a href="#customer/<%- model.relation('customer', 'id') %>/edit"
+               title="@<%- model.relation('customer', 'alias') %>"><%- model.relation('customer', 'name') %></a>
+            <% } %>
+            <% if (model.relation('project')) { %>
+            /<a href="#project/<%- model.relation('project', 'id') %>/edit"
+                title="@<%- model.relation('project', 'alias') %>"><%- model.relation('project', 'name') %></a>
+            <% } %>
+            <% if (model.relation('service')) { %>
+            :<a href="#service/<%- model.relation('service', 'id') %>/edit"
+                title="@<%- model.relation('service', 'alias') %>"><%- model.relation('service', 'name') %></a>
+            <% } %>
+            &nbsp;
+        </p>
     </div>
-    <%- model.shortDescription(50) %>
-    <% if (model.relation('customer')) { %>
-    <span class="alias">@<%- model.relation('customer', 'alias') %></span>
-    <% } %>
-    <% if (model.relation('project')) {  %>
-    <span class="alias">/<%- model.relation('project', 'alias') %></span>
-    <% } %>
-  </h3>
-  <div class="details">
-    <% if (data.description) { %>
-    <pre><%- data.description %></pre>
-    <% } %>
-    <div class="pull-right">
-      <a class="edit" href="#activity/<%- data.id %>/timeslice/add"><i class="icon-plus"></i> Timeslice</a>
-      <a class="edit" href="#activity/<%- data.id %>/edit"><i class="icon-pencil"></i> Edit</a>
-      <a class="delete" href="#activity/<%- data.id %>/delete"><i class="icon-remove"></i> Delete</a>
-    </div>
-    <p>
-    <% if (model.relation('customer')) { %>
-    <a href="#customer/<%- model.relation('customer', 'id') %>/edit" title="@<%- model.relation('customer', 'alias') %>"><%- model.relation('customer', 'name') %></a>
-    <% } %>
-    <% if (model.relation('project')) { %>
-    /<a href="#project/<%- model.relation('project', 'id') %>/edit" title="@<%- model.relation('project', 'alias') %>"><%- model.relation('project', 'name') %></a>
-    <% } %>
-    <% if (model.relation('service')) { %>
-    :<a href="#service/<%- model.relation('service', 'id') %>/edit"  title="@<%- model.relation('service', 'alias') %>"><%- model.relation('service', 'name') %></a>
-    <% } %>
-    &nbsp;
-    </p>
-  </div>
 </script>
