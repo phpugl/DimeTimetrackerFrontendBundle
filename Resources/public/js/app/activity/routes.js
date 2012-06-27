@@ -57,8 +57,10 @@
             activity:activity.get('id')
         });
 
-        model.prefillDate('startedAt', moment().format('YYYY-MM-DD'));
-        model.prefillDate('stoppedAt', moment().format('YYYY-MM-DD'));
+        model.set({
+            'startedAt-date': moment().format('YYYY-MM-DD'),
+            'stoppedAt-date': moment().format('YYYY-MM-DD')
+        }, {silent: true});
 
         App.UI.menu.activateItem('activity');
         App.UI.router.switchView(new App.Views.Timeslice.Form({
