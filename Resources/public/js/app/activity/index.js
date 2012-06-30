@@ -13,7 +13,8 @@
             'click #filter-reset':'resetFilter',
             'changeDate #filter-date':'filterDate',
             'change #filter-customer':'filterCustomer',
-            'change #filter-project':'filterProject'
+            'change #filter-project':'filterProject',
+            'change #filter-service':'filterService'
         },
         initialize:function () {
             // Bind all to this, because you want to use
@@ -31,6 +32,10 @@
             this.projects = App.session.get('projects', function () {
                 return new App.Collection.Projects();
             });
+
+            this.services = App.session.get('services', function () {
+                return new App.Collection.Services();
+            });
         },
         render:function () {
             var filter = App.session.get('activity-filter');
@@ -45,7 +50,7 @@
             });
             this.customerFilter.refetch();
 
-            // Render a customer select list
+            // Render a project select list
             this.projectFilter = new App.Views.Core.Select({
                 el:'.filter-project',
                 collection:this.projects,
@@ -54,6 +59,16 @@
                 }
             });
             this.projectFilter.refetch();
+
+            // Render a service select list
+            this.serviceFilter = new App.Views.Core.Select({
+                el:'.filter-service',
+                collection:this.services,
+                defaults:{
+                    blankText:'Filter by Service'
+                }
+            });
+            this.serviceFilter.refetch();
 
             // Render activities list
             this.list = new App.Views.Core.List({
@@ -153,6 +168,14 @@
                     this.projectFilter.select('');
                 }
 
+                // Display services
+                if (filter.service) {
+                    this.serviceFilter.select(filter.service);
+                    data['service'] = filter.service;
+                } else {
+                    this.serviceFilter.select('');
+                }
+
                 // fetch activities
                 this.activities.fetch({ data: { filter:data } });
 
@@ -229,7 +252,26 @@
             if (value && value.length > 0) {
                 filter['project'] = value;
             } else {
-                delete filter.projects;
+                delete filter.project;
+            }
+
+            App.session.set('activity-filter', filter);
+            this.updateFilter();
+
+            return this;
+        },
+        filterService:function (e) {
+            if (e) {
+                e.preventDefault();
+            }
+
+            var filter = App.session.get('activity-filter') || {},
+                value = $('#filter-service').val();
+
+            if (value && value.length > 0) {
+                filter['service'] = value;
+            } else {
+                delete filter.service;
             }
 
             App.session.set('activity-filter', filter);
