@@ -12,7 +12,8 @@
             'click #filter-button':'toggleFilter',
             'click #filter-reset':'resetFilter',
             'changeDate #filter-date':'filterDate',
-            'change #filter-customer':'filterCustomer'
+            'change #filter-customer':'filterCustomer',
+            'change #filter-project':'filterProject'
         },
         initialize:function () {
             // Bind all to this, because you want to use
@@ -25,6 +26,10 @@
 
             this.customers = App.session.get('customers', function () {
                 return new App.Collection.Customers();
+            });
+
+            this.projects = App.session.get('projects', function () {
+                return new App.Collection.Projects();
             });
         },
         render:function () {
@@ -39,6 +44,16 @@
                 }
             });
             this.customerFilter.refetch();
+
+            // Render a customer select list
+            this.projectFilter = new App.Views.Core.Select({
+                el:'.filter-project',
+                collection:this.projects,
+                defaults:{
+                    blankText:'Filter by Project'
+                }
+            });
+            this.projectFilter.refetch();
 
             // Render activities list
             this.list = new App.Views.Core.List({
@@ -130,6 +145,14 @@
                     this.customerFilter.select('');
                 }
 
+                // Display projects
+                if (filter.project) {
+                    this.projectFilter.select(filter.project);
+                    data['project'] = filter.project;
+                } else {
+                    this.projectFilter.select('');
+                }
+
                 // fetch activities
                 this.activities.fetch({ data: { filter:data } });
 
@@ -188,6 +211,25 @@
                 filter['customer'] = value;
             } else {
                 delete filter.customer;
+            }
+
+            App.session.set('activity-filter', filter);
+            this.updateFilter();
+
+            return this;
+        },
+        filterProject:function (e) {
+            if (e) {
+                e.preventDefault();
+            }
+
+            var filter = App.session.get('activity-filter') || {},
+                value = $('#filter-project').val();
+
+            if (value && value.length > 0) {
+                filter['project'] = value;
+            } else {
+                delete filter.projects;
             }
 
             App.session.set('activity-filter', filter);
