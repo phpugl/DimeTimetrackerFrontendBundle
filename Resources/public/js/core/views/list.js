@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
 /**
  * Dime - core/views/list.js
  */
-(function ($, App) {
+(function ($, Backbone, _, App) {
 
     // Create list item view in App.Views.Core
     App.provide('Views.Core.ListItem', Backbone.View.extend({
@@ -51,8 +51,9 @@
     // provide list view in App.Views.Core
     App.provide('Views.Core.List', Backbone.View.extend({
         defaults:{
-            prefix:'',
+            fetch: false,
             emptyTemplate: false,
+            prefix:'',
             item:{
                 attributes:{},
                 prepend:false,
@@ -88,7 +89,7 @@
                 }
             }
         },
-        render:function () {
+        render:function (fetchOpt) {
             // grep template with jquery and generate template stub
             if (this.template) {
                 var temp = _.template($(this.template).html());
@@ -102,7 +103,12 @@
                 this.setElement(this.templateEl);
             }
 
-            this.addAll();
+            if (this.collection && this.collection.length > 0) {
+                this.addAll();
+            } else if (this.defaults.fetch) {
+                this.collection.fetch(fetchOpt);
+            }
+
             return this;
         },
         remove:function () {
@@ -174,4 +180,4 @@
         }
     }));
 
-})(jQuery, Dime);
+})(window.jQuery, window.Backbone, window._, window.Dime);
