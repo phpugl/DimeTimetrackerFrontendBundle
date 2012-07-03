@@ -18,6 +18,7 @@
             });
         },
         render:function () {
+            // Render filter
             this.filter = new App.Views.Core.Filter({
                 el: this.el,
                 collection: this.activities,
@@ -25,6 +26,12 @@
                     name: 'activity-filter'
                 }
             }).render();
+
+            // Render pager
+            this.pager = new App.Views.Core.Pager({
+                collection: this.activities
+            });
+            $('.pagination').html(this.pager.render().el);
 
             // Render activities list
             this.list = new App.Views.Core.List({

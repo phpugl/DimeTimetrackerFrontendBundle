@@ -112,10 +112,10 @@
             var filter = App.session.get(this.defaults.name);
 
             if (filter) {
+                var data = {};
                 // Display date
                 if (this.defaults.ui.dates && filter.date) {
-                    var data = {},
-                        dateInput = $(this.defaults.ui.dates), dateText = $(this.defaults.ui.dates + '-text');
+                    var dateInput = $(this.defaults.ui.dates), dateText = $(this.defaults.ui.dates + '-text');
 
                     dateInput.data('date', filter.date.format(dateInput.data('date-format')));
                     dateInput.data('date-period', filter['date-period']);
@@ -189,13 +189,13 @@
                 }
 
                 // fetch activities
-                this.collection.fetch({ data: { filter:data } });
+                this.collection.addFetchData({ filter:data });
+            }
 
-                if (filter.open) {
-                    $('#filter').show();
-                }
-            } else {
-                this.collection.fetch();
+            this.collection.load();
+
+            if (filter && filter.open) {
+                $('#filter').show();
             }
         },
         resetFilter:function (e) {
@@ -300,7 +300,7 @@
                 e.preventDefault();
             }
 
-            var filter = App.session.get('customer-filter') || {},
+            var filter = App.session.get(this.defaults.name) || {},
                 value = $('#filter-search').val();
 
             // TODO intelligent update
@@ -310,7 +310,7 @@
                 delete filter.search;
             }
 
-            App.session.set('customer-filter', filter);
+            App.session.set(this.defaults.name, filter);
             this.updateFilter();
 
             return this;

@@ -8,7 +8,7 @@
 (function ($, App) {
 
   // Create Timeslices collection and add it to App.Collection
-  App.provide('Collection.Timeslices', Backbone.Collection.extend({
+  App.provide('Collection.Timeslices', App.Collection.Base.extend({
     model: App.Model.Timeslice,
     url: App.Route.Timeslices,
     duration: function() {

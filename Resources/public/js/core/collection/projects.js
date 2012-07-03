@@ -8,7 +8,7 @@
 (function ($, App) {
 
   // Create Projects collection and add it to App.Collection
-  App.provide('Collection.Projects', Backbone.Collection.extend({
+  App.provide('Collection.Projects', App.Collection.Base.extend({
     model: App.Model.Project,
     url: App.Route.Projects
   }));
