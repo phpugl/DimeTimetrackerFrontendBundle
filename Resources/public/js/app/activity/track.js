@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /*
  * Dime - app/activity/track.js

@@ -1,8 +1,9 @@
+'use strict';
+
 /**
  * Dime - app/project/item.js
  */
 (function ($, App) {
-  
   // Create item view in App.Views.Project
   App.provide('Views.Project.Item', App.Views.Core.ListItem.extend({
     events: {

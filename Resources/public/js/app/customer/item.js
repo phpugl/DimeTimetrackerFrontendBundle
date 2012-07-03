@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Dime - app/customer/item.js
  */

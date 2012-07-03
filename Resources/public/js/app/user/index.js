@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Dime - app/service/index.js
  */

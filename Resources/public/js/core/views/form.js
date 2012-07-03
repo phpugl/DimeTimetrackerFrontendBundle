@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /*
  * Dime - core/view/form.js

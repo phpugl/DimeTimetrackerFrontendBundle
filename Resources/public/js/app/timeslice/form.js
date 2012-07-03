@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Dime - app/timeslice/form.js
  */

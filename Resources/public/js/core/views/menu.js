@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Dime - core/views/menu.js
  */

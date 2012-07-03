@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Dime - model/customer.js
  *

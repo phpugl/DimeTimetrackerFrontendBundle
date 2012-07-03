@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Dime - app/activity/timeslice.item.js
  */

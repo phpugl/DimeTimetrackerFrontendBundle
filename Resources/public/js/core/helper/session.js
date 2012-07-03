@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * Dime - core/helper/session.js
