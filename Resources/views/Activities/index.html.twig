@@ -13,22 +13,28 @@
 
 <ul id="filter" class="nav nav-list hide">
     <li class="nav-header">Filter</li>
-    <!--<li><i class="icon-calendar hide-text">Date</i><span id="filter-date" class="filter" data-toggle="datepicker" data-date="{{ 'now'|date('Y-m-d') }}" data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="D" data-date-weekstart="1" data-date-autoclose="true">{{ 'now'|date('Y-m-d') }}</span></li>-->
-    <li><i class="icon-user hide-text">Customer</i><select id="filter-customer"
-                                                           class="filter filter-customer input-medium"
-                                                           title="by customer">
-        <option>by customer</option>
-    </select></li>
-    <li><i class="icon-user hide-text">Project</i><select id="filter-project"
-                                                           class="filter filter-project input-medium"
-                                                           title="by project">
-        <option>by project</option>
-    </select></li>
-    <li><i class="icon-user hide-text">Service</i><select id="filter-service"
-                                                          class="filter filter-service input-medium"
-                                                          title="by service">
-        <option>by service</option>
-    </select></li>
+    <li>
+        <i class="icon-user hide-text">Customer</i>
+        <select id="filter-customer" class="filter filter-customer input-medium" title="by customer">
+            <option>by customer</option>
+        </select>
+    </li>
+    <li>
+        <i class="icon-folder-open hide-text">Project</i>
+        <select id="filter-project" class="filter filter-project input-medium" title="by project">
+            <option>by project</option>
+        </select>
+    </li>
+    <li>
+        <i class="icon-wrench hide-text">Service</i>
+        <select id="filter-service" class="filter filter-service input-medium" title="by service">
+            <option>by service</option>
+        </select>
+    </li>
+    <li>
+        <i class="icon-search hide-text">Search</i>
+        <input id="filter-search" class="filter filter-search input-medium" title="Search" placeholder="Search...">
+    </li>
     <li>
         <button id="filter-reset" class="btn">Reset</button>
     </li>
