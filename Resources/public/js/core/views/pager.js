@@ -108,12 +108,14 @@
                 }));
             }
 
-            for (i=1; i<=pager.total; i++) {
-                this.addView(new App.Views.Core.PagerItem({
-                    collection: this.collection,
-                    text: i,
-                    current: (i==pager.current)
-                }));
+            if (pager.total > 1) {
+                for (i=1; i<=pager.total; i++) {
+                    this.addView(new App.Views.Core.PagerItem({
+                        collection: this.collection,
+                        text: i,
+                        current: (i==pager.current)
+                    }));
+                }
             }
 
             if (pager.next) {

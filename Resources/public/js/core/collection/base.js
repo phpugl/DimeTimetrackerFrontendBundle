@@ -11,7 +11,7 @@
     App.provide('Collection.Base', Backbone.Collection.extend({
         fetchData: {},
         pager:{
-            count:5,
+            count:20,
             page:1,
             total:0
         },
