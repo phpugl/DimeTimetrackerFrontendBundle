@@ -11,13 +11,13 @@
     App.provide('Collection.Base', Backbone.Collection.extend({
         fetchData: {},
         pager:{
-            count:20,
+            count:5,
             page:1,
             total:0
         },
         addFetchData:function (opt) {
             if (opt) {
-                this.fetchData = $.extend(true, {}, this.fetchData, opt);
+                this.fetchData = _.extend({}, this.fetchData, opt);
             }
             return this;
         },
