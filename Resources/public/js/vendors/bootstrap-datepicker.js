@@ -1,3 +1,4 @@
+'use strict';
 /* =========================================================
  * bootstrap-datepicker.js
  * http://www.eyecon.ro/bootstrap-datepicker
@@ -19,7 +20,7 @@
  * limitations under the License.
  * ========================================================= */
 
-!function( $ ) {
+!(function ( $ ) {
 
     // Picker object
 
@@ -38,8 +39,9 @@
             });
         this.isInput = this.element.is('input');
         this.component = this.element.is('.date') ? this.element.find('.add-on') : false;
-        if(this.component && this.component.length === 0)
+        if(this.component && this.component.length === 0) {
             this.component = false;
+        }
 
         if (this.isInput) {
             this.element.on({
@@ -58,13 +60,12 @@
                     keydown: $.proxy(this.keydown, this)
                 });
 
-                this.component.on('click', $.proxy(this.show, this));
-                var element = this.element.find('input');
-                element.on({
+                this.component.on('click', $.proxy(this.toggle, this));
+                this.element.find('input').on({
                     blur: $.proxy(this._hide, this)
-                })
+                });
             } else {
-                this.element.on('click', $.proxy(this.show, this));
+               this.element.on('click', $.proxy(this.toggle, this));
             }
         }
 
@@ -84,8 +85,6 @@
             case 'year':
                 this.viewMode = this.startViewMode = 1;
                 break;
-            case 0:
-            case 'month':
             default:
                 this.viewMode = this.startViewMode = 0;
                 break;
@@ -106,8 +105,16 @@
     Datepicker.prototype = {
         constructor: Datepicker,
 
+        toggle: function(e) {
+           if (this.picker.data('datepicker-show')) {
+               this._hide(e);
+           } else {
+               this.show(e);
+           }
+        },
+
         show: function(e) {
-            this.picker.show();
+            this.picker.data('datepicker-show', true).show();
             this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
             this.place();
             $(window).on('resize', $.proxy(this.place, this));
@@ -131,16 +138,16 @@
             if ($.browser.msie) {
                 var t = this, args = arguments;
 
-                function cancel_hide(){
+                var cancel_hide = function(){
                     clearTimeout(hide_timeout);
                     e.target.focus();
                     t.picker.off('click', cancel_hide);
-                }
+                };
 
-                function do_hide(){
+                var do_hide = function (){
                     t.hide.apply(t, args);
                     t.picker.off('click', cancel_hide);
-                }
+                };
 
                 this.picker.on('click', cancel_hide);
                 var hide_timeout = setTimeout(do_hide, 100);
@@ -150,15 +157,17 @@
         },
 
         hide: function(e){
-            this.picker.hide();
+            this.picker.data('datepicker-show', false).hide();
             $(window).off('resize', this.place);
             this.viewMode = this.startViewMode;
             this.showMode();
             if (!this.isInput) {
                 $(document).off('mousedown', this.hide);
             }
-            if (e && e.currentTarget.value)
+            if (e && e.currentTarget.value) {
                 this.setValue();
+            }
+
             this.element.trigger({
                 type: 'hide',
                 date: this.date
@@ -238,7 +247,7 @@
 
         fillMonths: function(){
             var html = '';
-            var i = 0
+            var i = 0;
             while (i < 12) {
                 html += '<span class="month">'+dates[this.language].monthsShort[i++]+'</span>';
             }
@@ -266,7 +275,7 @@
             var nextMonth = new Date(prevMonth);
             nextMonth.setDate(nextMonth.getDate() + 42);
             nextMonth = nextMonth.valueOf();
-            html = [];
+            var html = [];
             var clsName;
             while(prevMonth.valueOf() < nextMonth) {
                 if (prevMonth.getDay() == this.weekStart) {
@@ -482,7 +491,7 @@
         },
 
         moveMonth: function(date, dir){
-            if (!dir) return date;
+            if (!dir) { return date; }
             var new_date = new Date(date.valueOf()),
                 day = new_date.getDate(),
                 month = new_date.getMonth(),
@@ -500,13 +509,15 @@
                 new_month = month + dir;
                 new_date.setMonth(new_month);
                 // Dec -> Jan (12) or Jan -> Dec (-1) -- limit expected date to 0-11
-                if (new_month < 0 || new_month > 11)
+                if (new_month < 0 || new_month > 11) {
                     new_month = (new_month + 12) % 12;
+                }
             } else {
                 // For magnitudes >1, move one month at a time...
-                for (var i=0; i<mag; i++)
+                for (var i=0; i<mag; i++) {
                     // ...which might decrease the day (eg, Jan 31 to Feb 28, etc)...
                     new_date = this.moveMonth(new_date, dir);
+                }
                 // ...then reset the day, keeping it in the new month
                 new_month = new_date.getMonth();
                 new_date.setDate(day);
@@ -527,8 +538,9 @@
 
         keydown: function(e){
             if (this.picker.is(':not(:visible)')){
-                if (e.keyCode == 27) // allow escape to hide and re-show picker
+                if (e.keyCode == 27) { // allow escape to hide and re-show picker
                     this.show();
+                }
                 return;
             }
             var dateChanged = false,
@@ -540,7 +552,7 @@
                     break;
                 case 37: // left
                 case 39: // right
-                    dir = e.keyCode == 37 ? -1 : 1;
+                    dir = (e.keyCode == 37) ? -1 : 1;
                     if (e.ctrlKey){
                         this.date = this.moveYear(this.date, dir);
                         this.viewDate = this.moveYear(this.viewDate, dir);
@@ -558,7 +570,7 @@
                     break;
                 case 38: // up
                 case 40: // down
-                    dir = e.keyCode == 38 ? -1 : 1;
+                    dir = (e.keyCode == 38) ? -1 : 1;
                     if (e.ctrlKey){
                         this.date = this.moveYear(this.date, dir);
                         this.viewDate = this.moveYear(this.viewDate, dir);
@@ -624,7 +636,7 @@
             if (!data) {
                 $this.data('datepicker', (data = new Datepicker(this, $.extend({}, $.fn.datepicker.defaults,options))));
             }
-            if (typeof option == 'string') data[option].apply(data, args);
+            if (typeof option == 'string') { data[option].apply(data, args); }
         });
     };
 
@@ -639,7 +651,7 @@
             months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
             monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         }
-    }
+    };
 
     $.fn.datepicker.DPGlobal = {
         modes: [
@@ -717,14 +729,24 @@
     $(function () {
         $('body').on('click.datepicker.data-api', '[data-toggle="datepicker"]', function (e) {
             e.preventDefault();
-            $(this).datepicker('show');
+            var $this = $(this);
+            if ($this.is(':visible')) {
+                $(this).datepicker();
+            } else {
+                $(this).datepicker();
+            }
         });
         $('body').on('focus.datepicker.data-api', '[data-toggle="datepicker"]', function (e) {
             e.preventDefault();
-            $(this).datepicker('show');
+            var $this = $(this);
+            if ($this.is(':visible')) {
+                $(this).datepicker('hide');
+            } else {
+                $(this).datepicker('show');
+            }
         });
     });
 
-}( window.jQuery );
+})( window.jQuery );
 
 
