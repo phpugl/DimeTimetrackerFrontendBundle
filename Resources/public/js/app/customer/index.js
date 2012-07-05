@@ -57,6 +57,7 @@
             });
         },
         render:function () {
+            // Render filter
             this.filter = new App.Views.Core.Filter({
                 el: this.el,
                 collection: this.customers,
@@ -71,6 +72,14 @@
                 }
             }).render();
 
+            // Render pager
+            this.pager = new App.Views.Core.Pager({
+                collection: this.customers
+            });
+            $('.pagination').html(this.pager.render().el);
+
+
+            // Render customer list
             this.customerList = new App.Views.Core.List({
                 el:'#customers',
                 collection:this.customers,

@@ -57,6 +57,7 @@
             });
         },
         render:function () {
+            // Render filter
             this.filter = new App.Views.Core.Filter({
                 el: this.el,
                 collection: this.services,
@@ -71,6 +72,14 @@
                 }
             }).render();
 
+            // Render pager
+            this.pager = new App.Views.Core.Pager({
+                collection: this.services
+            });
+            $('.pagination').html(this.pager.render().el);
+
+
+            // Render service list
             this.serviceList = new App.Views.Core.List({
                 el:'#services',
                 collection:this.services,

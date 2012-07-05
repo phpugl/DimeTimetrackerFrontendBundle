@@ -57,6 +57,7 @@
             });
         },
         render:function () {
+            // Render filter
             this.filter = new App.Views.Core.Filter({
                 el: this.el,
                 collection: this.projects,
@@ -69,6 +70,12 @@
                     }
                 }
             }).render();
+
+            // Render pager
+            this.pager = new App.Views.Core.Pager({
+                collection: this.projects
+            });
+            $('.pagination').html(this.pager.render().el);
 
             // Create project list
             this.projectList = new App.Views.Core.List({
