@@ -192,6 +192,7 @@
                 this.collection.addFetchData({ filter:data });
             }
 
+            this.collection.resetPager();
             this.collection.load();
 
             if (filter && filter.open) {

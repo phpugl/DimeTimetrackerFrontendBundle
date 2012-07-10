@@ -10,11 +10,7 @@
     // Create Customers collection and add it to App.Collection
     App.provide('Collection.Base', Backbone.Collection.extend({
         fetchData: {},
-        pager:{
-            count:20,
-            page:1,
-            total:0
-        },
+        pager:{},
         addFetchData:function (opt) {
             if (opt) {
                 this.fetchData = _.extend({}, this.fetchData, opt);
@@ -46,6 +42,13 @@
                 next: (this.pager.page < this.pageCount()),
                 total: this.pageCount()
             };
+        },
+        resetPager:function () {
+          this.pager = {
+              count:20,
+              page:1,
+              total:0
+          };
         },
         getPagerOptions:function () {
             var offset = (this.pager.page - 1) * this.pager.count;
