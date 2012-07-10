@@ -42,7 +42,7 @@
                     emptyTemplate: '#tpl-activity-empty',
                     item:{
                         attributes:{ "class":"activity" },
-                        prepend:true,
+                        prependNew:true,
                         tagName:"section",
                         template:'#tpl-activity-item',
                         View:App.Views.Activity.Item

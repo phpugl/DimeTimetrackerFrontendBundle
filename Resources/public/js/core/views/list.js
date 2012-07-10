@@ -57,6 +57,7 @@
             item:{
                 attributes:{},
                 prepend:false,
+                prependNew:false,
                 tagName:'div',
                 template:'',
                 View:App.Views.Core.ListItem
@@ -111,6 +112,15 @@
 
             return this;
         },
+        renderItem:function (model) {
+            return new this.defaults.item.View({
+                model:model,
+                prefix:this.defaults.prefix,
+                attributes:this.defaults.item.attributes,
+                tagName:this.defaults.item.tagName,
+                template:this.defaults.item.template
+            }).render();
+        },
         remove:function () {
             if (this.collection) {
                 this.collection.off();
@@ -128,7 +138,19 @@
                     this.$el.html(temp());
                     this.defaults.isEmpty = true;
                 } else {
-                    this.collection.each(this.addOne);
+
+                    if (this.defaults.isEmpty) {
+                        this.$el.html('');
+                        this.defaults.isEmpty = false;
+                    }
+
+                    this.collection.each(function(model) {
+                        if (this.defaults.item.prepend) {
+                            this.$el.prepend(this.renderItem(model).el);
+                        } else {
+                            this.$el.append(this.renderItem(model).el);
+                        }
+                    }, this);
                 }
             } else {
                 if (this.defaults.emptyTemplate) {
@@ -146,33 +168,17 @@
                 this.defaults.isEmpty = false;
             }
 
-            var item = new this.defaults.item.View({
-                model:model,
-                prefix:this.defaults.prefix,
-                attributes:this.defaults.item.attributes,
-                tagName:this.defaults.item.tagName,
-                template:this.defaults.item.template
-            }).render().el;
-
-
-            if (this.defaults.item.prepend) {
-                this.$el.prepend(item);
+            if (this.defaults.item.prependNew) {
+                this.$el.prepend(this.renderItem(model).el);
             } else {
-                this.$el.append(item);
+                this.$el.append(this.renderItem(model).el);
             }
 
             return this;
         },
         change:function (model) {
             if (model.id != undefined) {
-                $('#' + this.defaults.prefix + model.id).replaceWith(new this.defaults.item.View({
-                    model:model,
-                    prefix:this.defaults.prefix,
-                    attributes:this.defaults.item.attributes,
-                    tagName:this.defaults.item.tagName,
-                    template:this.defaults.item.template
-                }).render().el
-                );
+                $('#' + this.defaults.prefix + model.id).replaceWith(this.renderItem(model).el);
             } else { // run addAll if item has no Id
                 this.addAll();
             }
