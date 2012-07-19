@@ -7,10 +7,40 @@
  */
 (function ($, Backbone, _, App) {
 
-    // Create Customers collection and add it to App.Collection
+    // Create Base collection and add it to App.Collection
     App.provide('Collection.Base', Backbone.Collection.extend({
         fetchData: {},
         pager:{},
+        filter: function(filter) {
+            if (filter) {
+                var data = {};
+                for (var name in filter) {
+                    if (filter.hasOwnProperty(name)) {
+                        switch (name) {
+                            case 'date':var date = filter.date.clone();
+                                switch (filter['date-period']) {
+                                    case 'D':
+                                        data.date = date.format('YYYY-MM-DD');
+                                        break;
+                                    case 'W':
+                                        data.date = [date.day(1).format('YYYY-MM-DD'), date.day(7).format('YYYY-MM-DD')];
+                                        break;
+                                    case 'M':
+                                        data.date = date.format('YYYY-MM');
+                                        break;
+                                    case 'Y':
+                                        data.date = date.format('YYYY');
+                                        break;
+                                }
+                                break;
+                            default:
+                                data[name] = filter[name];
+                        }
+                    }
+                }
+                this.addFetchData({ filter: data });
+            }
+        },
         addFetchData:function (opt) {
             if (opt) {
                 this.fetchData = _.extend({}, this.fetchData, opt);

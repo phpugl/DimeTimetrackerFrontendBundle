@@ -23,9 +23,9 @@
                 toggleButton: '#filter-button',
                 resetButton: '#filter-reset',
                 dates: '#filter-date',
-                customers: '#filter-customers',
-                projects: '#filter-projects',
-                services: '#filter-services',
+                customers: '#filter-customer',
+                projects: '#filter-project',
+                services: '#filter-service',
                 search: '#filter-search'
             }
         },
@@ -36,6 +36,10 @@
 
             if (opt && opt.defaults) {
                 this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
+            }
+
+            if (this.defaults.events) {
+                this.events = $.extend(true, {}, this.events, this.defaults.events);
             }
 
             if (this.defaults.ui.customers) {
@@ -62,7 +66,7 @@
             // Render a customer select list
             if (this.defaults.ui.customers) {
                 this.customerFilter = new App.Views.Core.Select({
-                    el:'.filter-customer',
+                    el:this.defaults.ui.customers,
                     collection:this.customers,
                     defaults:{
                         blankText:'Filter by Customer'
@@ -73,7 +77,7 @@
             // Render a project select list
             if (this.defaults.ui.projects) {
                 this.projectFilter = new App.Views.Core.Select({
-                    el:'.filter-project',
+                    el:this.defaults.ui.projects,
                     collection:this.projects,
                     defaults:{
                         blankText:'Filter by Project'
@@ -84,7 +88,7 @@
             // Render a service select list
             if (this.defaults.ui.services) {
                 this.serviceFilter = new App.Views.Core.Select({
-                    el:'.filter-service',
+                    el:this.defaults.ui.services,
                     collection:this.services,
                     defaults:{
                         blankText:'Filter by Service'
@@ -108,11 +112,10 @@
 
             return this;
         },
-        updateFilter:function () {
-            var filter = App.session.get(this.defaults.name);
+        updateFilter: function(defaults) {
+            var filter = App.session.get(this.defaults.name) || defaults;
 
             if (filter) {
-                var data = {};
                 // Display date
                 if (this.defaults.ui.dates && filter.date) {
                     var dateInput = $(this.defaults.ui.dates), dateText = $(this.defaults.ui.dates + '-text');
@@ -127,19 +130,15 @@
                     switch (filter['date-period']) {
                         case 'D':
                             text = date.format('YYYY-MM-DD');
-                            data.date = date.format('YYYY-MM-DD');
                             break;
                         case 'W':
                             text = 'Week ' + date.format('w, YYYY');
-                            data.date = [date.day(1).format('YYYY-MM-DD'), date.day(7).format('YYYY-MM-DD')];
                             break;
                         case 'M':
                             text = date.format('MMM YYYY');
-                            data.date = date.format('YYYY-MM');
                             break;
                         case 'Y':
                             text = date.format('YYYY');
-                            data.date = date.format('YYYY');
                             break;
                     }
 
@@ -151,7 +150,6 @@
                 if (this.defaults.ui.customers) {
                     if (filter.customer) {
                         this.customerFilter.select(filter.customer);
-                        data.customer = filter.customer;
                     } else {
                         this.customerFilter.select('');
                     }
@@ -161,7 +159,6 @@
                 if (this.defaults.ui.projects) {
                     if (filter.project) {
                         this.projectFilter.select(filter.project);
-                        data.project = filter.project;
                     } else {
                         this.projectFilter.select('');
                     }
@@ -171,7 +168,6 @@
                 if (this.defaults.ui.services) {
                     if (filter.service) {
                         this.serviceFilter.select(filter.service);
-                        data.service = filter.service;
                     } else {
                         this.serviceFilter.select('');
                     }
@@ -179,25 +175,25 @@
 
                 // Display search
                 if (this.defaults.ui.search) {
-                    var searchFilter = $('#filter-search');
+                    var searchFilter = $(this.defaults.ui.search);
                     if (filter.search) {
                         searchFilter.val(filter.search);
-                        data.search = filter.search;
                     } else {
                         searchFilter.val();
                     }
                 }
-
-                // fetch activities
-                this.collection.addFetchData({ filter:data });
             }
-
-            this.collection.resetPager();
-            this.collection.load();
 
             if (filter && filter.open) {
-                $('#filter').show();
+                $(this.defaults.ui.filter).show();
             }
+
+            if (this.collection) {
+                this.collection.filter(filter);
+                this.collection.resetPager();
+                this.collection.load();
+            }
+
         },
         resetFilter:function (e) {
             if (e) {
@@ -229,7 +225,7 @@
             }
 
             var filter = App.session.get(this.defaults.name) || {},
-                input = $('#filter-date');
+                input = $(this.defaults.ui.dates);
 
             filter.date = moment(input.data('date')).clone();
             filter['date-period'] = input.data('date-period');
@@ -245,7 +241,7 @@
             }
 
             var filter = App.session.get(this.defaults.name) || {},
-                value = $('#filter-customer').val();
+                value = $(this.defaults.ui.customers).val();
 
             if (value && value.length > 0) {
                 filter.customer = value;
@@ -264,7 +260,7 @@
             }
 
             var filter = App.session.get(this.defaults.name) || {},
-                value = $('#filter-project').val();
+                value = $(this.defaults.ui.projects).val();
 
             if (value && value.length > 0) {
                 filter.project = value;
@@ -283,7 +279,7 @@
             }
 
             var filter = App.session.get(this.defaults.name) || {},
-                value = $('#filter-service').val();
+                value = $(this.defaults.ui.services).val();
 
             if (value && value.length > 0) {
                 filter.service = value;
@@ -302,7 +298,7 @@
             }
 
             var filter = App.session.get(this.defaults.name) || {},
-                value = $('#filter-search').val();
+                value = $(this.defaults.ui.search).val();
 
             // TODO intelligent update
             if (value && value.length > 0) {
