@@ -16,6 +16,10 @@
             this.activities = App.session.get('activities', function () {
                 return new App.Collection.Activities();
             });
+
+            this.activeActivities = App.session.get('activeActivities', function () {
+                return new App.Collection.Activities();
+            });
         },
         render:function () {
             // Render filter
@@ -23,7 +27,13 @@
                 el: this.el,
                 collection: this.activities,
                 defaults: {
-                    name: 'activity-filter'
+                    name: 'activity-filter',
+                    ui: {
+                        dates: '.filter-date'
+                    },
+                    events:{
+                        'changeDate .filter-date':'filterDate'
+                    }
                 }
             }).render();
 
@@ -32,6 +42,24 @@
                 collection: this.activities
             });
             $('.pagination').html(this.pager.render().el);
+
+            // Render active activities
+            this.activeList = new App.Views.Core.List({
+                el: '#activities-active',
+                collection:this.activeActivities,
+                defaults:{
+                    prefix:'activity-',
+                    emptyTemplate: '#tpl-activity-empty',
+                    item:{
+                        attributes:{ "class":"activity" },
+                        prependNew:true,
+                        tagName:"section",
+                        template:'#tpl-activity-item',
+                        View:App.Views.Activity.Item
+                    }
+                }
+            }).render();
+            this.activeActivities.fetch({ data: { filter: { active: true } } });
 
             // Render activities list
             this.list = new App.Views.Core.List({
@@ -49,8 +77,7 @@
                     }
                 }
             }).render();
-
-            this.filter.updateFilter();
+            this.filter.updateFilter({date: moment(), 'date-period': 'W', active: false });
 
             return this;
         },

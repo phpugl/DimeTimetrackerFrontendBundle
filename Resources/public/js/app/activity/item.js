@@ -68,7 +68,10 @@
             var button = $('.track', '#' + this.elId()),
                 duration = $('.duration', '#' + this.elId()),
                 model = this.model,
-                that = this;
+                that = this,
+                activities = App.session.get('activities'),
+                activeActivities = App.session.get('activeActivities');
+
 
             if (button.hasClass('start')) {
                 duration.data('start', moment());
@@ -80,10 +83,18 @@
                             .removeClass('start btn-success')
                             .addClass('stop btn-danger');
 
+                        if (activities) {
+                            activities.remove(model);
+                        }
+                        if (activeActivities) {
+                            activeActivities.add(model);
+                        }
+
                         that.timer = setInterval(function() {
                             var d = moment().diff(duration.data('start'), 'seconds');
                             duration.text(model.formatDuration(duration.data('duration') + d));
                         }, 1000);
+
 
                     }
                 });
@@ -103,76 +114,18 @@
                         d += item.get('duration');
                         duration.data('duration', d);
                         duration.text(model.formatDuration(d));
+
+                        if (activities) {
+                            activities.add(model);
+                        }
+                        if (activeActivities) {
+                            activeActivities.remove(model);
+                        }
                     }
                 });
             }
         }
     }));
-/*
-  App.provide('Views.Activity.Item', Backbone.View.extend({
-    template: '#tpl-activity-item',
-    initialize: function(opt) {
-      // Bind all to this, because you want to use
-      // "this" view in callback functions
-      _.bindAll(this);
 
-      // Grep default values from option
-      if (opt && opt.defaults) {
-        this.defaults = _.extend({}, this.defaults, opt.defaults);
-      }
-
-      // bind remove function to model
-      this.model.bind('destroy', this.remove, this);
-    },
-    elId: function() {
-      var id = this.$el.attr('id');
-      return (id) ? id : this.defaults.prefix + this.model.get('id');
-    },
-    render: function() {
-      var that = this;
-
-      // grep template with jquery and generate template stub
-      var temp = _.template($(this.template).html());
-
-      // fill model date into template and push it into element html
-      this.$el.html(temp({
-        model: this.model,
-        data: this.model.toJSON()
-      }));
-
-      // add element id with prefix
-      this.$el.attr('id', this.elId());
-
-      // activate timer if any running timeslice is found
-      var activeTimeslice = this.model.runningTimeslice();
-      if (activeTimeslice) {
-        var duration = $('.duration', this.$el),
-        model = this.model;
-                
-        duration.data('start', moment(activeTimeslice.get('startedAt'), 'YYYY-MM-DD HH:mm:ss'));
-        this.timer = setInterval(function() {
-          var d = moment().diff(duration.data('start'), 'seconds');
-          duration.text(model.formatDuration(duration.data('duration') + d));
-        }, 1000);
-      }
-
-      // open item and show details
-      this.$el
-        .data('open', false)
-        .click(function () {
-          if (!that.$el.data('open')) {
-            $('.details', that.$el).show();
-            that.$el.css('margin-bottom', '20px').data('open', true);
-          } else {
-            $('.details', that.$el).hide();
-            that.$el.css('margin-bottom', '0pt').data('open', false);
-          }
-        });
-
-      return this;
-
-    }
-  }));
-*/
 })(jQuery, Dime);
 

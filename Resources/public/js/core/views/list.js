@@ -66,13 +66,14 @@
         initialize:function (opt) {
             // Bind all to this, because you want to use
             // "this" view in callback functions
-            _.bindAll(this, 'render', 'remove', 'addAll', 'addOne', 'change');
+            _.bindAll(this, 'render', 'remove', 'addAll', 'addItem', 'changeItem', 'removeItem');
 
             // Assign function to collection events
             if (this.collection) {
                 this.collection.on('reset', this.addAll, this);
-                this.collection.on('add', this.addOne, this);
-                this.collection.on('change', this.change, this);
+                this.collection.on('add', this.addItem, this);
+                this.collection.on('change', this.changeItem, this);
+                this.collection.on('remove', this.removeItem, this);
             }
 
             // Grep default values from option
@@ -115,6 +116,7 @@
         renderItem:function (model) {
             return new this.defaults.item.View({
                 model:model,
+                collection: this.collection,
                 prefix:this.defaults.prefix,
                 attributes:this.defaults.item.attributes,
                 tagName:this.defaults.item.tagName,
@@ -131,14 +133,13 @@
             // remove all content
             this.$el.html('').addClass('loading');
 
-            // run addOne on each collection item
+            // run addItem on each collection item
             if (this.collection) {
                 if (this.collection.length == 0 && this.defaults.emptyTemplate) {
                     var temp = _.template($(this.defaults.emptyTemplate).html());
                     this.$el.html(temp());
                     this.defaults.isEmpty = true;
                 } else {
-
                     if (this.defaults.isEmpty) {
                         this.$el.html('');
                         this.defaults.isEmpty = false;
@@ -162,7 +163,7 @@
 
             return this;
         },
-        addOne:function (model) {
+        addItem:function (model) {
             if (this.defaults.isEmpty) {
                 this.$el.html('');
                 this.defaults.isEmpty = false;
@@ -176,11 +177,20 @@
 
             return this;
         },
-        change:function (model) {
+        changeItem:function (model) {
             if (model.id != undefined) {
                 $('#' + this.defaults.prefix + model.id).replaceWith(this.renderItem(model).el);
             } else { // run addAll if item has no Id
                 this.addAll();
+            }
+            return this;
+        },
+        removeItem:function(model) {
+            if (model.id != undefined) {
+                $('#' + this.defaults.prefix + model.id).empty().detach();
+                if (this.collection.length == 0) {
+                    this.collection.reset();
+                }
             }
             return this;
         }
