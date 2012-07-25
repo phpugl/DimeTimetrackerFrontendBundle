@@ -98,6 +98,17 @@
 
             return this;
         },
+        remove: function() {
+            if (this.customers) {
+                this.customers.off();
+            }
+            if (this.projects) {
+                this.projects.off();
+            }
+            if (this.services) {
+                this.services.off();
+            }
+        },
         toggleFilter:function (e) {
             if (e) {
                 e.preventDefault();

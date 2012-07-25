@@ -82,7 +82,14 @@
             return this;
         },
         remove:function () {
+            // Unbind events
             this.activities.off();
+            this.activeActivities.off();
+
+            this.activeList.remove();
+            this.list.remove();
+            this.filter.remove();
+            this.pager.remove();
 
             // remove element from DOM
             this.$el.empty().detach();

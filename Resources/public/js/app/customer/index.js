@@ -80,7 +80,7 @@
 
 
             // Render customer list
-            this.customerList = new App.Views.Core.List({
+            this.list = new App.Views.Core.List({
                 el:'#customers',
                 collection:this.customers,
                 defaults:{
@@ -96,6 +96,19 @@
             }).render();
 
             this.filter.updateFilter();
+
+            return this;
+        },
+        remove:function () {
+            // Unbind events
+            this.customers.off();
+
+            this.list.remove();
+            this.filter.remove();
+            this.pager.remove();
+
+            // remove element from DOM
+            this.$el.empty().detach();
 
             return this;
         }

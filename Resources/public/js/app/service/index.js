@@ -80,7 +80,7 @@
 
 
             // Render service list
-            this.serviceList = new App.Views.Core.List({
+            this.list = new App.Views.Core.List({
                 el:'#services',
                 collection:this.services,
                 defaults:{
@@ -96,6 +96,19 @@
             }).render();
 
             this.filter.updateFilter();
+
+            return this;
+        },
+        remove:function () {
+            // Unbind events
+            this.services.off();
+
+            this.list.remove();
+            this.filter.remove();
+            this.pager.remove();
+
+            // remove element from DOM
+            this.$el.empty().detach();
 
             return this;
         }

@@ -88,9 +88,11 @@
         tagName: 'ul',
         itemViews: [],
         initialize:function (opt) {
-            _.bindAll(this, 'render', 'addView');
+            _.bindAll(this, 'render', 'remove', 'addView');
 
-            this.collection.on('reset', this.render, this);
+            if (this.collection) {
+                this.collection.on('reset', this.render, this);
+            }
         },
         render:function () {
             // clear pager
@@ -126,6 +128,11 @@
             }
 
             return this;
+        },
+        remove: function() {
+            if (this.collection) {
+                this.collection.off();
+            }
         },
         addView: function(view) {
             this.itemViews.push(view);

@@ -78,7 +78,7 @@
             $('.pagination').html(this.pager.render().el);
 
             // Create project list
-            this.projectList = new App.Views.Core.List({
+            this.list = new App.Views.Core.List({
                 el:'#projects',
                 collection:this.projects,
                 defaults:{
@@ -94,6 +94,19 @@
             }).render();
 
             this.filter.updateFilter();
+
+            return this;
+        },
+        remove:function () {
+            // Unbind events
+            this.projects.off();
+
+            this.list.remove();
+            this.filter.remove();
+            this.pager.remove();
+
+            // remove element from DOM
+            this.$el.empty().detach();
 
             return this;
         }
