@@ -70,7 +70,7 @@
                 }
             }
         },
-        render: function(fetchOpt) {
+        render: function(opt) {
             // grep template with jquery and generate template stub
             if (this.template) {
                 var temp = _.template($(this.template).html());
@@ -86,8 +86,8 @@
 
             if (this.collection && this.collection.length > 0) {
                 this.addAll();
-            } else {
-                this.collection.fetch(fetchOpt);
+            } else if (opt && opt.fetch) {
+                this.collection.fetch(opt.fetchData);
             }
 
             return this;
