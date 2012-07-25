@@ -86,6 +86,7 @@
                 defaults:{
                     fetch: false,
                     prefix:'customer-',
+                    emptyTemplate: '#tpl-customer-empty',
                     item:{
                         attributes:{ "class":"customer" },
                         tagName:'section',

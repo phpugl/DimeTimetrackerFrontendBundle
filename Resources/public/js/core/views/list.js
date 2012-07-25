@@ -105,10 +105,10 @@
                 this.setElement(this.templateEl);
             }
 
-            if (this.collection && this.collection.length > 0) {
-                this.addAll();
-            } else if (this.defaults.fetch) {
+            if (this.defaults.fetch) {
                 this.collection.fetch(fetchOpt);
+            } else if (this.collection) {
+                this.addAll();
             }
 
             return this;

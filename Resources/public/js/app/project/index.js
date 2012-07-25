@@ -84,6 +84,7 @@
                 defaults:{
                     fetch: false,
                     prefix:'project-',
+                    emptyTemplate: '#tpl-project-empty',
                     item:{
                         attributes:{ "class":"project" },
                         tagName:"section",

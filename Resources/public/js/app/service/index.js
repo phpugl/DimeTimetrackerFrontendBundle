@@ -86,6 +86,7 @@
                 defaults:{
                     fetch: false,
                     prefix:'service-',
+                    emptyTemplate: '#tpl-service-empty',
                     item:{
                         attributes:{ "class":"service" },
                         tagName:"section",
