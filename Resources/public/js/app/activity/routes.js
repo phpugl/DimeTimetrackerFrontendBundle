@@ -16,6 +16,7 @@
             App.UI.router.switchView(new App.Views.Activity.Index());
         }
     });
+    App.session.set('default-backlink', 'activity');
 
     // Define Routes
     App.route("activity:add", "activity/add", function () {
