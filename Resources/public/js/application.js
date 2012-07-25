@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 /**
  * Dime - application.js
  *
  * Initialize the javascript application
  */
-(function ($, window) {
+(function ($, Backbone, _, moment, window) {
 
     // Initialize namespace Dime with collection, model and views object
     var Dime = window.Dime || function () {
@@ -16,7 +16,7 @@
         var init = new Backbone.Collection();
         init.comparator = function (model) {
             return model.get('weight');
-        }
+        };
 
         // Main menu collection
         var menu = new Backbone.Collection();
@@ -36,7 +36,7 @@
                 }
                 return 0;
             }
-        }
+        };
 
         // Return Dime object
         return {
@@ -69,18 +69,18 @@
                 } else {
                     return init;
                 }
-
-                return this;
             },
             /**
              * Log a message if a logger exists
              *
-             * @param msg, message to log
-             * @param level, optional, [INFO|WARN|ERROR]
+             * @param msg message to log
+             * @param level optional, [INFO|WARN|ERROR]
              * @return Dime
              */
             log:function (msg, level) {
-                if (!msg) throw "Provide a message for Dime.log(msg)";
+                if (!msg) {
+                    throw "Provide a message for Dime.log(msg)";
+                }
 
                 var text = moment().format('HH:mm:ss ');
                 if (level) {
@@ -126,7 +126,9 @@
              * @return parent object
              */
             provide:function (name, obj, force) {
-                if (!name) throw "Give a name for Dime.provide(name)";
+                if (!name) {
+                    throw "Give a name for Dime.provide(name)";
+                }
                 var parent = this;
 
                 var parts = name.split('.');
@@ -134,7 +136,7 @@
                     for (var i = 0; i < parts.length; i++) {
                         if (!parent[parts[i]]) {
                             if (i >= parts.length - 1 && obj) {
-                                parent[parts[i]] = obj
+                                parent[parts[i]] = obj;
                             } else {
                                 parent[parts[i]] = {};
                             }
@@ -177,23 +179,23 @@
             /**
              * Manage app routes
              *
-             * @param name, string route name, unique
-             * @param route, string route it self
-             * @param callback, function
+             * @param name string route name, unique
+             * @param route string route it self
+             * @param callback function
              * @return {*}
              */
             route:function (name, route, callback) {
                 if (name === undefined) {
                     return store.routes;
                 }
-                if (route === undefined && callback == undefined) {
+                if (route === undefined && callback === undefined) {
                     return store.routes[name];
                 }
 
                 store.routes[name] = {
                     route:route,
                     callback:callback
-                }
+                };
 
                 return this;
             },
@@ -204,7 +206,9 @@
              * @return HTML template
              */
             template:function (name) {
-                if (!name) throw "Give a name for Dime.template(name)";
+                if (!name) {
+                    throw "Give a name for Dime.template(name)";
+                }
 
                 if (!store.templates[name]) {
                     if (name.search(/:/) !== -1) {
@@ -235,4 +239,4 @@
     $(function () {
         Dime.run();
     });
-})(jQuery, window);
+})(jQuery, Backbone, _, moment, window);
