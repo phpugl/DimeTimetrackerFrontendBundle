@@ -7,16 +7,9 @@
 
     // Create Filter view in App.Views.Core
     App.provide('Views.Core.Filter', Backbone.View.extend({
-        events:{
-            'click #filter-button':'toggleFilter',
-            'click #filter-reset':'resetFilter',
-            'changeDate #filter-date':'filterDate',
-            'change #filter-customer':'filterCustomer',
-            'change #filter-project':'filterProject',
-            'change #filter-service':'filterService',
-            'keyup #filter-search':'filterSearch'
-        },
+        events:{},
         defaults: {
+            rendered: false,
             name: 'filter',
             ui: {
                 filter: '#filter',
@@ -27,6 +20,15 @@
                 projects: '#filter-project',
                 services: '#filter-service',
                 search: '#filter-search'
+            },
+            events:{
+                'click #filter-button':'toggleFilter',
+                'click #filter-reset':'resetFilter',
+                'changeDate #filter-date':'filterDate',
+                'change #filter-customer':'filterCustomer',
+                'change #filter-project':'filterProject',
+                'change #filter-service':'filterService',
+                'keyup #filter-search':'filterSearch'
             }
         },
         initialize: function(opt) {
@@ -43,33 +45,31 @@
             }
 
             if (this.defaults.ui.customers) {
-                this.customers = App.session.get('customers', function () {
+                this.customers = App.session.get('customer-filter-collection', function () {
                     return new App.Collection.Customers();
                 });
             }
 
             if (this.defaults.ui.projects) {
-                this.projects = App.session.get('projects', function () {
+                this.projects = App.session.get('project-filter-collection', function () {
                     return new App.Collection.Projects();
                 });
             }
 
             if (this.defaults.ui.services) {
-                this.services = App.session.get('services', function () {
+                this.services = App.session.get('service-filter-collection', function () {
                     return new App.Collection.Services();
                 });
             }
         },
         render: function() {
-            var filter = App.session.get(this.defaults.name);
-
             // Render a customer select list
             if (this.defaults.ui.customers) {
                 this.customerFilter = new App.Views.Core.Select({
                     el:this.defaults.ui.customers,
                     collection:this.customers,
                     defaults:{
-                        blankText:'Filter by Customer'
+                        blankText:'by customer'
                     }
                 }).render();
             }
@@ -80,7 +80,7 @@
                     el:this.defaults.ui.projects,
                     collection:this.projects,
                     defaults:{
-                        blankText:'Filter by Project'
+                        blankText:'by project'
                     }
                 }).render();
             }
@@ -91,7 +91,7 @@
                     el:this.defaults.ui.services,
                     collection:this.services,
                     defaults:{
-                        blankText:'Filter by Service'
+                        blankText:'by service'
                     }
                 }).render();
             }
@@ -108,6 +108,19 @@
             filter.open = (filter.open) ? false : true;
             $(this.defaults.ui.filter).toggle(filter.open);
 
+            if (filter.open && !this.defaults.rendered) {
+                if (this.defaults.ui.customers) {
+                    this.customers.fetch();
+                }
+                if (this.defaults.ui.projects) {
+                    this.projects.fetch();
+                }
+                if (this.defaults.ui.services) {
+                    this.services.fetch();
+                }
+                this.defaults.rendered = true;
+            }
+
             App.session.set(this.defaults.name, filter);
 
             return this;
@@ -117,16 +130,23 @@
 
             if (filter) {
                 // Display date
-                if (this.defaults.ui.dates && filter.date) {
+                if (this.defaults.ui.dates) {
                     var dateInput = $(this.defaults.ui.dates), dateText = $(this.defaults.ui.dates + '-text');
 
-                    dateInput.data('date', filter.date.format(dateInput.data('date-format')));
-                    dateInput.data('date-period', filter['date-period']);
-                    if (dateInput.data('datepicker')) {
-                        dateInput.data('datepicker').update();
-                    }
 
-                    var date = filter.date.clone(), text = '', help = '';
+                    var date = moment(), text = '';
+                    if (filter.date) {
+                        dateInput.data('date', filter.date.format(dateInput.data('date-format')));
+                        dateInput.data('date-period', filter['date-period']);
+                        if (dateInput.data('datepicker')) {
+                            dateInput.data('datepicker').update();
+                        }
+
+                        date = filter.date.clone();
+                    } else {
+                        filter.date = date.clone();
+                        filter['date-period'] = dateInput.data('date-period');
+                    }
                     switch (filter['date-period']) {
                         case 'D':
                             text = date.format('YYYY-MM-DD');
@@ -147,16 +167,22 @@
                 }
 
                 // Display customer
-                if (this.defaults.ui.customers) {
+                if (this.defaults.ui.customers && this.customerFilter) {
                     if (filter.customer) {
                         this.customerFilter.select(filter.customer);
+                        if (this.defaults.ui.projects && this.projects) {
+                            this.projects.fetch({ data: { filter: { customer: filter.customer } }, wait: true });
+                        }
                     } else {
                         this.customerFilter.select('');
+                        if (this.defaults.ui.projects && this.projects) {
+                            this.projects.fetch({ data: {}, wait: true });
+                        }
                     }
                 }
 
                 // Display projects
-                if (this.defaults.ui.projects) {
+                if (this.defaults.ui.projects && this.projectFilter) {
                     if (filter.project) {
                         this.projectFilter.select(filter.project);
                     } else {
@@ -165,7 +191,7 @@
                 }
 
                 // Display services
-                if (this.defaults.ui.services) {
+                if (this.defaults.ui.services && this.serviceFilter) {
                     if (filter.service) {
                         this.serviceFilter.select(filter.service);
                     } else {
@@ -182,16 +208,17 @@
                         searchFilter.val();
                     }
                 }
-            }
 
-            if (filter && filter.open) {
-                $(this.defaults.ui.filter).show();
+                // Open filter
+                if (filter.open) {
+                    $(this.defaults.ui.filter).show();
+                }
             }
 
             if (this.collection) {
                 this.collection.filter(filter);
                 this.collection.resetPager();
-                this.collection.load();
+                this.collection.load({ pager: true });
             }
 
         },
