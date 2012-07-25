@@ -45,7 +45,7 @@
                 <input id="activity-track-input" class="search-query" placeholder="Track you activity..." type="text" />
               </form>
               <ul class="nav">
-                <li><a href="#profile" title="User profile"><i class="icon-user icon-white hide-text">Profile</i></a></li>
+                <li><a href="#profile/{{ app.user.id }}" title="User profile"><i class="icon-user icon-white hide-text">Profile</i></a></li>
                 <li><a href="{{ path('fos_user_security_logout') }}" title="Logout"><i class="icon-off icon-white hide-text">Logout</i></a></li>
               </ul>
             </div>
