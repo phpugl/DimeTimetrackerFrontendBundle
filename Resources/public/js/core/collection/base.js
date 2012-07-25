@@ -17,7 +17,8 @@
                 for (var name in filter) {
                     if (filter.hasOwnProperty(name)) {
                         switch (name) {
-                            case 'date':var date = filter.date.clone();
+                            case 'date':
+                                var date = filter.date.clone();
                                 switch (filter['date-period']) {
                                     case 'D':
                                         data.date = date.format('YYYY-MM-DD');
@@ -58,10 +59,13 @@
             return this;
         },
         load: function (opt) {
-            if (opt) {
-                this.fetchData = $.extend(true, {}, this.fetchData, opt);
+            if (opt && opt.fetchData) {
+                this.fetchData = $.extend(true, {}, this.fetchData, opt.fetchData);
             }
-            this.fetchData = $.extend(true, {}, this.fetchData, this.getPagerOptions());
+
+            if (opt && opt.pager) {
+                this.fetchData = $.extend(true, {}, this.fetchData, this.getPagerOptions());
+            }
 
             this.fetch({ data: this.fetchData });
         },
@@ -94,7 +98,7 @@
             } else {
                 this.pager.page = 1;
             }
-            this.load();
+            this.load({ pager: true });
 
         },
         setPage:function (num) {
@@ -104,7 +108,7 @@
             } else {
                 this.pager.page = 1;
             }
-            this.load();
+            this.load({ pager: true });
         },
         nextPage:function() {
             if (this.pager.page <= this.pageCount()) {
@@ -112,7 +116,7 @@
             } else {
                 this.pager.page = this.pageCount();
             }
-            this.load();
+            this.load({ pager: true });
         },
         parse:function (response, xhr) {
             if (xhr.getResponseHeader('X-Pagination-Total-Results')) {
