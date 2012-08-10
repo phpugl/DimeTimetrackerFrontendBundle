@@ -24,6 +24,9 @@
                                         data.date = date.format('YYYY-MM-DD');
                                         break;
                                     case 'W':
+                                        if (date.day() === 0) {
+                                            date = date.subtract('days', 1);
+                                        }
                                         data.date = [date.day(1).format('YYYY-MM-DD'), date.day(7).format('YYYY-MM-DD')];
                                         break;
                                     case 'M':

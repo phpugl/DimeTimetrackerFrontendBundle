@@ -163,6 +163,9 @@
                             text = date.format('YYYY-MM-DD');
                             break;
                         case 'W':
+                            if (date.day() === 0) {
+                                date = date.subtract('days', 1);
+                            }
                             text = 'Week ' + date.format('w, YYYY');
                             break;
                         case 'M':
