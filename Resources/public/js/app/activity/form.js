@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * Dime - app/activity/form.js
@@ -7,6 +7,16 @@
 
     // Activity form view
     App.provide('Views.Activity.Form', App.Views.Core.Form.extend({
+        defaults:{
+            backNavigation:'',
+            events:{
+                'submit form':'save',
+                'click .save':'save',
+                'click .close':'close',
+                'click .cancel':'close',
+                'change #activity-customer':'customerChange'
+            }
+        },
         render:function () {
             this.setElement(this.defaults.templateEl);
 
@@ -22,46 +32,46 @@
             this.form.clear();
             this.form.fill(this.model.toJSON());
 
-
-            // Render select box for customer
-            var customers = App.session.get('customers', function () {
+            // Prefill select boxes
+            this.customers = App.session.get('customer-filter-collection', function () {
                 return new App.Collection.Customers();
             });
-
-            var selectBox = new App.Views.Core.Select({
+            this.customerSelect = new App.Views.Core.Select({
                 el:this.form.get('customer'),
-                collection:customers,
-                defaults:{
-                    selected:this.model.get('customer')
+                collection: this.customers,
+                defaults: {
+                    selected: this.model.get('customer')
                 }
-            });
-            customers.fetch();
+            }).render();
+            this.customers.fetch();
 
-            // Render select box for project
-            var projects = App.session.get('projects', function () {
+            this.projects = App.session.get('project-filter-collection', function () {
                 return new App.Collection.Projects();
             });
-
-            selectBox = new App.Views.Core.Select({
+            this.projectSelect = new App.Views.Core.Select({
                 el:this.form.get('project'),
-                collection:projects,
-                defaults:{
-                    selected:this.model.get('project')
+                collection:this.projects,
+                defaults: {
+                    selected: this.model.get('project')
                 }
-            });
-            projects.fetch();
+            }).render();
+            if (this.model.get('customer')) {
+                this.projects.fetch({ data: { filter: { customer: this.model.get('customer') } }, wait: true });
+            } else {
+                this.projects.fetch();
+            }
 
-            var services = App.session.get('services', function () {
+            this.services = App.session.get('service-filter-collection', function () {
                 return new App.Collection.Services();
             });
-            selectBox = new App.Views.Core.Select({
+            this.serviceSelect = new App.Views.Core.Select({
                 el:this.form.get('service'),
-                collection:services,
-                defaults:{
-                    selected:this.model.get('service')
+                collection:this.services,
+                defaults: {
+                    selected: this.model.get('service')
                 }
-            });
-            services.fetch();
+            }).render();
+            this.services.fetch();
 
             // Render timeslices
             if (this.model.relation('timeslices')) {
@@ -86,8 +96,20 @@
                 $('a[href="#tab-timeslices"]', this.$el).remove();
             }
 
-
             return this;
+        },
+        customerChange: function(e) {
+            if (e) {
+                e.preventDefault();
+
+                var $component = $(e.currentTarget);
+
+                if ($component.val() !== '') {
+                    this.projects.fetch({ data: { filter: { customer: $component.val() } }, wait: true });
+                } else {
+                    this.projects.fetch();
+                }
+            }
         }
     }));
 

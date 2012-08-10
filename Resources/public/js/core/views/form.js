@@ -6,14 +6,14 @@
 (function ($, App) {
 
     App.provide('Views.Core.Form', App.Views.Core.Content.extend({
-        events:{
-            'submit form':'save',
-            'click .save':'save',
-            'click .close':'close',
-            'click .cancel':'close'
-        },
         defaults:{
-            backNavigation:''
+            backNavigation:'',
+            events:{
+                'submit form':'save',
+                'click .save':'save',
+                'click .close':'close',
+                'click .cancel':'close'
+            }
         },
         initialize:function (opt) {
             // Bind all to this, because you want to use
@@ -22,6 +22,10 @@
 
             if (opt && opt.defaults) {
                 this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
+            }
+
+            if (this.defaults.events) {
+                this.events = this.defaults.events;
             }
 
             if (this.defaults.template) {

@@ -47,9 +47,11 @@
         initialize:function (opt) {
             _.bindAll(this, 'render', 'addBlank', 'addOne', 'addAll', 'select', 'fetch');
 
-            this.collection.on('reset', this.addAll, this);
-            this.collection.on('add', this.addOne, this);
-            this.collection.on('change', this.change, this);
+            if (this.collection) {
+                this.collection.on('reset', this.addAll, this);
+                this.collection.on('add', this.addOne, this);
+                this.collection.on('change', this.change, this);
+            }
 
             if (opt && opt.defaults) {
                 // grep selected option can be service object or just the id
