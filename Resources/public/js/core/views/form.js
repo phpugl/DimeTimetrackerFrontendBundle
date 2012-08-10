@@ -51,12 +51,17 @@
             e.preventDefault();
             var that = this;
 
+            $('.save').append(' <i class="icon loading-14-white"></i>');
+            $('.cancel').attr('disabled', 'disabled');
+
             this.model.save(this.form.data(), {
                 wait:true,
                 success:function () {
                     that.close();
                 },
                 error:function (model, response, scope) {
+                    $('.cancel').removeAttr('disabled');
+
                     var data = $.parseJSON(response.responseText);
 
                     if (data.errors) {
