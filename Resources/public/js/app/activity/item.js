@@ -3,7 +3,7 @@
 /**
  * Dime - app/activity/item.js
  */
-(function ($, App) {
+(function ($, _, moment, App) {
 
   // activity item view
     App.provide('Views.Activity.Item', App.Views.Core.ListItem.extend({
@@ -57,7 +57,7 @@
             e.stopPropagation();
 
             // confirm destroy action
-            if (confirm("Are you sure?")) {
+            if (window.confirm("Are you sure?")) {
                 this.model.destroy({wait: true});
             }
         },
@@ -127,5 +127,5 @@
         }
     }));
 
-})(jQuery, Dime);
+})(jQuery, _, moment, Dime);
 

@@ -38,7 +38,6 @@
                 stop = this.stoppedAtValue(),
                 duration = stop.diff(start, 'seconds');
 
-            console.log(start, stop, duration);
             $('#timeslice-formatDuration').val(App.Helper.Format.Duration(duration));
         }
     }));
