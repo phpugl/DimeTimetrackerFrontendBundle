@@ -6,15 +6,14 @@
 (function ($, App) {
 
     App.provide('Views.Project.Form', App.Views.Core.Form.extend({
-        ui:{
-            aliasModified:false
-        },
-        events:{
-            'click .save':'save',
-            'click .close':'close',
-            'click .cancel':'close',
-            'click .slugify':'slugify',
-            'keypress #project-alias':'alias'
+        defaults: {
+            events:{
+                'click .save':'save',
+                'click .close':'close',
+                'click .cancel':'close',
+                'click .slugify':'slugify',
+                'keypress #project-alias':'alias'
+            }
         },
         render:function () {
             this.setElement(this.defaults.templateEl);
@@ -50,7 +49,7 @@
             var keyCode = (e.keyCode) ? e.keyCode : e.which,
                 keyChar = String.fromCharCode(keyCode);
 
-            if ((keyCode == null) || $.inArray(keyCode, [0,8,9,13,27,37,39]) > -1) {
+            if ((keyCode == null) || $.inArray(keyCode, [0,8,9,13,27,37,39,46]) > -1) {
                 return true;
             }
 

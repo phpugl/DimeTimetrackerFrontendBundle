@@ -6,15 +6,14 @@
 (function ($, App) {
 
     App.provide('Views.Service.Form', App.Views.Core.Form.extend({
-        ui:{
-            aliasModified:false
-        },
-        events:{
-            'click .save':'save',
-            'click .close':'close',
-            'click .cancel':'close',
-            'click .slugify':'slugify',
-            'keypress #service-alias':'alias'
+        defaults: {
+            events:{
+                'click .save':'save',
+                'click .close':'close',
+                'click .cancel':'close',
+                'click .slugify':'slugify',
+                'keypress #service-alias':'alias'
+            }
         },
         slugify:function (e) {
             var alias = $('#service-alias', this.$el);
@@ -24,7 +23,7 @@
             var keyCode = (e.keyCode) ? e.keyCode : e.which,
                 keyChar = String.fromCharCode(keyCode);
 
-            if ((keyCode == null) || $.inArray(keyCode, [0,8,9,13,27,37,39]) > -1) {
+            if ((keyCode == null) || $.inArray(keyCode, [0,8,9,13,27,37,39,46]) > -1) {
                 return true;
             }
 

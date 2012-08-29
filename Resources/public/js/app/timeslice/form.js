@@ -6,12 +6,15 @@
 (function ($, moment, App) {
 
     App.provide('Views.Timeslice.Form', App.Views.Core.Form.extend({
-        events:{
-            'click .save':'save',
-            'click .close':'close',
-            'click .cancel':'close',
-            'click .calculate':'calculation',
-            'blur #timeslice-startedAt-date':'copyDate'
+        defaults:{
+            events:{
+                'submit form':'save',
+                'click .save':'save',
+                'click .close':'close',
+                'click .cancel':'close',
+                'click .calculate':'calculation',
+                'blur #timeslice-startedAt-date':'copyDate'
+            }
         },
         startedAtValue:function () {
             var date = $('#timeslice-startedAt-date').val(),
@@ -35,6 +38,7 @@
                 stop = this.stoppedAtValue(),
                 duration = stop.diff(start, 'seconds');
 
+            console.log(start, stop, duration);
             $('#timeslice-formatDuration').val(App.Helper.Format.Duration(duration));
         }
     }));
