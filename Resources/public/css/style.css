@@ -1,4 +1,4 @@
-/* 
+/*
     Document   : style
     Created on : 07.02.2012, 11:03:45
     Author     : PHPUGL
@@ -7,19 +7,19 @@
 */
 
 .t-left {
-  text-align: left;
+    text-align: left;
 }
 
 .t-center {
-  text-align: center;
+    text-align: center;
 }
 
 .t-right {
-  text-align: right;
+    text-align: right;
 }
 
 .gap-20 {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 #area-header {
@@ -29,172 +29,175 @@
 }
 
 #area-footer {
-  border-top: 1px solid #f7f7f7;
-  margin-top: 30px;
-  padding-top: 20px;
-  text-align: center;
+    border-top: 1px solid #f7f7f7;
+    margin-top: 30px;
+    padding-top: 20px;
+    text-align: center;
 }
 
 .input-full {
-  width: 90%;
+    width: 90%;
 }
 
 .loading {
-  background: url('../images/270-32.gif') no-repeat center center;
-  min-height: 150px;
+    background: url('../images/270-32.gif') no-repeat center center;
+    min-height: 150px;
 }
 
 .loading-14 {
-  background: url('../images/270-14.gif') no-repeat center center;
+    background: url('../images/270-14.gif') no-repeat center center;
 }
 
 .loading-14-white {
-  background: url('../images/270-14-white.gif') no-repeat center center;
+    background: url('../images/270-14-white.gif') no-repeat center center;
 }
 
 .striped section:nth-child(2n+1), .striped > div:nth-child(2n+1) {
-  background-color: #F9F9F9;
+    background-color: #F9F9F9;
 }
 
 .activity,
 .customer,
 .project,
 .service {
-  background-color: #f7f7f7;
-  border: 1px solid #CCC;
-  -webkit-border-radius: 0 0 6px 6px;
-  -moz-border-radius: 0 0 6px 6px;
-  border-radius: 0 0 6px 6px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-  /*  margin-bottom: 20px;*/
+    background-color: #f7f7f7;
+    border: 1px solid #CCC;
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    border-radius: 0 0 6px 6px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    /*  margin-bottom: 20px;*/
 }
 
 .activity .title,
 .customer .title,
 .project .title,
 .service .title {
-  background-color: #FFF;
-  cursor: pointer;
-  padding: 10px;
+    background-color: #FFF;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 27px;
+    padding: 10px;
+    margin: 0;
 }
 
 .title .alias {
-  background-color: #f7f7f7;
-  border: 1px solid #CCC;
-  color: #aaa;
-  font-size: .7em;
-  padding: 3px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    background-color: #f7f7f7;
+    border: 1px solid #CCC;
+    color: #aaa;
+    font-size: .7em;
+    padding: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
 }
 
 .activity .title:hover,
 .customer .title:hover,
 .project .title:hover,
 .service .title:hover {
-  background-color: #FBFBFB;
+    background-color: #FBFBFB;
 }
 
 .activity .details,
 .project .details,
 .service .details {
-  border-top: 1px solid #CCC;
-  display: none;
-  margin: 0pt;
-  padding: 5px;
+    border-top: 1px solid #CCC;
+    display: none;
+    margin: 0pt;
+    padding: 5px;
 }
 
 .activity .details pre {
-  background: #fff;
+    background: #fff;
 }
 
 .activity .details p,
 .project .details p {
-  margin-bottom: 0pt;
+    margin-bottom: 0pt;
 }
 
 .activity .btn-toolbar {
-  margin: 0pt;
+    margin: 0pt;
 }
 
 header .title {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 header .title .filter {
-  color: #CCC;
-  font-size: .5em;
-  font-style: italic;
+    color: #CCC;
+    font-size: .5em;
+    font-style: italic;
 }
 
 .icon {
-  color: #000;
-  display: inline-block;
-  height: 14px;
-  line-height: 14px;
-  vertical-align: text-top;
-  width: 14px;
+    color: #000;
+    display: inline-block;
+    height: 14px;
+    line-height: 14px;
+    vertical-align: text-top;
+    width: 14px;
 }
 
 .login-form {
-  margin: 50px auto;
-  padding: 10px 20px;
-  -webkit-border-radius: 10px 10px 10px 10px;
-  -moz-border-radius: 10px 10px 10px 10px;
-  border-radius: 10px 10px 10px 10px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-  max-width: 300px;
+    margin: 50px auto;
+    padding: 10px 20px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    max-width: 300px;
 }
 
 .login-form .control-group {
-  margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 .login-form input, .login-form textarea, .login-form select, .login-form .uneditable-input {
-  margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 #activity-track-date {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 #filter {
-  background: #f7f7f7;
-  border: 1px solid #CCC;
-  -webkit-border-radius: 6px 6px 0 0;
-  -moz-border-radius: 6px 6px 0 0;
-  border-radius: 6px 6px 6px 6px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-  margin-bottom: 20px;
+    background: #f7f7f7;
+    border: 1px solid #CCC;
+    -webkit-border-radius: 6px 6px 0 0;
+    -moz-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 6px 6px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    margin-bottom: 20px;
 }
 
 #filter li {
-  display: inline-block;
-  margin: 5px 0;
+    display: inline-block;
+    margin: 5px 0;
 }
 
 #filter li input, #filter li textarea, #filter li select, #filter li .uneditable-input {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .content-view h2 {
-  color: #999999;
-  display: block;
-  font-size: 11px;
-  font-weight: bold;
-  line-height: 18px;
-  padding: 3px 15px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  text-transform: uppercase;
+    color: #999999;
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 18px;
+    padding: 3px 15px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
 }
 
