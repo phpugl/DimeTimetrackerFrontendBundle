@@ -6,3 +6,7 @@ Welcome to DimeTimetrackerFrontendBundle's documentation!
 
    introduction
    javascript/structure
+   javascript/namespace
+   javascript/extend
+   javascript/helper
+   javascript/menu
