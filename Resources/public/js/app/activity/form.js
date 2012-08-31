@@ -73,6 +73,14 @@
             }).render();
             this.services.fetch();
 
+            // Render tags
+            var tagObjects = this.model.get('tags');
+            var tags = [];
+            $.each(tagObjects, function(key, el) {
+                tags[key] = el.name;
+            });
+            this.form.get('tags')[0].value = tags.join(' ');
+
             // Render timeslices
             if (this.model.relation('timeslices')) {
                 this.activityList = new App.Views.Core.List({
@@ -97,6 +105,11 @@
             }
 
             return this;
+        },
+        presave: function(data) {
+            if (data) {
+                data.tags = data.tags.split(' ');
+            }
         },
         customerChange: function(e) {
             if (e) {

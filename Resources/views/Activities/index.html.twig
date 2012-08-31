@@ -70,6 +70,9 @@
         <% if (model.relation('project')) { %>
         <span class="alias">/<%- model.relation('project', 'alias') %></span>
         <% } %>
+        <% if (data.tags) { _.each(data.tags, function (tag) { %>
+            <span class="tag">#<%- tag.name %></span>
+        <% })} %>
     </h3>
     <div class="details">
         <% if (data.description) { %>
