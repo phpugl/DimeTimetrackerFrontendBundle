@@ -77,7 +77,7 @@
                     }
                 }
             }).render();
-            this.filter.updateFilter({date: moment(), 'date-period': 'W', active: false });
+            this.filter.updateFilter({date: moment(), 'date-period': 'W' });
 
             return this;
         },
