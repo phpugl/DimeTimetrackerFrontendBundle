@@ -2,7 +2,6 @@
     "name": "phpugl/dime-timetracker-frontend-bundle",
     "type": "symfony-bundle",
     "description": "HTML5 REST Client for the DimeTimetracker REST API",
-    "keywords": ["timetracker", "frontend", "backbone.js"],
     "homepage": "https://github.com/phpugl/DimeTimetrackerFrontendBundle",
     "license": "MIT",
     "authors": [
@@ -13,12 +12,8 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "phpugl/dime-timetracker-bundle": "dev-master",
-        "ruian/twitter-bootstrap-bundle": "dev-master"
-    },
-    "suggest": {
-        "phpugl/dime-invoice-bundle": "dev-master",
-        "phpugl/dime-import-bundle": "dev-master"
+        "phpugl/dime-timetracker-bundle": "*",
+        "ruian/twitter-bootstrap-bundle": "*"
     },
     "repositories": [
         {
@@ -32,33 +27,17 @@
         {
             "type": "package",
             "package": {
+                "version": "dev-master",
                 "name": "twitter/bootstrap",
-                "version": "master",
-                "dist": {
-                    "url": "https://github.com/twitter/bootstrap/zipball/master",
-                    "type": "zip"
-                },
                 "source": {
                     "url": "https://github.com/twitter/bootstrap.git",
                     "type": "git",
                     "reference": "master"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "leafo/lessphp",
-                "version": "master",
-                "dist": {
-                    "url": "https://github.com/leafo/lessphp/zipball/master",
-                    "type": "zip"
                 },
-                "source": {
-                    "url": "https://github.com/leafo/lessphp.git",
-                    "type": "git",
-                    "reference": "master"
-                }
+                "dist": {
+                    "url": "https://github.com/twitter/bootstrap/zipball/master",
+                    "type": "zip"
+                 }
             }
         }
     ],
