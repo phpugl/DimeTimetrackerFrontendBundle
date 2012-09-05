@@ -89,6 +89,13 @@
         shortDescription:function (length, endChars) {
             return (this.get('description')) ? App.Helper.Format.Truncate(this.get('description'), length, endChars) : '<no description>';
         },
+        addTimeslice: function (timeslice) {
+            if (timeslice && this.relation('timeslices')) {
+                var timeslices = this.relation('timeslices');
+                timeslices.add(timeslice);
+                this.set('duration', timeslices.duration());
+            }
+        },
         runningTimeslice:function () {
             return (this.relation('timeslices')) ? this.relation('timeslices').firstRunning() : undefined;
         },
