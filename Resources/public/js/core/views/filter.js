@@ -11,6 +11,7 @@
         defaults: {
             rendered: false,
             name: 'filter',
+            preservedOnReset: {},
             ui: {
                 filter: '#filter',
                 toggleButton: '#filter-button',
@@ -144,7 +145,6 @@
                 if (this.defaults.ui.dates) {
                     var dateInput = $(this.defaults.ui.dates), dateText = $(this.defaults.ui.dates + '-text');
 
-
                     var date = moment(), text = '';
                     if (filter.date) {
                         dateInput.data('date', filter.date.format(dateInput.data('date-format')));
@@ -243,14 +243,15 @@
 
             var filter = App.session.get(this.defaults.name) || {};
 
-            for (var name in filter) if (filter.hasOwnProperty(name)) {
-                if (name == 'open') { continue; }
-                delete filter[name];
+            for (var name in filter) {
+                if (filter.hasOwnProperty(name) && !this.defaults.preservedOnReset[name]) {
+                    delete filter[name];
+                }
             }
 
             if (this.defaults.ui.dates) {
                 filter.date = moment();
-                filter['date-period'] = 'D';
+                filter['date-period'] = 'W';
             }
 
             App.session.set(this.defaults.name, filter);

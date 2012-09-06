@@ -63,6 +63,9 @@
                 collection: this.customers,
                 defaults: {
                     name: 'customer-filter',
+                    preservedOnReset: {
+                        open: true
+                    },
                     ui: {
                         dates: false,
                         customers: false,

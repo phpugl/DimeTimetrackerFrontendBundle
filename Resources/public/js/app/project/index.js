@@ -63,6 +63,9 @@
                 collection: this.projects,
                 defaults: {
                     name: 'project-filter',
+                    preservedOnReset: {
+                        open: true
+                    },
                     ui: {
                         dates: false,
                         projects: false,
