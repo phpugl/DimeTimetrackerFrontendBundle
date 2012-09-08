@@ -78,7 +78,7 @@
 
                 this.model.start({
                     wait: true,
-                    success: function(item) {
+                    success: function(timeslice) {
                         button
                             .removeClass('start btn-success')
                             .addClass('stop btn-danger');
@@ -89,19 +89,12 @@
                         if (activeActivities) {
                             activeActivities.add(model);
                         }
-
-                        that.timer = setInterval(function() {
-                            var d = moment().diff(duration.data('start'), 'seconds');
-                            duration.text(model.formatDuration(duration.data('duration') + d));
-                        }, 1000);
-
-
                     }
                 });
             } else if (button.hasClass('stop')) {
                 this.model.stop({
                     wait: true,
-                    success: function (item) {
+                    success: function (timeslice) {
                         button
                             .removeClass('stop btn-danger')
                             .addClass('start btn-success');
@@ -110,11 +103,7 @@
                             clearInterval(that.timer);
                         }
 
-                        var d = duration.data('duration');
-                        d += item.get('duration');
-                        duration.data('duration', d);
-                        duration.text(model.formatDuration(d));
-
+                        model.addTimeslice(timeslice);
                         if (activities) {
                             activities.add(model);
                         }

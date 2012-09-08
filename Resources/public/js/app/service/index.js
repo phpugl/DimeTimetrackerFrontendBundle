@@ -63,6 +63,9 @@
                 collection: this.services,
                 defaults: {
                     name: 'service-filter',
+                    preservedOnReset: {
+                        open: true
+                    },
                     ui: {
                         dates: false,
                         customers: false,

@@ -3,7 +3,7 @@
 /**
  * Dime - app/activity/index.js
  */
-(function ($, Backbone, _, App) {
+(function ($, Backbone, _, moment, App) {
 
     // Activity index view
     App.provide('Views.Activity.Index', App.Views.Core.Content.extend({
@@ -28,6 +28,10 @@
                 collection: this.activities,
                 defaults: {
                     name: 'activity-filter',
+                    preservedOnReset: {
+                        open: true,
+                        active: true
+                    },
                     ui: {
                         dates: '.filter-date'
                     },
@@ -77,7 +81,8 @@
                     }
                 }
             }).render();
-            this.filter.updateFilter({date: moment(), 'date-period': 'W', active: false });
+            App.session.set('activity-filter', {date: moment(), 'date-period': 'W', active: false });
+            this.filter.updateFilter();
 
             return this;
         },
@@ -98,4 +103,4 @@
         }
     }));
 
-})(jQuery, Backbone, _, Dime);
+})(jQuery, Backbone, _, moment, Dime);

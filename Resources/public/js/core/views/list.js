@@ -129,38 +129,41 @@
             }
             return this;
         },
-        addAll:function () {
+        addAll: function () {
+            var tEmpty = '';
+
+            if (this.defaults.emptyTemplate) {
+                tEmpty = _.template($(this.defaults.emptyTemplate).html());
+            }
+
             // remove all content
-            this.$el.html('').addClass('loading');
+            this.$el.addClass('loading').html('');
 
             // run addItem on each collection item
             if (this.collection) {
-                if (this.collection.length == 0 && this.defaults.emptyTemplate) {
-                    var temp = _.template($(this.defaults.emptyTemplate).html());
-                    this.$el.html(temp());
-                    this.defaults.isEmpty = true;
-                } else {
-                    if (this.defaults.isEmpty) {
-                        this.$el.html('');
-                        this.defaults.isEmpty = false;
-                    }
+                if (this.collection.length > 0) {
+                    this.defaults.isEmpty = false;
 
                     this.collection.each(function(model) {
-                        if (this.defaults.item.prepend) {
-                            this.$el.prepend(this.renderItem(model).el);
-                        } else {
-                            this.$el.append(this.renderItem(model).el);
+                        var $el = this.renderItem(model).$el;
+
+                        if (!$el.is(':empty')) {
+                            if (this.defaults.item.prepend) {
+                                this.$el.prepend($el);
+                            } else {
+                                this.$el.append($el);
+                            }
                         }
                     }, this);
                 }
-            } else {
-                if (this.defaults.emptyTemplate) {
-                    var temp = _.template($(this.defaults.emptyTemplate).html());
-                    this.$el.html(temp());
-                }
             }
+
             this.$el.removeClass('loading');
 
+            if (this.defaults.emptyTemplate && this.$el.is(":empty")) {
+                this.$el.html(tEmpty());
+                this.defaults.isEmpty = true;
+            }
             return this;
         },
         addItem:function (model) {
@@ -178,7 +181,7 @@
             return this;
         },
         changeItem:function (model) {
-            if (model.id != undefined) {
+            if (model.id !== undefined) {
                 $('#' + this.defaults.prefix + model.id).replaceWith(this.renderItem(model).el);
             } else { // run addAll if item has no Id
                 this.addAll();
@@ -186,9 +189,9 @@
             return this;
         },
         removeItem:function(model) {
-            if (model.id != undefined) {
+            if (model.id !== undefined) {
                 $('#' + this.defaults.prefix + model.id).empty().detach();
-                if (this.collection.length == 0) {
+                if (this.collection.length === 0) {
                     this.collection.reset();
                 }
             }
