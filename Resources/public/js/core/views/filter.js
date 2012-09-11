@@ -20,6 +20,7 @@
                 customers: '#filter-customer',
                 projects: '#filter-project',
                 services: '#filter-service',
+                tags: '#filter-tags',
                 search: '#filter-search'
             },
             events:{
@@ -29,6 +30,7 @@
                 'change #filter-customer':'filterCustomer',
                 'change #filter-project':'filterProject',
                 'change #filter-service':'filterService',
+                'change #filter-tags':'filterTags',
                 'keyup #filter-search':'filterSearch'
             }
         },
@@ -60,6 +62,12 @@
             if (this.defaults.ui.services) {
                 this.services = App.session.get('service-filter-collection', function () {
                     return new App.Collection.Services();
+                });
+            }
+
+            if (this.defaults.ui.tags) {
+                this.tags = App.session.get('tags-filter-collection', function () {
+                    return new App.Collection.Tags();
                 });
             }
         },
@@ -97,6 +105,17 @@
                 }).render();
             }
 
+            // Render a tag select list
+            if (this.defaults.ui.tags) {
+                this.tagsFilter = new App.Views.Core.Select({
+                    el:this.defaults.ui.tags,
+                    collection:this.tags,
+                    defaults:{
+                        blankText:'by tag'
+                    }
+                }).render();
+            }
+
             return this;
         },
         remove: function() {
@@ -108,6 +127,9 @@
             }
             if (this.services) {
                 this.services.off();
+            }
+            if (this.tags) {
+                this.tags.off();
             }
         },
         toggleFilter:function (e) {
@@ -213,6 +235,15 @@
                         this.serviceFilter.select(filter.service);
                     } else {
                         this.serviceFilter.select('');
+                    }
+                }
+
+                // Display tags
+                if (this.defaults.ui.tags && this.tagsFilter) {
+                    if (filter.tags) {
+                        this.tagsFilter.select(filter.tags);
+                    } else {
+                        this.tagsFilter.select('');
                     }
                 }
 
@@ -330,6 +361,25 @@
                 filter.service = value;
             } else {
                 delete filter.service;
+            }
+
+            App.session.set(this.defaults.name, filter);
+            this.updateFilter();
+
+            return this;
+        },
+        filterTags:function (e) {
+            if (e) {
+                e.preventDefault();
+            }
+
+            var filter = App.session.get(this.defaults.name) || {},
+                value = $(this.defaults.ui.tags).val();
+
+            if (value && value.length > 0) {
+                filter.tags = value;
+            } else {
+                delete filter.tags;
             }
 
             App.session.set(this.defaults.name, filter);
