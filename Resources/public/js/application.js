@@ -52,6 +52,7 @@
                 Projects:'api/projects',
                 Services:'api/services',
                 Timeslices:'api/timeslices',
+                Tags:'api/tags',
                 Users:'api/users'
             },
             UI:{},

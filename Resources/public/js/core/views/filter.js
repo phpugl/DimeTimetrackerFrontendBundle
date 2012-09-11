@@ -130,6 +130,9 @@
                 if (this.defaults.ui.services) {
                     this.services.fetch();
                 }
+                if (this.defaults.ui.tags) {
+                    this.tags.fetch();
+                }
                 this.defaults.rendered = true;
             }
 

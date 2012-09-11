@@ -20,6 +20,10 @@
             this.activeActivities = App.session.get('activeActivities', function () {
                 return new App.Collection.Activities();
             });
+
+            this.availableTags = App.session.get('availableTags', function () {
+                return new App.Collection.Tags();
+            });
         },
         render:function () {
             // Render filter
@@ -65,6 +69,23 @@
             }).render();
             this.activeActivities.fetch({ data: { filter: { active: true } } });
 
+            // Render tags list
+            this.tags = new App.Views.Core.List({
+                el:'#tag-list',
+                collection:this.availableTags,
+                defaults:{
+                    prefix:'tag-',
+                    item:{
+                        attributes:{ "class":"tag" },
+                        prependNew:true,
+                        tagName:"section",
+                        template:'#tpl-tag-item',
+                        View:App.Views.Tag.Item
+                    }
+                }
+            }).render();
+            this.availableTags.fetch({ data: {} });
+
             // Render activities list
             this.list = new App.Views.Core.List({
                 el:'#activities',
@@ -93,6 +114,7 @@
 
             this.activeList.remove();
             this.list.remove();
+            this.tags.remove();
             this.filter.remove();
             this.pager.remove();
 

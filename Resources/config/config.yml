@@ -23,6 +23,7 @@ assetic:
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/service/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/customer/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/project/*'
+                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/tag/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/timeslice/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/user/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/main.js'

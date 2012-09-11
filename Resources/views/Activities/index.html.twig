@@ -40,12 +40,21 @@
     </li>
 </ul>
 
+<div id="tags" class="nav nav-list">
+    <li class="nav-header">Tags</li>
+    <ul id="tag-list" class="loading"></ul>
+</div>
+
 <h2>Active</h2>
 <div id="activities-active" class="loading"></div>
 <br />
 <h2>Last activities for <span class="filter-date-text"></span></h2>
 <div id="activities" class="loading"></div>
 <div class="pagination t-center"></div>
+
+<script type="text/template" id="tpl-tag-item">
+    #<%- data.name %>
+</script>
 
 <script type="text/template" id="tpl-activity-empty">
     <div class="alert alert-info"><strong>You list is empty!</strong> Hey, nothing to do for today?</div>
