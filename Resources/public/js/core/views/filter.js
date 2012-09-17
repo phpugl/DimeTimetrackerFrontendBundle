@@ -20,7 +20,8 @@
                 customers: '#filter-customer',
                 projects: '#filter-project',
                 services: '#filter-service',
-                tags: '#filter-tags',
+                withTags: '#filter-with-tags',
+                withoutTags: '#filter-without-tags',
                 search: '#filter-search'
             },
             events:{
@@ -30,7 +31,8 @@
                 'change #filter-customer':'filterCustomer',
                 'change #filter-project':'filterProject',
                 'change #filter-service':'filterService',
-                'change #filter-tags':'filterTags',
+                'change #filter-with-tags':'filterWithTags',
+                'change #filter-without-tags':'filterWithoutTags',
                 'keyup #filter-search':'filterSearch'
             }
         },
@@ -65,8 +67,14 @@
                 });
             }
 
-            if (this.defaults.ui.tags) {
-                this.tags = App.session.get('tags-filter-collection', function () {
+            if (this.defaults.ui.withTags) {
+                this.withTags = App.session.get('tags-filter-collection', function () {
+                    return new App.Collection.Tags();
+                });
+            }
+
+            if (this.defaults.ui.withoutTags) {
+                this.withoutTags = App.session.get('tags-filter-collection', function () {
                     return new App.Collection.Tags();
                 });
             }
@@ -106,12 +114,23 @@
             }
 
             // Render a tag select list
-            if (this.defaults.ui.tags) {
-                this.tagsFilter = new App.Views.Core.Select({
-                    el:this.defaults.ui.tags,
-                    collection:this.tags,
+            if (this.defaults.ui.withTags) {
+                this.withTagsFilter = new App.Views.Core.Select({
+                    el:this.defaults.ui.withTags,
+                    collection:this.withTags,
                     defaults:{
-                        blankText:'by tag'
+                        blankText:'with tag'
+                    }
+                }).render();
+            }
+
+            // Render a tag select list
+            if (this.defaults.ui.withoutTags) {
+                this.withoutTagsFilter = new App.Views.Core.Select({
+                    el:this.defaults.ui.withoutTags,
+                    collection:this.withoutTags,
+                    defaults:{
+                        blankText:'without tag'
                     }
                 }).render();
             }
@@ -128,8 +147,11 @@
             if (this.services) {
                 this.services.off();
             }
-            if (this.tags) {
-                this.tags.off();
+            if (this.withTags) {
+                this.withTags.off();
+            }
+            if (this.withoutTags) {
+                this.withoutTags.off();
             }
         },
         toggleFilter:function (e) {
@@ -152,8 +174,11 @@
                 if (this.defaults.ui.services) {
                     this.services.fetch();
                 }
-                if (this.defaults.ui.tags) {
-                    this.tags.fetch();
+                if (this.defaults.ui.withTags) {
+                    this.withTags.fetch();
+                }
+                if (this.defaults.ui.withoutTags) {
+                    this.withoutTags.fetch();
                 }
                 this.defaults.rendered = true;
             }
@@ -239,11 +264,18 @@
                 }
 
                 // Display tags
-                if (this.defaults.ui.tags && this.tagsFilter) {
-                    if (filter.tags) {
-                        this.tagsFilter.select(filter.tags);
+                if (this.defaults.ui.withTags && this.withTagsFilter) {
+                    if (filter.withTags) {
+                        this.withTagsFilter.select(filter.withTags);
                     } else {
-                        this.tagsFilter.select('');
+                        this.withTagsFilter.select('');
+                    }
+                }
+                if (this.defaults.ui.withoutTags && this.withoutTagsFilter) {
+                    if (filter.withoutTags) {
+                        this.withoutTagsFilter.select(filter.withoutTags);
+                    } else {
+                        this.withoutTagsFilter.select('');
                     }
                 }
 
@@ -368,18 +400,37 @@
 
             return this;
         },
-        filterTags:function (e) {
+        filterWithTags:function (e) {
             if (e) {
                 e.preventDefault();
             }
 
             var filter = App.session.get(this.defaults.name) || {},
-                value = $(this.defaults.ui.tags).val();
+                value = $(this.defaults.ui.withTags).val();
 
             if (value && value.length > 0) {
-                filter.tags = value;
+                filter.withTags = value;
             } else {
-                delete filter.tags;
+                delete filter.withTags;
+            }
+
+            App.session.set(this.defaults.name, filter);
+            this.updateFilter();
+
+            return this;
+        },
+        filterWithoutTags:function (e) {
+            if (e) {
+                e.preventDefault();
+            }
+
+            var filter = App.session.get(this.defaults.name) || {},
+                value = $(this.defaults.ui.withoutTags).val();
+
+            if (value && value.length > 0) {
+                filter.withoutTags = value;
+            } else {
+                delete filter.withoutTags;
             }
 
             App.session.set(this.defaults.name, filter);
