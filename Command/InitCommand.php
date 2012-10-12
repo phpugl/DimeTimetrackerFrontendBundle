@@ -20,7 +20,6 @@ class InitCommand extends ContainerAwareCommand
         $this
             ->setName('dime:init')
             ->setDescription('Initialize app')
-            ->addOption('dev', null, InputOption::VALUE_NONE, 'Install assets with symlinks and relative');
         ;
     }
 
@@ -29,11 +28,15 @@ class InitCommand extends ContainerAwareCommand
         $returnCode = $this->runExternalCommand('twitter-bootstrap:clear', $output);
         $returnCode = $this->runExternalCommand('twitter-bootstrap:compile', $output);
 
-        if ($input->getOption('dev')) {
-            $returnCode = $this->runExternalCommand('assets:install', $output, array('--symlink' => true, '--relative' => true, 'target' => 'web/'));
-        } else {
-            $returnCode = $this->runExternalCommand('assetic:dump', $output);
+        switch ($input->getOption("env")) {
+            case 'prod':
+                $returnCode = $this->runExternalCommand('assetic:dump', $output);
+                break;
+            default:
+                $returnCode = $this->runExternalCommand('assets:install', $output, array('--symlink' => true, '--relative' => true, 'target' => 'web/'));
         }
+
+        $returnCode = $this->runExternalCommand('cache:clear', $output);
     }
 
     protected function runExternalCommand($name, $output, array $input = array())
