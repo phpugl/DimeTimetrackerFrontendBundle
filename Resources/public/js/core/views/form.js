@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- * Dime - core/view/form.js
+ * Dime - core/views/form.js
  */
 (function ($, App) {
 
@@ -54,7 +54,13 @@
             $('.save').append(' <i class="icon loading-14-white"></i>');
             $('.cancel').attr('disabled', 'disabled');
 
-            this.model.save(this.form.data(), {
+            this.formData = this.form.data();
+
+            if (this.presave) {
+                this.presave(this.formData);
+            }
+
+            this.model.save(this.formData, {
                 wait:true,
                 success:function () {
                     that.close();

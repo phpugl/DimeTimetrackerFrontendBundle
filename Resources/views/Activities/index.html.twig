@@ -32,6 +32,18 @@
         </select>
     </li>
     <li>
+        <i class="icon-star hide-text">with Tag</i>
+        <select id="filter-with-tags" class="filter filter-tags filter-with-tags input-medium" title="with tags">
+            <option>with tag</option>
+        </select>
+    </li>
+    <li>
+        <i class="icon-star-empty hide-text">without Tag</i>
+        <select id="filter-without-tags" class="filter filter-tags filter-without-tags input-medium" title="without tags">
+            <option>without tag</option>
+        </select>
+    </li>
+    <li>
         <i class="icon-search hide-text">Search</i>
         <input id="filter-search" class="filter filter-search input-medium" title="Search" placeholder="Search...">
     </li>
@@ -70,6 +82,9 @@
         <% if (model.relation('project')) { %>
         <span class="alias">/<%- model.relation('project', 'alias') %></span>
         <% } %>
+        <% if (data.tags) { _.each(data.tags, function (tag) { %>
+            <span class="tag">#<%- tag.name %></span>
+        <% })} %>
     </h3>
     <div class="details">
         <% if (data.description) { %>

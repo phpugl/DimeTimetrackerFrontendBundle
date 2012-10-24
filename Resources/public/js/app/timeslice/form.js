@@ -39,6 +39,26 @@
                 duration = stop.diff(start, 'seconds');
 
             $('#timeslice-formatDuration').val(App.Helper.Format.Duration(duration));
+        },
+        render: function () {
+            // Fill form
+            this.form = this.$el.form();
+            this.form.clear();
+            this.form.fill(this.model.toJSON());
+
+            // Render tags
+            var tagObjects = this.model.get('tags');
+            var tags = [];
+            $.each(tagObjects, function(key, el) {
+                tags[key] = el.name;
+            });
+            this.form.get('tags')[0].value = tags.join(' ');
+            return this;
+        },
+        presave: function(data) {
+            if (data) {
+                data.tags = data.tags.split(' ');
+            }
         }
     }));
 

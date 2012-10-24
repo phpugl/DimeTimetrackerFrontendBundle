@@ -20,6 +20,8 @@
                 customers: '#filter-customer',
                 projects: '#filter-project',
                 services: '#filter-service',
+                withTags: '#filter-with-tags',
+                withoutTags: '#filter-without-tags',
                 search: '#filter-search'
             },
             events:{
@@ -29,6 +31,8 @@
                 'change #filter-customer':'filterCustomer',
                 'change #filter-project':'filterProject',
                 'change #filter-service':'filterService',
+                'change #filter-with-tags':'filterWithTags',
+                'change #filter-without-tags':'filterWithoutTags',
                 'keyup #filter-search':'filterSearch'
             }
         },
@@ -60,6 +64,18 @@
             if (this.defaults.ui.services) {
                 this.services = App.session.get('service-filter-collection', function () {
                     return new App.Collection.Services();
+                });
+            }
+
+            if (this.defaults.ui.withTags) {
+                this.withTags = App.session.get('tags-filter-collection', function () {
+                    return new App.Collection.Tags();
+                });
+            }
+
+            if (this.defaults.ui.withoutTags) {
+                this.withoutTags = App.session.get('tags-filter-collection', function () {
+                    return new App.Collection.Tags();
                 });
             }
         },
@@ -97,6 +113,28 @@
                 }).render();
             }
 
+            // Render a tag select list
+            if (this.defaults.ui.withTags) {
+                this.withTagsFilter = new App.Views.Core.Select({
+                    el:this.defaults.ui.withTags,
+                    collection:this.withTags,
+                    defaults:{
+                        blankText:'with tag'
+                    }
+                }).render();
+            }
+
+            // Render a tag select list
+            if (this.defaults.ui.withoutTags) {
+                this.withoutTagsFilter = new App.Views.Core.Select({
+                    el:this.defaults.ui.withoutTags,
+                    collection:this.withoutTags,
+                    defaults:{
+                        blankText:'without tag'
+                    }
+                }).render();
+            }
+
             return this;
         },
         remove: function() {
@@ -108,6 +146,12 @@
             }
             if (this.services) {
                 this.services.off();
+            }
+            if (this.withTags) {
+                this.withTags.off();
+            }
+            if (this.withoutTags) {
+                this.withoutTags.off();
             }
         },
         toggleFilter:function (e) {
@@ -129,6 +173,12 @@
                 }
                 if (this.defaults.ui.services) {
                     this.services.fetch();
+                }
+                if (this.defaults.ui.withTags) {
+                    this.withTags.fetch();
+                }
+                if (this.defaults.ui.withoutTags) {
+                    this.withoutTags.fetch();
                 }
                 this.defaults.rendered = true;
             }
@@ -210,6 +260,22 @@
                         this.serviceFilter.select(filter.service);
                     } else {
                         this.serviceFilter.select('');
+                    }
+                }
+
+                // Display tags
+                if (this.defaults.ui.withTags && this.withTagsFilter) {
+                    if (filter.withTags) {
+                        this.withTagsFilter.select(filter.withTags);
+                    } else {
+                        this.withTagsFilter.select('');
+                    }
+                }
+                if (this.defaults.ui.withoutTags && this.withoutTagsFilter) {
+                    if (filter.withoutTags) {
+                        this.withoutTagsFilter.select(filter.withoutTags);
+                    } else {
+                        this.withoutTagsFilter.select('');
                     }
                 }
 
@@ -327,6 +393,44 @@
                 filter.service = value;
             } else {
                 delete filter.service;
+            }
+
+            App.session.set(this.defaults.name, filter);
+            this.updateFilter();
+
+            return this;
+        },
+        filterWithTags:function (e) {
+            if (e) {
+                e.preventDefault();
+            }
+
+            var filter = App.session.get(this.defaults.name) || {},
+                value = $(this.defaults.ui.withTags).val();
+
+            if (value && value.length > 0) {
+                filter.withTags = value;
+            } else {
+                delete filter.withTags;
+            }
+
+            App.session.set(this.defaults.name, filter);
+            this.updateFilter();
+
+            return this;
+        },
+        filterWithoutTags:function (e) {
+            if (e) {
+                e.preventDefault();
+            }
+
+            var filter = App.session.get(this.defaults.name) || {},
+                value = $(this.defaults.ui.withoutTags).val();
+
+            if (value && value.length > 0) {
+                filter.withoutTags = value;
+            } else {
+                delete filter.withoutTags;
             }
 
             App.session.set(this.defaults.name, filter);
