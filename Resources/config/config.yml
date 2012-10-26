@@ -28,3 +28,4 @@ assetic:
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/user/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/main.js'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/router.js'
+

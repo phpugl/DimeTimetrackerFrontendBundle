@@ -204,27 +204,37 @@
              * Fetch remote template and save it for later use
              *
              * @param name Name of Symfony2 template (e.g. DimeTimetrackerFrontedBundle:Activity:form)
+             * @param cache, store template in cache, default: true
              * @return HTML template
              */
-            template:function (name) {
+            template:function (name, cache) {
                 if (!name) {
                     throw "Give a name for Dime.template(name)";
                 }
+                if (cache === undefined) {
+                    cache = true;
+                }
 
-                if (!store.templates[name]) {
-                    if (name.search(/:/) !== -1) {
-                        $.ajax({
-                            async:false,
-                            url:'template/' + name,
-                            dataType:'html',
-                            success:function (data) {
-                                store.templates[name] = data;
-                            }
-                        });
+                if (cache && store.templates[name]) {
+                    return store.templates[name];
+                }
 
-                    } else {
-                        store.template[name] = $(name);
+                if (name.search(/:/) !== -1) {
+                    $.ajax({
+                        async:false,
+                        url:'template/' + name,
+                        dataType:'html',
+                        success:function (data) {
+                            store.templates[name] = data;
+                        }
+                    });
+
+                } else {
+                    var template = $(name);
+                    if (cache) {
+                        store.template[name] = template;
                     }
+                    return template;
                 }
 
                 return store.templates[name];
