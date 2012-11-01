@@ -69,8 +69,10 @@
             <div class="btn-group">
                 <% if (model.runningTimeslice()) { %>
                 <button class="track stop btn btn-danger"><i class="icon-time icon-white"></i></button>
+                <a class="edit btn" href="#timeslice/<%- model.runningTimeslice().id %>/edit" title="Edit"><i class="icon-pencil"></i></a>
                 <% } else { %>
                 <button class="track start btn btn-success"><i class="icon-time icon-white"></i></button>
+                <a class="edit btn" href="#activity/<%- data.id %>/timeslice/add" title="Add timeslice"><i class="icon-plus"></i></a>
                 <% } %>
                 <span data-duration="<%- data.duration %>" class="duration btn disabled"><%- model.formatDuration(data.duration) %></span>
             </div>
@@ -91,7 +93,6 @@
         <pre><%- data.description %></pre>
         <% } %>
         <div class="pull-right">
-            <a class="edit" href="#activity/<%- data.id %>/timeslice/add"><i class="icon-plus"></i> Timeslice</a>
             <a class="edit" href="#activity/<%- data.id %>/edit"><i class="icon-pencil"></i> Edit</a>
             <a class="delete" href="#activity/<%- data.id %>/delete"><i class="icon-remove"></i> Delete</a>
         </div>
