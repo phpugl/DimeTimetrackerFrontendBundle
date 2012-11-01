@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InitCommand extends ContainerAwareCommand
+class PublishAssetsCommand extends ContainerAwareCommand
 {
     public function __construct($name = null)
     {
@@ -18,9 +18,9 @@ class InitCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('dime:init')
-            ->setDescription('Initialize app')
-        ;
+            ->setName('dime:publish-assets')
+            ->setAliases(array('dpa'))
+            ->setDescription('Publish assets and clear cache');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -33,7 +33,11 @@ class InitCommand extends ContainerAwareCommand
                 $returnCode = $this->runExternalCommand('assetic:dump', $output);
                 break;
             default:
-                $returnCode = $this->runExternalCommand('assets:install', $output, array('--symlink' => true, '--relative' => true, 'target' => 'web/'));
+                $returnCode = $this->runExternalCommand(
+                    'assets:install',
+                    $output,
+                    array('--symlink' => true, '--relative' => true, 'target' => 'web/')
+                );
         }
 
         $returnCode = $this->runExternalCommand('cache:clear', $output);
@@ -44,12 +48,12 @@ class InitCommand extends ContainerAwareCommand
         $command = $this->getApplication()->find($name);
 
         if ($command) {
-          $args = array_merge(array('command' => $name), $input);
-          $input = new ArrayInput($args);
+            $args = array_merge(array('command' => $name), $input);
+            $input = new ArrayInput($args);
 
-          return $command->run($input, $output);
+            return $command->run($input, $output);
         } else {
-          return false;
+            return false;
         }
     }
 }
