@@ -74,12 +74,14 @@
             this.services.fetch();
 
             // Render tags
-            var tagObjects = this.model.get('tags');
-            var tags = [];
-            $.each(tagObjects, function(key, el) {
-                tags[key] = el.name;
-            });
-            this.form.get('tags')[0].value = tags.join(' ');
+            if (this.model.get('tags')) {
+                var tagObjects = this.model.get('tags');
+                var tags = [];
+                $.each(tagObjects, function(key, el) {
+                    tags[key] = el.name;
+                });
+                this.form.get('tags')[0].value = tags.join(' ');
+            }
 
             // Render timeslices
             if (this.model.relation('timeslices')) {
