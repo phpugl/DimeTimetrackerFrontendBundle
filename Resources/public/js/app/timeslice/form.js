@@ -55,7 +55,7 @@
                 });
                 this.form.get('tags')[0].value = tags.join(' ');
             }
-            
+
             return this;
         },
         presave: function(data) {
