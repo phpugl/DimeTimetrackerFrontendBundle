@@ -60,7 +60,11 @@
         },
         presave: function(data) {
             if (data) {
-                data.tags = data.tags.split(' ');
+                if (0 < data.tags.length) {
+                    data.tags = data.tags.split(' ');
+                } else {
+                    data.tags = [];
+                }
             }
         }
     }));
