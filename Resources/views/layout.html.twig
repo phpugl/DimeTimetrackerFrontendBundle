@@ -9,7 +9,6 @@
 
     <!-- Le styles -->
     <link href="{{ asset('bundles/ruiantwitterbootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/dimetimetrackerfrontend/css/bootstrap-datepicker.css') }}" rel="stylesheet">
     <style type="text/css">
         body {
           padding-top: 60px;
@@ -17,6 +16,7 @@
         }
     </style>
     <link href="{{ asset('bundles/ruiantwitterbootstrap/css/bootstrap-responsive.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/dimetimetrackerfrontend/css/bootstrap-datepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('bundles/dimetimetrackerfrontend/css/style.css') }}" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -70,13 +70,17 @@
       </footer>
     </div> <!-- /container -->
 
+    <script type="text/template" id="tpl-application-notification">
+        <div class="alert<%- type %>"><button type="button" class="close" data-dismiss="alert">×</button><%- message %></div>
+    </script>
+
     <!-- javascript
     ================================================== -->
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
     {% javascripts
-      '@vendors'
-      '@plugins'
-      '@app'
+      '@js_vendors'
+      '@js_plugins'
+      '@js_app'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}

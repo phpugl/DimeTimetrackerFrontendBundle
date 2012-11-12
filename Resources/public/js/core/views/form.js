@@ -63,11 +63,12 @@
             this.model.save(this.formData, {
                 wait:true,
                 success:function () {
+                    App.notify("Data saved.", "success");
                     that.close();
                 },
                 error:function (model, response, scope) {
                     $('.cancel').removeAttr('disabled');
-
+                    App.notify("Test", "error");
                     var data = $.parseJSON(response.responseText);
 
                     if (data.errors) {

@@ -12,6 +12,7 @@
             routes:{},
             templates:{}
         };
+
         // Main menu collection
         var init = new Backbone.Collection();
         init.comparator = function (model) {
@@ -114,6 +115,38 @@
                     return this;
                 } else {
                     return menu;
+                }
+            },
+            /**
+             * add notification to area-header
+             *
+             * @param message message of notification
+             * @param type, if undefined will be warning style [info|success|error]
+             * @param delay, defauklt: 2000
+             */
+            notify:function (message, type, delay) {
+                var template = this.template("#tpl-application-notification");
+                if (delay == undefined) {
+                    delay = 2000;
+                }
+
+                if (template) {
+                    var header = $('#area-header');
+                    if (header) {
+                        var data = {message: message};
+                        if (type) {
+                            data.type = ' alert-' + type;
+                        }
+                        var $el = $(template(data));
+                        if (delay) {
+                            $el.delay(2000).promise().done(function () {
+                                $el.fadeOut('slow', function() {
+                                    $el.detach().remove();
+                                });
+                            });
+                        }
+                        header.append($el);
+                    }
                 }
             },
             /**
@@ -231,8 +264,11 @@
 
                 } else {
                     var template = $(name);
+                    if (template && template[0]) {
+                        template = _.template(template.html())
+                    }
                     if (cache) {
-                        store.template[name] = template;
+                        store.templates[name] = template;
                     }
                     return template;
                 }
