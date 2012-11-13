@@ -1,17 +1,27 @@
 assetic:
     assets:
-        vendors:
+        css_vendors:
+            inputs:
+                - '@RuianTwitterBootstrapBundle/Resources/public/css/bootstrap.min.css'
+                - '@RuianTwitterBootstrapBundle/Resources/public/css/bootstrap-responsive.min.css'
+        css_plugins:
+            inputs:
+                - '@DimeTimetrackerFrontendBundle/Resources/public/css/bootstrap-datepicker.css'
+        css_app:
+            inputs:
+                - '@DimeTimetrackerFrontendBundle/Resources/public/css/style.css'
+        js_vendors:
             inputs:
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/json2.js'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/jquery.min.js'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/underscore.min.js'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/backbone.min.js'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/*'
-        plugins:
+        js_plugins:
             inputs:
                 - '@RuianTwitterBootstrapBundle/Resources/public/js/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/plugins/*'
-        app:
+        js_app:
             inputs:
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/application.js'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/model/*'

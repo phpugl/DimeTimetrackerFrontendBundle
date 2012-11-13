@@ -6,6 +6,14 @@
         Purpose of the stylesheet follows.
 */
 
+
+@media (min-width: 980px) {
+    body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+    }
+}
+
 .t-left {
     text-align: left;
 }
@@ -233,4 +241,3 @@ header .title .filter {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     text-transform: uppercase;
 }
-

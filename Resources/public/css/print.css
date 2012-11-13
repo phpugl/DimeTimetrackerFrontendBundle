@@ -1,0 +1,7 @@
+#area-nav-main,
+#area-header,
+#area-footer,
+.dont-print {
+    display: none;
+}
+
