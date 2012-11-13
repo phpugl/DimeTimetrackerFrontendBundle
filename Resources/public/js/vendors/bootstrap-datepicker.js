@@ -217,6 +217,7 @@
         },
 
         update: function(){
+            this.format = this.element.data('date-format')||'MM/DD/YYYY';
             this.date = $.fn.datepicker.DPGlobal.parseDate(
                 this.isInput ? this.element.prop('value') : this.element.data('date') || this.element.find('input').prop('value'),
                 this.format, this.language
