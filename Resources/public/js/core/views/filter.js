@@ -67,14 +67,8 @@
                 });
             }
 
-            if (this.defaults.ui.withTags) {
-                this.withTags = App.session.get('tags-filter-collection', function () {
-                    return new App.Collection.Tags();
-                });
-            }
-
-            if (this.defaults.ui.withoutTags) {
-                this.withoutTags = App.session.get('tags-filter-collection', function () {
+            if (this.defaults.ui.withTags || this.defaults.ui.withoutTags) {
+                this.tags = App.session.get('tags-filter-collection', function () {
                     return new App.Collection.Tags();
                 });
             }
@@ -117,7 +111,7 @@
             if (this.defaults.ui.withTags) {
                 this.withTagsFilter = new App.Views.Core.Select({
                     el:this.defaults.ui.withTags,
-                    collection:this.withTags,
+                    collection:this.tags,
                     defaults:{
                         blankText:'with tag'
                     }
@@ -128,7 +122,7 @@
             if (this.defaults.ui.withoutTags) {
                 this.withoutTagsFilter = new App.Views.Core.Select({
                     el:this.defaults.ui.withoutTags,
-                    collection:this.withoutTags,
+                    collection:this.tags,
                     defaults:{
                         blankText:'without tag'
                     }
@@ -147,11 +141,8 @@
             if (this.services) {
                 this.services.off();
             }
-            if (this.withTags) {
-                this.withTags.off();
-            }
-            if (this.withoutTags) {
-                this.withoutTags.off();
+            if (this.tags) {
+                this.tags.off();
             }
         },
         toggleFilter:function (e) {
@@ -174,11 +165,8 @@
                 if (this.defaults.ui.services) {
                     this.services.fetch();
                 }
-                if (this.defaults.ui.withTags) {
-                    this.withTags.fetch();
-                }
-                if (this.defaults.ui.withoutTags) {
-                    this.withoutTags.fetch();
+                if (this.defaults.ui.withTags || this.defaults.ui.withoutTags) {
+                    this.tags.fetch();
                 }
                 this.defaults.rendered = true;
             }
