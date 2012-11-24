@@ -67,13 +67,17 @@
                     that.close();
                 },
                 error:function (model, response, scope) {
+                    $('.save i.icon').remove();
                     $('.cancel').removeAttr('disabled');
-                    App.notify("Test", "error");
                     var data = $.parseJSON(response.responseText);
 
                     if (data.errors) {
                         that.form.errors(data.errors);
+                        App.notify("Hey, you have missed some fields.", "error");
+                    } else {
+                        App.notify(response.status + ": " + response.statusText, "error");
                     }
+
                 }
             });
         },

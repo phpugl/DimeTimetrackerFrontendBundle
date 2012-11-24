@@ -74,6 +74,10 @@
                         if (activities) {
                             activities.add(model);
                         }
+                    },
+                    error: function(model, response, scope) {
+                        icon.removeClass('loading-14-white');
+                        App.notify('Something goes wrong here. [' + response.status + ': ' + response.statusText  +']', 'error');
                     }
                 });
             }

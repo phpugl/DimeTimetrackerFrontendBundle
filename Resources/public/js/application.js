@@ -122,7 +122,7 @@
              *
              * @param message message of notification
              * @param type, if undefined will be warning style [info|success|error]
-             * @param delay, defauklt: 2000
+             * @param delay, default: 2000
              */
             notify:function (message, type, delay) {
                 var template = this.template("#tpl-application-notification");
