@@ -63,7 +63,7 @@
             this.model.save(this.formData, {
                 wait:true,
                 success:function () {
-                    App.notify("Data saved.", "success");
+                    App.notify("Nice, all data are saved properly.", "success");
                     that.close();
                 },
                 error:function (model, response, scope) {
