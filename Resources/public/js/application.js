@@ -80,25 +80,15 @@
              * @return Dime
              */
             log:function (msg, level) {
-                if (!msg) {
-                    throw "Provide a message for Dime.log(msg)";
-                }
-
-                var text = moment().format('HH:mm:ss ');
-                if (level) {
-                    text = ["[", level, "] ", text].join('');
-                }
-
                 if (console && console.log) {
-                    if (typeof(msg) == 'string') {
-                        console.log(text + msg);
-                    } else {
-                        console.log(text);
-                        console.log(msg);
+                    var content = [];
+                    if (level) {
+                        content.push(level);
                     }
-
+                    content.push(moment().format('HH:mm:ss'));
+                    content.push(msg);
+                    console.log(content);
                 }
-
                 return this;
             },
             /**
