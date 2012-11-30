@@ -5,12 +5,12 @@
  */
 (function ($, moment, App) {
 
-    App.route("timeslice:edit", "timeslice/:id/edit", function (id) {
+    App.router.route("timeslice/:id/edit", "timeslice:edit", function (id) {
         var model = new App.Model.Timeslice({id:id});
         model.fetch({async:false});
 
-        App.UI.menu.activateItem('activity');
-        App.UI.router.switchView(new App.Views.Timeslice.Form({
+        App.menu.activateItem('activity');
+        App.router.switchView(new App.Views.Timeslice.Form({
             defaults:{
                 title:'Edit Timeslice',
                 template:'DimeTimetrackerFrontendBundle:Timeslices:form',
@@ -21,7 +21,7 @@
         }));
     });
 
-    App.route("activity:add-timeslice", "activity/:id/timeslice/add", function (id) {
+    App.router.route("activity/:id/timeslice/add", "activity:add-timeslice", function (id) {
         var activity = new App.Model.Activity({id:id});
         activity.fetch({async:false});
 
@@ -34,8 +34,8 @@
             'stoppedAt-date': moment().format('YYYY-MM-DD')
         }, {silent: true});
 
-        App.UI.menu.activateItem('activity');
-        App.UI.router.switchView(new App.Views.Timeslice.Form({
+        App.menu.activateItem('activity');
+        App.router.switchView(new App.Views.Timeslice.Form({
             defaults:{
                 title:'Add Timeslice',
                 template:'DimeTimetrackerFrontendBundle:Timeslices:form',

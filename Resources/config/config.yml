@@ -24,11 +24,12 @@ assetic:
         js_app:
             inputs:
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/application.js'
+                - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/helper/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/model/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/base.js'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/helper/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/views/*'
+                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/main.js'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/activity/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/service/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/customer/*'
@@ -36,6 +37,4 @@ assetic:
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/tag/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/timeslice/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/user/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/main.js'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/router.js'
 

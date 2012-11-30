@@ -5,41 +5,44 @@
  */
 (function ($, App) {
 
-  // Initialize main menu - bind on #nav-main
-  App.initialize({
-    name: 'navigation',
-    callback: function() {
-      App.UI.menu = new App.Views.Core.Menu({
-        collection: App.menu(),
-        attributes: {
-          'class': 'nav'
+    // Define home route
+    App.router.route("", "home", function () {
+        App.menu.activateItem('activity');
+        App.router.switchView(new App.Views.Activity.Index());
+    });
+
+    // Define management menu
+    App.menu.add({
+        id:'management',
+        title:'Administration',
+        weight:10
+    });
+
+    // Define help menu
+    App.provide('Views.Help', App.Views.Core.Content.extend({
+        template:'DimeTimetrackerFrontendBundle:App:help'
+    }));
+    App.menu.add({
+        id:"help",
+        title:"Help",
+        route:"help",
+        weight:1000,
+        callback:function () {
+            App.menu.activateItem('help');
+            App.router.switchView(new App.Views.Help());
         }
-      });
-      $('#nav-main').prepend(App.UI.menu.render().el);
-    }
-  });
+    });
 
-  // Define home route
-  App.route("home", "", function() {
-      App.UI.menu.activateItem('activity');
-      App.UI.router.switchView(new App.Views.Activity.Index());
-  });
-
-  // Define help menu
-  App.menu({
-    name: "help",
-    title: "Help",
-    route: "help",
-    weight: 1000,
-    callback: function() {
-      App.UI.menu.activateItem('help');
-      App.UI.router.switchView(new App.Views.Help());
-    }
-  });
-
-  App.provide('Views.Help', App.Views.Core.Content.extend({
-    template: 'DimeTimetrackerFrontendBundle:App:help'
-  }));
+    // Initialize router
+    App.hook.add({
+        id: 'router',
+        scope: 'initialize',
+        weight: 9999,
+        callback: function() {
+            App.router.setElement('#area-content');
+            Backbone.history.start();
+        }
+    });
 
 })(jQuery, Dime);
 

@@ -6,8 +6,9 @@
 (function ($, App) {
 
     // Initialize main view - bind on <body>
-    App.initialize({
-        name:'activity:tracker',
+    App.hook.add({
+        id:'activity:tracker',
+        scope: 'initialize',
         callback:function () {
             var tracker = new App.Views.Activity.Track();
             tracker.render();

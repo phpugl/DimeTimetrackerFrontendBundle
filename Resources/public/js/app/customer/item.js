@@ -4,7 +4,7 @@
  * Dime - app/customer/item.js
  */
 (function ($, App) {
-  
+
   // Create item view in App.Views.Customer
   App.provide('Views.Customer.Item', App.Views.Core.ListItem.extend({
     events: {
@@ -13,7 +13,7 @@
     },
     edit: function(e) {
       e.stopPropagation();
-      App.UI.router.navigate('#customer/' + this.model.id + '/edit', { trigger: true });
+      App.router.navigate('#customer/' + this.model.id + '/edit', { trigger: true });
     },
     'delete': function(e) {
       e.preventDefault();
@@ -27,5 +27,5 @@
       }
     }
   }));
-  
+
 })(jQuery, Dime);

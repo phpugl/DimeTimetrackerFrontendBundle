@@ -6,23 +6,23 @@
 (function ($, App) {
 
     // Add menu item to main menu
-    App.menu({
-        name:"customer",
+    App.menu.get('management').submenu.add({
+        id:"customer",
         title:"Customer",
         route:"customer",
         weight:0,
         callback:function () {
-            App.UI.menu.activateItem('customer');
-            App.UI.router.switchView(new App.Views.Customer.Index());
+            App.menu.activateItem('management.customer');
+            App.router.switchView(new App.Views.Customer.Index());
         }
     });
 
     // Define Routes
-    App.route("customer:add", "customer/add", function () {
+    App.router.route("customer/add", "customer:add", function () {
         var model = new App.Model.Customer();
 
-        App.UI.menu.activateItem('customer');
-        App.UI.router.switchView(new App.Views.Customer.Form({
+        App.menu.activateItem('management.customer');
+        App.router.switchView(new App.Views.Customer.Form({
             defaults:{
                 title:'Add Customer',
                 template:'DimeTimetrackerFrontendBundle:Customers:form',
@@ -32,12 +32,12 @@
             model:model
         }));
     });
-    App.route("customer:edit", "customer/:id/edit", function (id) {
+    App.router.route("customer/:id/edit", "customer:edit", function (id) {
         var model = new App.Model.Customer({id:id});
         model.fetch({async:false});
 
-        App.UI.menu.activateItem('customer');
-        App.UI.router.switchView(new App.Views.Customer.Form({
+        App.menu.activateItem('management.customer');
+        App.router.switchView(new App.Views.Customer.Form({
             defaults:{
                 title:'Edit Customer',
                 template:'DimeTimetrackerFrontendBundle:Customers:form',

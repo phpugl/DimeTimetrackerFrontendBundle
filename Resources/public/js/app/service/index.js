@@ -6,23 +6,23 @@
 (function ($, Backbone, _, App) {
 
     // Add menu item to main menu
-    App.menu({
-        name:"service",
+    App.menu.get('management').submenu.add({
+        id:"service",
         title:"Service",
         route:"service",
         weight:0,
         callback:function () {
-            App.UI.menu.activateItem('service');
-            App.UI.router.switchView(new App.Views.Service.Index());
+            App.menu.activateItem('management.service');
+            App.router.switchView(new App.Views.Service.Index());
         }
     });
 
     // Define Routes
-    App.route("service:add", "service/add", function () {
+    App.router.route("service/add", "service:add", function () {
         var model = new App.Model.Service();
 
-        App.UI.menu.activateItem('service');
-        App.UI.router.switchView(new App.Views.Service.Form({
+        App.menu.activateItem('management.service');
+        App.router.switchView(new App.Views.Service.Form({
             defaults:{
                 title:'Add Service',
                 template:'DimeTimetrackerFrontendBundle:Services:form',
@@ -32,12 +32,12 @@
             model:model
         }));
     });
-    App.route("service:edit", "service/:id/edit", function (id) {
+    App.router.route("service/:id/edit", "service:edit", function (id) {
         var model = new App.Model.Service({id:id});
         model.fetch({async:false});
 
-        App.UI.menu.activateItem('service');
-        App.UI.router.switchView(new App.Views.Service.Form({
+        App.menu.activateItem('management.service');
+        App.router.switchView(new App.Views.Service.Form({
             defaults:{
                 title:'Edit Service',
                 template:'DimeTimetrackerFrontendBundle:Services:form',

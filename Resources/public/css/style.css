@@ -6,7 +6,7 @@
         Purpose of the stylesheet follows.
 */
 
-
+/* tweak bootstrap */
 @media (min-width: 980px) {
     body {
         padding-top: 60px;

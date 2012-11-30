@@ -13,32 +13,6 @@
             templates:{}
         };
 
-        // Main menu collection
-        var init = new Backbone.Collection();
-        init.comparator = function (model) {
-            return model.get('weight');
-        };
-
-        // Main menu collection
-        var menu = new Backbone.Collection();
-        // Comparator for menu sorting
-        menu.comparator = function (first, second) {
-            var fW = first.get('weight'), sW = second.get('weight');
-            if (fW > sW) {
-                return 1;
-            } else if (fW < sW) {
-                return -1;
-            } else {
-                var fN = first.get('name'), sN = second.get('name');
-                if (fN > sN) {
-                    return 1;
-                } else if (fN < sN) {
-                    return -1;
-                }
-                return 0;
-            }
-        };
-
         // Return Dime object
         return {
             Collection:{},
@@ -55,22 +29,6 @@
                 Timeslices:'api/timeslices',
                 Tags:'api/tags',
                 Users:'api/users'
-            },
-            UI:{},
-            /**
-             * Initialization hook
-             *
-             * @param item Object {name: 'Unique name', weight: 0, callback: func}
-             * @return Dime
-             */
-            initialize:function (item) {
-                if (item) {
-                    item = _.extend({ weight:0 }, item);
-                    init.add(item);
-                    return this;
-                } else {
-                    return init;
-                }
             },
             /**
              * Log a message if a logger exists
@@ -90,22 +48,6 @@
                     console.log(content);
                 }
                 return this;
-            },
-            /**
-             * add a menu item to main menu
-             *
-             * @param item object { name: 'identifier', title: 'Title', weight: 0, route: 'route/to/:id', callback: func}
-             * @return Dime or menu collection
-             */
-            menu:function (item) {
-                if (item) {
-                    item = _.extend({ weight:0 }, item);
-                    menu.add(item);
-                    this.route(item.name, item.route, item.callback);
-                    return this;
-                } else {
-                    return menu;
-                }
             },
             /**
              * add notification to area-header
@@ -183,43 +125,19 @@
             run:function () {
                 this.log('Starting application', 'INFO');
 
-                // Initialize router
-                this.UI.router = new this.Router.Main({ routes:store.routes });
-
                 // Initialize
-                if (init.length > 0) {
-                    for (var i = 0; i < init.length; i++) {
-                        var model = init.at(i);
-                        this.log('Init ' + model.get('name'), 'DEBUG');
-                        model.get('callback')();
+                var initialize = this.hook.where({scope: 'initialize'});
+                if (initialize.length > 0) {
+                    for (var i = 0; i < initialize.length; i++) {
+                        var model = initialize[i],
+                            callback = model.get('callback');
+
+                        if (callback) {
+                            this.log('Initialize ' + model.id, 'DEBUG');
+                            callback();
+                        }
                     }
                 }
-
-                // last action - start history without pushState
-                Backbone.history.start();
-
-                return this;
-            },
-            /**
-             * Manage app routes
-             *
-             * @param name string route name, unique
-             * @param route string route it self
-             * @param callback function
-             * @return {*}
-             */
-            route:function (name, route, callback) {
-                if (name === undefined) {
-                    return store.routes;
-                }
-                if (route === undefined && callback === undefined) {
-                    return store.routes[name];
-                }
-
-                store.routes[name] = {
-                    route:route,
-                    callback:callback
-                };
 
                 return this;
             },
@@ -267,6 +185,39 @@
             }
         };
     }();
+
+    var ApplicationRouter = Backbone.Router.extend({
+        el:undefined,
+        '$el':undefined,
+        currentRoute:undefined,
+        currentView:undefined,
+        navigate:function (fragment, options) {
+            this.currentRoute = fragment;
+            return Backbone.Router.prototype.navigate.call(this, fragment, options);
+        },
+        route: function(route, name, callback) {
+            Dime.log("Add route [" + route + "]");
+            return Backbone.Router.prototype.route.call(this, route, name, callback);
+        },
+        setElement:function (el) {
+            this.el = el;
+            this.$el = $(this.el);
+        },
+        switchView:function (view) {
+            if (this.currentView) {
+                // Detach the old view
+                this.currentView.remove();
+                this.$el.addClass('loading');
+            }
+            // fetch template
+            view.$el.html(Dime.template(view.template));
+            this.$el.html(view.el);
+            view.render();
+            this.currentView = view;
+            this.$el.removeClass('loading');
+        }
+    });
+    Dime.provide('router', new ApplicationRouter());
 
     // Expose Dime to the global object
     if (!window.Dime) {

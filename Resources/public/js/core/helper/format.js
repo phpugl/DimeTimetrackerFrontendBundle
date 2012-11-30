@@ -1,11 +1,11 @@
 'use strict';
 
 /**
- * Dime - model/activity.js
+ * Dime - helper/format.js
  *
  * Register Activity model to namespace App.
  */
-(function ($, App) {
+(function (App, moment) {
 
     /**
      * App.Helper.Format.Duration
@@ -79,5 +79,5 @@
         return text;
     });
 
-})(jQuery, Dime);
+})(Dime, moment);
 

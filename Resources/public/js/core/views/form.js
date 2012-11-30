@@ -82,7 +82,7 @@
             });
         },
         close:function () {
-            App.UI.router.navigate(this.defaults.backNavigation, { trigger:true });
+            App.router.navigate(this.defaults.backNavigation, { trigger:true });
         }
     }));
 

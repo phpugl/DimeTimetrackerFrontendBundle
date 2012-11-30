@@ -5,25 +5,24 @@
  */
 (function ($, App) {
 
-    App.menu({
-        name:"activity",
+    App.menu.add({
+        id:"activity",
         title:"Activity",
         route:"activity",
         weight:-20,
-        active:true,
         callback:function () {
-            App.UI.menu.activateItem('activity');
-            App.UI.router.switchView(new App.Views.Activity.Index());
+            App.menu.activateItem('activity');
+            App.router.switchView(new App.Views.Activity.Index());
         }
     });
     App.session.set('default-backlink', 'activity');
 
     // Define Routes
-    App.route("activity:add", "activity/add", function () {
+    App.router.route("activity/add", "activity:add", function () {
         var model = new App.Model.Activity();
 
-        App.UI.menu.activateItem('activity');
-        App.UI.router.switchView(new App.Views.Activity.Form({
+        App.menu.activateItem('activity');
+        App.router.switchView(new App.Views.Activity.Form({
             defaults:{
                 title:'Add Activity',
                 template:'DimeTimetrackerFrontendBundle:Activities:form',
@@ -34,12 +33,12 @@
         }));
     });
 
-    App.route("activity:edit", "activity/:id/edit", function (id) {
+    App.router.route("activity/:id/edit", "activity:edit", function (id) {
         var model = new App.Model.Activity({id:id});
         model.fetch({async:false});
 
-        App.UI.menu.activateItem('activity');
-        App.UI.router.switchView(new App.Views.Activity.Form({
+        App.menu.activateItem('activity');
+        App.router.switchView(new App.Views.Activity.Form({
             defaults:{
                 title:'Edit Activity',
                 template:'DimeTimetrackerFrontendBundle:Activities:form',
