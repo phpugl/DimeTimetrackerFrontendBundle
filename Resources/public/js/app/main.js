@@ -13,7 +13,7 @@
 
     // Define management menu
     App.menu.add({
-        id:'management',
+        id:'admin',
         title:'Administration',
         weight:10
     });
@@ -30,6 +30,21 @@
         callback:function () {
             App.menu.activateItem('help');
             App.router.switchView(new App.Views.Help());
+        }
+    });
+
+    // Initialize main menu - bind on #nav-main
+    App.hook.add({
+        id:'navigation',
+        scope: 'initialize',
+        callback:function () {
+            var view = new App.Views.Core.Menu({
+                collection:App.menu,
+                attributes:{
+                    'class':'nav'
+                }
+            });
+            $('#nav-main').prepend(view.render().el);
         }
     });
 

@@ -6,13 +6,13 @@
 (function ($, App) {
 
     // Add menu item to main menu
-    App.menu.get('management').submenu.add({
+    App.menu.get('admin').submenu.add({
         id:"customer",
         title:"Customer",
         route:"customer",
         weight:0,
         callback:function () {
-            App.menu.activateItem('management.customer');
+            App.menu.activateItem('admin.customer');
             App.router.switchView(new App.Views.Customer.Index());
         }
     });
@@ -21,7 +21,7 @@
     App.router.route("customer/add", "customer:add", function () {
         var model = new App.Model.Customer();
 
-        App.menu.activateItem('management.customer');
+        App.menu.activateItem('admin.customer');
         App.router.switchView(new App.Views.Customer.Form({
             defaults:{
                 title:'Add Customer',
@@ -36,7 +36,7 @@
         var model = new App.Model.Customer({id:id});
         model.fetch({async:false});
 
-        App.menu.activateItem('management.customer');
+        App.menu.activateItem('admin.customer');
         App.router.switchView(new App.Views.Customer.Form({
             defaults:{
                 title:'Edit Customer',

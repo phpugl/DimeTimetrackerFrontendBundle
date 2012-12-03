@@ -6,13 +6,13 @@
 (function ($, Backbone, _, App) {
 
     // Add menu item to main menu
-    App.menu.get('management').submenu.add({
+    App.menu.get('admin').submenu.add({
         id:"service",
         title:"Service",
         route:"service",
         weight:0,
         callback:function () {
-            App.menu.activateItem('management.service');
+            App.menu.activateItem('admin.service');
             App.router.switchView(new App.Views.Service.Index());
         }
     });
@@ -21,7 +21,7 @@
     App.router.route("service/add", "service:add", function () {
         var model = new App.Model.Service();
 
-        App.menu.activateItem('management.service');
+        App.menu.activateItem('admin.service');
         App.router.switchView(new App.Views.Service.Form({
             defaults:{
                 title:'Add Service',
@@ -36,7 +36,7 @@
         var model = new App.Model.Service({id:id});
         model.fetch({async:false});
 
-        App.menu.activateItem('management.service');
+        App.menu.activateItem('admin.service');
         App.router.switchView(new App.Views.Service.Form({
             defaults:{
                 title:'Edit Service',

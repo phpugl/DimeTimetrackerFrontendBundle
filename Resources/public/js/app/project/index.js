@@ -6,13 +6,13 @@
 (function ($, App) {
 
     // Add menu item to main menu
-    App.menu.get('management').submenu.add({
+    App.menu.get('admin').submenu.add({
         id:"project",
         title:"Project",
         route:"project",
         weight:0,
         callback:function () {
-            App.menu.activateItem('management.project');
+            App.menu.activateItem('admin.project');
             App.router.switchView(new App.Views.Project.Index());
         }
     });
@@ -21,7 +21,7 @@
     App.router.route("project/add", "project:add", function () {
         var model = new App.Model.Project();
 
-        App.menu.activateItem('management.project');
+        App.menu.activateItem('admin.project');
         App.router.switchView(new App.Views.Project.Form({
             defaults:{
                 title:'Add Project',
@@ -36,7 +36,7 @@
         var model = new App.Model.Project({id:id});
         model.fetch({async:false});
 
-        App.menu.activateItem('management.project');
+        App.menu.activateItem('admin.project');
         App.router.switchView(new App.Views.Project.Form({
             defaults:{
                 title:'Edit Project',

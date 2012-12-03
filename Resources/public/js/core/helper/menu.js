@@ -41,7 +41,12 @@
             return 0;
         },
         add: function(item) {
-            if (item && item.id) {
+            if (item instanceof App.Model.Menu) {
+                if (item.get('route') && item.get('callback')) {
+                    App.router.route(item.get('route'), item.id, item.get('callback'));
+                }
+                return Backbone.Collection.prototype.add.call(this, item);
+            } else if (item && item.id) {
                 if (item.route && item.callback) {
                     App.router.route(item.route, item.id, item.callback);
                 }
@@ -145,9 +150,11 @@
             _.bindAll(this, 'render', 'addOne');
 
             // Assign function to collection events
-            this.collection.on('add', this.addOne, this);
-            this.collection.on('reset', this.render, this);
-            this.collection.on('change', this.render, this);
+            if (this.collection) {
+                this.collection.on('add', this.addOne, this);
+                this.collection.on('reset', this.render, this);
+                this.collection.on('change', this.render, this);
+            }
 
             // Grep default values from option
             if (opt && opt.defaults) {
@@ -158,7 +165,7 @@
             // remove all content
             this.$el.html('');
 
-            if (this.collection.length > 0) {
+            if (this.collection && this.collection.length > 0) {
                 this.collection.each(this.addOne);
             }
 
@@ -177,19 +184,4 @@
             this.$el.append(view.render().el);
         }
     }));
-
-    // Initialize main menu - bind on #nav-main
-    App.hook.add({
-        id:'navigation',
-        scope: 'initialize',
-        callback:function () {
-            var view = new App.Views.Core.Menu({
-                collection:App.menu,
-                attributes:{
-                    'class':'nav'
-                }
-            });
-            $('#nav-main').prepend(view.render().el);
-        }
-    });
 })(jQuery, Backbone, Dime);

@@ -19,7 +19,6 @@
             Helper:{},
             Model:{},
             Views:{},
-            Router:{},
             Route:{
                 Activities:'api/activities',
                 Customers:'api/customers',
