@@ -5,8 +5,10 @@ Welcome to DimeTimetrackerFrontendBundle's documentation!
    :maxdepth: 2
 
    introduction
+
    javascript/structure
    javascript/namespace
    javascript/extend
    javascript/helper
    javascript/menu
+   javascript/router

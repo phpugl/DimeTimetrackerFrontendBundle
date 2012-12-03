@@ -1,40 +1,63 @@
 Namespace
 =========
 
-::
+.. code-block:: js
+    :linenos:
 
     window.Dime = {}
 
 The namespace "window.Dime" is the container that contain all the objects.
 
+Extend namespace with provide()
+-------------------------------
+
+.. code-block:: js
+    :linenos:
+
+    Dime.provide(name, obj, force);
+
+
++------------+----------------------------------------------------------------+
+| Parameters | Description                                                    |
++============+================================================================+
+| name       | Name of object in namespace (dot-sparated) you want to extend. |
+|            | *required*                                                     |
++------------+----------------------------------------------------------------+
+| obj        | Object or function which contain the new namespace             |
++------------+----------------------------------------------------------------+
+| force      | override the current object in this namespace (default: false) |
++------------+----------------------------------------------------------------+
+
 Add new structure to namespace
 ------------------------------
 
-The namespace has the function "Dime.provide" to extend it self.
+Create a "session" entry in Dime namespace.
 
-::
-
-    Dime.provide(name, obj, force)
-
-    Example:
+.. code-block:: js
+    :linenos:
 
     Dime.provide('session', function(param) {
         // do somthing
     });
 
-    Call it now with:
+Create a "Views.Core.Content" entry in Dime namespace. All "dots" will be a new object and created automatically.
+
+.. code-block:: js
+    :linenos:
+
+    Dime.provide('Views.Core.Content', Backbone.View.extend({
+      // add properties to extend the view
+    }));
+
+Call a provided namespace object
+
+.. code-block:: js
+    :linenos:
 
     Dime.session(param);
 
-You can also extend the Dime namespace with a "dot" based syntax. The Object in between will be created automatically.
-
-::
-
-    Dime.provide('Views.Core.Content', Backbone.View.extend({
-        // add properties to extend the view
-    }));
-
-    Now you can create this view.
+.. code-block:: js
+    :linenos:
 
     var view = new Dime.Views.Core.Content();
 
@@ -43,26 +66,26 @@ Namespace predefined objects
 
 The predefined objects are container for backbone related objects,
 
-::
+.. code-block:: js
 
-    Collection:{},   ... Contain all backbone collections
-    Helper:{},       ... Contain all helper
-    Model:{},        ... Contain all backbone models
-    Views:{},        ... Contain all backbone views
-    Router:{},       ... Contain all backbone routes
-    Route:{},        ... Contain route to api
-    UI:{},           ... Contain ui related objects (menu, router)
+    Dime.Collection   ... Container object for all backbone collections
+    Dime.Helper       ... Container object for all helper
+    Dime.Model        ... Container object for all backbone models
+    Dime.Views        ... Container object for all backbone views
+    Dime.Route        ... Container object for route to api
 
+    Dime.hook         ... Collection instance for application hook system
+    Dime.menu         ... Collection instance for application main menu
+    Dime.router       ,,, Collection instance for application router
 
 Namespace predefined functions
 ------------------------------
 
-::
+.. code-block:: js
 
-    initialize(item)               ... Initialization hook
-    log(msg, level)                ... Basic console.log wrapper
-    menu(item)                     ... Add a new menu item
-    provide(name, object, force)   ... Create namespace onject
-    run()                          ... Initialize the whole app
-    route(name, route, callback)   ... Manage app routes
-    template(name)                 ... Fetch remote templates and store them
+    Dime.log(msg, level)                ... Basic console.log wrapper
+    Dime.provide(name, object, force)   ... Create namespace onject
+    Dime.run()                          ... Initialize the whole app
+    Dime.template(name)                 ... Fetch remote templates and store them
+
+
