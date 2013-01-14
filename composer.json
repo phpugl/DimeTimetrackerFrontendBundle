@@ -16,30 +16,8 @@
     "require": {
         "php": ">=5.3.3",
         "phpugl/dime-timetracker-bundle": "dev-master",
-        "ruian/twitter-bootstrap-bundle": "*"
+        "phpugl/twitter-bootstrap-bundle": "dev-master"
     },
     "minimum-stability": "dev",
-    "target-dir": "Dime/TimetrackerFrontendBundle",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git://github.com/phpugl/TwitterBootstrapBundle.git"
-        },
-        {
-            "type": "package",
-            "package": {
-                "version": "dev-master",
-                "name": "twitter/bootstrap",
-                "source": {
-                    "url": "https://github.com/twitter/bootstrap.git",
-                    "type": "git",
-                    "reference": "master"
-                },
-                "dist": {
-                    "url": "https://github.com/twitter/bootstrap/zipball/master",
-                    "type": "zip"
-                 }
-            }
-        }
-    ]
+    "target-dir": "Dime/TimetrackerFrontendBundle"
 }
