@@ -1,15 +1,19 @@
 assetic:
+    filters:
+        lessphp:
+            file: "%kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php"
+            apply_to: "\.less$"
     assets:
         css_vendors:
             inputs:
-                - '@RuianTwitterBootstrapBundle/Resources/public/css/bootstrap.min.css'
-                - '@RuianTwitterBootstrapBundle/Resources/public/css/bootstrap-responsive.min.css'
+                - 'bundles/phpugltwitterbootstrap/css/bootstrap.css'
         css_plugins:
             inputs:
-                - '@DimeTimetrackerFrontendBundle/Resources/public/css/bootstrap-datepicker.css'
+                - 'bundles/dimetimetrackerfrontend/css/bootstrap-datepicker.css'
         css_app:
             inputs:
-                - '@DimeTimetrackerFrontendBundle/Resources/public/css/style.css'
+                - 'bundles/dimetimetrackerfrontend/css/style.css'
+                - 'bundles/dimetimetrackerfrontend/css/print.css'
         js_vendors:
             inputs:
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/json2.js'
@@ -19,7 +23,7 @@ assetic:
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/*'
         js_plugins:
             inputs:
-                - '@RuianTwitterBootstrapBundle/Resources/public/js/*'
+                - '@PhpuglTwitterBootstrapBundle/Resources/public/js/*'
                 - '@DimeTimetrackerFrontendBundle/Resources/public/js/plugins/*'
         js_app:
             inputs:
