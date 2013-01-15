@@ -121,11 +121,15 @@
             }
             this.load({ pager: true });
         },
-        parse:function (response, xhr) {
-            if (xhr.getResponseHeader('X-Pagination-Total-Results')) {
-                this.pager.total = xhr.getResponseHeader('X-Pagination-Total-Results');
+        parse:function (response, options) {
+            if( options && options.hasOwnProperty('getResponseHeader') ){
+                options = {
+                    xhr: options
+                };
             }
-
+            if( options && options.xhr.getResponseHeader('X-Pagination-Total-Results') ){
+                this.pager.total = options.xhr.getResponseHeader('X-Pagination-Total-Results');
+            }
             return response;
         }
     }));
