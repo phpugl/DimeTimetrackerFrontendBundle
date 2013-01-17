@@ -2,3 +2,6 @@ DimeTimetrackerFrontendBundle:
     resource: "@DimeTimetrackerFrontendBundle/Controller/"
     type:     annotation
     prefix:   /
+
+_bazinga_exposetranslation:
+    resource: "@BazingaExposeTranslationBundle/Resources/config/routing/routing.yml"

@@ -1,3 +1,7 @@
+bazinga_expose_translation:
+    default_domains: [ messages ]
+    locale_fallback: "en"
+
 assetic:
     filters:
         lessphp:
@@ -6,39 +10,40 @@ assetic:
     assets:
         css_vendors:
             inputs:
-                - 'bundles/phpugltwitterbootstrap/css/bootstrap.css'
+                - "bundles/phpugltwitterbootstrap/css/bootstrap.css"
         css_plugins:
             inputs:
-                - 'bundles/dimetimetrackerfrontend/css/bootstrap-datepicker.css'
+                - "bundles/dimetimetrackerfrontend/css/bootstrap-datepicker.css"
         css_app:
             inputs:
-                - 'bundles/dimetimetrackerfrontend/css/style.css'
-                - 'bundles/dimetimetrackerfrontend/css/print.css'
+                - "bundles/dimetimetrackerfrontend/css/style.css"
+                - "bundles/dimetimetrackerfrontend/css/print.css"
         js_vendors:
             inputs:
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/json2.js'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/jquery.min.js'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/underscore.min.js'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/backbone.min.js'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/*'
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/json2.js"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/jquery.min.js"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/underscore.min.js"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/backbone.min.js"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/vendors/*"
+                - "@BazingaExposeTranslationBundle/Resources/public/js/translator.min.js"
         js_plugins:
             inputs:
-                - '@PhpuglTwitterBootstrapBundle/Resources/public/js/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/plugins/*'
+                - "@PhpuglTwitterBootstrapBundle/Resources/public/js/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/plugins/*"
         js_app:
             inputs:
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/application.js'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/helper/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/model/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/base.js'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/core/views/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/main.js'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/activity/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/service/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/customer/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/project/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/tag/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/timeslice/*'
-                - '@DimeTimetrackerFrontendBundle/Resources/public/js/app/user/*'
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/application.js"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/helper/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/model/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/base.js"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/views/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/app/main.js"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/app/activity/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/app/service/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/app/customer/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/app/project/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/app/tag/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/app/timeslice/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/app/user/*"
 

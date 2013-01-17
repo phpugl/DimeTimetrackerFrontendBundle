@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app.request.locale }}">
   <head>
     <meta charset="utf-8">
     <title>Dime, a Symfony2 based timetracker</title>
@@ -77,6 +77,7 @@
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    <script type="text/javascript" src="{{ url('bazinga_exposetranslation_js') }}"></script>
     {% block js %}{% endblock %}
     {% endif %}
   </body>
