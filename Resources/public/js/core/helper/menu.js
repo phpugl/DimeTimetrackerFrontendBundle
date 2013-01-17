@@ -55,32 +55,37 @@
             return this;
         },
         'get': function(id) {
-            var parts = id.split('.'),
-                item;
+            if (id && typeof(id) === "string") {
+                var parts = id.split('.'),
+                    item;
 
-            for (var i=0; i<parts.length; i++) {
-                if (item) {
-                    if (item.submenu && item.submenu.length > 0) {
-                        item = item.submenu.get(parts[i]);
+                for (var i=0; i<parts.length; i++) {
+                    if (item) {
+                        if (item.submenu && item.submenu.length > 0) {
+                            item = item.submenu.get(parts[i]);
+                        }
+                    } else {
+                        item = Backbone.Collection.prototype.get.call(this, parts[i]);
                     }
-                } else {
-                    item = Backbone.Collection.prototype.get.call(this, parts[i]);
                 }
+                return item;
             }
-            return item;
+            return undefined;
         },
         activateItem:function (id) {
-            var model,
-                parts = id.split('.').reverse();
+            if (id && typeof(id) === "string") {
+                var model,
+                    parts = id.split('.').reverse();
 
-            model = this.get(parts.pop());
+                model = this.get(parts.pop());
 
-            if (model) {
-                this.deactivateItem();
-                model.set('active', true);
-                this.currentActive = model;
-                if (parts.length > 0 && model.submenu && model.submenu.length > 0) {
-                    model.submenu.activateItem(parts.reverse().join('.'));
+                if (model) {
+                    this.deactivateItem();
+                    model.set('active', true);
+                    this.currentActive = model;
+                    if (parts.length > 0 && model.submenu && model.submenu.length > 0) {
+                        model.submenu.activateItem(parts.reverse().join('.'));
+                    }
                 }
             }
         },
