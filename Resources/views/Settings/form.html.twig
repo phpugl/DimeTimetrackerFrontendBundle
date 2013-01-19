@@ -1,0 +1,37 @@
+{# Dime/TimetrackerFrontednBundle/Resources/views/settings/index.html.twig #}
+<section id="setting-form">
+  <header class="page-header">
+    <h1>{% trans %}Settings{% endtrans %}</h1>
+  </header>
+  <form class="form-horizontal" data-prefix="setting-">
+    <fieldset>
+      <div class="control-group">
+        <label for="setting-namespace" class="control-label">{% trans %}Namespace{% endtrans %}:</label>
+        <div class="controls">
+          <input id="setting-namespace" class="setting-namespace input-full" type="text" value="" >
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="setting-name" class="control-label">{% trans %}Name{% endtrans %}:</label>
+        <div class="controls">
+          <input id="setting-name" class="setting-name input-full" type="text" value="" >
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label for="setting-description" class="control-label">{% trans %}Value{% endtrans %}:</label>
+        <div class="controls">
+          <input id="setting-value" class="setting-value input-full" type="text" value="" >
+          <span class="help-inline"></span>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <footer class="form-actions">
+    <div class="pull-right">
+      <button class="cancel btn">{% trans %}Cancel{% endtrans %}</button>
+      <button class="save btn btn-primary">{% trans %}Save{% endtrans %}</button>
+    </div>
+  </footer>
+</section>

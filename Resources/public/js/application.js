@@ -25,6 +25,7 @@
                 Parser:'api/process',
                 Projects:'api/projects',
                 Services:'api/services',
+                Settings:'api/settings',
                 Timeslices:'api/timeslices',
                 Tags:'api/tags',
                 Users:'api/users'
