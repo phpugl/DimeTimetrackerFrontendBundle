@@ -39,6 +39,16 @@
             });
             customers.fetch();
 
+            // Render tags
+            if (this.model.get('tags')) {
+                var tagObjects = this.model.get('tags');
+                var tags = [];
+                $.each(tagObjects, function(key, el) {
+                    tags[key] = el.name;
+                });
+                this.form.get('tags')[0].value = tags.join(' ');
+            }
+
             return this;
         },
         slugify:function (e) {
@@ -57,6 +67,15 @@
                 return true;
             } else {
                 return false;
+            }
+        },
+        presave: function(data) {
+            if (data) {
+                if (0 < data.tags.length) {
+                    data.tags = data.tags.split(' ');
+                } else {
+                    data.tags = [];
+                }
             }
         }
     }));

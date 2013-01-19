@@ -15,7 +15,6 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "phpugl/dime-timetracker-bundle": "dev-master",
         "phpugl/twitter-bootstrap-bundle": "dev-master",
         "willdurand/expose-translation-bundle": "0.1.*"
     },

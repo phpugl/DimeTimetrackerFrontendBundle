@@ -1,44 +1,50 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Services/index.html.twig #}
 <section id="service-form">
   <header class="page-header">
-    <h1>Service</h1>
+    <h1>{% trans %}Service{% endtrans %}</h1>
   </header>
   <form class="form-horizontal" data-prefix="service-">
     <fieldset>
       <div class="control-group">
-        <label for="service-name" class="control-label">Name:</label>
+        <label for="service-name" class="control-label">{% trans %}Name{% endtrans %}:</label>
         <div class="controls">
           <input id="service-name" class="service-name input-full" type="text" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
-        <label for="service-alias" class="control-label">Alias:</label>
+        <label for="service-alias" class="control-label">{% trans %}Alias{% endtrans %}:</label>
         <div class="controls">
           <input id="service-alias" class="service-alias input-full" type="text" value="" maxlength="30" ><button type="button" class="slugify btn" title="Create alias from name"><i class="icon-refresh"></i></button>
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
-        <label for="service-rate" class="control-label">Rate:</label>
+        <label for="service-rate" class="control-label">{% trans %}Rate{% endtrans %}:</label>
         <div class="controls">
           <input id="service-rate" class="service-rate input-full" type="text" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
-        <label for="service-description" class="control-label">Description:</label>
+        <label for="service-description" class="control-label">{% trans %}Description{% endtrans %}:</label>
         <div class="controls">
           <textarea id="service-description" class="service-description input-full" rows="3"></textarea>
           <span class="help-inline"></span>
         </div>
       </div>
+      <div class="control-group">
+          <label for="service-tags" class="control-label">{% trans %}Tags{% endtrans %}:</label>
+          <div class="controls">
+              <input type="text" id="service-tags" class="service-tags input-full" />
+          </div>
+      </div>
     </fieldset>
   </form>
   <footer class="form-actions">
     <div class="pull-right">
-      <button class="cancel btn">Cancel</button>
-      <button class="save btn btn-primary">Save</button>
+      <button class="cancel btn">{% trans %}Cancel{% endtrans %}</button>
+      <button class="save btn btn-primary">{% trans %}Save{% endtrans %}</button>
     </div>
   </footer>
 </section>

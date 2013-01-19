@@ -1,30 +1,36 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Customers/form.html.twig #}
 <section id="customer-form">
   <header class="page-header">
-    <h1>Customer</h1>
+    <h1>{% trans %}Customer{% endtrans %}</h1>
   </header>
   <form class="form-horizontal" data-prefix="customer-">
     <fieldset>
       <div class="control-group">
-        <label for="customer-name" class="control-label">Name:</label>
+        <label for="customer-name" class="control-label">{% trans %}Name{% endtrans %}:</label>
         <div class="controls">
           <input id="customer-name" class="customer-name input-full" type="text" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
-        <label for="customer-alias" class="control-label">Alias:</label>
+        <label for="customer-alias" class="control-label">{% trans %}Alias{% endtrans %}:</label>
         <div class="controls">
           <input id="customer-alias" class="customer-alias input-full" type="text" value="" maxlength="30" ><button type="button" class="slugify btn" title="Create alias from name"><i class="icon-refresh"></i></button>
           <span class="help-inline"></span>
         </div>
       </div>
+      <div class="control-group">
+          <label for="customer-tags" class="control-label">{% trans %}Tags{% endtrans %}:</label>
+          <div class="controls">
+              <input type="text" id="customer-tags" class="customer-tags input-full" />
+          </div>
+      </div>
     </fieldset>
   </form>
   <footer class="form-actions">
     <div class="pull-right">
-      <button class="cancel btn">Cancel</button>
-      <button class="save btn btn-primary">Save</button>
+      <button class="cancel btn">{% trans %}Cancel{% endtrans %}</button>
+      <button class="save btn btn-primary">{% trans %}Save{% endtrans %}</button>
     </div>
   </footer>
 </section>
