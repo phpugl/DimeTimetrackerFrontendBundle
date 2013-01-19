@@ -32,6 +32,37 @@
             } else {
                 return false;
             }
+        },
+        render: function () {
+
+            // Set title
+            if (this.defaults.title) {
+                $('header.page-header h1', this.$el).text(this.defaults.title);
+            }
+
+            // Fill form
+            this.form = this.$el.form();
+            this.form.clear();
+            this.form.fill(this.model.toJSON());
+
+            // Render tags
+            if (this.model.get('tags')) {
+                var tagObjects = this.model.get('tags');
+                var tags = [];
+                $.each(tagObjects, function(key, el) {
+                    tags[key] = el.name;
+                });
+                this.form.get('tags')[0].value = tags.join(' ');
+            }
+        },
+        presave: function(data) {
+            if (data) {
+                if (0 < data.tags.length) {
+                    data.tags = data.tags.split(' ');
+                } else {
+                    data.tags = [];
+                }
+            }
         }
     }));
 

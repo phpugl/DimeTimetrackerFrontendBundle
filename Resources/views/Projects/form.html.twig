@@ -1,31 +1,31 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Projects/form.html.twig #}
 <section id="project-form">
   <header class="page-header">
-    <h1>Add project</h1>
+    <h1>{% trans %}Add project{% endtrans %}</h1>
   </header>
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#tab-common" data-toggle="tab"><i class="icon-tasks"></i> Common</a></li>
-    <li><a href="#tab-prices" data-toggle="tab"><b class="icon">$</b> Prices</a></li>
-    <li><a href="#tab-dates" data-toggle="tab"><i class="icon-calendar"></i> Dates</a></li>
+    <li class="active"><a href="#tab-common" data-toggle="tab"><i class="icon-tasks"></i> {% trans %}Common{% endtrans %}</a></li>
+    <li><a href="#tab-prices" data-toggle="tab"><b class="icon">$</b> {% trans %}Prices{% endtrans %}</a></li>
+    <li><a href="#tab-dates" data-toggle="tab"><i class="icon-calendar"></i> {% trans %}Dates{% endtrans %}</a></li>
   </ul>
   <form class="form-horizontal tab-content" data-prefix="project-">
     <fieldset id="tab-common" class="tab-pane active">
       <div class="control-group">
-        <label for="project-name" class="control-label">Name:</label>
+        <label for="project-name" class="control-label">{% trans %}Name{% endtrans %}:</label>
         <div class="controls">
           <input id="project-name" class="project-name input-full" type="text" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
-        <label for="project-alias" class="control-label">Alias:</label>
+        <label for="project-alias" class="control-label">{% trans %}Alias{% endtrans %}:</label>
         <div class="controls">
           <input id="project-alias" class="project-alias input-full" type="text" value="" maxlength="30" ><button type="button" class="slugify btn" title="Create alias from name"><i class="icon-refresh"></i></button>
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
-        <label for="project-customer" class="control-label">Customer:</label>
+        <label for="project-customer" class="control-label">{% trans %}Customer{% endtrans %}:</label>
         <div class="controls">
           <select id="project-customer" class="project-customer input-full">
           </select>
@@ -33,37 +33,43 @@
         </div>
       </div>
       <div class="control-group">
-        <label for="project-rate" class="control-label">Rate:</label>
+        <label for="project-rate" class="control-label">{% trans %}Rate{% endtrans %}:</label>
         <div class="controls">
           <input id="project-rate" class="project-rate input-full" type="number" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
-        <label for="project-description" class="control-label">Description:</label>
+        <label for="project-description" class="control-label">{% trans %}Description{% endtrans %}:</label>
         <div class="controls">
           <span class="help-inline"></span>
           <textarea id="project-description" class="project-description input-full" rows="3"></textarea>
         </div>
       </div>
+      <div class="control-group">
+          <label for="project-tags" class="control-label">{% trans %}Tags{% endtrans %}:</label>
+          <div class="controls">
+              <input type="text" id="project-tags" class="project-tags input-full" />
+          </div>
+      </div>
     </fieldset>
     <fieldset id="tab-prices" class="tab-pane">
       <div class="control-group">
-        <label for="project-budgetPrice" class="control-label">Budget price:</label>
+        <label for="project-budgetPrice" class="control-label">{% trans %}Budget price{% endtrans %}:</label>
         <div class="controls">
           <input id="project-budgetPrice" class="project-budgetPrice input-full" type="number" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
-        <label for="project-fixedPrice" class="control-label">Fixed price:</label>
+        <label for="project-fixedPrice" class="control-label">{% trans %}Fixed price{% endtrans %}:</label>
         <div class="controls">
           <input id="project-fixedPrice" class="project-fixedPrice input-full" type="number" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
-        <label for="project-budgetTime" class="control-label">Budget time:</label>
+        <label for="project-budgetTime" class="control-label">{% trans %}Budget time{% endtrans %}:</label>
         <div class="controls">
           <input id="project-budgetTime" class="project-budgetTime input-full" type="number" value="" >
           <span class="help-inline"></span>
@@ -72,7 +78,7 @@
     </fieldset>
     <fieldset id="tab-dates" class="tab-pane">
       <div class="control-group">
-        <label for="project-startedAt" class="control-label">Started at:</label>
+        <label for="project-startedAt" class="control-label">{% trans %}Started at{% endtrans %}:</label>
         <div class="controls">
           <input id="project-startedAt" class="project-startedAt input-full" type="date" value="" data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1" >
           <span class="help-inline"></span>
@@ -80,14 +86,14 @@
       </div>
       </div>
       <div class="control-group">
-        <label for="project-stoppedAt" class="control-label">Stopped at:</label>
+        <label for="project-stoppedAt" class="control-label">{% trans %}Stopped at{% endtrans %}:</label>
         <div class="controls">
           <input id="project-stoppedAt" class="project-stoppedAt input-full" type="date" value="" data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
-        <label for="project-deadline" class="control-label">Deadline:</label>
+        <label for="project-deadline" class="control-label">{% trans %}Deadline{% endtrans %}:</label>
         <div class="controls">
           <input id="project-deadline" class="project-deadline input-full" type="date" value="" data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1" >
           <span class="help-inline"></span>
@@ -97,8 +103,8 @@
   </form>
   <footer class="form-actions">
     <div class="pull-right">
-      <button class="cancel btn">Cancel</button>
-      <button class="save btn btn-primary">Save</button>
+      <button class="cancel btn">{% trans %}Cancel{% endtrans %}</button>
+      <button class="save btn btn-primary">{% trans %}Save{% endtrans %}</button>
     </div>
   </footer>
 </section>

@@ -37,6 +37,9 @@
         </div>
         <%- data.name %>
         <span class="alias">/<%- data.alias %></span>
+        <% if (data.tags) { _.each(data.tags, function (tag) { %>
+            <span class="tag">#<%- tag.name %></span>
+        <% })} %>
     </h3>
     <div class="details">
         <div class="row-fluid">
