@@ -81,8 +81,24 @@
                     }
                 }
             }).render();
-            App.session.set('activity-filter', {date: moment(), 'date-period': 'W', active: false });
-            this.filter.updateFilter();
+
+            // fetch filter settings
+            this.settings = new App.Collection.Settings();
+            var that = this;
+            this.settings.fetch({
+                success: function(settings, response, options) {
+                    that.filterSettings = {};
+                    var defaultFilterSettings = settings.where({ "namespace": "defaultActivityFilter" });
+                    console.log(defaultFilterSettings);
+                    defaultFilterSettings.forEach(function (setting) {
+                        that.filterSettings[setting.attributes.name] = setting.attributes.value;
+                    });
+                    that.filterSettings.active = false;
+                    console.log(that.filterSettings);
+                    App.session.set('activity-filter', that.filterSettings);
+                    that.filter.updateFilter();
+                }
+            });
 
             return this;
         },
