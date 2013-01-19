@@ -7,6 +7,9 @@
 
     // Activity index view
     App.provide('Views.Activity.Index', App.Views.Core.Content.extend({
+        events: {
+            'change #filter-period': 'period'
+        },
         template:'DimeTimetrackerFrontendBundle:Activities:index',
         initialize:function () {
             // Bind all to this, because you want to use
@@ -14,10 +17,6 @@
             _.bindAll(this);
 
             this.activities = App.session.get('activities', function () {
-                return new App.Collection.Activities();
-            });
-
-            this.activeActivities = App.session.get('activeActivities', function () {
                 return new App.Collection.Activities();
             });
         },
@@ -46,24 +45,6 @@
                 collection: this.activities
             });
             $('.pagination').html(this.pager.render().el);
-
-            // Render active activities
-            this.activeList = new App.Views.Core.List({
-                el: '#activities-active',
-                collection:this.activeActivities,
-                defaults:{
-                    prefix:'activity-',
-                    emptyTemplate: '#tpl-activity-empty',
-                    item:{
-                        attributes:{ "class":"activity" },
-                        prependNew:true,
-                        tagName:"section",
-                        template:'#tpl-activity-item',
-                        View:App.Views.Activity.Item
-                    }
-                }
-            }).render();
-            this.activeActivities.fetch({ data: { filter: { active: true } } });
 
             // Render activities list
             this.list = new App.Views.Core.List({
@@ -102,9 +83,7 @@
         remove:function () {
             // Unbind events
             this.activities.off();
-            this.activeActivities.off();
 
-            this.activeList.remove();
             this.list.remove();
             this.filter.remove();
             this.pager.remove();
@@ -113,6 +92,91 @@
             this.$el.empty().detach();
 
             return this;
+        },
+        period: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var fromGroup = $('#filter-from-group'),
+                from = $('#filter-period-from', fromGroup),
+                toGroup = $('#filter-to-group');
+
+            if (e.currentTarget) {
+                switch (e.currentTarget.value) {
+                    case 'D':
+                        from.attr({
+                            placeholder: 'YYYY-MM-DD'
+                        }).data({
+                                'date-format': 'YYYY-MM-DD',
+                                'date-period': 'D'
+                            });
+                        if (from.data('datepicker')) {
+                            from.data('datepicker').update();
+                            from.data('datepicker').setValue();
+                        }
+                        fromGroup.show();
+                        toGroup.hide();
+                        break;
+                    case 'W':
+                        from.attr({
+                            placeholder: 'YYYY-MM-DD'
+                        }).data({
+                                'date-format': 'YYYY-MM-DD',
+                                'date-period': 'W'
+                            });
+                        if (from.data('datepicker')) {
+                            from.data('datepicker').update();
+                            from.data('datepicker').setValue();
+                        }
+                        fromGroup.show();
+                        toGroup.hide();
+                        break;
+                    case 'M':
+                        from.attr({
+                            placeholder: 'YYYY-MM'
+                        }).data({
+                                'date-format': 'YYYY-MM',
+                                'date-period': 'M'
+                            });
+                        if (from.data('datepicker')) {
+                            from.data('datepicker').update();
+                            from.data('datepicker').setValue();
+                        }
+                        fromGroup.show();
+                        toGroup.hide();
+                        break;
+                    case 'Y':
+                        from.attr({
+                            placeholder: 'YYYY'
+                        }).data({
+                                'date-format': 'YYYY',
+                                'date-period': 'Y'
+                            });
+                        if (from.data('datepicker')) {
+                            from.data('datepicker').update();
+                            from.data('datepicker').setValue();
+                        }
+                        fromGroup.show();
+                        toGroup.hide();
+                        break;
+                    case 'R':
+                        from.attr({
+                            placeholder: 'YYYY-MM-DD'
+                        }).data({
+                                'date-format': 'YYYY-MM-DD',
+                                'date-period': 'D'
+                            });
+                        if (from.data('datepicker')) {
+                            from.data('datepicker').update();
+                            from.data('datepicker').setValue();
+                        }
+                        fromGroup.show();
+                        toGroup.show();
+                        break;
+                    default:
+                        fromGroup.hide();
+                        toGroup.hide();
+                }
+            }
         }
     }));
 

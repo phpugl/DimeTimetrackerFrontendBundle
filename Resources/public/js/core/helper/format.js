@@ -59,6 +59,16 @@
     });
 
 
+    /**
+     * App.Helper.Format.Nl2Br
+     *
+     * @param str, convert /n to <br />
+     * @return string
+     */
+    App.provide('Helper.Format.Nl2Br', function (str) {
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2');
+    });
+
 
     /**
      * App.Helper.Format.Slugify

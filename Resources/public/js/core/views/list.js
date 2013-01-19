@@ -86,9 +86,10 @@
 
                 if (opt && opt.templateEl) {
                     this.templateEl = opt.templateEl;
-                } else {
-                    throw "You have to setup a templateEl option together with template.";
                 }
+//                else {
+//                    throw "You have to setup a templateEl option together with template.";
+//                }
             }
         },
         render:function (fetchOpt) {
@@ -102,7 +103,9 @@
                     data:this.model.toJSON()
                 }));
 
-                this.setElement(this.templateEl);
+                if (this.templateEl) {
+                    this.setElement(this.templateEl);
+                }
             }
 
             if (this.defaults.fetch) {

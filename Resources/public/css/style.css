@@ -26,6 +26,10 @@
     text-align: right;
 }
 
+.gap-remove {
+    margin-bottom: 0pt;
+}
+
 .gap-20 {
     margin-bottom: 20px;
 }
@@ -105,17 +109,22 @@
 }
 
 .title .alias {
-    background-color: #f7f7f7;
-    border: 1px solid #CCC;
-    color: #aaa;
-    font-size: .7em;
-    padding: 3px;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+    /*background-color: #f7f7f7;*/
+    /*border: 1px solid #CCC;*/
+    /*color: #aaa;*/
+    /*font-size: .7em;*/
+    /*padding: 3px;*/
+    /*-webkit-border-radius: 6px;*/
+    /*-moz-border-radius: 6px;*/
+    /*border-radius: 6px;*/
+    /*-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);*/
+    /*-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);*/
+    /*box-shadow: 0 1px 2px rgba(0, 0, 0, .15);*/
+}
+
+.title a.alias:hover {
+    /*background-color: #979797;*/
+    /*text-decoration: none;*/
 }
 
 .title .tag {
@@ -221,27 +230,6 @@ header .title .filter {
 
 #activity-track-date {
     cursor: pointer;
-}
-
-#filter {
-    background: #f7f7f7;
-    border: 1px solid #CCC;
-    -webkit-border-radius: 6px 6px 0 0;
-    -moz-border-radius: 6px 6px 0 0;
-    border-radius: 6px 6px 6px 6px;
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-    margin-bottom: 20px;
-}
-
-#filter li {
-    display: inline-block;
-    margin: 5px 0;
-}
-
-#filter li input, #filter li textarea, #filter li select, #filter li .uneditable-input {
-    margin-bottom: 0;
 }
 
 .content-view h2 {

@@ -82,6 +82,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th></th>
         <th>Duration</th>
         <th>Start</th>
         <th>Stop</th>
@@ -90,17 +91,18 @@
     </thead>
     <tbody id="timeslices">
       <tr>
-        <td class="loading" colspan="4"></td>
+        <td class="loading" colspan="5"></td>
       </tr>
     </tbody>
   </table>
 </script>
 
 <script type="text/template" id="tpl-timeslice-empty">
-    <td colspan="4">No time tracked.</td>
+    <td colspan="5">No time tracked.</td>
 </script>
 
 <script type="text/template" id="tpl-timeslice-item">
+  <td><input type="checkbox" name="" ></td>
   <td><%- model.formatDuration() %></td>
   <td><%= _.escape(data.startedAt || '') %></td>
   <td><%= _.escape(data.stoppedAt || '') %></td>

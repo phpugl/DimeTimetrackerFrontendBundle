@@ -8,6 +8,7 @@
   // activity item view
     App.provide('Views.Activity.Item', App.Views.Core.ListItem.extend({
         events: {
+            'click .details': 'details',
             'click .edit': 'edit',
             'click .delete': 'delete',
             'click .track': 'track',
@@ -21,6 +22,7 @@
 
             // fill model date into template and push it into element html
             this.$el.html(temp({
+                App: App,
                 model: this.model,
                 data: this.model.toJSON()
             }));
@@ -31,15 +33,34 @@
             // activate timer if any running timeslice is found
             var activeTimeslice = this.model.runningTimeslice();
             if (activeTimeslice) {
-                var duration = $('.duration', this.$el),
+                var button = $('.duration', this.$el),
                     model = this.model;
 
-                duration.data('start', moment(activeTimeslice.get('startedAt'), 'YYYY-MM-DD HH:mm:ss'));
+                button.data('start', moment(activeTimeslice.get('startedAt'), 'YYYY-MM-DD HH:mm:ss'));
                 this.timer = setInterval(function() {
-                    var d = moment().diff(duration.data('start'), 'seconds');
-                    duration.text(model.formatDuration(duration.data('duration') + d));
+                    var d = moment().diff(button.data('start'), 'seconds');
+                    button.text(model.formatDuration(button.data('duration') + d));
                 }, 1000);
             }
+
+            this.timeslices = new App.Views.Core.List({
+                el: $('.details table tbody', this.$el),
+                model:this.model,
+                collection:this.model.relation('timeslices'),
+                defaults:{
+                    fetch: false,
+                    prefix:'timeslice-',
+                    emptyTemplate: '#tpl-timeslice-empty',
+                    item:{
+                        attributes:{ "class":"timeslice" },
+                        prepend:true,
+                        prependNew:true,
+                        tagName:"tr",
+                        View:App.Views.Timeslice.Item
+                    }
+                }
+            }).render();
+
             return this;
         },
         showDetails: function(e) {
@@ -48,6 +69,9 @@
 
             $('.details', this.el).toggle();
             this.$el.toggleClass('gap-20');
+        },
+        details: function(e){
+            e.stopPropagation();
         },
         edit: function(e) {
             e.stopPropagation();
@@ -65,50 +89,33 @@
             e.preventDefault();
             e.stopPropagation();
 
-            var button = $('.track', '#' + this.elId()),
-                duration = $('.duration', '#' + this.elId()),
+            var button = $('.duration', '#' + this.elId()),
                 model = this.model,
                 that = this,
-                activities = App.session.get('activities'),
-                activeActivities = App.session.get('activeActivities');
+                activities = App.session.get('activities');
 
 
-            if (button.hasClass('start')) {
-                duration.data('start', moment());
+            if (!button.hasClass('btn-warning')) {
+                button.data('start', moment());
 
                 this.model.start({
                     wait: true,
                     success: function(timeslice) {
-                        button
-                            .removeClass('start btn-success')
-                            .addClass('stop btn-danger');
-
-                        if (activities) {
-                            activities.remove(model);
-                        }
-                        if (activeActivities) {
-                            activeActivities.add(model);
-                        }
+                        button.addClass('btn-warning');
+                        that.timer = setInterval(function() {
+                            var d = moment().diff(button.data('start'), 'seconds');
+                            button.text(model.formatDuration(button.data('duration') + d));
+                        }, 1000);
                     }
                 });
-            } else if (button.hasClass('stop')) {
+            } else {
                 this.model.stop({
                     wait: true,
                     success: function (timeslice) {
-                        button
-                            .removeClass('stop btn-danger')
-                            .addClass('start btn-success');
+                        button.removeClass('btn-warning');
 
                         if (that.timer) {
                             clearInterval(that.timer);
-                        }
-
-                        model.addTimeslice(timeslice);
-                        if (activities) {
-                            activities.add(model);
-                        }
-                        if (activeActivities) {
-                            activeActivities.remove(model);
                         }
                     }
                 });

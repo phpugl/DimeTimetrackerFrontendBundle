@@ -2,60 +2,108 @@
 
 <header class="page-header">
     <div class="pull-right">
-        <button class="filter-date btn btn-large" data-toggle="datepicker" data-date="{{ 'now'|date('Y-m-d') }}"
-                data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="W" data-date-weekstart="1"
-                data-date-autoclose="true"><i class="icon-calendar"></i> <span class="filter-date-text" class="hidden-phone">{{ 'now'|date('Y-m-d') }}</span></button>
-        <button id="filter-button" class="btn btn-large" title="{% trans %}Show filter{% endtrans %}"><i class="icon-filter hide-text">{% trans %}Show filter{% endtrans %}</i></button>
+        <button id="filter-button" class="btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show filter</i></button>
         <a href="#activity/add" class="btn btn-large" title="{% trans %}Add activity{% endtrans %}"><i class="icon-plus"></i></a>
     </div>
     <h1>{% trans %}Activity{% endtrans %}</h1>
 </header>
 
-<ul id="filter" class="nav nav-list hide">
-    <li class="nav-header">{% trans %}Filter{% endtrans %}</li>
-    <li>
-        <i class="icon-user hide-text">{% trans %}Customer{% endtrans %}</i>
-        <select id="filter-customer" class="filter filter-customer input-medium" title="{% trans %}by customer{% endtrans %}">
-            <option>{% trans %}by customer{% endtrans %}</option>
-        </select>
-    </li>
-    <li>
-        <i class="icon-folder-open hide-text">{% trans %}Project{% endtrans %}</i>
-        <select id="filter-project" class="filter filter-project input-medium" title="{% trans %}by project{% endtrans %}">
-            <option>{% trans %}by project{% endtrans %}</option>
-        </select>
-    </li>
-    <li>
-        <i class="icon-wrench hide-text">{% trans %}Service{% endtrans %}</i>
-        <select id="filter-service" class="filter filter-service input-medium" title="{% trans %}by service{% endtrans %}">
-            <option>{% trans %}by service{% endtrans %}</option>
-        </select>
-    </li>
-    <li>
-        <i class="icon-star hide-text">{% trans %}with Tag{% endtrans %}</i>
-        <select id="filter-with-tags" class="filter filter-tags filter-with-tags input-medium" title="{% trans %}with tags{% endtrans %}">
-            <option>{% trans %}with tag{% endtrans %}</option>
-        </select>
-    </li>
-    <li>
-        <i class="icon-star-empty hide-text">{% trans %}without Tag{% endtrans %}</i>
-        <select id="filter-without-tags" class="filter filter-tags filter-without-tags input-medium" title="{% trans %}without tags{% endtrans %}">
-            <option>{% trans %}without tag{% endtrans %}</option>
-        </select>
-    </li>
-    <li>
-        <i class="icon-search hide-text">{% trans %}Search{% endtrans %}</i>
-        <input id="filter-search" class="filter filter-search input-medium" title="{% trans %}Search{% endtrans %}" placeholder="{% trans %}Search...{% endtrans %}">
-    </li>
-    <li>
-        <button id="filter-reset" class="btn">{% trans %}Reset{% endtrans %}</button>
-    </li>
-</ul>
+<div id="filter" class="hide">
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="control-group">
+                <label for="filter-period" class="control-label"><i class="icon-calendar"></i> Period</label>
+                <div class="controls">
+                    <select id="filter-period" class="input-block-level">
+                        <option value="">None</option>
+                        <optgroup label="fixed">
+                            <option value="this-month">This month</option>
+                            <option value="this-week">This week</option>
+                            <option value="today">Today</option>
+                            <option value="last-month">Last month</option>
+                            <option value="last-week">Last week</option>
+                            <option value="yesterday">Yesterday</option>
+                        </optgroup>
+                        <optgroup label="variable">
+                            <option value="D">Day</option>
+                            <option value="W">Week</option>
+                            <option value="M">Month</option>
+                            <option value="Y">Year</option>
+                            <option value="R">Range</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+            <div id="filter-from-group" class="control-group hide">
+                <label for="filter-period-from" class="control-label">From</label>
+                <div class="controls">
+                    <input type="date" id="filter-period-from" class="filter-date input-block-level" name="filter-period-from" placeholder="YYYY-MM-DD" data-toggle="datepicker"
+                           data-date="{{ 'now'|date('Y-m-d') }}"
+                           data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="W"
+                           data-date-weekstart="1"
+                           data-date-autoclose="true">
+                </div>
+            </div>
+            <div id="filter-to-group" class="control-group hide">
+                <label for="filter-period-to" class="control-label">To</label>
+                <div class="controls">
+                    <input type="date" id="filter-period-to" class="input-block-level" name="filter-period-to" placeholder="YYYY-MM-DD" data-toggle="datepicker"
+                           data-date="{{ 'now'|date('Y-m-d') }}"
+                           data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="W"
+                           data-date-weekstart="1"
+                           data-date-autoclose="true">
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="filter-customer" class="control-label"><i class="icon-user"></i> {% trans %}Customer{% endtrans %}</label>
+                <div class="controls">
+                    <select id="filter-customer" class="filter filter-customer input-block-level" title="{% trans %}by customer{% endtrans %}">
+                        <option>{% trans %}by customer{% endtrans %}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="filter-project" class="control-label"><i class="icon-folder-open"></i> {% trans %}Project{% endtrans %}</label>
+                <div class="controls">
+                    <select id="filter-project" class="filter filter-project input-block-level" title="{% trans %}by project{% endtrans %}">
+                        <option>{% trans %}by project{% endtrans %}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="filter-service" class="control-label"><i class="icon-wrench"></i> {% trans %}Service{% endtrans %}</label>
+                <div class="controls">
+                    <select id="filter-service" class="filter filter-service input-block-level" title="{% trans %}by service{% endtrans %}">
+                        <option>{% trans %}by service{% endtrans %}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="filter-with-tags" class="control-label"><i class="icon-tags"></i> {% trans %}Tags{% endtrans %}</label>
+                <div class="controls">
+                    <select id="filter-with-tags" class="filter filter-with-tags input-block-level" title="{% trans %}with tags{% endtrans %}">
+                        <option>{% trans %}with tags{% endtrans %}</option>
+                    </select>
+                    <select id="filter-without-tags" class="filter filter-tags filter-without-tags input-block-level" title="{% trans %}without tags{% endtrans %}">
+                        <option>{% trans %}without tag{% endtrans %}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="filter-search" class="control-label"><i class="icon-search"></i> {% trans %}Search{% endtrans %}</label>
+                <div class="controls">
+                    <input id="filter-search" class="filter filter-search input-block-level" title="{% trans %}Search{% endtrans %}" placeholder="{% trans %}Search...{% endtrans %}">
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="pull-right">
+                <button id="filter-reset" class="btn">{% trans %}Reset{% endtrans %}</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
 
-<h2>{% trans %}Active{% endtrans %}</h2>
-<div id="activities-active" class="loading"></div>
-<br />
-<h2>{% trans %}Last activities for{% endtrans %} <span class="filter-date-text"></span></h2>
 <div id="activities" class="loading"></div>
 <div class="pagination t-center"></div>
 
@@ -68,48 +116,55 @@
         <div class="btn-toolbar pull-right">
             <div class="btn-group">
                 <% if (model.runningTimeslice()) { %>
-                <button class="track stop btn btn-danger" title="{% trans %}Click to stop progress{% endtrans %}"><i class="icon-time icon-white"></i></button>
-                <a class="edit btn" href="#timeslice/<%- model.runningTimeslice().id %>/edit" title="{% trans %}Edit{% endtrans %}"><i class="icon-pencil"></i></a>
+                <span data-duration="<%- data.duration %>" class="track duration btn btn-warning"><%- model.formatDuration(data.duration) %></span>
                 <% } else { %>
-                <button class="track start btn btn-success" title="{% trans %}Click to start progress{% endtrans %}"><i class="icon-time icon-white"></i></button>
-                <a class="edit btn" href="#activity/<%- data.id %>/timeslice/add" title="{% trans %}Add timeslice{% endtrans %}"><i class="icon-plus"></i></a>
+                <span data-duration="<%- data.duration %>" class="track duration btn"><%- model.formatDuration(data.duration) %></span>
                 <% } %>
-                <span data-duration="<%- data.duration %>" class="duration btn disabled"><%- model.formatDuration(data.duration) %></span>
+            </div>
+            <div class="btn-group">
+                <a class="edit btn" href="#activity/<%- data.id %>/edit"><i class="icon-pencil hide-text">{% trans %}Edit{% endtrans %}</i></a>
+                <a class="delete btn" href="#activity/<%- data.id %>/delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove hide-text">{% trans %}Delete{% endtrans %}</i></a>
             </div>
         </div>
-        <%- model.shortDescription(50) %>
+        <%= App.Helper.Format.Nl2Br(data.description) %>
         <% if (model.relation('customer')) { %>
-        <span class="alias">@<%- model.relation('customer', 'alias') %></span>
+        <span title="<%- model.relation('customer', 'name') %>" class="label">@<%- model.relation('customer', 'alias') %></span>
         <% } %>
         <% if (model.relation('project')) { %>
-        <span class="alias">/<%- model.relation('project', 'alias') %></span>
+        <span  title="<%- model.relation('project', 'name') %>" class="label" >/<%- model.relation('project', 'alias') %></span>
         <% } %>
         <% if (data.tags) { _.each(data.tags, function (tag) { %>
-            <span class="tag">#<%- tag.name %></span>
+        <span class="badge badge-info">#<%- tag.name %></span>
         <% })} %>
     </h3>
     <div class="details">
-        <% if (data.description) { %>
-        <pre><%- data.description %></pre>
-        <% } %>
-        <div class="pull-right">
-            <a class="edit" href="#activity/<%- data.id %>/edit"><i class="icon-pencil"></i> {% trans %}Edit{% endtrans %}</a>
-            <a class="delete" href="#activity/<%- data.id %>/delete"><i class="icon-remove"></i> {% trans %}Delete{% endtrans %}</a>
-        </div>
-        <p>
-            <% if (model.relation('customer')) { %>
-            <a href="#customer/<%- model.relation('customer', 'id') %>/edit"
-               title="@<%- model.relation('customer', 'alias') %>"><%- model.relation('customer', 'name') %></a>
-            <% } %>
-            <% if (model.relation('project')) { %>
-            /<a href="#project/<%- model.relation('project', 'id') %>/edit"
-                title="@<%- model.relation('project', 'alias') %>"><%- model.relation('project', 'name') %></a>
-            <% } %>
-            <% if (model.relation('service')) { %>
-            :<a href="#service/<%- model.relation('service', 'id') %>/edit"
-                title="@<%- model.relation('service', 'alias') %>"><%- model.relation('service', 'name') %></a>
-            <% } %>
-            &nbsp;
-        </p>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Duration</th>
+                <th>Start</th>
+                <th>Stop</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
+</script>
+
+<script type="text/template" id="tpl-timeslice-empty">
+    <td colspan="5">No time tracked.</td>
+</script>
+
+<script type="text/template" id="tpl-timeslice-item">
+    <td><input type="checkbox" name=""></td>
+    <td><%- model.formatDuration() %></td>
+    <td><%= _.escape(data.startedAt || '') %></td>
+    <td><%= _.escape(data.stoppedAt || '') %></td>
+    <td>
+        <a class="edit btn" href="#timeslice/<%- data.id %>/edit"><i class="icon-pencil hide-text">Edit</i> </a>
+        <a class="delete btn" href="#delete"><i class="icon-remove hide-text">Delete</i> </a>
+    </td>
 </script>

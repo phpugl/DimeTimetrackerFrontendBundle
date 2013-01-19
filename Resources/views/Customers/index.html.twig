@@ -8,16 +8,23 @@
   <h1>Customer</h1>
 </header>
 
-<ul id="filter" class="nav nav-list hide">
-    <li class="nav-header">Filter</li>
-    <li>
-        <i class="icon-search hide-text">Search</i>
-        <input id="filter-search" class="filter filter-search input-medium" title="Search" placeholder="Search...">
-    </li>
-    <li>
-        <button id="filter-reset" class="btn">Reset</button>
-    </li>
-</ul>
+<div id="filter" class="hide">
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="control-group">
+                <label for="filter-search" class="control-label"><i class="icon-search"></i> {% trans %}Search{% endtrans %}</label>
+                <div class="controls">
+                    <input id="filter-search" class="filter filter-search input-block-level" title="Search" placeholder="{% trans %}Search{% endtrans %}...">
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <fieldset>
+        <div class="pull-right">
+            <button id="filter-reset" class="btn">{% trans %}Reset{% endtrans %}</button>
+        </div>
+    </fieldset>
+</div>
 
 <div id="customers" class="loading"></div>
 <div class="pagination t-center"></div>
@@ -29,7 +36,7 @@
         </div>
         <%- data.name %> <span class="alias">@<%- data.alias %></span>
         <% if (data.tags) { _.each(data.tags, function (tag) { %>
-            <span class="tag">#<%- tag.name %></span>
+            <span class="label">#<%- tag.name %></span>
         <% })} %>
     </h3>
 </script>
