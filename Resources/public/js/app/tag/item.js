@@ -8,40 +8,18 @@
   // tag item view
     App.provide('Views.Tag.Item', App.Views.Core.ListItem.extend({
         events: {
-            'click .edit': 'edit',
             'click .delete': 'delete',
-            'click': 'showDetails'
-        },
-        render: function() {
-            var that = this;
-
-            // grep template with jquery and generate template stub
-            var temp = _.template($(this.template).html());
-
-            // fill model date into template and push it into element html
-            this.$el.html(temp({
-                model: this.model,
-                data: this.model.toJSON()
-            }));
-
-            // add element id with prefix
-            this.$el.attr('id', this.elId());
-
-            return this;
-        },
-        showDetails: function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            $('.details', this.el).toggle();
-            this.$el.toggleClass('gap-20');
+            'click': 'edit'
         },
         edit: function(e) {
             e.stopPropagation();
+            App.router.navigate('#tag/' + this.model.id + '/edit', { trigger: true });
         },
         'delete': function(e) {
             e.preventDefault();
             e.stopPropagation();
+
+            this.model.bind('destroy', this.remove, this);
 
             // confirm destroy action
             if (window.confirm("Are you sure?")) {

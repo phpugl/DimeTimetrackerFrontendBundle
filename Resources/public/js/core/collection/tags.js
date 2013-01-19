@@ -10,7 +10,7 @@
   // Create Tags collection and add it to App.Collection
   App.provide('Collection.Tags', App.Collection.Base.extend({
     model: App.Model.Tag,
-    url: App.Route.Tags,
+    url: App.Route.Tags
   }));
 
 })(jQuery, Dime);

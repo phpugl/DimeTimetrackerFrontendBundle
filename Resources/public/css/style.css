@@ -68,7 +68,8 @@
 .customer,
 .project,
 .service,
-.setting {
+.setting,
+.tag {
     background-color: #f7f7f7;
     border: 1px solid #CCC;
     -webkit-border-radius: 0 0 6px 6px;
@@ -83,8 +84,9 @@
 .activity .title,
 .customer .title,
 .project .title,
-.service .title ,
-.setting .title {
+.service .title,
+.setting .title,
+.tag .title {
     background-color: #FFF;
     cursor: pointer;
     font-size: 18px;

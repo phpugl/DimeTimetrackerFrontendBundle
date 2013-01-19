@@ -11,7 +11,7 @@
     App.provide('Collection.Base', Backbone.Collection.extend({
         fetchData: {},
         pager:{},
-        filter: function(filter) {
+        addFilter: function(filter) {
             if (filter) {
                 var data = {};
                 for (var name in filter) {

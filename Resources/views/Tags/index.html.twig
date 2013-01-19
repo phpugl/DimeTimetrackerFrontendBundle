@@ -1,0 +1,36 @@
+{# Dime/TimetrackerFrontednBundle/Resources/views/Tags/index.html.twig #}
+<header class="page-header">
+  <div class="pull-right">
+      <button id="filter-button" class="btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show
+          filter</i></button>
+    <a href="#tag/add" class="btn btn-large" title="Add tag"><i class="icon-plus hide-text">Add tag</i></a>
+  </div>
+  <h1>Tags</h1>
+</header>
+
+<ul id="filter" class="nav nav-list hide">
+    <li class="nav-header">Filter</li>
+    <li>
+        <i class="icon-search hide-text">Search</i>
+        <input id="filter-search" class="filter filter-search input-medium" title="Search" placeholder="Search...">
+    </li>
+    <li>
+        <button id="filter-reset" class="btn">Reset</button>
+    </li>
+</ul>
+
+<div id="tags" class="loading"></div>
+<div class="pagination t-center"></div>
+
+<script type="text/template" id="tpl-tag-item">
+    <h3 class="title">
+        <div class="btn-group pull-right">
+            <a class="btn delete" href="#tag/<%- data.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
+        </div>
+        <%- data.name %>
+    </h3>
+</script>
+
+<script type="text/template" id="tpl-tag-empty">
+    <div class="alert alert-info"><strong>Your list is empty!</strong> What are your tags?</div>
+</script>
