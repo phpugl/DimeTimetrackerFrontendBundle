@@ -284,7 +284,7 @@
             }
 
             if (this.collection) {
-                this.collection.filter(filter);
+                this.collection.addFilter(filter);
                 this.collection.resetPager();
                 this.collection.load({ pager: true });
             }
