@@ -87,14 +87,11 @@
             var that = this;
             this.settings.fetch({
                 success: function(settings, response, options) {
-                    that.filterSettings = {};
+                    that.filterSettings = { date : moment(), active : false };
                     var defaultFilterSettings = settings.where({ "namespace": "defaultActivityFilter" });
-                    console.log(defaultFilterSettings);
                     defaultFilterSettings.forEach(function (setting) {
                         that.filterSettings[setting.attributes.name] = setting.attributes.value;
                     });
-                    that.filterSettings.active = false;
-                    console.log(that.filterSettings);
                     App.session.set('activity-filter', that.filterSettings);
                     that.filter.updateFilter();
                 }
