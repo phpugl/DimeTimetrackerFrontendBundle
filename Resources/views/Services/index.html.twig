@@ -42,9 +42,9 @@
             <a class="btn delete" href="#service/<%- data.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
         </div>
         <%- data.name %>
-        <span class="alias">:<%- data.alias %></span>
+        <span class="label">:<%- data.alias %></span>
         <% if (data.tags) { _.each(data.tags, function (tag) { %>
-            <span class="label">#<%- tag.name %></span>
+            <span class="badge badge-info">#<%- tag.name %></span>
         <% })} %>
     </h3>
     <div class="details">

@@ -34,9 +34,9 @@
         <div class="btn-group pull-right">
             <a class="btn delete" href="#customer/<%- data.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
         </div>
-        <%- data.name %> <span class="alias">@<%- data.alias %></span>
+        <%- data.name %> <span class="label">@<%- data.alias %></span>
         <% if (data.tags) { _.each(data.tags, function (tag) { %>
-            <span class="label">#<%- tag.name %></span>
+            <span class="badge badge-info">#<%- tag.name %></span>
         <% })} %>
     </h3>
 </script>
