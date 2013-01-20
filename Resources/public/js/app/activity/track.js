@@ -12,6 +12,8 @@
         callback:function () {
             var tracker = new App.Views.Activity.Track();
             tracker.render();
+            var autocompletion = new App.Views.Core.Autocomplete();
+            autocompletion.render();
         }
     });
 

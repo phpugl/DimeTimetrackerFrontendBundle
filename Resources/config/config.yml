@@ -11,6 +11,7 @@ assetic:
         css_vendors:
             inputs:
                 - "bundles/phpugltwitterbootstrap/css/bootstrap.css"
+                - "bundles/dimetimetrackerfrontend/css/autocompletion.css"
         css_plugins:
             inputs:
                 - "bundles/dimetimetrackerfrontend/css/bootstrap-datepicker.css"
