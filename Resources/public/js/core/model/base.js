@@ -107,6 +107,12 @@
         },
         toString: function() {
             return this.get('name') ? this.get('name') : this.get('id');
+        },
+        getAlias:function () {
+            return this.get('alias');
+        },
+        getName:function () {
+            return this.toString();
         }
     }));
 

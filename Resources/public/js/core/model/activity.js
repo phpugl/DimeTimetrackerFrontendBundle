@@ -79,6 +79,12 @@
             if (timeslice && this.hasRelation('timeslices')) {
                 this.getRelation('timeslices').add(timeslice);
             }
+        },
+        getAlias:function () {
+            return this.toString();
+        },
+        toString:function () {
+            return this.get('description');
         }
     }));
 

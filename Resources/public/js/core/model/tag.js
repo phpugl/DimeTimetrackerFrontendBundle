@@ -8,8 +8,11 @@
 (function ($, Backbone, App) {
 
     // create Tag model and add it to App.Model
-    App.provide('Model.Tag', Backbone.Model.extend({
-        urlRoot:App.Route.Tags
+    App.provide('Model.Tag', App.Model.Base.extend({
+        urlRoot:App.Route.Tags,
+        getAlias: function() {
+            return this.toString();
+        }
     }));
 
 })(window.jQuery, window.Backbone, window.Dime);
