@@ -58,7 +58,7 @@
         },
         render:function () {
             // Render filter
-            this.filter = new App.Views.Core.Filter({
+            this.filter = new App.Views.Core.Filter.Form({
                 el: this.el,
                 collection: this.tags,
                 defaults: {
@@ -66,11 +66,8 @@
                     preservedOnReset: {
                         open: true
                     },
-                    ui: {
-                        dates: false,
-                        tags: false,
-                        projects: false,
-                        services: false
+                    items: {
+                        search: new App.Views.Core.Filter.Search()
                     }
                 }
             }).render();

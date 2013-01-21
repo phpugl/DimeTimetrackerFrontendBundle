@@ -58,7 +58,7 @@
         },
         render:function () {
             // Render filter
-            this.filter = new App.Views.Core.Filter({
+            this.filter = new App.Views.Core.Filter.Form({
                 el: this.el,
                 collection: this.settings,
                 defaults: {
@@ -66,11 +66,8 @@
                     preservedOnReset: {
                         open: true
                     },
-                    ui: {
-                        dates: false,
-                        customers: false,
-                        projects: false,
-                        settings: false
+                    items: {
+                        search: new App.Views.Core.Filter.Search()
                     }
                 }
             }).render();
@@ -91,8 +88,7 @@
                     prefix:'setting-',
                     emptyTemplate: '#tpl-setting-empty',
                     item:{
-                        attributes:{ "class":"setting" },
-                        tagName:"section",
+                        tagName:"tr",
                         template:'#tpl-setting-item',
                         View:App.Views.Setting.Item
                     }
