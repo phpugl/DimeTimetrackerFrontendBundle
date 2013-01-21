@@ -63,6 +63,17 @@
             }
             response.relation.timeslices = timeslices;
 
+            var tags = new App.Collection.Tags();
+            if (response.tags) {
+                var tag = [];
+                _.each(response.tags, function (item) {
+                    tag.push(item.id);
+                    tags.add(new App.Model.Tag(item));
+                });
+                response.tags = tag;
+            }
+            response.relation.tags = tags;
+
             return response;
         },
         start:function (opt) {
