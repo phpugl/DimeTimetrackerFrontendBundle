@@ -4,7 +4,7 @@
  * Dime - views/service.item.js
  */
 (function ($, App) {
-  
+
   // Create item view in App.Views.Service
   App.provide('Views.Service.Item', App.Views.Core.ListItem.extend({
     events: {
@@ -13,8 +13,7 @@
       'click': 'showDetails'
     },
     showDetails: function() {
-        $('.details', this.el).toggle();
-        this.$el.toggleClass('gap-20');
+        this.$el.toggleClass('box-folded box-unfolded');
     },
     edit: function(e) {
         e.stopPropagation();

@@ -34,22 +34,22 @@
                     </select>
                 </div>
             </div>
-            <div id="filter-from-group" class="control-group hide">
+            <div id="filter-period-from-group" class="control-group hide">
                 <label for="filter-period-from" class="control-label">From</label>
                 <div class="controls">
                     <input type="date" id="filter-period-from" class="filter-date input-block-level" name="filter-period-from" placeholder="YYYY-MM-DD" data-toggle="datepicker"
                            data-date="{{ 'now'|date('Y-m-d') }}"
-                           data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="W"
+                           data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="D"
                            data-date-weekstart="1"
                            data-date-autoclose="true">
                 </div>
             </div>
-            <div id="filter-to-group" class="control-group hide">
+            <div id="filter-period-to-group" class="control-group hide">
                 <label for="filter-period-to" class="control-label">To</label>
                 <div class="controls">
                     <input type="date" id="filter-period-to" class="input-block-level" name="filter-period-to" placeholder="YYYY-MM-DD" data-toggle="datepicker"
                            data-date="{{ 'now'|date('Y-m-d') }}"
-                           data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="W"
+                           data-date-format="YYYY-MM-DD" data-date-with-period="true" data-date-period="D"
                            data-date-weekstart="1"
                            data-date-autoclose="true">
                 </div>
@@ -133,11 +133,11 @@
         <% if (model.relation('project')) { %>
         <span  title="<%- model.relation('project', 'name') %>" class="label" >/<%- model.relation('project', 'alias') %></span>
         <% } %>
-        <% if (data.tags) { _.each(data.tags, function (tag) { %>
-        <span class="badge badge-info">#<%- tag.name %></span>
+        <% if (model.relation('tags')) { model.relation('tags').each(function (tag) { %>
+        <span class="badge badge-info">#<%- tag.get('name') %></span>
         <% })} %>
     </h3>
-    <div class="details">
+    <div class="box-details">
         <table class="table table-striped">
             <thead>
             <tr>

@@ -88,7 +88,7 @@
                     prefix:'customer-',
                     emptyTemplate: '#tpl-customer-empty',
                     item:{
-                        attributes:{ "class":"customer" },
+                        attributes:{ "class":"customer box" },
                         tagName:'section',
                         template:'#tpl-customer-item',
                         View:App.Views.Customer.Item

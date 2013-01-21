@@ -88,7 +88,7 @@
                     prefix:'project-',
                     emptyTemplate: '#tpl-project-empty',
                     item:{
-                        attributes:{ "class":"project" },
+                        attributes:{ "class":"project box box-folded" },
                         tagName:"section",
                         template:'#tpl-project-item',
                         View:App.Views.Project.Item

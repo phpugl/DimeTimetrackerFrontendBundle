@@ -13,21 +13,22 @@
       <div class="control-group">
         <label for="project-name" class="control-label">{% trans %}Name{% endtrans %}:</label>
         <div class="controls">
-          <input id="project-name" class="project-name input-full" type="text" value="" >
+          <input id="project-name" class="project-name input-block-level" type="text" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
         <label for="project-alias" class="control-label">{% trans %}Alias{% endtrans %}:</label>
         <div class="controls">
-          <input id="project-alias" class="project-alias input-full" type="text" value="" maxlength="30" ><button type="button" class="slugify btn" title="Create alias from name"><i class="icon-refresh"></i></button>
+          <input id="project-alias" class="project-alias input-block-level" type="text" value="" maxlength="30" >
+          <button type="button" class="slugify btn" title="Create alias from name"><i class="icon-refresh"></i></button>
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
         <label for="project-customer" class="control-label">{% trans %}Customer{% endtrans %}:</label>
         <div class="controls">
-          <select id="project-customer" class="project-customer input-full">
+          <select id="project-customer" class="project-customer input-block-level">
           </select>
           <span class="help-inline"></span>
         </div>
@@ -35,21 +36,21 @@
       <div class="control-group">
         <label for="project-rate" class="control-label">{% trans %}Rate{% endtrans %}:</label>
         <div class="controls">
-          <input id="project-rate" class="project-rate input-full" type="number" value="" >
+          <input id="project-rate" class="project-rate input-block-level" type="number" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
         <label for="project-description" class="control-label">{% trans %}Description{% endtrans %}:</label>
         <div class="controls">
-          <span class="help-inline"></span>
-          <textarea id="project-description" class="project-description input-full" rows="3"></textarea>
+          <textarea id="project-description" class="project-description input-block-level" rows="3"></textarea>
+            <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
           <label for="project-tags" class="control-label">{% trans %}Tags{% endtrans %}:</label>
           <div class="controls">
-              <input type="text" id="project-tags" class="project-tags input-full" />
+              <input type="text" id="project-tags" class="project-tags input-block-level" />
           </div>
       </div>
     </fieldset>
@@ -57,21 +58,21 @@
       <div class="control-group">
         <label for="project-budgetPrice" class="control-label">{% trans %}Budget price{% endtrans %}:</label>
         <div class="controls">
-          <input id="project-budgetPrice" class="project-budgetPrice input-full" type="number" value="" >
+          <input id="project-budgetPrice" class="project-budgetPrice input-block-level" type="number" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
         <label for="project-fixedPrice" class="control-label">{% trans %}Fixed price{% endtrans %}:</label>
         <div class="controls">
-          <input id="project-fixedPrice" class="project-fixedPrice input-full" type="number" value="" >
+          <input id="project-fixedPrice" class="project-fixedPrice input-block-level" type="number" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
         <label for="project-budgetTime" class="control-label">{% trans %}Budget time{% endtrans %}:</label>
         <div class="controls">
-          <input id="project-budgetTime" class="project-budgetTime input-full" type="number" value="" >
+          <input id="project-budgetTime" class="project-budgetTime input-block-level" type="number" value="" >
           <span class="help-inline"></span>
         </div>
       </div>
@@ -80,7 +81,7 @@
       <div class="control-group">
         <label for="project-startedAt" class="control-label">{% trans %}Started at{% endtrans %}:</label>
         <div class="controls">
-          <input id="project-startedAt" class="project-startedAt input-full" type="date" value="" data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1" >
+          <input id="project-startedAt" class="project-startedAt input-block-level" type="date" value="" data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1" >
           <span class="help-inline"></span>
         </div>
       </div>
@@ -88,14 +89,14 @@
       <div class="control-group">
         <label for="project-stoppedAt" class="control-label">{% trans %}Stopped at{% endtrans %}:</label>
         <div class="controls">
-          <input id="project-stoppedAt" class="project-stoppedAt input-full" type="date" value="" data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1" >
+          <input id="project-stoppedAt" class="project-stoppedAt input-block-level" type="date" value="" data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1" >
           <span class="help-inline"></span>
         </div>
       </div>
       <div class="control-group">
         <label for="project-deadline" class="control-label">{% trans %}Deadline{% endtrans %}:</label>
         <div class="controls">
-          <input id="project-deadline" class="project-deadline input-full" type="date" value="" data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1" >
+          <input id="project-deadline" class="project-deadline input-block-level" type="date" value="" data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1" >
           <span class="help-inline"></span>
         </div>
       </div>

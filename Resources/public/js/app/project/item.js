@@ -12,8 +12,7 @@
         'click': 'showDetails'
     },
     showDetails: function() {
-        $('.details', this.el).toggle();
-        this.$el.toggleClass('gap-20');
+        this.$el.toggleClass('box-folded box-unfolded');
     },
     edit: function(e) {
         e.stopPropagation();

@@ -44,7 +44,7 @@
             }
 
             this.timeslices = new App.Views.Core.List({
-                el: $('.details table tbody', this.$el),
+                el: $('.box-details table tbody', this.$el),
                 model:this.model,
                 collection:this.model.relation('timeslices'),
                 defaults:{
@@ -67,8 +67,7 @@
             e.preventDefault();
             e.stopPropagation();
 
-            $('.details', this.el).toggle();
-            this.$el.toggleClass('gap-20');
+            this.$el.toggleClass('box-folded box-unfolded');
         },
         details: function(e){
             e.stopPropagation();
@@ -106,6 +105,7 @@
                             var d = moment().diff(button.data('start'), 'seconds');
                             button.text(model.formatDuration(button.data('duration') + d));
                         }, 1000);
+                        model.save();
                     }
                 });
             } else {
@@ -117,6 +117,7 @@
                         if (that.timer) {
                             clearInterval(that.timer);
                         }
+                        model.save();
                     }
                 });
             }

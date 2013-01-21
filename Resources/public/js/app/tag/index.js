@@ -88,7 +88,7 @@
                     prefix:'tag-',
                     emptyTemplate: '#tpl-tag-empty',
                     item:{
-                        attributes:{ "class":"tag" },
+                        attributes:{ "class":"tag box" },
                         tagName:'section',
                         template:'#tpl-tag-item',
                         View:App.Views.Tag.Item

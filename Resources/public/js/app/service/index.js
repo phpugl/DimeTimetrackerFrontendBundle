@@ -88,7 +88,7 @@
                     prefix:'service-',
                     emptyTemplate: '#tpl-service-empty',
                     item:{
-                        attributes:{ "class":"service" },
+                        attributes:{ "class":"service box box-folded" },
                         tagName:"section",
                         template:'#tpl-service-item',
                         View:App.Views.Service.Item
