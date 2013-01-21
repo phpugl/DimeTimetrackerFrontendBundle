@@ -71,6 +71,7 @@
             // Assign function to collection events
             if (this.collection) {
                 this.collection.on('reset', this.addAll, this);
+                this.collection.on('sort', this.addAll, this);
                 this.collection.on('add', this.addItem, this);
                 this.collection.on('change', this.changeItem, this);
                 this.collection.on('remove', this.removeItem, this);

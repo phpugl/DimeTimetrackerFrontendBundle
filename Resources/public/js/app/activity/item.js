@@ -105,7 +105,9 @@
                             var d = moment().diff(button.data('start'), 'seconds');
                             button.text(model.formatDuration(button.data('duration') + d));
                         }, 1000);
-                        model.save();
+                        model.save({}, {success: function() {
+                            model.collection.sort();
+                        }});
                     }
                 });
             } else {
@@ -117,7 +119,9 @@
                         if (that.timer) {
                             clearInterval(that.timer);
                         }
-                        model.save();
+                        model.save({}, {success: function() {
+                            model.collection.sort();
+                        }});
                     }
                 });
             }
