@@ -34,6 +34,7 @@ assetic:
             inputs:
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/application.js"
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/helper/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/model/base.js"
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/model/*"
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/base.js"
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/*"

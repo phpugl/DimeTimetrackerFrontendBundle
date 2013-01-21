@@ -71,7 +71,7 @@
                         input.val('');
                         icon.removeClass('loading-14-white');
 
-                        var activities = model.runningTimeslice() ? App.session.get('activeActivities') : App.session.get('activities');
+                        var activities = App.session.get('activities');
                         if (activities) {
                             activities.add(model);
                         }

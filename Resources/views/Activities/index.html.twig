@@ -115,10 +115,10 @@
     <h3 class="title">
         <div class="btn-toolbar pull-right">
             <div class="btn-group">
-                <% if (model.runningTimeslice()) { %>
-                <span data-duration="<%- data.duration %>" class="track duration btn btn-warning"><%- model.formatDuration(data.duration) %></span>
+                <% if (model.timesliceRunning()) { %>
+                <span data-duration="<%- model.timesliceDuration() %>" class="track duration btn btn-warning"><%- model.formatDuration(model.timesliceDuration()) %></span>
                 <% } else { %>
-                <span data-duration="<%- data.duration %>" class="track duration btn"><%- model.formatDuration(data.duration) %></span>
+                <span data-duration="<%- model.timesliceDuration() %>" class="track duration btn"><%- model.formatDuration(model.timesliceDuration()) %></span>
                 <% } %>
             </div>
             <div class="btn-group">

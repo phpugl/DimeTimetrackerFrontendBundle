@@ -31,7 +31,7 @@
             this.$el.attr('id', this.elId());
 
             // activate timer if any running timeslice is found
-            var activeTimeslice = this.model.runningTimeslice();
+            var activeTimeslice = this.model.timesliceRunning();
             if (activeTimeslice) {
                 var button = $('.duration', this.$el),
                     model = this.model;

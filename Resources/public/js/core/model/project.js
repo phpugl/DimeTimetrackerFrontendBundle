@@ -1,16 +1,21 @@
 'use strict';
 
 /**
- * Dime - model/project.js
+ * Dime - core/model/project.js
  *
  * Register Project model to namespace App.
  */
 (function ($, App) {
 
-  // Create Project model and add it to App.Model
-  App.provide('Model.Project', Backbone.Model.extend({
-    urlRoot: App.Route.Projects
-  }));
+    // Create Project model and add it to App.Model
+    App.provide('Model.Project', App.Model.Base.extend({
+        urlRoot:App.Route.Projects,
+        relations: {
+            customer: {
+                model: 'App.Model.Customer'
+            }
+        }
+    }));
 
 })(jQuery, Dime);
 

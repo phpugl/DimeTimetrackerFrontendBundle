@@ -1,80 +1,37 @@
 'use strict';
 
 /**
- * Dime - model/activity.js
+ * Dime - core/model/activity.js
  *
  * Register Activity model to namespace App.
  */
 (function ($, Backbone, _, moment, App) {
 
     // Create Activity model and add it to App.Model
-    App.provide('Model.Activity', Backbone.Model.extend({
+    App.provide('Model.Activity', App.Model.Base.extend({
         urlRoot:App.Route.Activities,
         defaults:{
             duration:0
         },
-        relation:function (name, item, defaultValue) {
-            var relation = this.get('relation'),
-                result = defaultValue;
-
-            if (name) {
-                if (relation && relation[name]) {
-                    if (item && relation[name].get(item)) {
-                        result = relation[name].get(item);
-                    } else {
-                        result = relation[name];
-                    }
-                    return result;
-                } else {
-                    return undefined;
-                }
-            } else {
-                return relation;
+        relations: {
+            customer: {
+                model: 'App.Model.Customer'
+            },
+            project: {
+                model: 'App.Model.Project'
+            },
+            service: {
+                model: 'App.Model.Service'
+            },
+            timeslices: {
+                collection: 'App.Collection.Timeslices',
+                model: 'App.Model.Timeslice',
+                belongTo: 'activity:id'
+            },
+            tags: {
+                collection: 'App.Collection.Tags',
+                model: 'App.Model.Tag'
             }
-        },
-        parse:function (response) {
-            response.relation = {};
-
-            if (response.customer) {
-                response.relation.customer = new App.Model.Customer(response.customer);
-                response.customer = response.customer.id;
-            }
-
-            if (response.project) {
-                response.relation.project = new App.Model.Project(response.project);
-                response.project = response.project.id;
-            }
-
-            if (response.service) {
-                response.relation.service = new App.Model.Service(response.service);
-                response.service = response.service.id;
-            }
-
-            var timeslices = new App.Collection.Timeslices();
-            if (response.timeslices) {
-                var slices = [];
-                _.each(response.timeslices, function (item) {
-                    slices[slices.length] = item.id;
-                    item.activity = response.id;
-                    timeslices.add(new App.Model.Timeslice(item));
-                });
-                response.duration = timeslices.duration();
-                response.timeslices = slices;
-            }
-            response.relation.timeslices = timeslices;
-
-            var tags = new App.Collection.Tags();
-            if (response.tags) {
-                var tag = [];
-                _.each(response.tags, function (item) {
-                    tag.push(item.id);
-                    tags.add(new App.Model.Tag(item));
-                });
-                response.tags = tag;
-            }
-            response.relation.tags = tags;
-
-            return response;
         },
         start:function (opt) {
             var timeslices = this.relation('timeslices');
@@ -107,8 +64,14 @@
                 this.set('duration', timeslices.duration());
             }
         },
-        runningTimeslice:function () {
+        timesliceRunning:function () {
             return (this.relation('timeslices')) ? this.relation('timeslices').firstRunning() : undefined;
+        },
+        timesliceDuration: function() {
+            if (this.relation('timeslices')) {
+                return this.relation('timeslices').duration();
+            }
+            return 0;
         },
         formatDuration:function (seconds) {
             return App.Helper.Format.Duration(seconds);

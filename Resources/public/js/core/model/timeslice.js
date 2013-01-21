@@ -1,46 +1,28 @@
 'use strict';
 
 /**
- * Dime - model/timeslice.js
+ * Dime - core/model/timeslice.js
  *
  * Register Timeslice model to namespace App.
  */
 (function ($, Backbone, App, moment) {
 
     // create Timeslice model and add it to App.Model
-    App.provide('Model.Timeslice', Backbone.Model.extend({
+    App.provide('Model.Timeslice', App.Model.Base.extend({
         urlRoot:App.Route.Timeslices,
         defaults:{
             duration:0,
             startedAt:undefined,
             stoppedAt:undefined
         },
-        relation:function (name, item, defaultValue) {
-            var relation = this.get('relation'),
-                result = defaultValue;
-
-            if (name) {
-                if (relation && relation[name]) {
-                    if (item && relation[name].get(item)) {
-                        result = relation[name].get(item);
-                    } else {
-                        result = relation[name];
-                    }
-                    return result;
-                } else {
-                    return undefined;
-                }
-            } else {
-                return relation;
+        relations:{
+            activity:{
+                model:'App.Model.Activity'
             }
         },
         parse:function (response) {
-            // bind activity relation
-            response.relation = {};
-            if (response.activity) {
-                response.relation.activity = new App.Model.Activity(response.activity);
-                response.activity = response.activity.id;
-            }
+            // Call parse from extend object
+            response = App.Model.Base.prototype.parse.call(this, response);
 
             // look for duration and format it
             if (response.duration !== undefined) {
@@ -68,21 +50,21 @@
 
             if (attrs.duration && !attrs["startedAt-time"] && !attrs["stoppedAt-time"]) {
                 this.set({
-                    startedAt: moment(attrs["startedAt-date"] + ' 00:00:00', format).format(format),
-                    stoppedAt: moment(attrs["startedAt-date"] + ' 00:00:00', format).format(format)
+                    startedAt:moment(attrs["startedAt-date"] + ' 00:00:00', format).format(format),
+                    stoppedAt:moment(attrs["startedAt-date"] + ' 00:00:00', format).format(format)
                 }, {silent:true});
             } else {
                 // concat date and time to one string
                 if (attrs["startedAt-date"] && attrs["startedAt-time"]) {
                     this.set({
-                        startedAt: moment(attrs["startedAt-date"] + ' ' + attrs["startedAt-time"], format).format(format)
+                        startedAt:moment(attrs["startedAt-date"] + ' ' + attrs["startedAt-time"], format).format(format)
                     }, {silent:true});
                 }
 
                 // concat date and time to one string
                 if (attrs["stoppedAt-date"] && attrs["stoppedAt-time"]) {
                     this.set({
-                        stoppedAt: moment(attrs["stoppedAt-date"] + ' ' + attrs["stoppedAt-time"], format).format(format)
+                        stoppedAt:moment(attrs["stoppedAt-date"] + ' ' + attrs["stoppedAt-time"], format).format(format)
                     }, {silent:true});
                 }
             }
