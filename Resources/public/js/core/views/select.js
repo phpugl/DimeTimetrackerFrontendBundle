@@ -138,8 +138,10 @@
             this.$el.val(id);
 
             return this;
+        },
+        value: function() {
+            return this.$el.val();
         }
-
     }));
 
 })(jQuery, Backbone, _, Dime);
