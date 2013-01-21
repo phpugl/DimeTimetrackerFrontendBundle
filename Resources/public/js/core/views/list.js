@@ -185,7 +185,12 @@
         },
         changeItem:function (model) {
             if (model.id !== undefined) {
-                $('#' + this.defaults.prefix + model.id).replaceWith(this.renderItem(model).el);
+                var item = $('#' + this.defaults.prefix + model.id),
+                    newItem = this.renderItem(model),
+                    classes = item.attr('class');
+
+                newItem.$el.addClass(classes);
+                item.replaceWith(newItem.el);
             } else { // run addAll if item has no Id
                 this.addAll();
             }
