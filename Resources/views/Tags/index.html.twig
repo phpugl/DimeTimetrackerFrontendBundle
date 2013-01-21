@@ -35,6 +35,7 @@
             <a class="btn delete" href="#tag/<%- data.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
         </div>
         <%- data.name %>
+        <% if(data.system) { %><span class="label label-info">{% trans %}system{% endtrans %}</span><% } %>
     </h3>
 </script>
 

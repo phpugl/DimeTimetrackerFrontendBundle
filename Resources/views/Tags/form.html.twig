@@ -1,23 +1,30 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Tags/form.html.twig #}
 <section id="tag-form">
-  <header class="page-header">
-    <h1>Tag</h1>
-  </header>
-  <form class="form-horizontal" data-prefix="tag-">
-    <fieldset>
-      <div class="control-group">
-        <label for="tag-name" class="control-label">Name:</label>
-        <div class="controls">
-          <input id="tag-name" class="tag-name input-block-level" type="text" value="" >
-          <span class="help-inline"></span>
+    <header class="page-header">
+        <h1>Tag</h1>
+    </header>
+    <form class="form-horizontal" data-prefix="tag-">
+        <fieldset>
+            <div class="control-group">
+                <label for="tag-name" class="control-label">{% trans %}Name{% endtrans %}:</label>
+                <div class="controls">
+                    <input id="tag-name" class="tag-name input-block-level" type="text" value="">
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="tag-system" class="control-label">{% trans %}System{% endtrans %}:</label>
+                <div class="controls">
+                    <input id="tag-system" class="tag-system input-block-level" type="checkbox" value="">
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <footer class="form-actions">
+        <div class="pull-right">
+            <button class="cancel btn">{% trans %}Cancel{% endtrans %}</button>
+            <button class="save btn btn-primary">{% trans %}Save{% endtrans %}</button>
         </div>
-      </div>
-    </fieldset>
-  </form>
-  <footer class="form-actions">
-    <div class="pull-right">
-      <button class="cancel btn">Cancel</button>
-      <button class="save btn btn-primary">Save</button>
-    </div>
-  </footer>
+    </footer>
 </section>
