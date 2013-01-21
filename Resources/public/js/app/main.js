@@ -59,5 +59,16 @@
         }
     });
 
+    // Load settings
+    App.hook.add({
+        id: 'settings',
+        scope: 'initialize',
+        callback: function() {
+            var settings = new App.Collection.Settings();
+            settings.fetch({ wait: true });
+            App.session.set('settings', settings);
+        }
+    });
+
 })(jQuery, Dime);
 
