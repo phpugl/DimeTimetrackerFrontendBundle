@@ -75,7 +75,7 @@
                     if (data) {
                         for (var name in data) if (data.hasOwnProperty(name)) {
                             var input = $('#' + prefix + name, $form);
-                            if (input) {
+                            if (input.length > 0) {
                                 var group = input.parents('.control-group');
                                 group.addClass('error');
                                 $('span.help-inline', group).text(data[name]);
@@ -88,8 +88,17 @@
                 if ($form && data) {
                     for (var name in data) if (data.hasOwnProperty(name)) {
                         var input = $('#' + prefix + name, $form);
-                        if (input) {
-                            input.val(data[name]);
+                        if (input.length > 0) {
+                            var type = input[0].type;
+                            if (type && type == 'checkbox' || type == 'radio') {
+                                if (data[name]) {
+                                    input.attr('checked', 'checked');
+                                } else {
+                                    input.removeAttr('checked');
+                                }
+                            } else {
+                                input.val(data[name]);
+                            }
                         }
                     }
                 }
