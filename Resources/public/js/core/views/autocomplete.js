@@ -31,7 +31,7 @@
 
             var that = this;
             $('#' + this.defaults.autocompleteListId).attr('class', 'autocomplete');
-            if (that.suggestions) {
+            if (that.suggestions && "({})" != that.suggestions.toSource()) {
                 $('#' + this.defaults.autocompleteListId).show();
             } else {
                 $('#' + this.defaults.autocompleteListId).hide();
