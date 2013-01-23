@@ -63,9 +63,6 @@
                 collection: this.tags,
                 defaults: {
                     name: 'tag-filter',
-                    preservedOnReset: {
-                        open: true
-                    },
                     items: {
                         search: new App.Views.Core.Filter.Search()
                     }

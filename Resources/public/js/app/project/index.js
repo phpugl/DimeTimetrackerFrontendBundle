@@ -63,9 +63,6 @@
                 collection: this.projects,
                 defaults: {
                     name: 'project-filter',
-                    preservedOnReset: {
-                        open: true
-                    },
                     items: {
                         customer: new App.Views.Core.Filter.Customer(),
                         search: new App.Views.Core.Filter.Search()

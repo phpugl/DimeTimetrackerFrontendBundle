@@ -11,9 +11,12 @@
             ui: '#filter',
             name: 'filter',
             rendered: false,
-            preservedOnReset: {},
+            ignore: {
+                open: true
+            },
             events:{
                 'click #filter-button':'toggleFilter',
+                'click #filter-save':'saveFilter',
                 'click #filter-reset':'resetFilter'
             },
             items: {}
@@ -30,6 +33,8 @@
             if (this.defaults.events) {
                 this.events = $.extend(true, {}, this.events, this.defaults.events);
             }
+
+            this.component = $(this.defaults.ui);
         },
         render: function() {
             // render ui items
@@ -42,13 +47,18 @@
                 }
 
                 // Load settings to session
-                var settings = {};
-                if (App.session.has('settings')) {
-                    settings = App.session.get('settings').values(this.defaults.name);
-                }
-                App.session.set('activity-filter', settings);
+                this.loadSettings();
             }
             return this;
+        },
+        loadSettings: function() {
+            var settings = {};
+
+            if (App.session.has('settings')) {
+                settings = App.session.get('settings').values(this.defaults.name);
+            }
+
+            App.session.set('activity-filter', settings);
         },
         updateFilter: function(defaults) {
             var filter = App.session.get(this.defaults.name) || defaults;
@@ -62,7 +72,9 @@
 
                 // Open filter
                 if (filter.open) {
-                    $(this.defaults.ui).show();
+                    this.component.show();
+                } else {
+                    this.component.hide();
                 }
             }
 
@@ -79,7 +91,7 @@
             var filter = App.session.get(this.defaults.name) || {};
 
             filter.open = (filter.open) ? false : true;
-            $(this.defaults.ui).toggle(filter.open);
+            this.component.toggle(filter.open);
 
             if (filter.open && !this.defaults.rendered) {
                 for(var name in this.defaults.items) {
@@ -93,24 +105,32 @@
 
             return this;
         },
+        saveFilter: function(e) {
+            if (e) {
+                e.preventDefault();
+            }
+
+            var filter = App.session.get(this.defaults.name) || {},
+                settings = App.session.get('settings');
+
+            // TODO Remove Filter
+            if (settings) {
+                for(var name in filter) {
+                    if (filter.hasOwnProperty(name) && !this.defaults.ignore[name]) {
+                        settings.updateSetting(this.defaults.name, name, filter[name]);
+                    }
+                }
+            }
+
+            return this;
+        },
         resetFilter: function(e) {
             if (e) {
                 e.preventDefault();
             }
 
-            var filter = App.session.get(this.defaults.name) || {};
-
-            for(var name in this.defaults.items) {
-                if (this.defaults.items.hasOwnProperty(name)
-                    && !this.defaults.preservedOnReset[name]) {
-                    this.defaults.items[name].resetFilter(filter);
-                }
-            }
-
-            App.session.set(this.defaults.name, filter);
-
+            this.loadSettings();
             this.updateFilter();
-            this.toggleFilter();
 
             return this;
         }

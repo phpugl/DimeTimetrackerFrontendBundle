@@ -24,9 +24,6 @@
                 collection: this.activities,
                 defaults: {
                     name: 'activity-filter',
-                    preservedOnReset: {
-                        open: true
-                    },
                     items: {
                         dates: new App.Views.Core.Filter.DatePeriod(),
                         customer: new App.Views.Core.Filter.Customer(),

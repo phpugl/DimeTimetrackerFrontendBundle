@@ -63,9 +63,6 @@
                 collection: this.settings,
                 defaults: {
                     name: 'setting-filter',
-                    preservedOnReset: {
-                        open: true
-                    },
                     items: {
                         search: new App.Views.Core.Filter.Search()
                     }

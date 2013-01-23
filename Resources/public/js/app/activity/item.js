@@ -43,6 +43,7 @@
                 }, 1000);
             }
 
+            // show timeslice table
             this.timeslices = new App.Views.Core.List({
                 el: $('.box-details table tbody', this.$el),
                 model:this.model,
@@ -96,7 +97,6 @@
 
             if (!button.hasClass('btn-warning')) {
                 button.data('start', moment());
-
                 this.model.start({
                     wait: true,
                     success: function(timeslice) {

@@ -63,9 +63,6 @@
                 collection: this.services,
                 defaults: {
                     name: 'service-filter',
-                    preservedOnReset: {
-                        open: true
-                    },
                     items: {
                         search: new App.Views.Core.Filter.Search()
                     }
