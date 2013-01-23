@@ -41,9 +41,10 @@
             withBlank:true,
             blankText:'',
             selected:undefined,
-            view:App.Views.Core.SelectOption
+            itemView: App.Views.Core.SelectOption,
+            itemSettings: {}
         },
-        itemViews: [],
+        items: [],
         initialize:function (opt) {
             _.bindAll(this, 'render', 'addBlank', 'addOne', 'addAll', 'select', 'fetch');
 
@@ -95,23 +96,24 @@
             return this;
         },
         addBlank:function () {
-            var view = new this.defaults.view({ defaults:{ blank:this.defaults.blankText }});
-            this.itemViews.push(view);
+            var view = new this.defaults.itemView({ defaults:{ blank:this.defaults.blankText }});
+            this.items.push(view);
             this.$el.append(view.render().el);
         },
         addOne:function (obj) {
-            var view = new this.defaults.view({
-                model:obj
+            var view = new this.defaults.itemView({
+                model:obj,
+                defaults: this.defaults.itemSettings
             });
-            this.itemViews.push(view);
+            this.items.push(view);
             this.$el.append(view.render().el);
         },
         addAll:function () {
             // clear select
-            for (var i=0; i<this.itemViews.length; i++) {
-                this.itemViews[i].remove();
+            for (var i=0; i<this.items.length; i++) {
+                this.items[i].remove();
             }
-            this.itemViews = [];
+            this.items = [];
             this.$el.html('');
 
             if (this.defaults.withBlank) {
