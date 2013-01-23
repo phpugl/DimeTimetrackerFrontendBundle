@@ -66,7 +66,7 @@
                     var header = $('#area-header');
                     if (header) {
                         var data = {message: message};
-                        if (type) {
+                        if (type != undefined) {
                             data.type = ' alert-' + type;
                         }
                         var $el = $(template(data));
