@@ -7,6 +7,7 @@
     App.provide('Views.Core.Autocomplete', Backbone.View.extend({
         el:'#activity-track-input',
         events:{
+            'blur': 'hideAutocompletion',
             'input':'triggerSuggestions'
         },
         defaults:{
@@ -17,6 +18,9 @@
             // "this" view in callback functions
             _.bindAll(this, 'triggerSuggestions', 'render');
 
+        },
+        hideAutocompletion:function () {
+            $('#' + this.defaults.autocompleteListId).hide();
         },
         render:function () {
             // prepare list
@@ -31,7 +35,10 @@
 
             var that = this;
             $('#' + this.defaults.autocompleteListId).attr('class', 'autocomplete');
-            if (that.suggestions && "({})" != that.suggestions.toSource()) {
+            if (0 < this.$el.val().length
+                && that.suggestions
+                && "({})" != that.suggestions.toSource()
+            ) {
                 $('#' + this.defaults.autocompleteListId).show();
             } else {
                 $('#' + this.defaults.autocompleteListId).hide();
