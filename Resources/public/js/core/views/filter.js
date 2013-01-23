@@ -58,7 +58,7 @@
                 settings = App.session.get('settings').values(this.defaults.name);
             }
 
-            App.session.set('activity-filter', settings);
+            App.session.set(this.defaults.name, settings);
         },
         updateFilter: function(defaults) {
             var filter = App.session.get(this.defaults.name) || defaults;
@@ -113,13 +113,32 @@
             var filter = App.session.get(this.defaults.name) || {},
                 settings = App.session.get('settings');
 
-            // TODO Remove Filter
             if (settings) {
-                for(var name in filter) {
-                    if (filter.hasOwnProperty(name) && !this.defaults.ignore[name]) {
-                        settings.updateSetting(this.defaults.name, name, filter[name]);
+                var models = settings.where({ namespace: this.defaults.name });
+
+                // Update and delete
+                for (var i=0; i<models.length; i++) {
+                    var model = models[i];
+                    if (filter[model.get('name')]) {
+                        model.save({ value: JSON.stringify(filter[model.get('name')]) });
+                    } else {
+                        model.destroy();
                     }
                 }
+
+                // Insert new
+                for (var name in filter) {
+                    if (filter.hasOwnProperty(name)
+                        && !this.ignore[name]
+                        && !settings.hasSetting(this.defaults.name, name)) {
+                        settings.create({
+                            namespace: this.defaults.name,
+                            name: name,
+                            value: JSON.stringify(filter[name])
+                        });
+                    }
+                }
+                App.notify("Filter settings has been saved.", "success")
             }
 
             return this;

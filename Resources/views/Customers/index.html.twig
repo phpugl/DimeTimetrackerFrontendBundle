@@ -8,23 +8,21 @@
   <h1>Customer</h1>
 </header>
 
-<div id="filter" class="hide">
-    <form class="form-horizontal">
-        <fieldset>
-            <div class="control-group">
-                <label for="filter-search" class="control-label"><i class="icon-search"></i> {% trans %}Search{% endtrans %}</label>
-                <div class="controls">
-                    <input id="filter-search" class="filter filter-search input-block-level" title="Search" placeholder="{% trans %}Search{% endtrans %}...">
-                </div>
+<form id="filter" class="form-horizontal well well-small">
+    <fieldset>
+        <div class="control-group">
+            <label for="filter-search" class="control-label"><i class="icon-search"></i> {% trans %}Search{% endtrans %}</label>
+            <div class="controls">
+                <input id="filter-search" class="filter filter-search input-block-level" title="Search" placeholder="{% trans %}Search{% endtrans %}...">
             </div>
-        </fieldset>
-    </form>
+        </div>
+    </fieldset>
     <fieldset>
         <div class="pull-right">
             <button id="filter-reset" class="btn">{% trans %}Reset{% endtrans %}</button>
         </div>
     </fieldset>
-</div>
+</form>
 
 <div id="customers" class="loading"></div>
 <div class="pagination t-center"></div>
