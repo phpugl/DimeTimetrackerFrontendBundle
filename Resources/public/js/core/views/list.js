@@ -32,6 +32,7 @@
 
             // fill model date into template and push it into element html
             this.$el.html(temp({
+                App: App,
                 model:this.model,
                 data:this.model.toJSON()
             }));
