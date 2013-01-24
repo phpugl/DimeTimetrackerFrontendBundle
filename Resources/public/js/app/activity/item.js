@@ -8,27 +8,14 @@
   // activity item view
     App.provide('Views.Activity.Item', App.Views.Core.ListItem.extend({
         events: {
-            'click .details': 'details',
             'click .edit': 'edit',
             'click .delete': 'delete',
             'click .track': 'track',
-            'click': 'showDetails'
+            'click .box-foldable': 'showDetails'
         },
         render: function() {
-            var that = this;
-
-            // grep template with jquery and generate template stub
-            var temp = _.template($(this.template).html());
-
-            // fill model date into template and push it into element html
-            this.$el.html(temp({
-                App: App,
-                model: this.model,
-                data: this.model.toJSON()
-            }));
-
-            // add element id with prefix
-            this.$el.attr('id', this.elId());
+            // Call parent contructor
+            App.Views.Core.ListItem.prototype.render.call(this);
 
             // activate timer if any running timeslice is found
             var activeTimeslice = this.model.timesliceRunning();
@@ -42,6 +29,12 @@
                     button.text(model.formatDuration(button.data('duration') + d));
                 }, 1000);
             }
+
+            // activate contenteditable
+            var ce = new App.Views.Core.Editor({
+                el: this.el,
+                model: this.model
+            }).render();
 
             // show timeslice table
             this.timeslices = new App.Views.Core.List({

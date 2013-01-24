@@ -28,15 +28,16 @@
 <div class="pagination t-center"></div>
 
 <script type="text/template" id="tpl-customer-item">
-    <h3 class="title">
+    <div class="box-title">
         <div class="btn-group pull-right">
             <a class="btn delete" href="#customer/<%- data.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
         </div>
-        <%- data.name %> <span class="label">@<%- data.alias %></span>
+        <span class="editable editable-input" contenteditable="true" data-editor-model-key="name"><%- data.name %></span>
+        <% if (data.alias) { %><span class="label label-customer editable editable-input" contenteditable="true" data-editor-model-key="alias"><%- data.alias %></span><% } %>
         <% if (data.tags) { _.each(data.tags, function (tag) { %>
             <span class="badge badge-info">#<%- tag.name %></span>
         <% })} %>
-    </h3>
+    </div>
 </script>
 
 <script type="text/template" id="tpl-customer-empty">

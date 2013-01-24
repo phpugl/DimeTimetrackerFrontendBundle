@@ -18,7 +18,7 @@
 </script>
 
 <script type="text/template" id="tpl-activity-item">
-    <h3 class="title">
+    <div class="box-title box-foldable">
         <div class="btn-toolbar pull-right">
             <div class="btn-group">
                 <% if (model.timesliceRunning()) { %>
@@ -32,17 +32,17 @@
                 <a class="delete btn" href="#activity/<%- data.id %>/delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove hide-text">{% trans %}Delete{% endtrans %}</i></a>
             </div>
         </div>
-        <%= App.Helper.Format.Nl2Br(data.description) %>
+        <div class="editable editable-textarea" contenteditable="true" data-editor-model-key="description"><%= data.description %></div>
         <% if (model.relation('customer')) { %>
-        <span title="<%- model.relation('customer', 'name') %>" class="label">@<%- model.relation('customer', 'alias') %></span>
+        <span title="<%- model.relation('customer', 'name') %>" class="label" contenteditable="false">@<%- model.relation('customer', 'alias') %></span>
         <% } %>
         <% if (model.relation('project')) { %>
-        <span  title="<%- model.relation('project', 'name') %>" class="label" >/<%- model.relation('project', 'alias') %></span>
+        <span  title="<%- model.relation('project', 'name') %>" class="label" contenteditable="false" >/<%- model.relation('project', 'alias') %></span>
         <% } %>
         <% if (model.relation('tags')) { model.relation('tags').each(function (tag) { %>
-        <span class="badge badge-info">#<%- tag.get('name') %></span>
+        <span class="badge badge-info" contenteditable="false">#<%- tag.get('name') %></span>
         <% })} %>
-    </h3>
+    </div>
     <div class="box-details">
         <table class="table table-striped">
             <thead>
@@ -65,6 +65,16 @@
 
 <script type="text/template" id="tpl-timeslice-item">
     <td><%- model.formatDuration() %></td>
+    <td><%= _.escape(data.startedAt || '') %></td>
+    <td><%= _.escape(data.stoppedAt || '') %></td>
+    <td>
+        <a class="edit btn" href="#timeslice/<%- data.id %>/edit"><i class="icon-pencil hide-text">Edit</i> </a>
+        <a class="delete btn" href="#delete"><i class="icon-remove hide-text">Delete</i> </a>
+    </td>
+</script>
+
+<script type="text/template" id="tpl-timeslice-item-update">
+    <td><input <%- model.formatDuration() %></td>
     <td><%= _.escape(data.startedAt || '') %></td>
     <td><%= _.escape(data.stoppedAt || '') %></td>
     <td>

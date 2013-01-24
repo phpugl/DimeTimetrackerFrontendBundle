@@ -28,13 +28,13 @@
 <div class="pagination t-center"></div>
 
 <script type="text/template" id="tpl-tag-item">
-    <h3 class="title">
+    <div class="box-title">
         <div class="btn-group pull-right">
             <a class="btn delete" href="#tag/<%- data.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
         </div>
-        <%- data.name %>
+        <span class="editable editable-input" contenteditable="true" data-editor-model-key="name"><%- data.name %></span>
         <% if(data.system) { %><span class="label label-info">{% trans %}system{% endtrans %}</span><% } %>
-    </h3>
+    </div>
 </script>
 
 <script type="text/template" id="tpl-tag-empty">

@@ -5,7 +5,7 @@
  *
  * Register Activity model to namespace App.
  */
-(function (App, moment) {
+(function (App, $, moment) {
 
     /**
      * App.Helper.Format.Duration
@@ -89,5 +89,26 @@
         return text;
     });
 
-})(Dime, moment);
+    /**
+     * App.Helper.Format.EditableText
+     * Transform HTML Content from "contenteditable" to Text with \n
+     *
+     * @param html html content
+     * @return string sanitized text
+     */
+    App.provide('Helper.Format.EditableText', function(html) {
+        var ce = $("<pre />").html(html);
+        if ($.browser.webkit) {
+            ce.find("div").replaceWith(function() { return "\n" + this.innerHTML; });
+        }
+        if ($.browser.msie) {
+            ce.find("p").replaceWith(function() { return this.innerHTML + "<br>"; });
+        }
+        if ($.browser.mozilla || $.browser.opera || $.browser.msie) {
+            ce.find("br").replaceWith("\n");
+        }
+        return ce.text();
+    })
+
+})(Dime, jQuery, moment);
 

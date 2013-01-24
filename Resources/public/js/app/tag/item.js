@@ -11,6 +11,18 @@
             'click .delete': 'delete',
             'click': 'edit'
         },
+        render:function () {
+            // Call parent contructor
+            App.Views.Core.ListItem.prototype.render.call(this);
+
+            // activate contenteditable
+            var ce = new App.Views.Core.Editor({
+                el:this.el,
+                model:this.model
+            }).render();
+
+            return this;
+        },
         edit: function(e) {
             e.stopPropagation();
             App.router.navigate('#tag/' + this.model.id + '/edit', { trigger: true });
