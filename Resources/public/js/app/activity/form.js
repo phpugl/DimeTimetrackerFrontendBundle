@@ -14,8 +14,30 @@
                 'click .save':'save',
                 'click .close':'close',
                 'click .cancel':'close',
-                'change #activity-customer':'customerChange'
+                'change #activity-customer':'customerChange',
+                'change #activity-project':'projectChange',
+                'change #activity-rate':'rateChange',
+                'change #activity-service':'setPrice'
             }
+        },
+        initialize:function (opt) {
+            // Call parent contructor
+            App.Views.Core.Form.prototype.initialize.call(this, opt);
+
+            // Prefill select boxes
+            this.customers = App.session.get('customer-filter-collection', function () {
+                return new App.Collection.Customers();
+            });
+
+            this.projects = App.session.get('project-filter-collection', function () {
+                return new App.Collection.Projects();
+            });
+
+            this.services = App.session.get('service-filter-collection', function () {
+                return new App.Collection.Services();
+            });
+
+            this.activityFilter = App.session.get('activity-filter');
         },
         render:function () {
             this.setElement(this.defaults.templateEl);
@@ -32,10 +54,6 @@
             this.form.clear();
             this.form.fill(this.model.toJSON());
 
-            // Prefill select boxes
-            this.customers = App.session.get('customer-filter-collection', function () {
-                return new App.Collection.Customers();
-            });
             this.customerSelect = new App.Views.Core.Select({
                 el:this.form.get('customer'),
                 collection: this.customers,
@@ -44,10 +62,10 @@
                 }
             }).render();
             this.customers.fetch();
+            if (this.activityFilter && this.activityFilter.customer) {
+                this.customerSelect.select(this.activityFilter.customer);
+            }
 
-            this.projects = App.session.get('project-filter-collection', function () {
-                return new App.Collection.Projects();
-            });
             this.projectSelect = new App.Views.Core.Select({
                 el:this.form.get('project'),
                 collection:this.projects,
@@ -60,10 +78,13 @@
             } else {
                 this.projects.fetch();
             }
+            if (this.activityFilter && this.activityFilter.project) {
+                this.projectSelect.select(this.activityFilter.project);
+                if (!this.activityFilter.customer) {
+                    this.customerFilter.select();
+                }
+            }
 
-            this.services = App.session.get('service-filter-collection', function () {
-                return new App.Collection.Services();
-            });
             this.serviceSelect = new App.Views.Core.Select({
                 el:this.form.get('service'),
                 collection:this.services,
@@ -72,6 +93,9 @@
                 }
             }).render();
             this.services.fetch();
+            if (this.activityFilter && this.activityFilter.service) {
+                this.serviceSelect.select(this.activityFilter.service);
+            }
 
             // Render tags
             if (this.model.get('tags')) {
@@ -106,6 +130,67 @@
                     this.projects.fetch();
                 }
             }
+            return this;
+        },
+        projectChange: function(e) {
+            if (e) {
+                e.preventDefault();
+
+                var $component = $(e.currentTarget);
+
+                if ($component.val() !== '') {
+                    var project = this.projects.get($component.val());
+                    this.customerSelect.select(project.get('customer'));
+                }
+                this.setPrice();
+            }
+            return this;
+        },
+        rateChange: function(e) {
+            if (e) {
+                e.preventDefault();
+
+                var $component = $(e.currentTarget),
+                    rateRef = $('#activity-rateReference');
+
+                if ($component.val() === '') {
+                    rateRef.val('');
+                } else {
+                    rateRef.val('manual');
+                }
+            }
+            return this;
+        },
+        setPrice: function(e) {
+            if (e) {
+                e.preventDefault();
+            }
+
+            var rate = $('#activity-rate'),
+                rateRef = $('#activity-rateReference'),
+                rateRefValue = rateRef.val();
+
+            if (rateRefValue == '' || rateRefValue.search(/service|customer|project/) != -1) {
+                if (this.serviceSelect.value()) {
+                    var service = this.services.get(this.serviceSelect.value());
+                    if (service.get('rate')) {
+                        rate.val(service.get('rate'));
+                        rateRef.val('service');
+                    }
+                } else {
+                    rate.val('');
+                    rateRef.val('');
+                }
+                if (this.projectSelect.value()) {
+                    var project = this.projects.get(this.projectSelect.value());
+                    if (project.get('rate')) {
+                        rate.val(project.get('rate'));
+                        rateRef.val('project');
+                    }
+                }
+            }
+
+            return this;
         }
     }));
 
