@@ -83,29 +83,6 @@
                 this.form.get('tags')[0].value = tags.join(' ');
             }
 
-            // Render timeslices
-            if (this.model.relation('timeslices')) {
-                this.activityList = new App.Views.Core.List({
-                    el:'#tab-timeslices',
-                    template:'#tpl-timeslices',
-                    templateEl:'#timeslices',
-                    model:this.model,
-                    collection:this.model.relation('timeslices'),
-                    defaults:{
-                        prefix:'timeslice-',
-                        emptyTemplate: '#tpl-timeslice-empty',
-                        item:{
-                            attributes:{ "class":"timeslice" },
-                            prepend:true,
-                            tagName:"tr",
-                            View:App.Views.Timeslice.Item
-                        }
-                    }
-                }).render();
-            } else {
-                $('a[href="#tab-timeslices"]', this.$el).remove();
-            }
-
             return this;
         },
         presave: function(data) {
