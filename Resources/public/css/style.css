@@ -49,10 +49,13 @@
 
 .editable {
     cursor: text;
-    white-space:pre;
+    border: 1px solid transparent;
 }
 .editable:hover {
-    background-color: #FBFBFB;
+    border: 1px solid darkgray;
+}
+.editable-textarea {
+    display: inline-block;
 }
 .editable-textarea:focus {
     -moz-appearance: textfield-multiline;
@@ -61,9 +64,11 @@
     color: #000;
     font: medium -moz-fixed;
     font: -webkit-small-control;
+    min-height: 120px;
     overflow: auto;
     padding: 2px;
     resize: both;
+    white-space:pre;
 }
 .editable-input:focus {
     -moz-appearance: textfield;
@@ -76,7 +81,9 @@
     font: -moz-field;
     font: -webkit-small-control;
     margin-top: 5px;
+    height: 25px;
     padding: 2px 3px;
+    resize: horizontal;
 }
 
 .loading {

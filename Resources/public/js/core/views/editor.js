@@ -25,6 +25,13 @@
             }
         },
         focus:  function(e) {
+            if (e) {
+                var item = $(e.currentTarget),
+                    key = item.data('editorModelKey');
+
+                // load data from model
+                item.text(this.model.get(key));
+            }
             return this;
         },
         keyup:  function(e) {
