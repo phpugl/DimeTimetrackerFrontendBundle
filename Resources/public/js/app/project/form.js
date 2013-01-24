@@ -19,7 +19,9 @@
             this.setElement(this.defaults.templateEl);
 
             // Set title
-            $('h1.title', this.$el).text(this.defaults.title);
+            if (this.defaults.title) {
+                $('header.page-header h1', this.$el).text(this.defaults.title);
+            }
 
             // Fill form
             this.form = this.$el.form();
