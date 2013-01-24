@@ -11,7 +11,8 @@
             'click .edit': 'edit',
             'click .delete': 'delete',
             'click .track': 'track',
-            'click .box-foldable': 'showDetails'
+            'click .box-foldable': 'showDetails',
+            'click .show-timeslices': 'showDetails'
         },
         render: function() {
             // Call parent contructor

@@ -26,13 +26,14 @@
                 <% } else { %>
                 <span data-duration="<%- model.timesliceDuration() %>" class="track duration btn"><%- model.formatDuration(model.timesliceDuration()) %></span>
                 <% } %>
+                <span class="show-timeslices btn hidden-desktop" title="{% trans %}Show/hide timeslices{% endtrans %}"><i class="icon-time"></i></span>
             </div>
             <div class="btn-group">
                 <a class="edit btn" href="#activity/<%- data.id %>/edit"><i class="icon-pencil hide-text">{% trans %}Edit{% endtrans %}</i></a>
                 <a class="delete btn" href="#activity/<%- data.id %>/delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove hide-text">{% trans %}Delete{% endtrans %}</i></a>
             </div>
         </div>
-        <div class="editable editable-textarea" contenteditable="true" data-editor-model-key="description"><%= data.description %></div>
+        <div class="editable editable-textarea" contenteditable="true" data-editor-model-key="description"><%= App.Helper.Format.Nl2Br(data.description) %></div>
         <% if (model.relation('customer')) { %>
         <span title="<%- model.relation('customer', 'name') %>" class="label" contenteditable="false">@<%- model.relation('customer', 'alias') %></span>
         <% } %>
