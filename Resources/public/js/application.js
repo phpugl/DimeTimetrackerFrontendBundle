@@ -58,15 +58,15 @@
              */
             notify:function (message, type, delay) {
                 var template = this.template("#tpl-application-notification");
-                if (delay == undefined) {
+                if (delay === undefined) {
                     delay = 2000;
                 }
 
                 if (template) {
                     var header = $('#area-header');
                     if (header) {
-                        var data = {message: message};
-                        if (type != undefined) {
+                        var data = {message: message, type: ' alert-info'};
+                        if (type !== undefined) {
                             data.type = ' alert-' + type;
                         }
                         var $el = $(template(data));
