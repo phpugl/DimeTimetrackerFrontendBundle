@@ -9,7 +9,6 @@
     App.provide('Views.Core.Filter.Customer', Backbone.View.extend({
         events: {},
         parent: undefined,
-        update: false,
         defaults: {
             name: 'customer',
             ui: '#filter-customer',
@@ -33,6 +32,10 @@
             this.customers = App.session.get('customer-filter-collection', function () {
                 return new App.Collection.Customers();
             });
+
+            this.projects = App.session.get('project-filter-collection', function () {
+                return new App.Collection.Projects();
+            });
         },
         render: function(parent) {
             this.parent = parent;
@@ -55,13 +58,14 @@
         },
         updateUI: function(filter) {
             if (filter) {
-                this.update = true;
                 if (filter[this.defaults.name]) {
                     this.component.select(filter[this.defaults.name]);
+                    App.log(filter[this.defaults.name]);
+                    this.projects.fetch({ data: { filter: { customer: filter[this.defaults.name] } } });
                 } else {
                     this.component.select('');
+                    this.projects.fetch();
                 }
-                this.update = false;
             }
         },
         toggleFilter: function() {
@@ -76,8 +80,6 @@
             if (e) {
                 e.preventDefault();
             }
-
-            if (this.update) return this;
 
             var filter = App.session.get(this.parent.defaults.name) || {},
                 value = this.component.value();
