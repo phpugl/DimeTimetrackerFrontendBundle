@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Dime - model/user.js
+ * Dime - core/model/user.js
  *
  * Register User model to namespace App.
  */

@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Dime - model/tag.js
+ * Dime - core/model/tag.js
  *
  * Register Tag model to namespace App.
  */

@@ -18,6 +18,10 @@
         relations:{
             activity:{
                 model:'App.Model.Activity'
+            },
+            tags: {
+                collection: 'App.Collection.Tags',
+                model: 'App.Model.Tag'
             }
         },
         parse:function (response) {

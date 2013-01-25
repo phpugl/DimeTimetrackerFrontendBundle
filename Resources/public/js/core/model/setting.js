@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Dime - model/setting.js
+ * Dime - core/model/setting.js
  *
  * Register Setting model to namespace App.
  */

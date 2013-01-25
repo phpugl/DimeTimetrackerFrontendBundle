@@ -13,6 +13,10 @@
         relations: {
             customer: {
                 model: 'App.Model.Customer'
+            },
+            tags: {
+                collection: 'App.Collection.Tags',
+                model: 'App.Model.Tag'
             }
         }
     }));
