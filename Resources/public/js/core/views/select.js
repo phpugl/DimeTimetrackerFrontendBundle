@@ -8,27 +8,27 @@
     // Create option item view in App.Views.Core
     App.provide('Views.Core.SelectOption', Backbone.View.extend({
         tagName:"option",
-        defaults:{
+        options:{
             name:'name',
             value:'id',
             blank:''
         },
-        initialize:function (opt) {
+        initialize:function (config) {
             _.bindAll(this, 'render');
 
-            if (opt && opt.defaults) {
-                this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
+            if (config && config.options) {
+                this.options = $.extend(true, {}, this.options, config.options);
             }
         },
         render:function () {
             if (this.model) {
                 this.$el
-                    .attr('value', this.model.get(this.defaults.value))
-                    .text(this.model.get(this.defaults.name));
+                    .attr('value', this.model.get(this.options.value))
+                    .text(this.model.get(this.options.name));
             } else {
                 this.$el
                     .attr('value', '')
-                    .text(this.defaults.blank);
+                    .text(this.options.blank);
             }
             return this;
         }
@@ -37,7 +37,7 @@
     // Create select item view in App.Views.Core
     App.provide('Views.Core.Select', Backbone.View.extend({
         tagName:"select",
-        defaults:{
+        options:{
             withBlank:true,
             blankText:'',
             selected:undefined,
@@ -45,7 +45,7 @@
             itemSettings: {}
         },
         items: [],
-        initialize:function (opt) {
+        initialize:function (config) {
             _.bindAll(this, 'render', 'addBlank', 'addOne', 'addAll', 'select', 'fetch');
 
             if (this.collection) {
@@ -54,20 +54,20 @@
                 this.collection.on('change', this.change, this);
             }
 
-            if (opt && opt.defaults) {
+            if (config && config.options) {
                 // grep selected option can be service object or just the id
-                if (opt.defaults.selected) {
-                    opt.defaults.selected = (opt.defaults.selected.id) ? opt.defaults.selected.id : opt.defaults.selected;
+                if (config.options.selected) {
+                    config.options.selected = (config.options.selected.id) ? config.options.selected.id : config.options.selected;
                 }
 
-                this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
+                this.options = $.extend(true, {}, this.options, config.options);
             }
 
-            if (opt && opt.template) {
-                this.template = opt.template;
+            if (config && config.template) {
+                this.template = config.template;
 
-                if (opt && opt.templateEl) {
-                    this.templateEl = opt.templateEl;
+                if (config && config.templateEl) {
+                    this.templateEl = config.templateEl;
                 } else {
                     throw "You have to setup a templateEl option together with template.";
                 }
@@ -96,14 +96,14 @@
             return this;
         },
         addBlank:function () {
-            var view = new this.defaults.itemView({ defaults:{ blank:this.defaults.blankText }});
+            var view = new this.options.itemView({ options:{ blank:this.options.blankText }});
             this.items.push(view);
             this.$el.append(view.render().el);
         },
         addOne:function (obj) {
-            var view = new this.defaults.itemView({
+            var view = new this.options.itemView({
                 model:obj,
-                defaults: this.defaults.itemSettings
+                options: this.options.itemSettings
             });
             this.items.push(view);
             this.$el.append(view.render().el);
@@ -116,7 +116,7 @@
             this.items = [];
             this.$el.html('');
 
-            if (this.defaults.withBlank) {
+            if (this.options.withBlank) {
                 this.addBlank();
             }
 
@@ -125,8 +125,8 @@
             }
 
             // select option if selectedId exists
-            if (this.defaults.selected) {
-                this.$el.val(this.defaults.selected);
+            if (this.options.selected) {
+                this.$el.val(this.options.selected);
             }
         },
         fetch:function (opt) {
@@ -136,7 +136,7 @@
             return this;
         },
         select:function (id) {
-            this.defaults.selected = id;
+            this.options.selected = id;
             this.$el.val(id);
 
             return this;

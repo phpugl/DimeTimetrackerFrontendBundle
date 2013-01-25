@@ -26,7 +26,7 @@
             var selectBox = new App.Views.Core.Select({
                 el: this.targetComponent('customer'),
                 collection:customers,
-                defaults:{
+                options:{
                     selected:this.model.get('customer')
                 }
             });

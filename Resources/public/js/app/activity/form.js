@@ -57,7 +57,7 @@
             this.customerSelect = new App.Views.Core.Select({
                 el:this.form.get('customer'),
                 collection: this.customers,
-                defaults: {
+                options: {
                     selected: this.model.get('customer')
                 }
             }).render();
@@ -69,7 +69,7 @@
             this.projectSelect = new App.Views.Core.Select({
                 el:this.form.get('project'),
                 collection:this.projects,
-                defaults: {
+                options: {
                     selected: this.model.get('project')
                 }
             }).render();
@@ -88,7 +88,7 @@
             this.serviceSelect = new App.Views.Core.Select({
                 el:this.form.get('service'),
                 collection:this.services,
-                defaults: {
+                options: {
                     selected: this.model.get('service')
                 }
             }).render();
