@@ -23,13 +23,16 @@
 
         App.menu.activateItem('admin.setting');
         App.router.switchView(new App.Views.Setting.Form({
-            defaults:{
-                title:'Add Setting',
-                template:'DimeTimetrackerFrontendBundle:Settings:form',
-                templateEl:'#setting-form',
-                backNavigation:'setting'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Settings:form',
+            options: {
+                backNavigation:'setting',
+                prefix: 'setting-',
+                ui: {
+                    title: 'Add Setting',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
     App.router.route("setting/:id/edit", "setting:edit", function (id) {
@@ -38,13 +41,16 @@
 
         App.menu.activateItem('admin.setting');
         App.router.switchView(new App.Views.Setting.Form({
-            defaults:{
-                title:'Edit Setting',
-                template:'DimeTimetrackerFrontendBundle:Settings:form',
-                templateEl:'#setting-form',
-                backNavigation:'setting'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Settings:form',
+            options: {
+                backNavigation:'setting',
+                prefix: 'setting-',
+                ui: {
+                    title: 'Edit Setting',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
 

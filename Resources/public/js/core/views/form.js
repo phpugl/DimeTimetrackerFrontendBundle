@@ -1,60 +1,70 @@
 'use strict';
 
-/*
+/**
  * Dime - core/views/form.js
  */
-(function ($, App) {
+(function ($, Backbone, App) {
 
+    /**
+     * Dime.Views.Core.Form
+     *
+     * extend App.Views.Core.Content
+     * bind model data to form item via prefix
+     */
     App.provide('Views.Core.Form', App.Views.Core.Content.extend({
-        defaults:{
-            backNavigation:'',
-            events:{
-                'submit form':'save',
-                'click .save':'save',
-                'click .close':'close',
-                'click .cancel':'close'
-            }
+        events: {
+            'submit form':'save',
+            'click .save':'save',
+            'click .close':'close',
+            'click .cancel':'close'
         },
-        initialize:function (opt) {
-            // Bind all to this, because you want to use
-            // "this" view in callback functions
+        options: {
+            backNavigation:'',
+            prefix: '',
+            ui: {}
+        },
+        initialize: function(config) {
             _.bindAll(this);
 
-            if (opt && opt.defaults) {
-                this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
+            if (config) {
+                if (config.template) {
+                    this.template = config.template;
+                }
+
+                if (config.options) {
+                    this.options = $.extend(true, {}, this.options, config.options);
+                }
             }
 
-            if (this.defaults.events) {
-                this.events = this.defaults.events;
-            }
-
-            if (this.defaults.template) {
-                this.template = this.defaults.template;
-            }
+            this.component = $('form', this.$el);
         },
-        render:function () {
-            this.setElement(this.defaults.templateEl, true);
-
+        render: function() {
             // Set title
-            if (this.defaults.title) {
-                $('header.page-header h1', this.$el).text(this.defaults.title);
+            if (this.options.ui.titleElement && this.options.ui.title) {
+                $(this.options.ui.titleElement, this.$el).text(this.options.ui.title);
             }
 
-            // Fill form
-            this.form = this.$el.form();
-            this.form.clear();
-            this.form.fill(this.model.toJSON());
+            // Get prefix
+            if (this.formComponent && this.formComponent.data('prefix')) {
+                this.options.prefix = this.formComponent.data('prefix');
+            }
+
+            // Bind model data
+            this.bind();
 
             return this;
         },
         save:function (e) {
-            e.preventDefault();
+            if (e) {
+                e.preventDefault();
+            }
+
             var that = this;
 
             $('.save').append(' <i class="icon loading-14-white"></i>');
             $('.cancel').attr('disabled', 'disabled');
 
-            this.formData = this.form.data();
+            this.formData = this.serialize();
 
             if (this.presave) {
                 this.presave(this.formData);
@@ -81,10 +91,71 @@
                 }
             });
         },
-        close:function () {
-            App.router.navigate(this.defaults.backNavigation, { trigger:true });
+        close:function (e) {
+            if (e) {
+                e.stopPropagation();
+            }
+
+            App.router.navigate(this.options.backNavigation, { trigger:true });
+        },
+        bind: function(data) {
+            data = data || this.model.toJSON();
+
+            for (var name in data) {
+                if (data.hasOwnProperty(name)) {
+                    var input = this.targetComponent(name);
+                    if (input.length > 0) {
+                        var type = input[0].type;
+                        if (type && type == 'checkbox' || type == 'radio') {
+                            if (data[name]) {
+                                input.attr('checked', 'checked');
+                            } else {
+                                input.removeAttr('checked');
+                            }
+                        } else {
+                            input.val(data[name]);
+                        }
+                    }
+                }
+            }
+        },
+        serialize: function(withoutEmpty) {
+            var data = {},
+                that = this;
+
+            $(':input', this.$el).each(function (idx, el) {
+                var $el = $(el);
+                if (el.id && el.id.search(that.options.prefix) != -1) {
+                    var val = $el.val();
+                    if (withoutEmpty) {
+                        if (val && val != '') {
+                            if (el.type && el.type == 'checkbox' || el.type == 'radio') {
+                                if ($el.attr('checked') == 'checked') {
+                                    data[el.id.replace(that.options.prefix, '')] = val;
+                                }
+                            } else {
+                                data[el.id.replace(that.options.prefix, '')] = val;
+                            }
+                        }
+                    } else {
+                        if (el.type && el.type == 'checkbox' || el.type == 'radio') {
+                            if ($el.attr('checked') == 'checked') {
+                                data[el.id.replace(that.options.prefix, '')] = val;
+                            } else {
+                                data[el.id.replace(that.options.prefix, '')] = undefined;
+                            }
+                        } else {
+                            data[el.id.replace(that.options.prefix, '')] = val;
+                        }
+                    }
+                }
+            });
+
+            return data;
+        },
+        targetComponent: function(name) {
+            return $('#' + this.options.prefix + name, this.formComponent);
         }
     }));
 
-
-})(jQuery, Dime);
+})(jQuery, Backbone, Dime);

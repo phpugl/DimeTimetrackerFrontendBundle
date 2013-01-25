@@ -23,13 +23,16 @@
 
         App.menu.activateItem('admin.tag');
         App.router.switchView(new App.Views.Tag.Form({
-            defaults:{
-                title:'Add Tag',
-                template:'DimeTimetrackerFrontendBundle:Tags:form',
-                templateEl:'#tag-form',
-                backNavigation:'tag'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Tags:form',
+            options: {
+                backNavigation:'tag',
+                prefix: 'tag-',
+                ui: {
+                    title: 'Add Tag',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
     App.router.route("tag/:id/edit", "tag:edit", function (id) {
@@ -38,13 +41,16 @@
 
         App.menu.activateItem('admin.tag');
         App.router.switchView(new App.Views.Tag.Form({
-            defaults:{
-                title:'Edit Tag',
-                template:'DimeTimetrackerFrontendBundle:Tags:form',
-                templateEl:'#tag-form',
-                backNavigation:'tag'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Tags:form',
+            options: {
+                backNavigation:'tag',
+                prefix: 'tag-',
+                ui: {
+                    title: 'Edit Tag',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
 

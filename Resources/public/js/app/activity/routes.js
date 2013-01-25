@@ -23,13 +23,16 @@
 
         App.menu.activateItem('activity');
         App.router.switchView(new App.Views.Activity.Form({
-            defaults:{
-                title:'Add Activity',
-                template:'DimeTimetrackerFrontendBundle:Activities:form',
-                templateEl:'#activity-form',
-                backNavigation:'activity'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Activities:form',
+            options: {
+                backNavigation:'activity',
+                prefix: 'activity-',
+                    ui: {
+                    title: 'Add Activity',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
 
@@ -39,13 +42,16 @@
 
         App.menu.activateItem('activity');
         App.router.switchView(new App.Views.Activity.Form({
-            defaults:{
-                title:'Edit Activity',
-                template:'DimeTimetrackerFrontendBundle:Activities:form',
-                templateEl:'#activity-form',
-                backNavigation:'activity'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Activities:form',
+            options: {
+                backNavigation:'activity',
+                prefix: 'activity-',
+                ui: {
+                    title: 'Edit Activity',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
 

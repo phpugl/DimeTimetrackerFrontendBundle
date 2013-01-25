@@ -23,13 +23,16 @@
 
         App.menu.activateItem('admin.project');
         App.router.switchView(new App.Views.Project.Form({
-            defaults:{
-                title:'Add Project',
-                template:'DimeTimetrackerFrontendBundle:Projects:form',
-                templateEl:'#project-form',
-                backNavigation:'project'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Projects:form',
+            options: {
+                backNavigation:'project',
+                prefix: 'project-',
+                ui: {
+                    title: 'Add Project',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
     App.router.route("project/:id/edit", "project:edit", function (id) {
@@ -38,13 +41,16 @@
 
         App.menu.activateItem('admin.project');
         App.router.switchView(new App.Views.Project.Form({
-            defaults:{
-                title:'Edit Project',
-                template:'DimeTimetrackerFrontendBundle:Projects:form',
-                templateEl:'#project-form',
-                backNavigation:'project'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Projects:form',
+            options: {
+                backNavigation:'project',
+                prefix: 'project-',
+                ui: {
+                    title: 'Edit Project',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
 

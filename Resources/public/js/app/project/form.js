@@ -16,24 +16,15 @@
             }
         },
         render:function () {
-            this.setElement(this.defaults.templateEl);
-
-            // Set title
-            if (this.defaults.title) {
-                $('header.page-header h1', this.$el).text(this.defaults.title);
-            }
-
-            // Fill form
-            this.form = this.$el.form();
-            this.form.clear();
-            this.form.fill(this.model.toJSON());
+            // Call parent contructor
+            App.Views.Core.Form.prototype.render.call(this);
 
             // get Customers collection
             var customers = App.session.get('customers', function () {
                 return new App.Collection.Customers();
             });
             var selectBox = new App.Views.Core.Select({
-                el:this.form.get('customer'),
+                el: this.targetComponent('customer'),
                 collection:customers,
                 defaults:{
                     selected:this.model.get('customer')
@@ -42,20 +33,28 @@
             customers.fetch();
 
             // Render tags
-            if (this.model.get('tags')) {
-                var tagObjects = this.model.get('tags');
-                var tags = [];
-                $.each(tagObjects, function(key, el) {
-                    tags[key] = el.name;
-                });
-                this.form.get('tags')[0].value = tags.join(' ');
+            if (this.model.relation('tags')) {
+                var tags = this.targetComponent('tags');
+                tags.val(this.model.relation('tags').pluck('name').join(' '));
             }
 
             return this;
         },
+        presave: function(data) {
+            if (data) {
+                if (0 < data.tags.length) {
+                    data.tags = data.tags.split(' ');
+                } else {
+                    data.tags = [];
+                }
+            }
+        },
         slugify:function (e) {
-            var alias = $('#project-alias', this.$el);
-            alias.val(App.Helper.Format.Slugify($('#project-name', this.$el).val()));
+            var name = this.targetComponent('name'),
+                alias = this.targetComponent('alias');
+            if (alias) {
+                alias.val(App.Helper.Format.Slugify(name.val()));
+            }
         },
         alias:function (e) {
             var keyCode = (e.keyCode) ? e.keyCode : e.which,
@@ -69,15 +68,6 @@
                 return true;
             } else {
                 return false;
-            }
-        },
-        presave: function(data) {
-            if (data) {
-                if (0 < data.tags.length) {
-                    data.tags = data.tags.split(' ');
-                } else {
-                    data.tags = [];
-                }
             }
         }
     }));

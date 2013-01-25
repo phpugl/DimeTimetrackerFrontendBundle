@@ -23,13 +23,16 @@
 
         App.menu.activateItem('admin.customer');
         App.router.switchView(new App.Views.Customer.Form({
-            defaults:{
-                title:'Add Customer',
-                template:'DimeTimetrackerFrontendBundle:Customers:form',
-                templateEl:'#customer-form',
-                backNavigation:'customer'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Customers:form',
+            options: {
+                backNavigation:'customer',
+                prefix: 'customer-',
+                ui: {
+                    title: 'Add Customer',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
     App.router.route("customer/:id/edit", "customer:edit", function (id) {
@@ -38,13 +41,16 @@
 
         App.menu.activateItem('admin.customer');
         App.router.switchView(new App.Views.Customer.Form({
-            defaults:{
-                title:'Edit Customer',
-                template:'DimeTimetrackerFrontendBundle:Customers:form',
-                templateEl:'#customer-form',
-                backNavigation:'customer'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Customers:form',
+            options: {
+                backNavigation:'customer',
+                prefix: 'customer-',
+                ui: {
+                    title: 'Edit Customer',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
 

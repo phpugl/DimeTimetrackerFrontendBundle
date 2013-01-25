@@ -16,46 +16,15 @@
                 'blur #timeslice-startedAt-date':'copyDate'
             }
         },
-        startedAtValue:function () {
-            var date = $('#timeslice-startedAt-date').val(),
-                time = $('#timeslice-startedAt-time').val();
-
-            return moment(date + ' ' + time, 'YYYY-MM-DD HH:mm:ss');
-        },
-        stoppedAtValue:function () {
-            var date = $('#timeslice-stoppedAt-date').val(),
-                time = $('#timeslice-stoppedAt-time').val();
-
-            return moment(date + ' ' + time, 'YYYY-MM-DD HH:mm:ss');
-        },
-        copyDate:function () {
-            $('#timeslice-stoppedAt-date').val($('#timeslice-startedAt-date').val());
-        },
-        calculation:function (e) {
-            e.preventDefault();
-
-            var start = this.startedAtValue(),
-                stop = this.stoppedAtValue(),
-                duration = stop.diff(start, 'seconds');
-
-            $('#timeslice-formatDuration').val(App.Helper.Format.Duration(duration));
-        },
         render: function () {
-            // Fill form
-            this.form = this.$el.form();
-            this.form.clear();
-            this.form.fill(this.model.toJSON());
+            // Call parent contructor
+            App.Views.Core.Form.prototype.render.call(this);
 
             // Render tags
-            if (this.model.get('tags')) {
-                var tagObjects = this.model.get('tags');
-                var tags = [];
-                $.each(tagObjects, function(key, el) {
-                    tags[key] = el.name;
-                });
-                this.form.get('tags')[0].value = tags.join(' ');
+            if (this.model.relation('tags')) {
+                var tags = this.targetComponent('tags');
+                tags.val(this.model.relation('tags').pluck('name').join(' '));
             }
-
             return this;
         },
         presave: function(data) {
@@ -66,6 +35,30 @@
                     data.tags = [];
                 }
             }
+        },
+        startedAtValue:function () {
+            var date = this.targetComponent('startedAt-date').val(),
+                time = this.targetComponent('startedAt-time').val();
+
+            return moment(date + ' ' + time, 'YYYY-MM-DD HH:mm:ss');
+        },
+        stoppedAtValue:function () {
+            var date = this.targetComponent('stoppedAt-date').val(),
+                time = this.targetComponent('stoppedAt-time').val();
+
+            return moment(date + ' ' + time, 'YYYY-MM-DD HH:mm:ss');
+        },
+        copyDate:function () {
+            this.targetComponent('stoppedAt-date').val(this.targetComponent('startedAt-date').val());
+        },
+        calculation:function (e) {
+            e.preventDefault();
+
+            var start = this.startedAtValue(),
+                stop = this.stoppedAtValue(),
+                duration = stop.diff(start, 'seconds');
+
+            this.targetComponent('formatDuration').val(App.Helper.Format.Duration(duration));
         }
     }));
 

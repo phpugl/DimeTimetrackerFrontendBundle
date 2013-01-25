@@ -23,13 +23,16 @@
 
         App.menu.activateItem('admin.service');
         App.router.switchView(new App.Views.Service.Form({
-            defaults:{
-                title:'Add Service',
-                template:'DimeTimetrackerFrontendBundle:Services:form',
-                templateEl:'#service-form',
-                backNavigation:'service'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Services:form',
+            options: {
+                backNavigation:'service',
+                prefix: 'service-',
+                ui: {
+                    title: 'Add Service',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
     App.router.route("service/:id/edit", "service:edit", function (id) {
@@ -38,13 +41,16 @@
 
         App.menu.activateItem('admin.service');
         App.router.switchView(new App.Views.Service.Form({
-            defaults:{
-                title:'Edit Service',
-                template:'DimeTimetrackerFrontendBundle:Services:form',
-                templateEl:'#service-form',
-                backNavigation:'service'
-            },
-            model:model
+            model: model,
+            template:'DimeTimetrackerFrontendBundle:Services:form',
+            options: {
+                backNavigation:'service',
+                prefix: 'service-',
+                ui: {
+                    title: 'Edit Service',
+                    titleElement: 'header.page-header h1'
+                }
+            }
         }));
     });
 

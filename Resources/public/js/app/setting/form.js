@@ -16,8 +16,11 @@
             }
         },
         slugify:function (e) {
-            var alias = $('#setting-alias', this.$el);
-            alias.val(App.Helper.Format.Slugify($('#setting-name', this.$el).val()));
+            var name = this.targetComponent('name'),
+                alias = this.targetComponent('alias');
+            if (alias) {
+                alias.val(App.Helper.Format.Slugify(name.val()));
+            }
         },
         alias:function (e) {
             var keyCode = (e.keyCode) ? e.keyCode : e.which,
