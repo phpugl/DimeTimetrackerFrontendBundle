@@ -2,13 +2,13 @@
 
 <header class="page-header">
     <div class="pull-right">
-        <button id="filter-button" class="btn btn-large" title="{% trans %}Show filter{% endtrans %}"><i class="icon-filter hide-text">{% trans %}Show filter{% endtrans %}</i></button>
+        <button class="filter-button btn btn-large" title="{% trans %}Show filter{% endtrans %}"><i class="icon-filter hide-text">{% trans %}Show filter{% endtrans %}</i></button>
         <a href="#setting/add" class="btn btn-large" title="{% trans %}Add setting{% endtrans %}"><i class="icon-plus hide-text">{% trans %}Add Setting{% endtrans %}</i></a>
     </div>
     <h1>{% trans %}Settings{% endtrans %}</h1>
 </header>
 
-<form id="filter" class="form-horizontal well well-small">
+<form id="setting-filter" class="form-horizontal well well-small">
     <fieldset>
         <div class="control-group">
             <label for="filter-namespace" class="control-label"><i class="icon-inbox"></i> {% trans %}Namespace{% endtrans %}</label>
@@ -26,8 +26,9 @@
         </div>
     </fieldset>
     <fieldset>
+        <button type="button" class="filter-reset btn">{% trans %}Reset{% endtrans %}</button>
         <div class="pull-right">
-            <button id="filter-reset" class="btn">{% trans %}Reset{% endtrans %}</button>
+            <button type="button" class="filter-toggle btn" title="{% trans %}Close{% endtrans %}"><i class="icon-chevron-up"></i></button>
         </div>
     </fieldset>
 </form>

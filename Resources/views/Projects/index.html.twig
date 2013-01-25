@@ -1,13 +1,13 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Projects/index.html.twig #}
 <header class="page-header">
   <div class="pull-right">
-    <button id="filter-button" class="btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show filter</i></button>
+    <button class="filter-button btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show filter</i></button>
     <a href="#project/add" class="btn btn-large" title="Add project"><i class="icon-plus hide-text">Add project</i></a>
   </div>
   <h1>Project</h1>
 </header>
 
-<form id="filter" class="form-horizontal well well-small">
+<form id="project-filter" class="form-horizontal well well-small">
     <fieldset>
         <div class="control-group">
             <label for="filter-customer" class="control-label"><i class="icon-user"></i> {% trans %}Customer{% endtrans %}</label>
@@ -25,8 +25,9 @@
         </div>
     </fieldset>
     <fieldset>
+        <button type="button" class="filter-reset btn">{% trans %}Reset{% endtrans %}</button>
         <div class="pull-right">
-            <button id="filter-reset" class="btn">{% trans %}Reset{% endtrans %}</button>
+            <button type="button" class="filter-toggle btn" title="{% trans %}Close{% endtrans %}"><i class="icon-chevron-up"></i></button>
         </div>
     </fieldset>
 </form>

@@ -9,24 +9,24 @@
     App.provide('Views.Core.Filter.Customer', Backbone.View.extend({
         events: {},
         parent: undefined,
-        defaults: {
+        options: {
             name: 'customer',
             ui: '#filter-customer',
             events:{
                 'change #filter-customer':'filterCustomer'
             }
         },
-        initialize: function(opt) {
+        initialize: function(config) {
             // Bind all to this, because you want to use
             // "this" view in callback functions
             _.bindAll(this);
 
-            if (opt && opt.defaults) {
-                this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
+            if (config && config.options) {
+                this.options = $.extend(true, {}, this.options, config.options);
             }
 
-            if (this.defaults.events) {
-                this.events = $.extend(true, {}, this.events, this.defaults.events);
+            if (this.options.events) {
+                this.events = $.extend(true, {}, this.events, this.options.events);
             }
 
             this.customers = App.session.get('customer-filter-collection', function () {
@@ -42,9 +42,9 @@
 
             // Render a customer select list
             this.component = new App.Views.Core.Select({
-                el:this.defaults.ui,
+                el:this.options.ui,
                 collection:this.customers,
-                defaults:{
+                options:{
                     blankText:'by customer'
                 }
             }).render();
@@ -58,10 +58,9 @@
         },
         updateUI: function(filter) {
             if (filter) {
-                if (filter[this.defaults.name]) {
-                    this.component.select(filter[this.defaults.name]);
-                    App.log(filter[this.defaults.name]);
-                    this.projects.fetch({ data: { filter: { customer: filter[this.defaults.name] } } });
+                if (filter[this.options.name]) {
+                    this.component.select(filter[this.options.name]);
+                    this.projects.fetch({ data: { filter: { customer: filter[this.options.name] } } });
                 } else {
                     this.component.select('');
                     this.projects.fetch();
@@ -72,8 +71,8 @@
             this.customers.fetch();
         },
         resetFilter:function (filter) {
-            if (filter && filter[this.defaults.name]) {
-                delete filter[this.defaults.name];
+            if (filter && filter[this.options.name]) {
+                delete filter[this.options.name];
             }
         },
         filterCustomer:function (e) {
@@ -81,16 +80,16 @@
                 e.preventDefault();
             }
 
-            var filter = App.session.get(this.parent.defaults.name) || {},
+            var filter = App.session.get(this.parent.options.name) || {},
                 value = this.component.value();
 
             if (value && value.length > 0) {
-                filter[this.defaults.name] = value;
+                filter[this.options.name] = value;
             } else {
-                delete filter[this.defaults.name];
+                delete filter[this.options.name];
             }
 
-            App.session.set(this.parent.defaults.name, filter);
+            App.session.set(this.parent.options.name, filter);
             this.parent.updateFilter();
 
             return this;

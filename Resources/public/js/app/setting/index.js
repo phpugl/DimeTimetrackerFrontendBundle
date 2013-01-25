@@ -56,6 +56,9 @@
 
     // Setting view
     App.provide('Views.Setting.Index', App.Views.Core.Content.extend({
+        events: {
+            'click .filter-button': 'toggleFilter'
+        },
         template:'DimeTimetrackerFrontendBundle:Settings:index',
         initialize:function () {
             this.settings = App.session.get('settings', function () {
@@ -65,7 +68,7 @@
         render:function () {
             // Render filter
             this.filter = new App.Views.Core.Filter.Form({
-                el: this.el,
+                el: '#setting-filter',
                 collection: this.settings,
                 defaults: {
                     name: 'setting-filter',
@@ -112,6 +115,17 @@
 
             // remove element from DOM
             this.$el.empty().detach();
+
+            return this;
+        },
+        toggleFilter: function(e) {
+            if (e) {
+                e.stopPropagation();
+            }
+
+            if (this.filter) {
+                this.filter.toggleFilter(e);
+            }
 
             return this;
         }

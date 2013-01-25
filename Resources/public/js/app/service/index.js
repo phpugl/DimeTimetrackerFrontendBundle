@@ -56,6 +56,9 @@
 
     // Service view
     App.provide('Views.Service.Index', App.Views.Core.Content.extend({
+        events: {
+            'click .filter-button': 'toggleFilter'
+        },
         template:'DimeTimetrackerFrontendBundle:Services:index',
         initialize:function () {
             this.services = App.session.get('services', function () {
@@ -65,7 +68,7 @@
         render:function () {
             // Render filter
             this.filter = new App.Views.Core.Filter.Form({
-                el: this.el,
+                el: '#service-filter',
                 collection: this.services,
                 defaults: {
                     name: 'service-filter',
@@ -113,6 +116,17 @@
 
             // remove element from DOM
             this.$el.empty().detach();
+
+            return this;
+        },
+        toggleFilter: function(e) {
+            if (e) {
+                e.stopPropagation();
+            }
+
+            if (this.filter) {
+                this.filter.toggleFilter(e);
+            }
 
             return this;
         }

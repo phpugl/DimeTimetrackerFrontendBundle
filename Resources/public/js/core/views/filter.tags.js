@@ -9,7 +9,7 @@
     App.provide('Views.Core.Filter.Tags', Backbone.View.extend({
         events: {},
         parent: undefined,
-        defaults: {
+        options: {
             name: 'tags',
             ui: {
                 with: '#filter-with-tags',
@@ -20,17 +20,17 @@
                 'change #filter-without-tags':'filterWithout'
             }
         },
-        initialize: function(opt) {
+        initialize: function(config) {
             // Bind all to this, because you want to use
             // "this" view in callback functions
             _.bindAll(this);
 
-            if (opt && opt.defaults) {
-                this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
+            if (config && config.options) {
+                this.options = $.extend(true, {}, this.options, config.options);
             }
 
-            if (this.defaults.events) {
-                this.events = $.extend(true, {}, this.events, this.defaults.events);
+            if (this.options.events) {
+                this.events = $.extend(true, {}, this.events, this.options.events);
             }
 
             this.tags = App.session.get('tags-filter-collection', function () {
@@ -41,22 +41,22 @@
             this.parent = parent;
 
             // Render a tag select list
-            if (this.defaults.ui.with) {
+            if (this.options.ui.with) {
                 this.withTagsFilter = new App.Views.Core.Select({
-                    el:this.defaults.ui.with,
+                    el:this.options.ui.with,
                     collection:this.tags,
-                    defaults:{
+                    options:{
                         blankText:'with tag'
                     }
                 }).render();
             }
 
             // Render a tag select list
-            if (this.defaults.ui.without) {
+            if (this.options.ui.without) {
                 this.withoutTagsFilter = new App.Views.Core.Select({
-                    el:this.defaults.ui.without,
+                    el:this.options.ui.without,
                     collection:this.tags,
-                    defaults:{
+                    options:{
                         blankText:'without tag'
                     }
                 }).render();
@@ -71,14 +71,14 @@
         },
         updateUI: function(filter) {
             if (filter) {
-                if (this.defaults.ui.with && this.withTagsFilter) {
+                if (this.options.ui.with && this.withTagsFilter) {
                     if (filter.withTags) {
                         this.withTagsFilter.select(filter.withTags);
                     } else {
                         this.withTagsFilter.select('');
                     }
                 }
-                if (this.defaults.ui.without && this.withoutTagsFilter) {
+                if (this.options.ui.without && this.withoutTagsFilter) {
                     if (filter.withoutTags) {
                         this.withoutTagsFilter.select(filter.withoutTags);
                     } else {
@@ -103,7 +103,7 @@
                 e.preventDefault();
             }
 
-            var filter = App.session.get(this.defaults.name) || {},
+            var filter = App.session.get(this.options.name) || {},
                 value = this.withTagsFilter.val();
 
             if (value && value.length > 0) {
@@ -112,7 +112,7 @@
                 delete filter.withTags;
             }
 
-            App.session.set(this.parent.defaults.name, filter);
+            App.session.set(this.parent.options.name, filter);
             this.parent.updateFilter();
 
             return this;
@@ -122,7 +122,7 @@
                 e.preventDefault();
             }
 
-            var filter = App.session.get(this.parent.defaults.name) || {},
+            var filter = App.session.get(this.parent.options.name) || {},
                 value = this.withoutTagsFilter.value();
 
             if (value && value.length > 0) {
@@ -131,7 +131,7 @@
                 delete filter.withoutTags;
             }
 
-            App.session.set(this.parent.defaults.name, filter);
+            App.session.set(this.parent.options.name, filter);
             this.parent.updateFilter();
 
             return this;

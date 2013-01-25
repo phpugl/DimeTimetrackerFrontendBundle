@@ -56,6 +56,9 @@
 
     // Customer view
     App.provide('Views.Customer.Index', App.Views.Core.Content.extend({
+        events: {
+            'click .filter-button': 'toggleFilter'
+        },
         template:'DimeTimetrackerFrontendBundle:Customers:index',
         initialize:function () {
             this.customers = App.session.get('customers', function () {
@@ -65,9 +68,10 @@
         render:function () {
             // Render filter
             this.filter = new App.Views.Core.Filter.Form({
-                el: this.el,
+                el: '#customer-filter',
                 collection: this.customers,
-                defaults: {
+                template:'DimeTimetrackerFrontendBundle:Customers:filter',
+                options: {
                     name: 'customer-filter',
                     items: {
                         search: new App.Views.Core.Filter.Search()
@@ -80,7 +84,6 @@
                 collection: this.customers
             });
             $('.pagination').html(this.pager.render().el);
-
 
             // Render customer list
             this.list = new App.Views.Core.List({
@@ -113,6 +116,17 @@
 
             // remove element from DOM
             this.$el.empty().detach();
+
+            return this;
+        },
+        toggleFilter: function(e) {
+            if (e) {
+                e.stopPropagation();
+            }
+
+            if (this.filter) {
+                this.filter.toggleFilter(e);
+            }
 
             return this;
         }

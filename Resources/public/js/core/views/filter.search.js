@@ -9,28 +9,27 @@
     App.provide('Views.Core.Filter.Search', Backbone.View.extend({
         events: {},
         parent: undefined,
-        update: false,
-        defaults: {
+        options: {
             name: 'search',
             ui: '#filter-search',
             events:{
                 'input #filter-search': 'filterSearch'
             }
         },
-        initialize: function(opt) {
+        initialize: function(config) {
             // Bind all to this, because you want to use
             // "this" view in callback functions
             _.bindAll(this);
 
-            if (opt && opt.defaults) {
-                this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
+            if (config && config.options) {
+                this.options = $.extend(true, {}, this.options, config.options);
             }
 
-            if (this.defaults.events) {
-                this.events = $.extend(true, {}, this.events, this.defaults.events);
+            if (this.options.events) {
+                this.events = $.extend(true, {}, this.events, this.options.events);
             }
 
-            this.component = $(this.defaults.ui);
+            this.component = $(this.options.ui);
         },
         render: function(parent) {
             this.parent = parent;
@@ -39,19 +38,17 @@
         remove: function() {},
         updateUI: function(filter) {
             if (filter) {
-                this.update = true;
-                if (filter[this.defaults.name]) {
-                    this.component.val(filter[this.defaults.name]);
+                if (filter[this.options.name]) {
+                    this.component.val(filter[this.options.name]);
                 } else {
                     this.component.val();
                 }
-                this.update = false;
             }
         },
         toggleFilter: function() {},
         resetFilter:function (filter) {
-            if (filter && filter[this.defaults.name]) {
-                delete filter[this.defaults.name];
+            if (filter && filter[this.options.name]) {
+                delete filter[this.options.name];
             }
         },
         filterSearch:function (e) {
@@ -59,19 +56,17 @@
                 e.preventDefault();
             }
 
-            if (this.update) return this;
-
-            var filter = App.session.get(this.parent.defaults.name) || {},
+            var filter = App.session.get(this.parent.options.name) || {},
                 value = this.component.val();
 
             // TODO intelligent update
             if (value && value.length > 0) {
-                filter[this.defaults.name] = value;
+                filter[this.options.name] = value;
             } else {
-                delete filter[this.defaults.name];
+                delete filter[this.options.name];
             }
 
-            App.session.set(this.parent.defaults.name, filter);
+            App.session.set(this.parent.options.name, filter);
             this.parent.updateFilter();
 
             return this;

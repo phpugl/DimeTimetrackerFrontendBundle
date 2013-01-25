@@ -8,7 +8,7 @@
   <h1>Tags</h1>
 </header>
 
-<form id="filter" class="form-horizontal well well-small">
+<form id="tag-filter" class="form-horizontal well well-small">
     <fieldset>
         <div class="control-group">
             <label for="filter-search" class="control-label"><i class="icon-search"></i> {% trans %}Search{% endtrans %}</label>
@@ -18,8 +18,9 @@
         </div>
     </fieldset>
     <fieldset>
+        <button type="button" class="filter-reset btn">{% trans %}Reset{% endtrans %}</button>
         <div class="pull-right">
-            <button id="filter-reset" class="btn">{% trans %}Reset{% endtrans %}</button>
+            <button type="button" class="filter-toggle btn" title="{% trans %}Close{% endtrans %}"><i class="icon-chevron-up"></i></button>
         </div>
     </fieldset>
 </form>

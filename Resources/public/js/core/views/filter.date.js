@@ -9,8 +9,7 @@
     App.provide('Views.Core.Filter.DatePeriod', Backbone.View.extend({
         events: {},
         parent: undefined,
-        update: true,
-        defaults: {
+        options: {
             name: 'date',
             ui: {
                 period: '#filter-period',
@@ -23,24 +22,24 @@
                 'change #filter-period-to': 'toChange'
             }
         },
-        initialize: function(opt) {
+        initialize: function(config) {
             // Bind all to this, because you want to use
             // "this" view in callback functions
             _.bindAll(this);
 
-            if (opt && opt.defaults) {
-                this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
+            if (config && config.options) {
+                this.options = $.extend(true, {}, this.options, config.options);
             }
 
-            if (this.defaults.events) {
-                this.events = $.extend(true, {}, this.events, this.defaults.events);
+            if (this.options.events) {
+                this.events = $.extend(true, {}, this.events, this.options.events);
             }
 
-            this.periodComponent = $(this.defaults.ui.period);
-            this.fromComponent = $(this.defaults.ui.from);
-            this.fromGroupComponent = $(this.defaults.ui.from + '-group');
-            this.toComponent = $(this.defaults.ui.to);
-            this.toGroupComponent = $(this.defaults.ui.to + '-group');
+            this.periodComponent = $(this.options.ui.period);
+            this.fromComponent = $(this.options.ui.from);
+            this.fromGroupComponent = $(this.options.ui.from + '-group');
+            this.toComponent = $(this.options.ui.to);
+            this.toGroupComponent = $(this.options.ui.to + '-group');
         },
         render: function(parent) {
             this.parent = parent;
@@ -51,15 +50,15 @@
             if (filter) {
                 var dayFormat = 'YYYY-MM-DD';
 
-                if (filter[this.defaults.name + '-period']) {
-                    this.periodComponent.val(filter[this.defaults.name + '-period']);
-                    if (!filter[this.defaults.name]) {
+                if (filter[this.options.name + '-period']) {
+                    this.periodComponent.val(filter[this.options.name + '-period']);
+                    if (!filter[this.options.name]) {
                         this.update = false;
                         this.periodComponent.trigger('change');
                         this.update = true;
                     }
 
-                    switch (filter[this.defaults.name + '-period']) {
+                    switch (filter[this.options.name + '-period']) {
                         case 'D':
                             this.fromComponent.attr({
                                 placeholder: dayFormat
@@ -146,16 +145,16 @@
         toggleFilter: function() {},
         resetFilter:function (filter) {
             if (filter) {
-                if (filter[this.defaults.name]) {
-                    delete filter[this.defaults.name];
+                if (filter[this.options.name]) {
+                    delete filter[this.options.name];
                 }
-                if (filter[this.defaults.name + '-period']) {
-                    delete filter[this.defaults.name + '-period'];
+                if (filter[this.options.name + '-period']) {
+                    delete filter[this.options.name + '-period'];
                 }
 
                 var settings = App.session.get('settings').values("defaultActivityFilter");
-                if (settings[this.defaults.name + '-period']) {
-                    filter[this.defaults.name + '-period'] = settings[this.defaults.name + '-period'];
+                if (settings[this.options.name + '-period']) {
+                    filter[this.options.name + '-period'] = settings[this.options.name + '-period'];
                 }
             }
         },
@@ -164,7 +163,7 @@
                 e.stopPropagation();
             }
 
-            var filter = App.session.get(this.parent.defaults.name) || {},
+            var filter = App.session.get(this.parent.options.name) || {},
                 dayFormat = 'YYYY-MM-DD',
                 select = this.periodComponent.val(),
                 from = moment(this.fromComponent.data('date')).clone(),
@@ -173,57 +172,57 @@
             filter['date-period'] = select;
             switch (select) {
                 case 'this-month':
-                    filter[this.defaults.name] = moment().format('YYYY-MM');
+                    filter[this.options.name] = moment().format('YYYY-MM');
                     break;
                 case 'this-week':
                     from = moment();
                     if (from.day() === 0) {
                         from = from.subtract('days', 1);
                     }
-                    filter[this.defaults.name] = [from.day(1).format(dayFormat), from.day(7).format(dayFormat)];
+                    filter[this.options.name] = [from.day(1).format(dayFormat), from.day(7).format(dayFormat)];
                     break;
                 case 'today':
-                    filter[this.defaults.name] = moment().format(dayFormat);
+                    filter[this.options.name] = moment().format(dayFormat);
                     break;
                 case 'last-month':
-                    filter[this.defaults.name] = moment().subtract('months', 1).format('YYYY-MM');
+                    filter[this.options.name] = moment().subtract('months', 1).format('YYYY-MM');
                     break;
                 case 'last-week':
                     from = moment().subtract('weeks', 1);
                     if (from.day() === 0) {
                         from = date.subtract('days', 1);
                     }
-                    filter[this.defaults.name] = [from.day(1).format(dayFormat), from.day(7).format(dayFormat)];
+                    filter[this.options.name] = [from.day(1).format(dayFormat), from.day(7).format(dayFormat)];
                     break;
                 case 'yesterday':
-                    filter[this.defaults.name] = moment().subtract('days', '1').format(dayFormat);
+                    filter[this.options.name] = moment().subtract('days', '1').format(dayFormat);
                     break;
                 case 'D':
-                    filter[this.defaults.name] = from.format(dayFormat);
+                    filter[this.options.name] = from.format(dayFormat);
                     break;
                 case 'W':
                     if (from.day() === 0) {
                         from = from.subtract('days', 1);
                     }
-                    filter[this.defaults.name] = [from.day(1).format(dayFormat), from.day(7).format(dayFormat)];
+                    filter[this.options.name] = [from.day(1).format(dayFormat), from.day(7).format(dayFormat)];
                     break;
                 case 'M':
-                    filter[this.defaults.name] = from.format('YYYY-MM');
+                    filter[this.options.name] = from.format('YYYY-MM');
                     break;
                 case 'Y':
-                    filter[this.defaults.name] = from.format('YYYY');
+                    filter[this.options.name] = from.format('YYYY');
                     break;
                 case 'R':
-                    filter[this.defaults.name] = [
+                    filter[this.options.name] = [
                         from.format(dayFormat),
                         to.format(dayFormat)
                     ];
                     break;
                 default:
-                    delete filter[this.defaults.name];
+                    delete filter[this.options.name];
             }
 
-            App.session.set(this.parent.defaults.name, filter);
+            App.session.set(this.parent.options.name, filter);
             if (this.update) {
                 this.parent.updateFilter();
             }
@@ -235,21 +234,21 @@
                 e.preventDefault();
             }
 
-            var filter = App.session.get(this.parent.defaults.name) || {},
+            var filter = App.session.get(this.parent.options.name) || {},
                 from = this.fromComponent.val(),
                 to = this.toComponent.val();
 
             if (from && to.length > 0) {
                 if (to && to.length > 0) {
-                    filter[this.defaults.name] = [from, to];
+                    filter[this.options.name] = [from, to];
                 } else {
-                    filter[this.defaults.name] = from;
+                    filter[this.options.name] = from;
                 }
             } else {
-                delete filter[this.defaults.name];
+                delete filter[this.options.name];
             }
 
-            App.session.set(this.parent.defaults.name, filter);
+            App.session.set(this.parent.options.name, filter);
             this.parent.updateFilter();
 
             return this;
@@ -259,21 +258,21 @@
                 e.preventDefault();
             }
 
-            var filter = App.session.get(this.parent.defaults.name) || {},
+            var filter = App.session.get(this.parent.options.name) || {},
                 from = this.fromComponent.val(),
                 to = this.toComponent.val();
 
             if (from && to.length > 0) {
                 if (to && to.length > 0) {
-                    filter[this.defaults.name] = [from, to];
+                    filter[this.options.name] = [from, to];
                 } else {
-                    filter[this.defaults.name] = from;
+                    filter[this.options.name] = from;
                 }
             } else {
-                delete filter[this.defaults.name];
+                delete filter[this.options.name];
             }
 
-            App.session.set(this.parent.defaults.name, filter);
+            App.session.set(this.parent.options.name, filter);
             this.parent.updateFilter();
 
             return this;

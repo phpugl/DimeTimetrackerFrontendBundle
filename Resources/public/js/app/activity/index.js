@@ -7,6 +7,9 @@
 
     // Activity index view
     App.provide('Views.Activity.Index', App.Views.Core.Content.extend({
+        events: {
+            'click .toggle-filter': 'toggleFilter'
+        },
         template:'DimeTimetrackerFrontendBundle:Activities:index',
         initialize:function () {
             // Bind all to this, because you want to use
@@ -20,14 +23,21 @@
         render:function () {
             // Render filter
             this.filter = new App.Views.Core.Filter.Form({
-                el: this.el,
+                el: '#activity-filter',
                 collection: this.activities,
-                defaults: {
+                template:'DimeTimetrackerFrontendBundle:Activities:filter',
+                options: {
                     name: 'activity-filter',
                     items: {
                         dates: new App.Views.Core.Filter.DatePeriod(),
                         customer: new App.Views.Core.Filter.Customer(),
-                        project: new App.Views.Core.Filter.Project(),
+                        project: new App.Views.Core.Filter.Project({
+                            options: {
+                                collection: App.Collection.Services,
+                                sessionKey: 'service-filter-collection',
+
+                            }
+                        }),
                         service: new App.Views.Core.Filter.Service(),
                         search: new App.Views.Core.Filter.Search(),
                         tags: new App.Views.Core.Filter.Tags()
@@ -73,6 +83,17 @@
 
             // remove element from DOM
             this.$el.empty().detach();
+
+            return this;
+        },
+        toggleFilter: function(e) {
+            if (e) {
+                e.stopPropagation();
+            }
+
+            if (this.filter) {
+                this.filter.toggleFilter(e);
+            }
 
             return this;
         }

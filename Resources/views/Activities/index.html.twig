@@ -2,14 +2,13 @@
 
 <header class="page-header">
     <div class="pull-right">
-        <button id="filter-button" class="btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show filter</i></button>
+        <button class="toggle-filter btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show filter</i></button>
         <a href="#activity/add" class="btn btn-large" title="{% trans %}Add activity{% endtrans %}"><i class="icon-plus"></i></a>
     </div>
     <h1>{% trans %}Activity{% endtrans %}</h1>
 </header>
 
-{% include 'DimeTimetrackerFrontendBundle:Activities:filter.html.twig' %}
-
+<div id="activity-filter"></div>
 <div id="activities" class="loading"></div>
 <div class="pagination t-center"></div>
 

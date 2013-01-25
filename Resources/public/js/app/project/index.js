@@ -56,6 +56,9 @@
 
     // Project view
     App.provide('Views.Project.Index', App.Views.Core.Content.extend({
+        events: {
+            'click .filter-button': 'toggleFilter'
+        },
         template:'DimeTimetrackerFrontendBundle:Projects:index',
         initialize:function () {
             this.projects = App.session.get('projects', function () {
@@ -65,7 +68,7 @@
         render:function () {
             // Render filter
             this.filter = new App.Views.Core.Filter.Form({
-                el: this.el,
+                el: '#project-filter',
                 collection: this.projects,
                 defaults: {
                     name: 'project-filter',
@@ -113,6 +116,17 @@
 
             // remove element from DOM
             this.$el.empty().detach();
+
+            return this;
+        },
+        toggleFilter: function(e) {
+            if (e) {
+                e.stopPropagation();
+            }
+
+            if (this.filter) {
+                this.filter.toggleFilter(e);
+            }
 
             return this;
         }

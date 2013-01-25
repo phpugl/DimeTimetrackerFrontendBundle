@@ -3,78 +3,80 @@
 /**
  * Dime - core/views/filter.js
  */
-(function ($, Backbone, _, moment, App) {
+(function ($, Backbone, _, App) {
 
     App.provide('Views.Core.Filter.Form', Backbone.View.extend({
-        events:{},
-        defaults: {
-            ui: '#filter',
+        events:{
+            'click .filter-toggle':'toggleFilter',
+            'click .filter-save':'saveFilter',
+            'click .filter-reset':'resetFilter'
+        },
+        options: {
             name: 'filter',
             rendered: false,
-            ignore: {
+            ignoreOnSave: {
                 open: true
-            },
-            events:{
-                'click #filter-button':'toggleFilter',
-                'click #filter-save':'saveFilter',
-                'click #filter-reset':'resetFilter'
             },
             items: {}
         },
-        initialize: function(opt) {
+        initialize: function(config) {
             // Bind all to this, because you want to use
             // "this" view in callback functions
             _.bindAll(this);
 
-            if (opt && opt.defaults) {
-                this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
-            }
-
-            if (this.defaults.events) {
-                this.events = $.extend(true, {}, this.events, this.defaults.events);
-            }
-
-            this.component = $(this.defaults.ui);
-        },
-        render: function() {
-            // render ui items
-            if (this.defaults.ui) {
-                for(var name in this.defaults.items) {
-                    if (this.defaults.items.hasOwnProperty(name)) {
-                        var item = this.defaults.items[name].render(this);
-                        item.setElement(this.el);
-                    }
+            if (config) {
+                if (config.template) {
+                    this.template = config.template;
                 }
 
-                // Load settings to session
-                this.loadSettings();
+                if (config.options) {
+                    this.options = $.extend(true, {}, this.options, config.options);
+                }
             }
+
+            if (this.options.events) {
+                this.events = $.extend(true, {}, this.events, this.options.events);
+            }
+        },
+        render: function() {
+            // Load template
+            if (this.template) {
+                var temp = App.template(this.template);
+                this.$el.html(temp);
+            }
+
+            // Render ui items
+            for(var name in this.options.items) {
+                if (this.options.items.hasOwnProperty(name)) {
+                    var item = this.options.items[name].render(this);
+                    item.setElement(this.el);
+                }
+            }
+
+            // Load settings to session
+            var settings = {};
+            if (App.session.has('settings')) {
+                settings = App.session.get('settings').values(this.options.name);
+            }
+            App.session.set(this.options.name, settings);
+
             return this;
         },
-        loadSettings: function() {
-            var settings = {};
-
-            if (App.session.has('settings')) {
-                settings = App.session.get('settings').values(this.defaults.name);
-            }
-
-            App.session.set(this.defaults.name, settings);
-        },
-        updateFilter: function(defaults) {
-            var filter = App.session.get(this.defaults.name) || defaults;
+        updateFilter: function(settings) {
+            var filter = settings || App.session.get(this.options.name);
 
             if (filter) {
-                for(var name in this.defaults.items) {
-                    if (this.defaults.items.hasOwnProperty(name)) {
-                        this.defaults.items[name].updateUI(filter);
+                for(var name in this.options.items) {
+                    if (this.options.items.hasOwnProperty(name)) {
+                        this.options.items[name].updateUI(filter);
                     }
                 }
 
                 // Open filter
                 if (filter.open) {
-                    this.component.show();
+                    this.$el.show();
                 } else {
-                    this.component.hide();
+                    this.$el.hide();
                 }
             }
 
@@ -88,33 +90,31 @@
                 e.preventDefault();
             }
 
-            var filter = App.session.get(this.defaults.name) || {};
+            var filter = App.session.get(this.options.name) || {};
 
             filter.open = (filter.open) ? false : true;
-            this.component.toggle(filter.open);
+            this.$el.toggle(filter.open);
 
-            if (filter.open && !this.defaults.rendered) {
-                for(var name in this.defaults.items) {
-                    if (this.defaults.items.hasOwnProperty(name)) {
-                        this.defaults.items[name].toggleFilter();
+            if (filter.open && !this.options.rendered) {
+                for(var name in this.options.items) {
+                    if (this.options.items.hasOwnProperty(name)) {
+                        this.options.items[name].toggleFilter();
                     }
                 }
-                this.defaults.rendered = true;
+                this.options.rendered = true;
             }
-            App.session.set(this.defaults.name, filter);
-
-            return this;
+            App.session.set(this.options.name, filter);
         },
         saveFilter: function(e) {
             if (e) {
                 e.preventDefault();
             }
 
-            var filter = App.session.get(this.defaults.name) || {},
+            var filter = App.session.get(this.options.name) || {},
                 settings = App.session.get('settings');
 
             if (settings) {
-                var models = settings.where({ namespace: this.defaults.name });
+                var models = settings.where({ namespace: this.options.name });
 
                 // Update and delete
                 for (var i=0; i<models.length; i++) {
@@ -129,10 +129,10 @@
                 // Insert new
                 for (var name in filter) {
                     if (filter.hasOwnProperty(name)
-                        && !this.ignore[name]
-                        && !settings.hasSetting(this.defaults.name, name)) {
+                        && !this.options.ignoreOnSave[name]
+                        && !settings.hasSetting(this.options.name, name)) {
                         settings.create({
-                            namespace: this.defaults.name,
+                            namespace: this.options.name,
                             name: name,
                             value: JSON.stringify(filter[name])
                         });
@@ -148,11 +148,15 @@
                 e.preventDefault();
             }
 
-            this.loadSettings();
-            this.updateFilter();
+            var settings = {};
+            if (App.session.has('settings')) {
+                settings = App.session.get('settings').values(this.options.name);
+            }
+            this.updateFilter(settings);
 
             return this;
         }
 
     }));
-})(jQuery, Backbone, _, moment, Dime);
+
+})(jQuery, Backbone, _, Dime);

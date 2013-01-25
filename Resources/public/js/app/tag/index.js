@@ -56,6 +56,9 @@
 
     // Tag view
     App.provide('Views.Tag.Index', App.Views.Core.Content.extend({
+        events: {
+            'click .filter-button': 'toggleFilter'
+        },
         template:'DimeTimetrackerFrontendBundle:Tags:index',
         initialize:function () {
             this.tags = App.session.get('tags', function () {
@@ -65,7 +68,7 @@
         render:function () {
             // Render filter
             this.filter = new App.Views.Core.Filter.Form({
-                el: this.el,
+                el: '#tag-filter',
                 collection: this.tags,
                 defaults: {
                     name: 'tag-filter',
@@ -113,6 +116,17 @@
 
             // remove element from DOM
             this.$el.empty().detach();
+
+            return this;
+        },
+        toggleFilter: function(e) {
+            if (e) {
+                e.stopPropagation();
+            }
+
+            if (this.filter) {
+                this.filter.toggleFilter(e);
+            }
 
             return this;
         }
