@@ -119,7 +119,7 @@
         render:function () {
             var temp, submenu = this.model.submenu;
             if (submenu && submenu.length > 0) {
-                temp = _.template(this.templateSubmenu);
+                temp = App.template(this.templateSubmenu);
                 this.$el.html(temp({
                     uri:this.model.get('route'),
                     title:this.model.get('title')
@@ -134,7 +134,7 @@
                 this.$el.append(submenuView.render().el);
                 this.$el.addClass('dropdown');
             } else {
-                temp = _.template(this.template);
+                temp = App.template(this.template);
                 this.$el.html(temp({
                     uri:this.model.get('route'),
                     title:this.model.get('title')

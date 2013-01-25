@@ -34,7 +34,7 @@
         },
         render:function () {
             // grep template with jquery and generate template stub
-            var temp = _.template($(this.template).html());
+            var temp = App.template(this.template);
 
             // fill model date into template and push it into element html
             this.$el.html(temp({
