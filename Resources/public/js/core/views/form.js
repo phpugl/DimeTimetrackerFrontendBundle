@@ -82,7 +82,7 @@
                     var data = $.parseJSON(response.responseText);
 
                     if (data.errors) {
-                        that.form.errors(data.errors);
+                        that.showErrors(data.errors);
                         App.notify("Hey, you have missed some fields.", "error");
                     } else {
                         App.notify(response.status + ": " + response.statusText, "error");
@@ -115,6 +115,32 @@
                         } else {
                             input.val(data[name]);
                         }
+                    }
+                }
+            }
+        },
+        clear:function () {
+            $(':input', this.$el).each(function (idx, el) {
+                var type = el.type;
+                var tag = el.tagName.toLowerCase();
+                if (type == 'text' || type == 'password' || tag == 'textarea')
+                    $(el).val("");
+                else if (type == 'checkbox' || type == 'radio')
+                    el.checked = false;
+                else if (tag == 'select')
+                    el.selectedIndex = -1;
+            });
+        },
+        showErrors:function (data) {
+            $('.control-group', this.$el).removeClass('error');
+
+            if (data) {
+                for (var name in data) if (data.hasOwnProperty(name)) {
+                    var input = this.targetComponent(name);
+                    if (input.length > 0) {
+                        var group = input.parents('.control-group');
+                        group.addClass('error');
+                        $('span.help-inline', group).text(data[name]);
                     }
                 }
             }
