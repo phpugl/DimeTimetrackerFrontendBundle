@@ -67,7 +67,7 @@
         initialize:function (config) {
             // Bind all to this, because you want to use
             // "this" view in callback functions
-            _.bindAll(this, 'render', 'remove', 'addAll', 'addItem', 'changeItem', 'removeItem');
+            _.bindAll(this);
 
             // Assign function to collection events
             if (this.collection) {
@@ -115,6 +115,10 @@
 
             return this;
         },
+        groupBy: function(opt) {
+            this.options.groupBy = opt;
+            this.addAll();
+        },
         renderItem:function (model) {
             return new this.options.item.View({
                 model:model,
@@ -132,7 +136,7 @@
             return this;
         },
         addAll: function () {
-            var tEmpty = '';
+            var tEmpty = '', that = this;
 
             if (this.options.emptyTemplate) {
                 tEmpty = App.template(this.options.emptyTemplate);
@@ -142,21 +146,33 @@
             this.$el.addClass('loading').html('');
 
             // run addItem on each collection item
-            if (this.collection) {
-                if (this.collection.length > 0) {
-                    this.options.isEmpty = false;
+            if (this.collection && this.collection.length > 0) {
+                this.options.isEmpty = false;
 
+                if (this.options.groupBy && that.options.groupBy.key) {
+                    var groupTemplate = App.template(this.options.groupBy.template),
+                        items = this.collection.groupBy(that.options.groupBy.key),
+                        sorted = _.without(_.keys(items), 'undefined').sort();
+
+                    for (var i=0; i<sorted.length; i++) {
+                        var name = sorted[i];
+                        this.addElement($(groupTemplate({ title: name })));
+                        _.each(items[name], function(model) {
+                            that.addElement(that.renderItem(model).$el);
+                        });
+                    }
+
+                    if (items['undefined'] && this.options.groupBy['undefined']) {
+                        this.addElement($(groupTemplate({ title: this.options.groupBy['undefined'] })));
+                        _.each(items['undefined'], function(model) {
+                            that.addElement(that.renderItem(model).$el);
+                        });
+                    }
+
+                } else {
                     this.collection.each(function(model) {
-                        var $el = this.renderItem(model).$el;
-
-                        if (!$el.is(':empty')) {
-                            if (this.options.item.prepend) {
-                                this.$el.prepend($el);
-                            } else {
-                                this.$el.append($el);
-                            }
-                        }
-                    }, this);
+                        that.addElement(that.renderItem(model).$el);
+                    });
                 }
             }
 
@@ -167,6 +183,15 @@
                 this.options.isEmpty = true;
             }
             return this;
+        },
+        addElement: function($el) {
+            if (!$el.is(':empty')) {
+                if (this.options.item.prepend) {
+                    this.$el.prepend($el);
+                } else {
+                    this.$el.append($el);
+                }
+            }
         },
         addItem:function (model) {
             if (this.options.isEmpty) {

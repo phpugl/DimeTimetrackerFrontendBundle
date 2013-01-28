@@ -10,6 +10,25 @@
     // Create Activity model and add it to App.Model
     App.provide('Model.Base', Backbone.Model.extend({
         relations: {},
+        /**
+         * Get a value on an attribute
+         * enhanced - get relation via dot-separation
+         *
+         * @param attr 'id' or 'relation.id'
+         * @param defaultValue
+         * @return {*}
+         */
+        get: function(attr, defaultValue) {
+            if (attr.search(/\./) > -1) {
+                var parts = attr.split('.'),
+                    next = parts.shift(),
+                    relation = this.get('relation');
+                if (next && relation && relation[next]) {
+                    return relation[next].get(parts.join('.'), defaultValue);
+                }
+            }
+            return Backbone.Model.prototype.get.call(this, attr) || defaultValue;
+        },
         relation:function (name, item, defaultValue) {
             var relation = this.get('relation'),
                 result = defaultValue;
@@ -70,6 +89,9 @@
                 }
             }
             return response;
+        },
+        toString: function() {
+            return this.get('name') ? this.get('name') : this.get('id');
         }
     }));
 

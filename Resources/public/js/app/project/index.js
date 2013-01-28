@@ -93,6 +93,11 @@
                     fetch: false,
                     prefix:'project-',
                     emptyTemplate: '#tpl-project-empty',
+                    groupBy: {
+                        key: 'customer.name',
+                        template: '#tpl-project-header',
+                        'undefined': 'No customer'
+                    },
                     item:{
                         attributes:{ "class":"project box box-folded" },
                         tagName:"section",
