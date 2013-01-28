@@ -70,7 +70,7 @@
             this.filter = new App.Views.Core.Filter.Form({
                 el: '#service-filter',
                 collection: this.services,
-                defaults: {
+                options: {
                     name: 'service-filter',
                     items: {
                         search: new App.Views.Core.Filter.Search()
@@ -89,7 +89,7 @@
             this.list = new App.Views.Core.List({
                 el:'#services',
                 collection:this.services,
-                defaults:{
+                options:{
                     fetch: false,
                     prefix:'service-',
                     emptyTemplate: '#tpl-service-empty',

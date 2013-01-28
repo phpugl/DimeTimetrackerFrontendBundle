@@ -7,16 +7,16 @@
  */
 (function ($, App) {
 
-  // create Service model and add it to App.Model
-  App.provide('Model.Service', App.Model.Base.extend({
-    urlRoot: App.Route.Services,
-      relations: {
-          tags: {
-              collection: 'App.Collection.Tags',
-              model: 'App.Model.Tag'
-          }
-      }
-  }));
+    // create Service model and add it to App.Model
+    App.provide('Model.Service', App.Model.Base.extend({
+        urlRoot:App.Route.Services,
+        relations:{
+            tags:{
+                collection:'App.Collection.Tags',
+                model:'App.Model.Tag'
+            }
+        }
+    }));
 
 })(jQuery, Dime);
 

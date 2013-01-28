@@ -42,7 +42,7 @@
                 el: $('.box-details table tbody', this.$el),
                 model:this.model,
                 collection:this.model.relation('timeslices'),
-                defaults:{
+                options:{
                     fetch: false,
                     prefix:'timeslice-',
                     emptyTemplate: '#tpl-timeslice-empty',

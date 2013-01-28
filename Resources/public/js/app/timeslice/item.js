@@ -12,21 +12,21 @@
             'click .edit':'edit',
             'click .delete':'delete'
         },
-        defaults:{
+        options:{
             prefix:'timeslice-'
         },
         elId:function () {
             var id = this.$el.attr('id');
-            return (id) ? id : this.defaults.prefix + this.model.get('id');
+            return (id) ? id : this.options.prefix + this.model.get('id');
         },
-        initialize:function (opt) {
+        initialize:function (config) {
             // Bind all to this, because you want to use
             // "this" view in callback functions
             _.bindAll(this);
 
             // Grep default values from option
-            if (opt && opt.defaults) {
-                this.defaults = _.extend({}, this.defaults, opt.defaults);
+            if (config && config.options) {
+                this.options = _.extend({}, this.options, config.options);
             }
 
             // bind remove function to model

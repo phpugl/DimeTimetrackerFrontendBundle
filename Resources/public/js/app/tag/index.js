@@ -70,7 +70,7 @@
             this.filter = new App.Views.Core.Filter.Form({
                 el: '#tag-filter',
                 collection: this.tags,
-                defaults: {
+                options: {
                     name: 'tag-filter',
                     items: {
                         search: new App.Views.Core.Filter.Search()
@@ -89,7 +89,7 @@
             this.list = new App.Views.Core.List({
                 el:'#tags',
                 collection:this.tags,
-                defaults:{
+                options:{
                     fetch: false,
                     prefix:'tag-',
                     emptyTemplate: '#tpl-tag-empty',

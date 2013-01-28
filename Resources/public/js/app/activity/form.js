@@ -7,7 +7,7 @@
 
     // Activity form view
     App.provide('Views.Activity.Form', App.Views.Core.Form.extend({
-        defaults:{
+        options:{
             backNavigation:'',
             events:{
                 'submit form':'save',
@@ -39,23 +39,12 @@
 
             this.activityFilter = App.session.get('activity-filter');
         },
-        render:function () {
-            this.setElement(this.defaults.templateEl);
-
-            App.session.set('current.model', this.model);
-
-            // Set title
-            if (this.defaults.title) {
-                $('header.page-header h1', this.$el).text(this.defaults.title);
-            }
-
-            // Fill form
-            this.form = this.$el.form();
-            this.form.clear();
-            this.form.fill(this.model.toJSON());
+        render: function () {
+            // Call parent contructor
+            App.Views.Core.Form.prototype.render.call(this);
 
             this.customerSelect = new App.Views.Core.Select({
-                el:this.form.get('customer'),
+                el:this.targetComponent('customer'),
                 collection: this.customers,
                 options: {
                     selected: this.model.get('customer')
@@ -67,7 +56,7 @@
             }
 
             this.projectSelect = new App.Views.Core.Select({
-                el:this.form.get('project'),
+                el:this.targetComponent('project'),
                 collection:this.projects,
                 options: {
                     selected: this.model.get('project')
@@ -86,7 +75,7 @@
             }
 
             this.serviceSelect = new App.Views.Core.Select({
-                el:this.form.get('service'),
+                el:this.targetComponent('service'),
                 collection:this.services,
                 options: {
                     selected: this.model.get('service')
@@ -98,13 +87,9 @@
             }
 
             // Render tags
-            if (this.model.get('tags')) {
-                var tagObjects = this.model.get('tags');
-                var tags = [];
-                $.each(tagObjects, function(key, el) {
-                    tags[key] = el.name;
-                });
-                this.form.get('tags')[0].value = tags.join(' ');
+            if (this.model.relation('tags')) {
+                var tags = this.targetComponent('tags');
+                tags.val(this.model.relation('tags').pluck('name').join(' '));
             }
 
             return this;

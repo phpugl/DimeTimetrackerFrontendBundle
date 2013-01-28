@@ -11,12 +11,15 @@
       model.fetch({async: false});
       if (model.get('username')) {
           App.router.switchView(new App.Views.Core.Form({
-              defaults: {
-                title: 'Edit user',
-                template: 'DimeTimetrackerFrontendBundle:Users:form',
-                templateEl: '#user-form'
-              },
-              model: model
+              model: model,
+              template:'DimeTimetrackerFrontendBundle:Users:form',
+              options: {
+                  prefix: 'user-',
+                  ui: {
+                      title: 'Edit User',
+                      titleElement: 'header.page-header h1'
+                  }
+              }
             }));
       } else {
           App.log('Action not allows', 'ERROR');

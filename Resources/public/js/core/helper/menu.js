@@ -110,11 +110,25 @@
 
     App.provide('Views.Core.MenuItem', Backbone.View.extend({
         tagName:"li",
-        template:'<a href="#<%- uri %>" title="<%- title %>"><%- title %></a>',
-        templateSubmenu:'<a href="#<%- uri %>" class="dropdown-toggle" data-toggle="dropdown" title="<%- title %>"><%- title %> <b class="caret"></b></a>',
         item:undefined,
-        initialize:function () {
+        options: {
+            template:'#tpl-application-menu-item',
+            templateSubmenu:'#tpl-application-menu-submenu'
+        },
+        initialize:function (config) {
             _.bindAll(this, 'render');
+
+            if (config && config.options) {
+                this.options = $.extend(true, {}, this.options, config.options);
+            }
+
+            if (this.options.template) {
+                this.template = this.options.template;
+            }
+
+            if (this.options.templateSubmenu) {
+                this.templateSubmenu = this.options.templateSubmenu;
+            }
         },
         render:function () {
             var temp, submenu = this.model.submenu;
@@ -146,10 +160,14 @@
 
     App.provide('Views.Core.Menu', Backbone.View.extend({
         tagName:"ul",
-        defaults:{
-            itemView:App.Views.Core.MenuItem
+        options:{
+            itemView:App.Views.Core.MenuItem,
+            itemOptions: {
+                template: '#tpl-application-menu-item',
+                templateSubmenu: '#tpl-application-menu-submenu'
+            }
         },
-        initialize:function (opt) {
+        initialize:function (config) {
             // Bind all to this, because you want to use
             // "this" view in callback functions
             _.bindAll(this, 'render', 'addOne');
@@ -162,8 +180,8 @@
             }
 
             // Grep default values from option
-            if (opt && opt.defaults) {
-                this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
+            if (config && config.options) {
+                this.options = $.extend(true, {}, this.options, config.options);
             }
         },
         render:function () {
@@ -177,9 +195,10 @@
             return this;
         },
         addOne:function (model) {
-            var view = new this.defaults.itemView({
+            var view = new this.options.itemView({
                 model:model,
-                attributes:(model.get('active')) ? {'class':'active'} : {}
+                attributes:(model.get('active')) ? {'class':'active'} : {},
+                options: this.options.itemOptions
             });
 
             if (model.get('active')) {

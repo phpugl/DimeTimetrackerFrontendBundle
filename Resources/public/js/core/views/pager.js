@@ -5,7 +5,11 @@
  */
 (function ($, Backbone, _, App) {
 
-    // Create list item view in App.Views.Core
+    /**
+     * Dime.Views.Core.PagerItem
+     *
+     *
+     */
     App.provide('Views.Core.PagerItem', Backbone.View.extend({
         tagName: 'li',
         events: {

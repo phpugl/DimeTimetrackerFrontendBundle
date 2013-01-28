@@ -166,11 +166,7 @@
                         url:'template/' + name,
                         dataType:'html',
                         success:function (data) {
-                            if (data.search(/<%/) !== -1) {
-                                store.templates[name] = _.template(data);
-                            } else {
-                                store.templates[name] = data;
-                            }
+                            store.templates[name] = data;
                         }
                     });
                 } else {

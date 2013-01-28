@@ -70,7 +70,6 @@
             this.filter = new App.Views.Core.Filter.Form({
                 el: '#customer-filter',
                 collection: this.customers,
-                template:'DimeTimetrackerFrontendBundle:Customers:filter',
                 options: {
                     name: 'customer-filter',
                     items: {
@@ -89,7 +88,7 @@
             this.list = new App.Views.Core.List({
                 el:'#customers',
                 collection:this.customers,
-                defaults:{
+                options:{
                     fetch: false,
                     prefix:'customer-',
                     emptyTemplate: '#tpl-customer-empty',

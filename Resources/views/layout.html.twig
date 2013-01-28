@@ -63,6 +63,13 @@
       </footer>
     </div> <!-- /container -->
 
+    <script type="text/template" id="tpl-application-menu-item">
+        <a href="#<%- uri %>" title="<%- title %>"><%- title %></a>
+    </script>
+    <script type="text/template" id="tpl-application-menu-submenu">
+        <a href="#<%- uri %>" class="dropdown-toggle" data-toggle="dropdown" title="<%- title %>"><%- title %> <b class="caret"></b></a>
+    </script>
+
     <script type="text/template" id="tpl-application-notification">
         <div class="alert<%- type %>"><button type="button" class="close" data-dismiss="alert">×</button><%- message %></div>
     </script>

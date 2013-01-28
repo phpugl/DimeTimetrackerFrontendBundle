@@ -15,7 +15,6 @@
             // Bind all to this, because you want to use
             // "this" view in callback functions
             _.bindAll(this);
-
             this.activities = App.session.get('activities', function () {
                 return new App.Collection.Activities();
             });
@@ -31,13 +30,7 @@
                     items: {
                         dates: new App.Views.Core.Filter.DatePeriod(),
                         customer: new App.Views.Core.Filter.Customer(),
-                        project: new App.Views.Core.Filter.Project({
-                            options: {
-                                collection: App.Collection.Services,
-                                sessionKey: 'service-filter-collection',
-
-                            }
-                        }),
+                        project: new App.Views.Core.Filter.Project(),
                         service: new App.Views.Core.Filter.Service(),
                         search: new App.Views.Core.Filter.Search(),
                         tags: new App.Views.Core.Filter.Tags()
@@ -55,7 +48,7 @@
             this.list = new App.Views.Core.List({
                 el:'#activities',
                 collection:this.activities,
-                defaults:{
+                options:{
                     prefix:'activity-',
                     emptyTemplate: '#tpl-activity-empty',
                     item:{

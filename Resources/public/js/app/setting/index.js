@@ -70,7 +70,7 @@
             this.filter = new App.Views.Core.Filter.Form({
                 el: '#setting-filter',
                 collection: this.settings,
-                defaults: {
+                options: {
                     name: 'setting-filter',
                     items: {
                         search: new App.Views.Core.Filter.Search()
@@ -89,7 +89,7 @@
             this.list = new App.Views.Core.List({
                 el:'#settings',
                 collection:this.settings,
-                defaults:{
+                options:{
                     fetch: false,
                     prefix:'setting-',
                     emptyTemplate: '#tpl-setting-empty',

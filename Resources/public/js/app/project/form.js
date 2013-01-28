@@ -6,7 +6,7 @@
 (function ($, App) {
 
     App.provide('Views.Project.Form', App.Views.Core.Form.extend({
-        defaults: {
+        options: {
             events:{
                 'click .save':'save',
                 'click .close':'close',
@@ -15,22 +15,28 @@
                 'keypress #project-alias':'alias'
             }
         },
+        initialize:function (opt) {
+            // Call parent contructor
+            App.Views.Core.Form.prototype.initialize.call(this, opt);
+
+            // Prefill select boxes
+            this.customers = App.session.get('customer-filter-collection', function () {
+                return new App.Collection.Customers();
+            });
+
+        },
         render:function () {
             // Call parent contructor
             App.Views.Core.Form.prototype.render.call(this);
 
-            // get Customers collection
-            var customers = App.session.get('customers', function () {
-                return new App.Collection.Customers();
-            });
             var selectBox = new App.Views.Core.Select({
                 el: this.targetComponent('customer'),
-                collection:customers,
+                collection:this.customers,
                 options:{
                     selected:this.model.get('customer')
                 }
             });
-            customers.fetch();
+            this.customers.fetch();
 
             // Render tags
             if (this.model.relation('tags')) {

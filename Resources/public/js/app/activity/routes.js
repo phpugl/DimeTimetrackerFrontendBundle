@@ -23,14 +23,14 @@
 
         App.menu.activateItem('activity');
         App.router.switchView(new App.Views.Activity.Form({
-            model: model,
+            model:model,
             template:'DimeTimetrackerFrontendBundle:Activities:form',
-            options: {
+            options:{
                 backNavigation:'activity',
-                prefix: 'activity-',
-                    ui: {
-                    title: 'Add Activity',
-                    titleElement: 'header.page-header h1'
+                prefix:'activity-',
+                ui:{
+                    title:'Add Activity',
+                    titleElement:'header.page-header h1'
                 }
             }
         }));
@@ -42,14 +42,14 @@
 
         App.menu.activateItem('activity');
         App.router.switchView(new App.Views.Activity.Form({
-            model: model,
+            model:model,
             template:'DimeTimetrackerFrontendBundle:Activities:form',
-            options: {
+            options:{
                 backNavigation:'activity',
-                prefix: 'activity-',
-                ui: {
-                    title: 'Edit Activity',
-                    titleElement: 'header.page-header h1'
+                prefix:'activity-',
+                ui:{
+                    title:'Edit Activity',
+                    titleElement:'header.page-header h1'
                 }
             }
         }));

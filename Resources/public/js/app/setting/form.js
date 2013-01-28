@@ -6,7 +6,7 @@
 (function ($, App) {
 
     App.provide('Views.Setting.Form', App.Views.Core.Form.extend({
-        defaults: {
+        options: {
             events:{
                 'click .save':'save',
                 'click .close':'close',

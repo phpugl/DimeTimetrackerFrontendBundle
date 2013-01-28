@@ -70,7 +70,7 @@
             this.filter = new App.Views.Core.Filter.Form({
                 el: '#project-filter',
                 collection: this.projects,
-                defaults: {
+                options: {
                     name: 'project-filter',
                     items: {
                         customer: new App.Views.Core.Filter.Customer(),
@@ -89,7 +89,7 @@
             this.list = new App.Views.Core.List({
                 el:'#projects',
                 collection:this.projects,
-                defaults:{
+                options:{
                     fetch: false,
                     prefix:'project-',
                     emptyTemplate: '#tpl-project-empty',

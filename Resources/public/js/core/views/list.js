@@ -51,7 +51,7 @@
 
     // provide list view in App.Views.Core
     App.provide('Views.Core.List', Backbone.View.extend({
-        defaults:{
+        options:{
             fetch: false,
             emptyTemplate: false,
             prefix:'',
@@ -64,7 +64,7 @@
                 View:App.Views.Core.ListItem
             }
         },
-        initialize:function (opt) {
+        initialize:function (config) {
             // Bind all to this, because you want to use
             // "this" view in callback functions
             _.bindAll(this, 'render', 'remove', 'addAll', 'addItem', 'changeItem', 'removeItem');
@@ -79,19 +79,16 @@
             }
 
             // Grep default values from option
-            if (opt && opt.defaults) {
-                this.defaults = $.extend(true, {}, this.defaults, opt.defaults);
+            if (config && config.options) {
+                this.options = $.extend(true, {}, this.options, config.options);
             }
 
-            if (opt && opt.template) {
-                this.template = opt.template;
+            if (config && config.template) {
+                this.template = config.template;
 
-                if (opt && opt.templateEl) {
-                    this.templateEl = opt.templateEl;
+                if (config && config.templateEl) {
+                    this.templateEl = config.templateEl;
                 }
-//                else {
-//                    throw "You have to setup a templateEl option together with template.";
-//                }
             }
         },
         render:function (fetchOpt) {
@@ -110,7 +107,7 @@
                 }
             }
 
-            if (this.defaults.fetch) {
+            if (this.options.fetch) {
                 this.collection.fetch(fetchOpt);
             } else if (this.collection) {
                 this.addAll();
@@ -119,13 +116,13 @@
             return this;
         },
         renderItem:function (model) {
-            return new this.defaults.item.View({
+            return new this.options.item.View({
                 model:model,
                 collection: this.collection,
-                prefix:this.defaults.prefix,
-                attributes:this.defaults.item.attributes,
-                tagName:this.defaults.item.tagName,
-                template:this.defaults.item.template
+                prefix:this.options.prefix,
+                attributes:this.options.item.attributes,
+                tagName:this.options.item.tagName,
+                template:this.options.item.template
             }).render();
         },
         remove:function () {
@@ -137,8 +134,8 @@
         addAll: function () {
             var tEmpty = '';
 
-            if (this.defaults.emptyTemplate) {
-                tEmpty = App.template(this.emptyTemplate);
+            if (this.options.emptyTemplate) {
+                tEmpty = App.template(this.options.emptyTemplate);
             }
 
             // remove all content
@@ -147,13 +144,13 @@
             // run addItem on each collection item
             if (this.collection) {
                 if (this.collection.length > 0) {
-                    this.defaults.isEmpty = false;
+                    this.options.isEmpty = false;
 
                     this.collection.each(function(model) {
                         var $el = this.renderItem(model).$el;
 
                         if (!$el.is(':empty')) {
-                            if (this.defaults.item.prepend) {
+                            if (this.options.item.prepend) {
                                 this.$el.prepend($el);
                             } else {
                                 this.$el.append($el);
@@ -165,19 +162,19 @@
 
             this.$el.removeClass('loading');
 
-            if (this.defaults.emptyTemplate && this.$el.is(":empty")) {
+            if (this.options.emptyTemplate && this.$el.is(":empty")) {
                 this.$el.html(tEmpty());
-                this.defaults.isEmpty = true;
+                this.options.isEmpty = true;
             }
             return this;
         },
         addItem:function (model) {
-            if (this.defaults.isEmpty) {
+            if (this.options.isEmpty) {
                 this.$el.html('');
-                this.defaults.isEmpty = false;
+                this.options.isEmpty = false;
             }
 
-            if (this.defaults.item.prependNew) {
+            if (this.options.item.prependNew) {
                 this.$el.prepend(this.renderItem(model).el);
             } else {
                 this.$el.append(this.renderItem(model).el);
@@ -187,7 +184,7 @@
         },
         changeItem:function (model) {
             if (model.id !== undefined) {
-                var item = $('#' + this.defaults.prefix + model.id),
+                var item = $('#' + this.options.prefix + model.id),
                     newItem = this.renderItem(model),
                     classes = item.attr('class');
 
@@ -200,7 +197,7 @@
         },
         removeItem:function(model) {
             if (model.id !== undefined) {
-                $('#' + this.defaults.prefix + model.id).empty().detach();
+                $('#' + this.options.prefix + model.id).empty().detach();
                 if (this.collection.length === 0) {
                     this.collection.reset();
                 }
