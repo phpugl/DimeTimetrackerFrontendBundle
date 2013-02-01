@@ -28,11 +28,6 @@
             // Call parse from extend object
             response = App.Model.Base.prototype.parse.call(this, response);
 
-            // look for duration and format it
-            if (response.duration !== undefined) {
-                response.formatDuration = App.Helper.Format.Duration(response.duration);
-            }
-
             // split datetime into date and time
             if (response.startedAt) {
                 var startedAt = moment(response.startedAt, 'YYYY-MM-DD HH:mm:ss"');
@@ -73,12 +68,17 @@
                 }
             }
         },
+        /**
+         * Running timeslice has no duration and no stoppedAt
+         * @return {Boolean}
+         */
         isRunning:function () {
-            return this.get('duration') <= 0
-                && !(this.get('stoppedAt') && this.get('stoppedAt').length > 0);
-        },
-        formatDuration:function () {
-            return App.Helper.Format.Duration(this.get('duration'));
+            if (this.get('duration')) {
+                return this.get('duration') <= 0
+                       && (this.get('stoppedAt') == undefined || this.get('stoppedAt').length > 0);
+            } else {
+                return this.get('stoppedAt') == undefined || this.get('stoppedAt').length > 0;
+            }
         }
     }));
 

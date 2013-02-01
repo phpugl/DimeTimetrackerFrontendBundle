@@ -7,6 +7,13 @@
  */
 (function (App, $, moment) {
 
+    App.provide('Helper.Format.Date', function(date, format) {
+        date = date || new Date;
+        format = format || 'YYYY-MM-DD HH:mm:ss';
+
+        return moment(date).format(format);
+    });
+
     /**
      * App.Helper.Format.Duration
      *

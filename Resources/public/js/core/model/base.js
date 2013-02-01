@@ -29,6 +29,17 @@
             }
             return Backbone.Model.prototype.get.call(this, attr) || defaultValue;
         },
+        getRelation: function(name) {
+            var relations = this.get('relation');
+            if (this.hasRelation(name)) {
+                return relations[name];
+            }
+            return undefined;
+        },
+        hasRelation: function(name) {
+            var relations = this.get('relation');
+            return (name && relations && relations[name]);
+        },
         relation:function (name, item, defaultValue) {
             var relation = this.get('relation'),
                 result = defaultValue;

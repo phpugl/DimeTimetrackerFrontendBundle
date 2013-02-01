@@ -5,7 +5,7 @@
  *
  * Register Activity model to namespace App.
  */
-(function ($, Backbone, _, moment, App) {
+(function ($, Backbone, App) {
 
     // Create Activity model and add it to App.Model
     App.provide('Model.Activity', App.Model.Base.extend({
@@ -35,48 +35,51 @@
         },
         start:function (opt) {
             var timeslices = this.relation('timeslices');
-            if (timeslices && !timeslices.firstRunning()) {
+            if (timeslices && timeslices.running() === undefined) {
                 timeslices.create(new App.Model.Timeslice({
-                    activity:this.get('id'),
-                    startedAt:moment(new Date).format('YYYY-MM-DD HH:mm:ss')
+                    activity:this.id,
+                    startedAt: App.Helper.Format.Date()
                 }), opt);
             }
         },
         stop:function (opt) {
             var timeslices = this.relation('timeslices');
-            if (timeslices && timeslices.firstRunning()) {
-                var timeslice = timeslices.firstRunning();
-                timeslice.save(
-                    {
-                        'stoppedAt':moment(new Date).format('YYYY-MM-DD HH:mm:ss')
-                    },
-                    opt
-                );
+            if (timeslices) {
+                var timeslice = timeslices.running(true);
+                if (timeslice !== undefined) {
+                    timeslice.save(
+                        {
+                            'stoppedAt': App.Helper.Format.Date()
+                        },
+                        opt
+                    );
+                }
             }
         },
-        shortDescription:function (length, endChars) {
-            return (this.get('description')) ? App.Helper.Format.Truncate(this.get('description'), length, endChars) : '<no description>';
+        /**
+         * Get the running timeslices
+         * @param first
+         * @return {undefined|Array|Model}
+         */
+        running:function (first) {
+            return (this.hasRelation('timeslices')) ? this.getRelation('timeslices').running(first) : undefined;
         },
-        addTimeslice: function (timeslice) {
-            if (timeslice && this.relation('timeslices')) {
-                var timeslices = this.relation('timeslices');
-                timeslices.add(timeslice);
-                this.set('duration', timeslices.duration());
-            }
-        },
-        timesliceRunning:function () {
-            return (this.relation('timeslices')) ? this.relation('timeslices').firstRunning() : undefined;
-        },
-        timesliceDuration: function() {
-            if (this.relation('timeslices')) {
-                return this.relation('timeslices').duration();
+        /**
+         * Calculate the total timeslice duration
+         * @return {Number}
+         */
+        duration: function() {
+            if (this.hasRelation('timeslices')) {
+                return this.getRelation('timeslices').duration();
             }
             return 0;
         },
-        formatDuration:function (seconds) {
-            return App.Helper.Format.Duration(seconds);
+        addTimeslice: function (timeslice) {
+            if (timeslice && this.hasRelation('timeslices')) {
+                this.getRelation('timeslices').add(timeslice);
+            }
         }
     }));
 
-})(jQuery, Backbone, _, moment, Dime);
+})(jQuery, Backbone, Dime);
 

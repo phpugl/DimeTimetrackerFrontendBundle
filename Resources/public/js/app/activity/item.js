@@ -19,15 +19,15 @@
             App.Views.Core.ListItem.prototype.render.call(this);
 
             // activate timer if any running timeslice is found
-            var activeTimeslice = this.model.timesliceRunning();
-            if (activeTimeslice) {
+            var timeslice = this.model.running(true);
+            if (timeslice) {
                 var button = $('.duration', this.$el),
                     model = this.model;
 
-                button.data('start', moment(activeTimeslice.get('startedAt'), 'YYYY-MM-DD HH:mm:ss'));
+                button.data('start', App.Helper.Format.Date(timeslice.get('startedAt')));
                 this.timer = setInterval(function() {
                     var d = moment().diff(button.data('start'), 'seconds');
-                    button.text(model.formatDuration(button.data('duration') + d));
+                    button.text(App.Helper.Format.Duration(button.data('duration') + d));
                 }, 1000);
             }
 
