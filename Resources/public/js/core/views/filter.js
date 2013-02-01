@@ -41,8 +41,8 @@
         render: function() {
             // Load template
             if (this.template) {
-                var temp = App.template(this.template);
-                this.$el.html(temp);
+                var html = App.render(this.template);
+                this.$el.html(html);
             }
 
             // Render ui items

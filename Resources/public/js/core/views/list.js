@@ -28,14 +28,10 @@
         },
         render:function () {
             // grep template with jquery and generate template stub
-            var temp = App.template(this.template);
+            var html = App.render(this.template, { model:this.model });
 
             // fill model date into template and push it into element html
-            this.$el.html(temp({
-                App: App,
-                model:this.model,
-                data:this.model.toJSON()
-            }));
+            this.$el.html(html);
 
             // add element id with prefix
             this.$el.attr('id', this.elId);
@@ -94,14 +90,10 @@
         render:function (fetchOpt) {
             // grep template with jquery and generate template stub
             if (this.template) {
-                var temp = App.template(this.template);
+                var html = App.render(this.template, { model:this.model });
 
                 // fill model date into template and push it into element html
-                this.$el.html(temp({
-                    App: App,
-                    model:this.model,
-                    data:this.model.toJSON()
-                }));
+                this.$el.html(html);
 
                 if (this.templateEl) {
                     this.setElement(this.templateEl);
@@ -140,7 +132,7 @@
             var tEmpty = '', that = this;
 
             if (this.options.emptyTemplate) {
-                tEmpty = App.template(this.options.emptyTemplate);
+                tEmpty = App.render(this.options.emptyTemplate);
             }
 
             // remove all content
@@ -151,7 +143,7 @@
                 this.options.isEmpty = false;
 
                 if (this.options.groupBy && that.options.groupBy.key) {
-                    var groupTemplate = App.template(this.options.groupBy.template),
+                    var groupTemplate = App.render(this.options.groupBy.template),
                         items = this.collection.groupBy(that.options.groupBy.key),
                         sorted = _.without(_.keys(items), 'undefined').sort();
 

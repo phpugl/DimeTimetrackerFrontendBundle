@@ -46,56 +46,40 @@
 <script type="text/template" id="tpl-project-item">
     <div class="box-title">
         <div class="btn-group pull-right">
-            <a class="btn edit" href="#project/<%- data.id %>/edit" title="Edit"><i class="icon-pencil hide-text">Edit</i></a>
-            <a class="btn delete" href="#project/<%- data.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
+            <a class="btn edit" href="#project/<%- model.id %>/edit" title="Edit"><i class="icon-pencil hide-text">Edit</i></a>
+            <a class="btn delete" href="#project/<%- model.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
         </div>
-        <span class="editable editable-input" contenteditable="true" data-editor-model-key="name"><%- data.name %></span>
-        <span class="label label-project editable editable-input" contenteditable="true" data-editor-model-key="alias"><%- data.alias %></span>
-        <% if (data.tags) { _.each(data.tags, function (tag) { %>
-            <span class="badge badge-infos">#<%- tag.name %></span>
+        <span class="editable editable-input" contenteditable="true" data-editor-model-key="name"><%- model.get('name') %></span>
+        <span class="label label-project editable editable-input" contenteditable="true" data-editor-model-key="alias"><%- model.get('alias') %></span>
+        <% if (model.hasRelation('tags')) { model.getRelation('tags').each(function (tag) { %>
+        <span class="badge badge-info" contenteditable="false">#<%- tag.get('name') %></span>
         <% })} %>
     </div>
     <div class="box-details">
         <div class="row-fluid">
             <dl class="span4 dl-horizontal">
-                <% if (data.customer) { %>
                 <dt>Customer</dt>
-                <dd><%- data.customer.name %></dd>
-                <% } %>
-                <% if (data.rate) { %>
+                <dd><%- model.get('customer.name', '') %></dd>
                 <dt>Rate</dt>
-                <dd><%- data.rate %></dd>
-                <% } %>
+                <dd><%- model.get('rate', '') %></dd>
             </dl>
             <dl class="span4 dl-horizontal">
                 <dt>Budget</dt>
-                <% if (data.budgetPrice) { %>
-                <dd>Price: <%- data.budgetPrice %></dd>
-                <% } %>
-                <% if (data.fixedPrice) { %>
-                <dd>Fixed: <%- data.fixedPrice %></dd>
-                <% } %>
-                <% if (data.budgetTime) { %>
-                <dd>Time: <%- data.budgetTime %></dd>
-                <% } %>
+                <dd>Price: <%- model.get('budgetPrice', '') %></dd>
+                <dd>Fixed: <%- model.get('fixedPrice', '') %></dd>
+                <dd>Time: <%- model.get('budgetTime', '') %></dd>
             </dl>
             <dl class="span4 dl-horizontal">
                 <dt>Dates</dt>
-                <% if (data.startedAt) { %>
-                <dd>Start: <%- data.startedAt %></dd>
-                <% } %>
-                <% if (data.stoppedAt) { %>
-                <dd>Stop: <%- data.stoppedAt %></dd>
-                <% } %>
-                <% if (data.deadline) { %>
-                <dd>Deadline: <%- data.deadline %></dd>
-                <% } %>
+                <dd>Start: <%- model.get('startedAt', '') %></dd>
+                <dd>Stop: <%- model.get('stoppedAt', '') %></dd>
+                <dd>Deadline: <%- model.get('deadline', '') %></dd>
             </dl>
         </div>
+        <% if (model.get('description'))  { %>
         <div class="row-fluid">
-        <% if (data.description)  { %>
-        <p class="span12"><%- data.description %></p>
-        <% } %>
+        <p class="span12"><%- model.get('description') %></p>
         </div>
+        <% } %>
     </div>
 </script>

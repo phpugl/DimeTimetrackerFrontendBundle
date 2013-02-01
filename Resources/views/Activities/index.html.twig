@@ -32,7 +32,7 @@
                 <a class="delete btn" href="#activity/<%- data.id %>/delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove hide-text">{% trans %}Delete{% endtrans %}</i></a>
             </div>
         </div>
-        <div class="editable editable-textarea" contenteditable="true" data-editor-model-key="description"><%= App.Helper.Format.Nl2Br(data.description) %></div>
+        <div class="editable editable-textarea" contenteditable="true" data-editor-model-key="description"><%= App.Helper.Format.Nl2Br(model.get('description')) %></div>
         <% if (model.hasRelation('customer')) { %>
         <span title="<%- model.get('customer.name') %>" class="label" contenteditable="false">@<%- model.get('customer.alias') %></span>
         <% } %>
@@ -64,11 +64,11 @@
 </script>
 
 <script type="text/template" id="tpl-timeslice-item">
-    <td><%- App.Helper.Format.Duration(data.duration) %></td>
-    <td><%= _.escape(data.startedAt || '') %></td>
-    <td><%= _.escape(data.stoppedAt || '') %></td>
+    <td><%- App.Helper.Format.Duration(model.get('duration')) %></td>
+    <td><%= model.get('startedAt', '') %></td>
+    <td><%= model.get('stoppedAt', '') %></td>
     <td>
-        <a class="edit btn" href="#timeslice/<%- data.id %>/edit"><i class="icon-pencil hide-text">Edit</i> </a>
+        <a class="edit btn" href="#timeslice/<%- model.id %>/edit"><i class="icon-pencil hide-text">Edit</i> </a>
         <a class="delete btn" href="#delete"><i class="icon-remove hide-text">Delete</i> </a>
     </td>
 </script>

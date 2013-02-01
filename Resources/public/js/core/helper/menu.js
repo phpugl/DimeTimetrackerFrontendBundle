@@ -131,13 +131,13 @@
             }
         },
         render:function () {
-            var temp, submenu = this.model.submenu;
+            var html, submenu = this.model.submenu;
             if (submenu && submenu.length > 0) {
-                temp = App.template(this.templateSubmenu);
-                this.$el.html(temp({
+                html = App.render(this.templateSubmenu, {
                     uri:this.model.get('route'),
                     title:this.model.get('title')
-                }));
+                });
+                this.$el.html(html);
 
                 var submenuView = new App.Views.Core.Menu({
                     collection: submenu,
@@ -148,12 +148,14 @@
                 this.$el.append(submenuView.render().el);
                 this.$el.addClass('dropdown');
             } else {
-                temp = App.template(this.template);
-                this.$el.html(temp({
-                    uri:this.model.get('route'),
-                    title:this.model.get('title')
-                }));
+                html = App.render(this.template, {
+                        uri:this.model.get('route'),
+                        title:this.model.get('title')
+                    }
+                );
+                this.$el.html(html);
             }
+
             return this;
         }
     }));

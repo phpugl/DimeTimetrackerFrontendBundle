@@ -59,11 +59,11 @@
 </script>
 
 <script type="text/template" id="tpl-setting-item">
-    <td><%- data.namespace %></td>
-    <td><%- data.name %></td>
-    <td><%- data.value %></td>
+    <td><%- model.get('namespace') %></td>
+    <td><%- model.get('name') %></td>
+    <td><%- model.get('value') %></td>
     <td>
-        <a class="btn edit" href="#setting/<%- data.id %>/edit" title="{% trans %}Edit{% endtrans %}"><i class="icon-pencil hide-text">{% trans %}Edit{% endtrans %}</i></a>
-        <a class="btn delete" href="#setting/<%- data.id %>/delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove hide-text">{% trans %}Delete{% endtrans %}</i></a>
+        <a class="btn edit" href="#setting/<%- model.id %>/edit" title="{% trans %}Edit{% endtrans %}"><i class="icon-pencil hide-text">{% trans %}Edit{% endtrans %}</i></a>
+        <a class="btn delete" href="#setting/<%- model.id %>/delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove hide-text">{% trans %}Delete{% endtrans %}</i></a>
     </td>
 </script>

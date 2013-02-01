@@ -13,6 +13,23 @@
             templates:{}
         };
 
+        var storedTemplate = function(name, data) {
+            if (store.templates[name]) {
+                var item = store.templates[name];
+
+                if (item.type) {
+                    if (item.type === 'html') {
+                        return item.data;
+                    } else if (item.type === 'func'){
+                        return (data) ? item.data(data) : item.data;
+                    }
+                }
+                return item;
+            }
+            
+            Dime.throw('Template name [' + name + '] was not found in store.', Dime);
+        }
+
         // Return Dime object
         return {
             Collection:{},
@@ -118,6 +135,51 @@
                 return parent;
             },
             /**
+             * Render template
+             *
+             * @param name Name of Symfony2 template (e.g. DimeTimetrackerFrontedBundle:Activity:form)
+             * @param data Object will be pushed into template function
+             * @param cache disable cache if you want
+             * @return {*} undefined if nothing was found
+             */
+            render: function(name, data, cache) {
+                if (!name) {
+                    this.throw("Give a name for Dime.render(name)", this);
+                }
+                if (cache === undefined) {
+                    cache = true;
+                }
+                if (data && !data.App) {
+                    data.App = this;
+                }
+                if (cache && store.templates[name]) {
+                    return storedTemplate(name, data);
+                }
+
+                if (name.search(/:/) !== -1) {
+                    $.ajax({
+                        async:false,
+                        url:'template/' + name,
+                        dataType:'html',
+                        success:function (data) {
+                            store.templates[name] = { data: data, type: 'html' };
+                        }
+                    });
+                } else {
+                    var html = $(name).html();
+                    if (html) {
+                        var temp = _.template(html);
+                        if (cache) {
+                            store.templates[name] = { data: temp, type: 'func' };
+                        }
+                        return (data) ? temp(data) : temp;
+                    }
+                    this.throw('Selector[' + name + '] not found', this);
+                }
+
+                return storedTemplate(name, data);
+            },
+            /**
              * Initialize the whole app
              *
              * @return Dime
@@ -141,46 +203,8 @@
 
                 return this;
             },
-            /**
-             * Fetch remote template and save it for later use
-             *
-             * @param name Name of Symfony2 template (e.g. DimeTimetrackerFrontedBundle:Activity:form)
-             * @param cache, store template in cache, default: true
-             * @return HTML template
-             */
-            template:function (name, cache) {
-                if (!name) {
-                    throw "Give a name for Dime.template(name)";
-                }
-                if (cache === undefined) {
-                    cache = true;
-                }
-
-                if (cache && store.templates[name]) {
-                    return store.templates[name];
-                }
-
-                if (name.search(/:/) !== -1) {
-                    $.ajax({
-                        async:false,
-                        url:'template/' + name,
-                        dataType:'html',
-                        success:function (data) {
-                            store.templates[name] = data;
-                        }
-                    });
-                } else {
-                    var template = $(name);
-                    if (template && template[0]) {
-                        template = _.template(template.html())
-                    }
-                    if (cache) {
-                        store.templates[name] = template;
-                    }
-                    return template;
-                }
-
-                return store.templates[name];
+            'throw': function(message, source) {
+                throw { message: message, source: source };
             }
         };
     }();
@@ -209,7 +233,7 @@
                 this.$el.addClass('loading');
             }
             // fetch template
-            view.$el.html(Dime.template(view.template));
+            view.$el.html(Dime.render(view.template));
             this.$el.html(view.el);
             view.render();
             this.currentView = view;

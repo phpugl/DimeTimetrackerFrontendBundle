@@ -76,14 +76,10 @@
         render: function(opt) {
             // grep template with jquery and generate template stub
             if (this.template) {
-                var temp = App.template(this.template);
+                var html = App.render(this.template, { model:this.model });
 
                 // fill model date into template and push it into element html
-                this.$el.html(temp({
-                    App: App,
-                    model:this.model,
-                    data:this.model.toJSON()
-                }));
+                this.$el.html(html);
 
                 this.setElement(this.templateEl);
             }

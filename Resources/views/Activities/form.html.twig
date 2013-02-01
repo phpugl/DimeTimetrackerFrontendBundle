@@ -67,7 +67,7 @@
 
 <script type="text/template" id="tpl-timeslices">
     <div class="pull-right">
-        <a href="#activity/<%- data.id %>/timeslice/add" class="btn" title="Add timeslice"><i class="icon-plus"></i>timeslice</a>
+        <a href="#activity/<%- model.id %>/timeslice/add" class="btn" title="Add timeslice"><i class="icon-plus"></i>timeslice</a>
     </div>
     <table class="table table-striped">
         <thead>
@@ -92,10 +92,10 @@
 
 <script type="text/template" id="tpl-timeslice-item">
     <td><%- model.formatDuration() %></td>
-    <td><%= _.escape(data.startedAt || '') %></td>
-    <td><%= _.escape(data.stoppedAt || '') %></td>
+    <td><%- model.get('startedAt', '') %></td>
+    <td><%- model.get('stoppedAt', '') %></td>
     <td>
-        <a class="edit" href="#timeslice/<%- data.id %>/edit"><i class="icon-pencil"></i> Edit</a>
+        <a class="edit" href="#timeslice/<%- model.id %>/edit"><i class="icon-pencil"></i> Edit</a>
         <a class="delete" href="#delete"><i class="icon-remove"></i> Delete</a>
     </td>
 </script>

@@ -35,23 +35,23 @@
 <script type="text/template" id="tpl-service-item">
     <div class="box-title">
         <div class="btn-group pull-right">
-            <a class="btn edit" href="#service/<%- data.id %>/edit" title="Edit"><i
+            <a class="btn edit" href="#service/<%- model.id %>/edit" title="Edit"><i
                     class="icon-pencil hide-text">Edit</i></a>
-            <a class="btn delete" href="#service/<%- data.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
+            <a class="btn delete" href="#service/<%- model.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
         </div>
-        <span class="editable editable-input" contenteditable="true" data-editor-model-key="name"><%- data.name %></span>
-        <span class="label label-service editable editable-input" contenteditable="true" data-editor-model-key="alias"><%- data.alias %></span>
-        <% if (data.tags) { _.each(data.tags, function (tag) { %>
-            <span class="badge badge-info">#<%- tag.name %></span>
+        <span class="editable editable-input" contenteditable="true" data-editor-model-key="name"><%- model.get('name') %></span>
+        <span class="label label-service editable editable-input" contenteditable="true" data-editor-model-key="alias"><%- model.get('alias') %></span>
+        <% if (model.hasRelation('tags')) { model.getRelation('tags').each(function (tag) { %>
+        <span class="badge badge-info" contenteditable="false">#<%- tag.get('name') %></span>
         <% })} %>
     </div>
     <div class="box-details">
         <dl class="dl-horizontal">
             <dt>Rate</dt>
-            <dd><%- data.rate %></dd>
-            <% if (data.description) { %>
+            <dd><%- model.get('rate', '') %></dd>
+            <% if (model.get('description')) { %>
             <dt>Description</dt>
-            <dd><%- data.description %></dd>
+            <dd><%- model.get('description') %></dd>
             <% } %>
         </dl>
     </div>
