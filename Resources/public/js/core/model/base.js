@@ -40,25 +40,6 @@
             var relations = this.get('relation');
             return (name && relations && relations[name]);
         },
-        relation:function (name, item, defaultValue) {
-            var relation = this.get('relation'),
-                result = defaultValue;
-
-            if (name) {
-                if (relation && relation[name]) {
-                    if (item && relation[name].get(item)) {
-                        result = relation[name].get(item);
-                    } else {
-                        result = relation[name];
-                    }
-                    return result;
-                } else {
-                    return undefined;
-                }
-            } else {
-                return relation;
-            }
-        },
         parse: function(response, options) {
             if (this.relations) {
                 response.relation = {};

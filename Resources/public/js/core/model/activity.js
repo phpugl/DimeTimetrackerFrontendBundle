@@ -34,7 +34,7 @@
             }
         },
         start:function (opt) {
-            var timeslices = this.relation('timeslices');
+            var timeslices = this.getRelation('timeslices');
             if (timeslices && timeslices.running() === undefined) {
                 timeslices.create(new App.Model.Timeslice({
                     activity:this.id,
@@ -43,7 +43,7 @@
             }
         },
         stop:function (opt) {
-            var timeslices = this.relation('timeslices');
+            var timeslices = this.getRelation('timeslices');
             if (timeslices) {
                 var timeslice = timeslices.running(true);
                 if (timeslice !== undefined) {

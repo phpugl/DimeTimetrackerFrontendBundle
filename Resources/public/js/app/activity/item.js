@@ -41,7 +41,7 @@
             this.timeslices = new App.Views.Core.List({
                 el: $('.box-details table tbody', this.$el),
                 model:this.model,
-                collection:this.model.relation('timeslices'),
+                collection:this.model.getRelation('timeslices'),
                 options:{
                     fetch: false,
                     prefix:'timeslice-',

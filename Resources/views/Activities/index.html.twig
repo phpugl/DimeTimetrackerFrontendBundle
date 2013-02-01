@@ -33,13 +33,13 @@
             </div>
         </div>
         <div class="editable editable-textarea" contenteditable="true" data-editor-model-key="description"><%= App.Helper.Format.Nl2Br(data.description) %></div>
-        <% if (model.relation('customer')) { %>
-        <span title="<%- model.relation('customer', 'name') %>" class="label" contenteditable="false">@<%- model.get('customer.alias') %></span>
+        <% if (model.hasRelation('customer')) { %>
+        <span title="<%- model.get('customer.name') %>" class="label" contenteditable="false">@<%- model.get('customer.alias') %></span>
         <% } %>
-        <% if (model.relation('project')) { %>
-        <span  title="<%- model.relation('project', 'name') %>" class="label" contenteditable="false" >/<%- model.get('project.alias') %></span>
+        <% if (model.hasRelation('project')) { %>
+        <span  title="<%- model.get('project.name') %>" class="label" contenteditable="false" >/<%- model.get('project.alias') %></span>
         <% } %>
-        <% if (model.relation('tags')) { model.relation('tags').each(function (tag) { %>
+        <% if (model.hasRelation('tags')) { model.getRelation('tags').each(function (tag) { %>
         <span class="badge badge-info" contenteditable="false">#<%- tag.get('name') %></span>
         <% })} %>
     </div>

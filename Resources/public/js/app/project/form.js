@@ -39,9 +39,9 @@
             this.customers.fetch();
 
             // Render tags
-            if (this.model.relation('tags')) {
+            if (this.model.hasRelation('tags')) {
                 var tags = this.targetComponent('tags');
-                tags.val(this.model.relation('tags').pluck('name').join(' '));
+                tags.val(this.model.getRelation('tags').pluck('name').join(' '));
             }
 
             return this;
