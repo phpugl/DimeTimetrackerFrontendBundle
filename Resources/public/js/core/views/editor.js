@@ -65,9 +65,18 @@
                 if (item.data('editorCancel')) {
                     item.removeData('editorCancel');
                     item.html(this.model.get(key));
+                    App.notify('Update canceled.', 'error');
                 } else {
                     data[key] = App.Helper.Format.EditableText(item.html());
-                    this.model.save(data);
+                    this.model.save(data, {
+                        success: function(model) {
+                            App.notify('Update successful.', 'success');
+                        },
+                        error: function(model, response) {
+                            App.notify(response.status + ": " + response.statusText, "error");
+                        }
+                    });
+
                 }
             }
             return this;
