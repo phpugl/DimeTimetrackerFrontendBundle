@@ -133,6 +133,10 @@
             this.suggestions = {};
             suggestedModels.forEach(function (model) {
                 that.suggestions[model.getAlias()] = model.getName();
+                if ('project' == that.mode && model.relation('customer')) {
+                    var customer = model.relation('customer');
+                    that.suggestions[model.getAlias() + " " + that.keys.customer + customer.getAlias()] = model.getName() + ": " + customer.getName();
+                }
             });
             return this.render();
         }
