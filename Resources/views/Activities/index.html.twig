@@ -2,7 +2,7 @@
 
 <header class="page-header">
     <div class="pull-right">
-        <button class="toggle-filter btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show filter</i></button>
+        <button class="toggle-filter btn btn-large" title="{% trans %}Show filter{% endtrans %}"><i class="icon-filter hide-text">{% trans %}Show filter{% endtrans %}</i></button>
         <a href="#activity/add" class="btn btn-large" title="{% trans %}Add activity{% endtrans %}"><i class="icon-plus"></i></a>
     </div>
     <h1>{% trans %}Activity{% endtrans %}</h1>
@@ -28,7 +28,7 @@
                 <span class="show-timeslices btn hidden-desktop" title="{% trans %}Show/hide timeslices{% endtrans %}"><i class="icon-time"></i></span>
             </div>
             <div class="btn-group">
-                <a class="edit btn" href="#activity/<%- data.id %>/edit"><i class="icon-pencil hide-text">{% trans %}Edit{% endtrans %}</i></a>
+                <a class="edit btn" href="#activity/<%- data.id %>/edit" title="{% trans %}Edit{% endtrans %}"><i class="icon-pencil hide-text">{% trans %}Edit{% endtrans %}</i></a>
                 <a class="delete btn" href="#activity/<%- data.id %>/delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove hide-text">{% trans %}Delete{% endtrans %}</i></a>
             </div>
         </div>
