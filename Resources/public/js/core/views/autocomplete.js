@@ -91,6 +91,10 @@
                     lastIndicatorIndex = currentIndex;
                 }
             });
+            if ('activity' == this.mode) {
+                /* no activity autocompletion (this may be a huge collection!) */
+                return;
+            }
             this.recentWord = val.substr(lastIndicatorIndex + 1);
 
             /* get plural form of given mode */
