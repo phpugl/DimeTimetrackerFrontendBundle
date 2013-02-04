@@ -72,11 +72,12 @@
         },
         mode: "activity",
         keys: {
-            activity: ' ', // 32
-            customer: '@', // 64
-            project:  '/', // 47
-            service:  ':', // 58
-            tag:      '#'  // 35
+            /* define some prefixes that trigger a specific collection type */
+            activity: ' ',
+            customer: '@',
+            project:  '/',
+            service:  ':',
+            tag:      '#'
         },
         triggerSuggestions: function() {
             var lastIndicatorIndex = -1;
@@ -92,6 +93,16 @@
             });
             this.recentWord = val.substr(lastIndicatorIndex + 1);
 
+            /* get plural form of given mode */
+            var collectionName = 'activity' == this.mode ? 'activities' : this.mode + 's';
+            collectionName = collectionName.charAt(0).toUpperCase() + collectionName.slice(1);
+
+            var collectionClass = App.Collection[collectionName];
+            this[this.mode + 'Collection'] = App.session.get(
+                this.mode + '-filter-collection',
+                function () { return new collectionClass(); }
+            );
+
             var updateSuggestionsCallback = function() {
                 that.updateSuggestions(that[that.mode + 'Collection']);
             }
@@ -99,35 +110,11 @@
                 updateSuggestionsCallback(that[that.mode + 'Collection']);
                 return;
             }
-            switch(this.mode) {
-                case 'activity': {
-                    var collectionClass = App.Collection.Activities;
-                    break;
-                }
-                case 'tag': {
-                    var collectionClass = App.Collection.Tags;
-                    break;
-                }
-                case 'project': {
-                    var collectionClass = App.Collection.Projects;
-                    break;
-                }
-                case 'service': {
-                    var collectionClass = App.Collection.Services;
-                    break;
-                }
-                case 'customer': {
-                    var collectionClass = App.Collection.Customers;
-                    break;
-                }
-            }
-            this[this.mode + 'Collection'] = App.session.get(
-                this.mode + '-filter-collection',
-                function () { return new collectionClass(); }
-            );
+
             this[this.mode + 'Collection'].fetch({success: updateSuggestionsCallback});
         },
         updateSuggestions: function(collection) {
+            /* filter suggestions depending on user input */
             var that = this;
             var suggestedModels = collection.filter(function (item) {
                 var matches = function (haystack, needle) {
