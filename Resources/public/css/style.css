@@ -64,6 +64,15 @@
     background-color: #F9F9F9;
 }
 
+.brand a {
+    color: #999999;
+}
+
+.brand a:hover {
+    text-decoration: none;
+    color: #fff;
+}
+
 .activity,
 .customer,
 .project,
