@@ -8,32 +8,73 @@
     // Activity index view
     App.provide('Views.Activity.Index', App.Views.Core.Content.extend({
         events: {
-            'click .toggle-filter': 'toggleFilter'
+            'click .toggle-options': 'toggleOptions'
         },
         template:'DimeTimetrackerFrontendBundle:Activities:index',
         initialize:function () {
-            // Bind all to this, because you want to use
-            // "this" view in callback functions
-            _.bindAll(this);
             this.activities = App.session.get('activities', function () {
                 return new App.Collection.Activities();
             });
         },
         render:function () {
             // Render filter
-            this.filter = new App.Views.Core.Filter.Form({
+            this.filter = new App.Views.Core.Form.Filter({
                 el: '#activity-filter',
                 collection: this.activities,
-                template:'DimeTimetrackerFrontendBundle:Activities:filter',
+                template: 'DimeTimetrackerFrontendBundle:Activities:filter',
                 options: {
                     name: 'activity-filter',
-                    items: {
-                        dates: new App.Views.Core.Filter.DatePeriod(),
-                        customer: new App.Views.Core.Filter.Customer(),
-                        project: new App.Views.Core.Filter.Project(),
-                        service: new App.Views.Core.Filter.Service(),
-                        search: new App.Views.Core.Filter.Search(),
-                        tags: new App.Views.Core.Filter.Tags()
+                    widgets: {
+                        dateperiod: new App.Views.Core.Widget.DatePeriod({
+                            options: {
+                                templateEl: '#filter-date-period'
+                            }
+                        }),
+                        customer: new App.Views.Core.Widget.Select({
+                            collection: App.session.get('customer-filter-collection', function () {
+                                return new App.Collection.Customers();
+                            }),
+                            options: {
+                                templateEl: '#filter-customer',
+                                blankText: 'by customer'
+                            }
+                        }),
+                        project: new App.Views.Core.Widget.Select({
+                            collection: App.session.get('project-filter-collection', function () {
+                                return new App.Collection.Projects();
+                            }),
+                            options: {
+                                templateEl: '#filter-project',
+                                blankText: 'by project'
+                            }
+                        }),
+                        service: new App.Views.Core.Widget.Select({
+                            collection: App.session.get('service-filter-collection', function () {
+                                return new App.Collection.Services();
+                            }),
+                            options: {
+                                templateEl: '#filter-service',
+                                blankText: 'by service'
+                            }
+                        }),
+                        withTags: new App.Views.Core.Widget.Select({
+                            collection: App.session.get('tag-filter-collection', function () {
+                                return new App.Collection.Tags();
+                            }),
+                            options: {
+                                templateEl: '#filter-withTags',
+                                blankText: 'with tag'
+                            }
+                        }),
+                        withoutTags: new App.Views.Core.Widget.Select({
+                            collection: App.session.get('tag-filter-collection', function () {
+                                return new App.Collection.Tags();
+                            }),
+                            options: {
+                                templateEl: '#filter-withoutTags',
+                                blankText: 'without tag'
+                            }
+                        })
                     }
                 }
             }).render();
@@ -62,7 +103,11 @@
             }).render();
 
             // fetch filter settings
-            this.filter.updateFilter();
+            var settings = App.session.get('settings');
+            if (settings && settings.hasSetting('system', 'activity-filter')) {
+                this.filter.bind(settings.getSetting('system', 'activity-filter'));
+            }
+            this.filter.submit();
 
             return this;
         },
@@ -79,14 +124,12 @@
 
             return this;
         },
-        toggleFilter: function(e) {
+        toggleOptions: function(e) {
             if (e) {
                 e.stopPropagation();
             }
 
-            if (this.filter) {
-                this.filter.toggleFilter(e);
-            }
+            this.$('#activity-filter form').toggle();
 
             return this;
         }

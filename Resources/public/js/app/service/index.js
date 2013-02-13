@@ -8,7 +8,7 @@
     // Add menu item to main menu
     App.menu.get('admin').submenu.add({
         id:"service",
-        title:"Service",
+        title:"Services",
         route:"service",
         weight:0,
         callback:function () {
@@ -24,14 +24,8 @@
         App.menu.activateItem('admin.service');
         App.router.switchView(new App.Views.Service.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Services:form',
             options: {
-                backNavigation:'service',
-                prefix: 'service-',
-                ui: {
-                    title: 'Add Service',
-                    titleElement: 'header.page-header h1'
-                }
+                title: 'Add Service'
             }
         }));
     });
@@ -42,14 +36,8 @@
         App.menu.activateItem('admin.service');
         App.router.switchView(new App.Views.Service.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Services:form',
             options: {
-                backNavigation:'service',
-                prefix: 'service-',
-                ui: {
-                    title: 'Edit Service',
-                    titleElement: 'header.page-header h1'
-                }
+                title: 'Edit Service'
             }
         }));
     });
@@ -57,7 +45,7 @@
     // Service view
     App.provide('Views.Service.Index', App.Views.Core.Content.extend({
         events: {
-            'click .filter-button': 'toggleFilter'
+            'click .toggle-options': 'toggleOptions'
         },
         template:'DimeTimetrackerFrontendBundle:Services:index',
         initialize:function () {
@@ -67,14 +55,11 @@
         },
         render:function () {
             // Render filter
-            this.filter = new App.Views.Core.Filter.Form({
+            this.filter = new App.Views.Core.Form.Filter({
                 el: '#service-filter',
                 collection: this.services,
                 options: {
-                    name: 'service-filter',
-                    items: {
-                        search: new App.Views.Core.Filter.Search()
-                    }
+                    name: 'service-filter'
                 }
             }).render();
 
@@ -83,7 +68,6 @@
                 collection: this.services
             });
             $('.pagination').html(this.pager.render().el);
-
 
             // Render service list
             this.list = new App.Views.Core.List({
@@ -102,7 +86,7 @@
                 }
             }).render();
 
-            this.filter.updateFilter();
+            this.filter.submit();
 
             return this;
         },
@@ -119,14 +103,12 @@
 
             return this;
         },
-        toggleFilter: function(e) {
+        toggleOptions: function(e) {
             if (e) {
                 e.stopPropagation();
             }
 
-            if (this.filter) {
-                this.filter.toggleFilter(e);
-            }
+            this.$('#service-filter').toggle();
 
             return this;
         }

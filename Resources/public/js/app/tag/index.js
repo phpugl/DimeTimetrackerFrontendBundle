@@ -8,7 +8,7 @@
     // Add menu item to main menu
     App.menu.get('admin').submenu.add({
         id:"tag",
-        title:"Tag",
+        title:"Tags",
         route:"tag",
         weight:0,
         callback:function () {
@@ -24,14 +24,8 @@
         App.menu.activateItem('admin.tag');
         App.router.switchView(new App.Views.Tag.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Tags:form',
             options: {
-                backNavigation:'tag',
-                prefix: 'tag-',
-                ui: {
-                    title: 'Add Tag',
-                    titleElement: 'header.page-header h1'
-                }
+                title: 'Add Tag'
             }
         }));
     });
@@ -42,14 +36,8 @@
         App.menu.activateItem('admin.tag');
         App.router.switchView(new App.Views.Tag.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Tags:form',
             options: {
-                backNavigation:'tag',
-                prefix: 'tag-',
-                ui: {
-                    title: 'Edit Tag',
-                    titleElement: 'header.page-header h1'
-                }
+                title: 'Edit Tag'
             }
         }));
     });
@@ -57,7 +45,7 @@
     // Tag view
     App.provide('Views.Tag.Index', App.Views.Core.Content.extend({
         events: {
-            'click .filter-button': 'toggleFilter'
+            'click .toggle-options': 'toggleOptions'
         },
         template:'DimeTimetrackerFrontendBundle:Tags:index',
         initialize:function () {
@@ -67,14 +55,11 @@
         },
         render:function () {
             // Render filter
-            this.filter = new App.Views.Core.Filter.Form({
+            this.filter = new App.Views.Core.Form.Filter({
                 el: '#tag-filter',
                 collection: this.tags,
                 options: {
-                    name: 'tag-filter',
-                    items: {
-                        search: new App.Views.Core.Filter.Search()
-                    }
+                    name: 'tag-filter'
                 }
             }).render();
 
@@ -102,7 +87,7 @@
                 }
             }).render();
 
-            this.filter.updateFilter();
+            this.filter.submit();
 
             return this;
         },
@@ -119,14 +104,12 @@
 
             return this;
         },
-        toggleFilter: function(e) {
+        toggleOptions: function(e) {
             if (e) {
                 e.stopPropagation();
             }
 
-            if (this.filter) {
-                this.filter.toggleFilter(e);
-            }
+            this.$('#tag-filter').toggle();
 
             return this;
         }

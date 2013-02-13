@@ -21,6 +21,17 @@
             }
             return this;
         },
+        getSetting: function(namespace, name) {
+            if (namespace && name) {
+                var models = this.where({ namespace: namespace, name: name });
+                if (models) {
+                    if (models.length > 0) {
+                        return models[0].get('value');
+                    }
+                }
+            }
+            return undefined;
+        },
         hasSetting: function(namespace, name) {
             if (namespace && name) {
                 var models = this.where({ namespace: namespace, name: name });

@@ -2,10 +2,10 @@
 
 <header class="page-header">
     <div class="pull-right">
-        <button class="toggle-filter btn btn-large" title="{% trans %}Show filter{% endtrans %}"><i class="icon-filter hide-text">{% trans %}Show filter{% endtrans %}</i></button>
+        <button class="toggle-options btn btn-large" title="{% trans %}Show options{% endtrans %}"><i class="icon-wrench"></i></button>
         <a href="#activity/add" class="btn btn-large" title="{% trans %}Add activity{% endtrans %}"><i class="icon-plus"></i></a>
     </div>
-    <h1>{% trans %}Activity{% endtrans %}</h1>
+    <h1>{% trans %}Activities{% endtrans %}</h1>
 </header>
 
 <div id="activity-filter"></div>
@@ -28,8 +28,8 @@
                 <span class="show-timeslices btn hidden-desktop" title="{% trans %}Show/hide timeslices{% endtrans %}"><i class="icon-time"></i></span>
             </div>
             <div class="btn-group">
-                <a class="edit btn" href="#activity/<%- data.id %>/edit" title="{% trans %}Edit{% endtrans %}"><i class="icon-pencil hide-text">{% trans %}Edit{% endtrans %}</i></a>
-                <a class="delete btn" href="#activity/<%- data.id %>/delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove hide-text">{% trans %}Delete{% endtrans %}</i></a>
+                <a class="edit btn" href="#activity/<%- model.id %>/edit" title="{% trans %}Edit{% endtrans %}"><i class="icon-pencil"></i></a>
+                <a class="delete btn" href="#activity/<%- model.id %>/delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove"></i></a>
             </div>
         </div>
         <div class="editable editable-textarea" contenteditable="true" data-editor-model-key="description"><%= App.Helper.Format.Nl2Br(model.get('description')) %></div>
@@ -47,10 +47,10 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Duration</th>
-                    <th>Start</th>
-                    <th>Stop</th>
-                    <th>Actions</th>
+                    <th>{% trans %}Duration{% endtrans %}</th>
+                    <th>{% trans %}Start{% endtrans %}</th>
+                    <th>{% trans %}Stop{% endtrans %}</th>
+                    <th>{% trans %}Actions{% endtrans %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,15 +60,15 @@
 </script>
 
 <script type="text/template" id="tpl-timeslice-empty">
-    <td colspan="5">No time tracked.</td>
+    <td colspan="5">{% trans %}No time tracked.{% endtrans %}</td>
 </script>
 
 <script type="text/template" id="tpl-timeslice-item">
-    <td><%- App.Helper.Format.Duration(model.get('duration')) %></td>
+    <td><%- App.Helper.Format.Duration(model.get('duration', 0)) %></td>
     <td><%= model.get('startedAt', '') %></td>
     <td><%= model.get('stoppedAt', '') %></td>
     <td>
-        <a class="edit btn" href="#timeslice/<%- model.id %>/edit"><i class="icon-pencil hide-text">Edit</i> </a>
-        <a class="delete btn" href="#delete"><i class="icon-remove hide-text">Delete</i> </a>
+        <a class="edit btn" href="#timeslice/<%- model.id %>/edit" title="{% trans %}Edit{% endtrans %}"><i class="icon-pencil"></i></a>
+        <a class="delete btn" href="#delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove"></i></a>
     </td>
 </script>

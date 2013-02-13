@@ -5,7 +5,7 @@
  */
 (function ($, moment, App) {
 
-    App.provide('Views.Timeslice.Form', App.Views.Core.Form.extend({
+    App.provide('Views.Timeslice.Form', App.Views.Core.Form.Model.extend({
         options:{
             events:{
                 'submit form':'save',

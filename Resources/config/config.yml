@@ -39,6 +39,7 @@ assetic:
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/base.js"
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/collection/*"
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/views/*"
+                - "@DimeTimetrackerFrontendBundle/Resources/public/js/core/views/widgets/*"
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/app/main.js"
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/app/activity/*"
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/app/service/*"

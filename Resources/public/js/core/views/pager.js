@@ -107,9 +107,7 @@
         tagName: 'ul',
         itemViews: [],
         pager: {},
-        initialize:function (opt) {
-            _.bindAll(this, 'render', 'remove', 'addView');
-
+        initialize:function (config) {
             if (this.collection) {
                 this.collection.on('reset', this.render, this);
                 this.collection.on('sync', this.retrievePagerHeader, this);
@@ -148,7 +146,7 @@
                     text: 'Next'
                 }));
             }
-            this.collection.mergeFetchData(this.getPagerOptions());
+            this.collection.addFetchData('pager', this.getPagerOptions());
 
             return this;
         },
@@ -200,7 +198,7 @@
             } else {
                 this.pager.page = 1;
             }
-            this.collection.mergeFetchData(this.getPagerOptions());
+            this.collection.addFetchData('pager', this.getPagerOptions());
             this.collection.load();
         },
         setPage:function (num) {
@@ -210,7 +208,7 @@
             } else {
                 this.pager.page = 1;
             }
-            this.collection.mergeFetchData(this.getPagerOptions());
+            this.collection.addFetchData('pager', this.getPagerOptions());
             this.collection.load();
         },
         nextPage:function() {
@@ -219,7 +217,7 @@
             } else {
                 this.pager.page = this.pageCount();
             }
-            this.collection.mergeFetchData(this.getPagerOptions());
+            this.collection.addFetchData('pager', this.getPagerOptions());
             this.collection.load();
         }
     }));

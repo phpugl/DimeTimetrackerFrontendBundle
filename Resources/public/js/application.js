@@ -26,7 +26,7 @@
                 }
                 return item;
             }
-            
+
             Dime.throw('Template name [' + name + '] was not found in store.', Dime);
         }
 
@@ -74,7 +74,7 @@
              * @param delay, default: 2000
              */
             notify:function (message, type, delay) {
-                var template = this.template("#tpl-application-notification");
+                var template = this.render("#tpl-application-notification");
                 if (delay === undefined) {
                     delay = 2000;
                 }
@@ -211,7 +211,7 @@
 
     var ApplicationRouter = Backbone.Router.extend({
         el:undefined,
-        '$el':undefined,
+        $el:undefined,
         currentRoute:undefined,
         currentView:undefined,
         navigate:function (fragment, options) {
@@ -238,6 +238,8 @@
             view.render();
             this.currentView = view;
             this.$el.removeClass('loading');
+
+            return view;
         }
     });
     Dime.provide('router', new ApplicationRouter());

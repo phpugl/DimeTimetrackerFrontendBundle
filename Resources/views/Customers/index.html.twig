@@ -1,26 +1,39 @@
 {# Dime/TimetrackerFrontednBundle/Resources/views/Customers/index.html.twig #}
 <header class="page-header">
     <div class="pull-right">
-        <button class="filter-button btn btn-large" title="Show filter"><i class="icon-filter hide-text">Show filter</i>
-        </button>
-        <a href="#customer/add" class="btn btn-large" title="Add customer"><i class="icon-plus hide-text">Add customer</i></a>
+        <button class="toggle-options btn btn-large" title="{% trans %}Show options{% endtrans %}"><i class="icon-wrench"></i></button>
+        <a href="#customer/add" class="btn btn-large" title="{% trans %}Add customer{% endtrans %}"><i class="icon-plus"></i></a>
     </div>
-    <h1>Customer</h1>
+    <h1>{% trans %}Customers{% endtrans %}</h1>
 </header>
 
-<form id="customer-filter" class="form-horizontal well well-small">
-    <fieldset>
-        <div class="control-group">
-            <label for="filter-search" class="control-label"><i class="icon-search"></i> {% trans %}Search{% endtrans %}</label>
-            <div class="controls">
-                <input id="filter-search" class="filter filter-search input-block-level" title="Search" placeholder="{% trans %}Search{% endtrans %}...">
+<form id="customer-filter" class="form-horizontal well well-small hide">
+    <button type="button" class="close">&times;</button>
+    <div class="row">
+        <fieldset class="span6">
+            <legend>{% trans %}Filter{% endtrans %}</legend>
+            <div class="control-group">
+                <label for="filter-search" class="control-label"><i class="icon-search"></i> {% trans %}Search{% endtrans %}</label>
+                <div class="controls">
+                    <input type="text" id="filter-search" name="filter-search" class="input-block-level" title="{% trans %}Search{% endtrans %}" placeholder="{% trans %}Search...{% endtrans %}">
+                </div>
             </div>
-        </div>
-    </fieldset>
+        </fieldset>
+        <fieldset class="span5">
+            <legend>{% trans %}View{% endtrans %}</legend>
+            <div class="control-group">
+                <label class="control-label" for="limit"><i class="icon-align-justify"></i> {% trans %}Limit{% endtrans %}</label>
+                <div class="controls">
+                    <input type="text" id="limit" name="limit" class="input-block-level" title="{% trans %}How many items to show on one page?{% endtrans %}" value="25">
+                </div>
+            </div>
+        </fieldset>
+    </div>
     <fieldset>
-        <button type="button" class="filter-reset btn">{% trans %}Reset{% endtrans %}</button>
+        <button type="button" class="reset btn">{% trans %}Reset{% endtrans %}</button>
         <div class="pull-right">
-            <button type="button" class="filter-toggle btn" title="{% trans %}Close{% endtrans %}"><i class="icon-chevron-up"></i></button>
+            <button type="button" class="save btn" title="{% trans %}Save as default{% endtrans %}">{% trans %}Save as default{% endtrans %}</button>
+            <button type="submit" class="btn btn-primary"><i class="icon-filter icon-white"></i> {% trans %}Execute{% endtrans %}</button>
         </div>
     </fieldset>
 </form>
@@ -31,7 +44,7 @@
 <script type="text/template" id="tpl-customer-item">
     <div class="box-title">
         <div class="btn-group pull-right">
-            <a class="btn delete" href="#customer/<%- model.id %>/delete" title="Delete"><i class="icon-remove hide-text">Delete</i></a>
+            <a class="btn delete" href="#customer/<%- model.id %>/delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove"></i></a>
         </div>
         <span class="editable editable-input" contenteditable="true" data-editor-model-key="name"><%- model.get('name') %></span>
         <% if (model.get('alias')) { %><span class="label label-customer editable editable-input" contenteditable="true" data-editor-model-key="alias"><%- model.get('alias') %></span><% } %>
@@ -42,5 +55,5 @@
 </script>
 
 <script type="text/template" id="tpl-customer-empty">
-    <div class="alert alert-info"><strong>Your list is empty!</strong> What are your customers?</div>
+    <div class="alert alert-info"><strong>{% trans %}Your list is empty!{% endtrans %}</strong> {% trans %}Do you have customers?{% endtrans %}</div>
 </script>

@@ -5,103 +5,60 @@
  */
 (function ($, App) {
 
-    // Activity form view
-    App.provide('Views.Activity.Form', App.Views.Core.Form.extend({
-        options:{
-            backNavigation:'',
-            events:{
-                'submit form':'save',
-                'click .save':'save',
-                'click .close':'close',
-                'click .cancel':'close',
-                'change #activity-customer':'customerChange',
-                'change #activity-project':'projectChange',
-                'change #activity-rate':'rateChange',
-                'change #activity-service':'setPrice'
+    App.provide('Views.Activity.Form',  App.Views.Core.Content.extend({
+        events: {
+            'change #activity-customer': 'customerChange',
+            'change #activity-project':'projectChange',
+            'change #activity-rate':'rateChange',
+            'change #activity-service':'setPrice'
+        },
+        options: {},
+        template:'DimeTimetrackerFrontendBundle:Activities:form',
+        initialize: function(config) {
+            if (config) {
+                if (config.options) {
+                    this.options = $.extend(true, {}, this.options, config.options);
+                }
             }
         },
-        initialize:function (opt) {
-            // Call parent contructor
-            App.Views.Core.Form.prototype.initialize.call(this, opt);
+        render: function() {
+            if (this.options.title) {
+                this.$('header.page-header h1').text(this.options.title)
+            }
 
-            // Prefill select boxes
-            this.customers = App.session.get('customer-filter-collection', function () {
-                return new App.Collection.Customers();
-            });
-
-            this.projects = App.session.get('project-filter-collection', function () {
-                return new App.Collection.Projects();
-            });
-
-            this.services = App.session.get('service-filter-collection', function () {
-                return new App.Collection.Services();
-            });
-
-            this.activityFilter = App.session.get('activity-filter');
-        },
-        render: function () {
-            // Call parent contructor
-            App.Views.Core.Form.prototype.render.call(this);
-
-            this.customerSelect = new App.Views.Core.Select({
-                el:this.targetComponent('customer'),
-                collection: this.customers,
+            this.form = new App.Views.Core.Form.Model({
+                el: '#activity-form',
+                model: this.model,
                 options: {
-                    selected: this.model.get('customer')
+                    backNavigation:'activity',
+                    widgets: {
+                        customer: new App.Views.Core.Widget.Select({
+                            el: '#activity-customer',
+                            collection: App.session.get('customer-filter-collection', function () {
+                                return new App.Collection.Customers();
+                            })
+                        }),
+                        project: new App.Views.Core.Widget.Select({
+                            el: '#activity-project',
+                            collection: App.session.get('project-filter-collection', function () {
+                                return new App.Collection.Projects();
+                            })
+                        }),
+                        service: new App.Views.Core.Widget.Select({
+                            el: '#activity-service',
+                            collection: App.session.get('service-filter-collection', function () {
+                                return new App.Collection.Services();
+                            })
+                        }),
+                        tags: new App.Views.Core.Widget.Tags({
+                            el: '#activity-tags'
+                        })
+                    }
                 }
-            }).render();
-            this.customers.fetch();
-            if (this.activityFilter && this.activityFilter.customer) {
-                this.customerSelect.select(this.activityFilter.customer);
-            }
-
-            this.projectSelect = new App.Views.Core.Select({
-                el:this.targetComponent('project'),
-                collection:this.projects,
-                options: {
-                    selected: this.model.get('project')
-                }
-            }).render();
-            if (this.model.get('customer')) {
-                this.projects.fetch({ data: { filter: { customer: this.model.get('customer') } }, wait: true });
-            } else {
-                this.projects.fetch();
-            }
-            if (this.activityFilter && this.activityFilter.project) {
-                this.projectSelect.select(this.activityFilter.project);
-                if (!this.activityFilter.customer) {
-                    this.customerFilter.select();
-                }
-            }
-
-            this.serviceSelect = new App.Views.Core.Select({
-                el:this.targetComponent('service'),
-                collection:this.services,
-                options: {
-                    selected: this.model.get('service')
-                }
-            }).render();
-            this.services.fetch();
-            if (this.activityFilter && this.activityFilter.service) {
-                this.serviceSelect.select(this.activityFilter.service);
-            }
-
-            // Render tags
-            if (this.model.hasRelation('tags')) {
-                var tags = this.targetComponent('tags');
-                tags.val(this.model.getRelation('tags').pluck('name').join(' '));
-            }
+            });
+            this.form.render();
 
             return this;
-        },
-        presave: function(data) {
-            if (data) {
-                if (0 < data.tags.length) {
-                    data.tags = data.tags.split(' ');
-                } else {
-                    data.tags = [];
-                }
-            }
         },
         customerChange: function(e) {
             if (e) {
@@ -110,9 +67,9 @@
                 var $component = $(e.currentTarget);
 
                 if ($component.val() !== '') {
-                    this.projects.fetch({ data: { filter: { customer: $component.val() } }, wait: true });
+                    this.form.options.widgets.project.collection.fetch({ data: { filter: { customer: $component.val() } }, wait: true });
                 } else {
-                    this.projects.fetch();
+                    this.form.options.widgets.project.collection.fetch();
                 }
             }
             return this;
@@ -124,8 +81,8 @@
                 var $component = $(e.currentTarget);
 
                 if ($component.val() !== '') {
-                    var project = this.projects.get($component.val());
-                    this.customerSelect.select(project.get('customer'));
+                    var project = this.form.options.widgets.project.collection.get($component.val());
+                    this.form.options.widgets.customer.value(project.get('customer'));
                 }
                 this.setPrice();
             }
@@ -136,7 +93,7 @@
                 e.preventDefault();
 
                 var $component = $(e.currentTarget),
-                    rateRef = $('#activity-rateReference');
+                    rateRef = this.$('#activity-rateReference');
 
                 if ($component.val() === '') {
                     rateRef.val('');
@@ -151,13 +108,13 @@
                 e.preventDefault();
             }
 
-            var rate = $('#activity-rate'),
-                rateRef = $('#activity-rateReference'),
+            var rate = this.$('#activity-rate'),
+                rateRef = this.$('#activity-rateReference'),
                 rateRefValue = rateRef.val();
 
             if (rateRefValue == '' || rateRefValue.search(/service|customer|project/) != -1) {
-                if (this.serviceSelect.value()) {
-                    var service = this.services.get(this.serviceSelect.value());
+                if (this.form.options.widgets.service.value()) {
+                    var service = this.form.options.widgets.service.collection.get(this.form.options.widgets.service.value());
                     if (service.get('rate')) {
                         rate.val(service.get('rate'));
                         rateRef.val('service');
@@ -166,8 +123,8 @@
                     rate.val('');
                     rateRef.val('');
                 }
-                if (this.projectSelect.value()) {
-                    var project = this.projects.get(this.projectSelect.value());
+                if (this.form.options.widgets.project.value()) {
+                    var project = this.form.options.widgets.project.collection.get(this.form.options.widgets.project.value());
                     if (project.get('rate')) {
                         rate.val(project.get('rate'));
                         rateRef.val('project');

@@ -7,7 +7,7 @@
 
     App.menu.add({
         id:"activity",
-        title:"Activity",
+        title:"Activities",
         route:"activity",
         weight:-20,
         callback:function () {
@@ -24,14 +24,8 @@
         App.menu.activateItem('activity');
         App.router.switchView(new App.Views.Activity.Form({
             model:model,
-            template:'DimeTimetrackerFrontendBundle:Activities:form',
             options:{
-                backNavigation:'activity',
-                prefix:'activity-',
-                ui:{
-                    title:'Add Activity',
-                    titleElement:'header.page-header h1'
-                }
+                title:'Add Activity'
             }
         }));
     });
@@ -43,14 +37,8 @@
         App.menu.activateItem('activity');
         App.router.switchView(new App.Views.Activity.Form({
             model:model,
-            template:'DimeTimetrackerFrontendBundle:Activities:form',
             options:{
-                backNavigation:'activity',
-                prefix:'activity-',
-                ui:{
-                    title:'Edit Activity',
-                    titleElement:'header.page-header h1'
-                }
+                title:'Edit Activity'
             }
         }));
     });

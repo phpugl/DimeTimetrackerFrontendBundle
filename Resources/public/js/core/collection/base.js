@@ -9,14 +9,38 @@
 
     // Create Base collection and add it to App.Collection
     App.provide('Collection.Base', Backbone.Collection.extend({
-        fetchOptions: {
-            data: {}
-        },
+        fetchDataCache: {},
+        fetchOptions: {},
         load: function() {
-            if (this.fetchOptions) {
-                this.fetch(this.fetchOptions);
+            var opt = this.joinFetchDataCache();
+            if (opt) {
+                this.fetch(opt);
             } else {
                 this.fetch();
+            }
+        },
+        joinFetchDataCache: function() {
+            var fetchOpt = this.fetchOptions || { data:{} };
+            if (this.fetchDataCache) {
+                fetchOpt.data = {};
+                for(var name in this.fetchDataCache) {
+                    if (this.fetchDataCache.hasOwnProperty(name)) {
+                        fetchOpt.data = _.extend(fetchOpt.data, this.fetchDataCache[name]);
+                    }
+                }
+            }
+
+            return fetchOpt;
+        },
+        addFetchData: function(name, data) {
+            if (name) {
+                this.fetchDataCache[name] = data;
+            }
+            return this;
+        },
+        removeFetchData: function(name) {
+            if (name && this.fetchDataCache && this.fetchDataCache[name]) {
+                delete this.fetchDataCache[name];
             }
         },
         setFetchOption: function(name, opt) {
@@ -24,27 +48,11 @@
                 this.fetchOptions[name] = opt;
             }
         },
-        setFetchData: function(name, data) {
-            if (name) {
-                this.fetchOptions.data[name] = data;
-            }
-            return this;
-        },
-        mergeFetchData: function(data) {
-            if (data) {
-                for (var name in data) {
-                    if (data.hasOwnProperty(name)) {
-                        this.setFetchData(name, data[name]);
-                    }
-                }
+        removeFetchOption: function(name) {
+            if (name && this.fetchOptions && this.fetchOptions[name]) {
+                delete this.fetchOptions[name];
             }
         },
-        removeFetchData: function(name) {
-            if (this.fetchOptions && this.fetchOptions.data && this.fetchOptions.data[name]) {
-                delete this.fetchOptions.data[name];
-            }
-            return this;
-        }
     }));
 
 })(jQuery, Backbone, _, Dime);

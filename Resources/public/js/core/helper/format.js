@@ -29,25 +29,28 @@
      * @return string formatted as HH:mm:ss or d HH:mm:ss when more than 24 hours
      */
     App.provide('Helper.Format.Duration', function (data, unit, format) {
-        unit = unit || 'seconds';
-        format = format || 'HH:mm:ss';
-        var duration = moment.duration(data, unit);
-        if (duration >= 86400000) {
-            return Math.floor(duration.asDays()) + 'd '
-                + moment()
-                .hours(duration.hours())
-                .minutes(duration.minutes())
-                .seconds(duration.seconds())
-                .milliseconds(duration.milliseconds())
-                .format('HH:mm:ss');
-        } else {
-            return moment()
-                .hours(duration.hours())
-                .minutes(duration.minutes())
-                .seconds(duration.seconds())
-                .milliseconds(duration.milliseconds())
-                .format('HH:mm:ss');
+        if (data !== undefined && _.isNumber(data)) {
+            unit = unit || 'seconds';
+            format = format || 'HH:mm:ss';
+            var duration = moment.duration(data, unit);
+            if (duration >= 86400000) {
+                return Math.floor(duration.asDays()) + 'd '
+                    + moment()
+                    .hours(duration.hours())
+                    .minutes(duration.minutes())
+                    .seconds(duration.seconds())
+                    .milliseconds(duration.milliseconds())
+                    .format('HH:mm:ss');
+            } else {
+                return moment()
+                    .hours(duration.hours())
+                    .minutes(duration.minutes())
+                    .seconds(duration.seconds())
+                    .milliseconds(duration.milliseconds())
+                    .format('HH:mm:ss');
+            }
         }
+        return '';
     });
 
     /**

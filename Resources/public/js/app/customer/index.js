@@ -8,7 +8,7 @@
     // Add menu item to main menu
     App.menu.get('admin').submenu.add({
         id:"customer",
-        title:"Customer",
+        title:"Customers",
         route:"customer",
         weight:0,
         callback:function () {
@@ -24,32 +24,20 @@
         App.menu.activateItem('admin.customer');
         App.router.switchView(new App.Views.Customer.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Customers:form',
             options: {
-                backNavigation:'customer',
-                prefix: 'customer-',
-                ui: {
-                    title: 'Add Customer',
-                    titleElement: 'header.page-header h1'
-                }
+                title: 'Add Customer'
             }
         }));
     });
     App.router.route("customer/:id/edit", "customer:edit", function (id) {
-        var model = new App.Model.Customer({id:id});
-        model.fetch({async:false});
+        var model = new App.Model.Customer({id: id});
+        model.fetch({ async:false });
 
         App.menu.activateItem('admin.customer');
         App.router.switchView(new App.Views.Customer.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Customers:form',
             options: {
-                backNavigation:'customer',
-                prefix: 'customer-',
-                ui: {
-                    title: 'Edit Customer',
-                    titleElement: 'header.page-header h1'
-                }
+                title: 'Edit Customer'
             }
         }));
     });
@@ -57,7 +45,7 @@
     // Customer view
     App.provide('Views.Customer.Index', App.Views.Core.Content.extend({
         events: {
-            'click .filter-button': 'toggleFilter'
+            'click .toggle-options': 'toggleOptions'
         },
         template:'DimeTimetrackerFrontendBundle:Customers:index',
         initialize:function () {
@@ -67,14 +55,11 @@
         },
         render:function () {
             // Render filter
-            this.filter = new App.Views.Core.Filter.Form({
+            this.filter = new App.Views.Core.Form.Filter({
                 el: '#customer-filter',
                 collection: this.customers,
                 options: {
-                    name: 'customer-filter',
-                    items: {
-                        search: new App.Views.Core.Filter.Search()
-                    }
+                    name: 'customer-filter'
                 }
             }).render();
 
@@ -101,7 +86,7 @@
                 }
             }).render();
 
-            this.filter.updateFilter();
+            this.filter.submit();
 
             return this;
         },
@@ -118,14 +103,12 @@
 
             return this;
         },
-        toggleFilter: function(e) {
+        toggleOptions: function(e) {
             if (e) {
                 e.stopPropagation();
             }
 
-            if (this.filter) {
-                this.filter.toggleFilter(e);
-            }
+            this.$('#customer-filter').toggle();
 
             return this;
         }

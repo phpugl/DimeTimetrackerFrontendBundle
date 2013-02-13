@@ -5,36 +5,31 @@
  */
 (function ($, App) {
 
-    App.provide('Views.Setting.Form', App.Views.Core.Form.extend({
-        options: {
-            events:{
-                'click .save':'save',
-                'click .close':'close',
-                'click .cancel':'close',
-                'click .slugify':'slugify',
-                'keypress #setting-alias':'alias'
+    App.provide('Views.Setting.Form', App.Views.Core.Content.extend({
+        options: {},
+        template:'DimeTimetrackerFrontendBundle:Settings:form',
+        initialize: function(config) {
+            if (config) {
+                if (config.options) {
+                    this.options = $.extend(true, {}, this.options, config.options);
+                }
             }
         },
-        slugify:function (e) {
-            var name = this.targetComponent('name'),
-                alias = this.targetComponent('alias');
-            if (alias) {
-                alias.val(App.Helper.Format.Slugify(name.val()));
-            }
-        },
-        alias:function (e) {
-            var keyCode = (e.keyCode) ? e.keyCode : e.which,
-                keyChar = String.fromCharCode(keyCode);
-
-            if ((keyCode == null) || $.inArray(keyCode, [0,8,9,13,27,37,39,46]) > -1) {
-                return true;
+        render: function() {
+            if (this.options.title) {
+                this.$('header.page-header h1').text(this.options.title)
             }
 
-            if (keyChar.match(/[a-zA-Z0-9-_]/)) {
-                return true;
-            } else {
-                return false;
-            }
+            this.form = new App.Views.Core.Form.Model({
+                el: '#setting-form',
+                model: this.model,
+                options: {
+                    backNavigation:'setting'
+                }
+            });
+            this.form.render();
+
+            return this;
         }
     }));
 

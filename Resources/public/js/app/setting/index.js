@@ -24,14 +24,8 @@
         App.menu.activateItem('admin.setting');
         App.router.switchView(new App.Views.Setting.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Settings:form',
             options: {
-                backNavigation:'setting',
-                prefix: 'setting-',
-                ui: {
-                    title: 'Add Setting',
-                    titleElement: 'header.page-header h1'
-                }
+                title: 'Add Setting'
             }
         }));
     });
@@ -42,14 +36,8 @@
         App.menu.activateItem('admin.setting');
         App.router.switchView(new App.Views.Setting.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Settings:form',
             options: {
-                backNavigation:'setting',
-                prefix: 'setting-',
-                ui: {
-                    title: 'Edit Setting',
-                    titleElement: 'header.page-header h1'
-                }
+                title: 'Edit Setting'
             }
         }));
     });
@@ -57,7 +45,7 @@
     // Setting view
     App.provide('Views.Setting.Index', App.Views.Core.Content.extend({
         events: {
-            'click .filter-button': 'toggleFilter'
+            'click .toggle-options': 'toggleOptions'
         },
         template:'DimeTimetrackerFrontendBundle:Settings:index',
         initialize:function () {
@@ -67,14 +55,11 @@
         },
         render:function () {
             // Render filter
-            this.filter = new App.Views.Core.Filter.Form({
+            this.filter = new App.Views.Core.Form.Filter({
                 el: '#setting-filter',
                 collection: this.settings,
                 options: {
-                    name: 'setting-filter',
-                    items: {
-                        search: new App.Views.Core.Filter.Search()
-                    }
+                    name: 'setting-filter'
                 }
             }).render();
 
@@ -83,7 +68,6 @@
                 collection: this.settings
             });
             $('.pagination').html(this.pager.render().el);
-
 
             // Render setting list
             this.list = new App.Views.Core.List({
@@ -101,7 +85,7 @@
                 }
             }).render();
 
-            this.filter.updateFilter();
+            this.filter.submit();
 
             return this;
         },
@@ -118,14 +102,12 @@
 
             return this;
         },
-        toggleFilter: function(e) {
+        toggleOptions: function(e) {
             if (e) {
                 e.stopPropagation();
             }
 
-            if (this.filter) {
-                this.filter.toggleFilter(e);
-            }
+            this.$('#setting-filter').toggle();
 
             return this;
         }

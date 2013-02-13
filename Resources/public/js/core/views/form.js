@@ -6,26 +6,26 @@
 (function ($, Backbone, App) {
 
     /**
-     * Dime.Views.Core.Form
+     * App.Views.Core.Form.Model
      *
      * extend App.Views.Core.Content
      * bind model data to form item via prefix
      */
-    App.provide('Views.Core.Form', App.Views.Core.Content.extend({
+    App.provide('Views.Core.Form.Model', Backbone.View.extend({
         events: {
-            'submit form':'save',
             'click .save':'save',
             'click .close':'close',
-            'click .cancel':'close'
+            'click .cancel':'close',
+            'submit form':'save',
+            'submit': 'save'
         },
         options: {
-            backNavigation:'',
-            prefix: '',
-            ui: {}
+            backNavigation: undefined,
+            ignore: {},
+            rendered: false,
+            widgets: {}
         },
         initialize: function(config) {
-            _.bindAll(this);
-
             if (config) {
                 if (config.template) {
                     this.template = config.template;
@@ -36,151 +36,210 @@
                 }
             }
 
-            this.component = $('form', this.$el);
+            if (this.options.events) {
+                this.events = $.extend(true, {}, this.events, this.options.events);
+            }
         },
         render: function() {
-            // Set title
-            if (this.options.ui.titleElement && this.options.ui.title) {
-                $(this.options.ui.titleElement, this.$el).text(this.options.ui.title);
+            // Load template
+            if (this.template) {
+                var html = App.render(this.template);
+                this.$el.html(html);
+
+                if (this.options.templateEl) {
+                    this.setElement(this.options.templateEl);
+                }
             }
 
-            // Get prefix
-            if (this.formComponent && this.formComponent.data('prefix')) {
-                this.options.prefix = this.formComponent.data('prefix');
+            // Render ui items
+            for(var name in this.options.widgets) {
+                if (this.options.widgets.hasOwnProperty(name)) {
+                    var widget = this.options.widgets[name];
+                    // render widget
+                    widget.render(this);
+
+                    // fetch widget
+                    if (widget.fetch) {
+                        widget.fetch();
+                    }
+                }
             }
 
-            // Bind model data
-            this.bind();
+            // bind model
+            if (this.model) {
+                this.bind(this.model.toJSON());
+            }
 
             return this;
         },
-        save:function (e) {
+        bind: function(data) {
+            if (data) {
+                // Bind data to form
+                App.Helper.UI.Form.Bind(this.$el, data, this.ignore);
+
+                // Bind data to widgets
+                for(var name in this.options.widgets) {
+                    if (this.options.widgets.hasOwnProperty(name)) {
+                        var widget = this.options.widgets[name];
+
+                        // fetch widget
+                        if (widget.bind) {
+                            widget.bind(data);
+                        }
+                    }
+                }
+            }
+            return this;
+        },
+        close: function(e) {
             if (e) {
                 e.preventDefault();
             }
 
-            var that = this;
-
-            $('.save').append(' <i class="icon loading-14-white"></i>');
-            $('.cancel').attr('disabled', 'disabled');
-
-            this.formData = this.serialize();
-
-            if (this.presave) {
-                this.presave(this.formData);
+            if (this.options.backNavigation) {
+                App.router.navigate(this.options.backNavigation, { trigger:true });
+            } else {
+                this.$el.hide();
             }
 
-            this.model.save(this.formData, {
-                wait:true,
-                success:function () {
-                    App.notify("Nice, all data are saved properly.", "success");
-                    that.close();
-                },
-                error:function (model, response, scope) {
-                    $('.save i.icon').remove();
-                    $('.cancel').removeAttr('disabled');
-                    var data = $.parseJSON(response.responseText);
-
-                    if (data.errors) {
-                        that.showErrors(data.errors);
-                        App.notify("Hey, you have missed some fields.", "error");
-                    } else {
-                        App.notify(response.status + ": " + response.statusText, "error");
-                    }
-
-                }
-            });
+            return this;
         },
-        close:function (e) {
+        save: function(e) {
             if (e) {
-                e.stopPropagation();
+                e.preventDefault();
             }
 
-            App.router.navigate(this.options.backNavigation, { trigger:true });
-        },
-        bind: function(data) {
-            data = data || this.model.toJSON();
+            if (this.model) {
+                var that = this,
+                    data = this.serialize();
 
-            for (var name in data) {
-                if (data.hasOwnProperty(name)) {
-                    var input = this.targetComponent(name);
-                    if (input.length > 0) {
-                        var type = input[0].type;
-                        if (type && type == 'checkbox' || type == 'radio') {
-                            if (data[name]) {
-                                input.attr('checked', 'checked');
-                            } else {
-                                input.removeAttr('checked');
-                            }
+                this.$('.save').append(' <i class="icon loading-14-white"></i>');
+                this.$('.cancel').attr('disabled', 'disabled');
+
+                this.model.save(data, {
+                    wait:true,
+                    success:function () {
+                        App.notify("Nice, all data are saved properly.", "success");
+                        that.close();
+                    },
+                    error:function (model, response, scope) {
+                        $('.save i.icon').remove();
+                        $('.cancel').removeAttr('disabled');
+                        var data = $.parseJSON(response.responseText);
+
+                        if (data.errors) {
+                            App.Helper.UI.Form.BindErrors(that.$el, data.errors);
+                            App.notify("Hey, you have missed some fields.", "error");
                         } else {
-                            input.val(data[name]);
+                            App.notify(response.status + ": " + response.statusText, "error");
                         }
-                    }
-                }
-            }
-        },
-        clear:function () {
-            $(':input', this.$el).each(function (idx, el) {
-                var type = el.type;
-                var tag = el.tagName.toLowerCase();
-                if (type == 'text' || type == 'password' || tag == 'textarea')
-                    $(el).val("");
-                else if (type == 'checkbox' || type == 'radio')
-                    el.checked = false;
-                else if (tag == 'select')
-                    el.selectedIndex = -1;
-            });
-        },
-        showErrors:function (data) {
-            $('.control-group', this.$el).removeClass('error');
 
-            if (data) {
-                for (var name in data) if (data.hasOwnProperty(name)) {
-                    var input = this.targetComponent(name);
-                    if (input.length > 0) {
-                        var group = input.parents('.control-group');
-                        group.addClass('error');
-                        $('span.help-inline', group).text(data[name]);
                     }
-                }
+                });
             }
+
+            return this;
         },
         serialize: function(withoutEmpty) {
-            var data = {},
-                that = this;
+            var data = App.Helper.UI.Form.Serializer(this.$el, this.options.ignore, withoutEmpty);
 
-            $(':input', this.$el).each(function (idx, el) {
-                var $el = $(el);
-                if (el.id && el.id.search(that.options.prefix) != -1) {
-                    var val = $el.val();
-                    if (withoutEmpty) {
-                        if (val && val != '') {
-                            if (el.type && el.type == 'checkbox' || el.type == 'radio') {
-                                if ($el.attr('checked') == 'checked') {
-                                    data[el.id.replace(that.options.prefix, '')] = val;
-                                }
-                            } else {
-                                data[el.id.replace(that.options.prefix, '')] = val;
-                            }
-                        }
-                    } else {
-                        if (el.type && el.type == 'checkbox' || el.type == 'radio') {
-                            if ($el.attr('checked') == 'checked') {
-                                data[el.id.replace(that.options.prefix, '')] = val;
-                            } else {
-                                data[el.id.replace(that.options.prefix, '')] = undefined;
-                            }
-                        } else {
-                            data[el.id.replace(that.options.prefix, '')] = val;
-                        }
+            // change data by widgets
+            for(var name in this.options.widgets) {
+                if (this.options.widgets.hasOwnProperty(name)) {
+                    var widget = this.options.widgets[name];
+
+                    if (widget.serialize) {
+                        widget.serialize(data, withoutEmpty);
                     }
                 }
-            });
+            }
 
             return data;
+        }
+    }));
+
+    /**
+     * App.Views.Core.Form.Filter
+     *
+     * extend App.Views.Core.Form.Model
+     */
+    App.provide('Views.Core.Form.Filter', App.Views.Core.Form.Model.extend({
+        events:{
+            'click .close': 'close',
+            'click .reset': 'reset',
+            'click .save': 'save',
+            'submit': 'submit'
         },
-        targetComponent: function(name) {
-            return $('#' + this.options.prefix + name, this.formComponent);
+        reset: function(e) {
+            if (e) {
+                e.preventDefault();
+            }
+
+            var settings = App.session.get('settings');
+
+            if (settings) {
+                var value = settings.getSetting('system', this.options.name);
+                this.bind(value);
+                this.submit();
+            }
+
+            this.$el.hide();
+        },
+        submit: function(e) {
+            if (e) {
+                e.preventDefault();
+            }
+
+            if (this.collection) {
+                var data = this.serialize(true);
+                this.collection.removeFetchData('filter');
+                if (data) {
+                    this.collection.addFetchData('filter', data);
+                }
+                this.collection.load();
+            }
+        },
+        save: function(e) {
+            if (e) {
+                e.preventDefault();
+            }
+
+            var settings = App.session.get('settings');
+
+            if (settings) {
+                var models = settings.where({ name: this.options.name, namespace: 'system' }),
+                    model,
+                    data = this.serialize(true),
+                    saveBtn = this.$('.save');
+
+                saveBtn.append(' <i class="icon loading-14"></i>');
+
+                if (models.length > 0) {
+                    model = models[0];
+                } else {
+                    model = new App.Model.Setting({
+                        namespace: 'system',
+                        name: this.options.name,
+                        value: ''
+                    });
+                    settings.add(model);
+                }
+
+                model.save({
+                    value:JSON.stringify(data)
+                }, {
+                    wait:true,
+                    success:function (model, response) {
+                        saveBtn.find('i.icon').remove();
+                        App.notify("This filter settings are saved properly.", "success");
+                    },
+                    error:function (model, response, scope) {
+                        saveBtn.find('i.icon').remove();
+                        App.notify(response.status + ": " + response.statusText, "error");
+                    }
+                });
+                App.session.set(this.options.name, data);
+            }
         }
     }));
 

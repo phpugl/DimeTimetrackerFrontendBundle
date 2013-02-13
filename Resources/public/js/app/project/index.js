@@ -8,7 +8,7 @@
     // Add menu item to main menu
     App.menu.get('admin').submenu.add({
         id:"project",
-        title:"Project",
+        title:"Projects",
         route:"project",
         weight:0,
         callback:function () {
@@ -24,14 +24,8 @@
         App.menu.activateItem('admin.project');
         App.router.switchView(new App.Views.Project.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Projects:form',
             options: {
-                backNavigation:'project',
-                prefix: 'project-',
-                ui: {
-                    title: 'Add Project',
-                    titleElement: 'header.page-header h1'
-                }
+                title: 'Add project'
             }
         }));
     });
@@ -42,14 +36,8 @@
         App.menu.activateItem('admin.project');
         App.router.switchView(new App.Views.Project.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Projects:form',
             options: {
-                backNavigation:'project',
-                prefix: 'project-',
-                ui: {
-                    title: 'Edit Project',
-                    titleElement: 'header.page-header h1'
-                }
+                title: 'Edit project'
             }
         }));
     });
@@ -57,7 +45,7 @@
     // Project view
     App.provide('Views.Project.Index', App.Views.Core.Content.extend({
         events: {
-            'click .filter-button': 'toggleFilter'
+            'click .toggle-options': 'toggleOptions'
         },
         template:'DimeTimetrackerFrontendBundle:Projects:index',
         initialize:function () {
@@ -67,14 +55,21 @@
         },
         render:function () {
             // Render filter
-            this.filter = new App.Views.Core.Filter.Form({
+            this.filter = new App.Views.Core.Form.Filter({
                 el: '#project-filter',
                 collection: this.projects,
                 options: {
                     name: 'project-filter',
-                    items: {
-                        customer: new App.Views.Core.Filter.Customer(),
-                        search: new App.Views.Core.Filter.Search()
+                    widgets: {
+                        customer: new App.Views.Core.Widget.Select({
+                            el: '#filter-customer',
+                            collection: App.session.get('customer-filter-collection', function () {
+                                return new App.Collection.Customers();
+                            }),
+                            options: {
+                                blankText: 'by customer'
+                            }
+                        })
                     }
                 }
             }).render();
@@ -107,7 +102,7 @@
                 }
             }).render();
 
-            this.filter.updateFilter();
+            this.filter.submit();
 
             return this;
         },
@@ -124,14 +119,12 @@
 
             return this;
         },
-        toggleFilter: function(e) {
+        toggleOptions: function(e) {
             if (e) {
                 e.stopPropagation();
             }
 
-            if (this.filter) {
-                this.filter.toggleFilter(e);
-            }
+            this.$('#project-filter').toggle();
 
             return this;
         }
