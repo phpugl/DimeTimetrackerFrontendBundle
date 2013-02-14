@@ -97,7 +97,7 @@
                         button.addClass('btn-warning');
                         that.timer = setInterval(function() {
                             var d = moment().diff(button.data('start'), 'seconds');
-                            button.text(model.formatDuration(button.data('duration') + d));
+                            button.text(App.Helper.Format.Duration(button.data('duration') + d));
                         }, 1000);
                         model.save({}, {success: function() {
                             model.collection.sort();
