@@ -16,7 +16,6 @@
             'click .save':'save',
             'click .close':'close',
             'click .cancel':'close',
-            'submit form':'save',
             'submit': 'save'
         },
         options: {
@@ -101,12 +100,11 @@
             } else {
                 this.$el.hide();
             }
-
-            return this;
         },
         save: function(e) {
             if (e) {
                 e.preventDefault();
+                e.stopPropagation();
             }
 
             if (this.model) {
@@ -137,8 +135,6 @@
                     }
                 });
             }
-
-            return this;
         },
         serialize: function(withoutEmpty) {
             var data = App.Helper.UI.Form.Serializer(this.$el, this.options.ignore, withoutEmpty);

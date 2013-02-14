@@ -142,21 +142,21 @@
                 name = input.name;
 
             if (name) {
-                var val = $input.val();
-                if (withoutEmpty) {
-                    if (val === undefined || _.isEmpty(val)) {
-                        return;
-                    }
-                }
+                var val = $input.val(),
+                    parts = name.split('-');
 
-                var parts = name.split('-');
                 if (input.type && input.type == 'checkbox' || input.type == 'radio') {
-                    if ($input.attr('checked') == 'checked') {
-                        App.Helper.Object.Set(data, parts, val);
-                    } else if (withoutEmpty) {
+                    if (($input.attr('checked') == 'checked')) {
+                        App.Helper.Object.Set(data, parts, true);
+                    } else {
                         App.Helper.Object.Set(data, parts, undefined);
                     }
                 } else if (input.type && input.type != 'button') {
+                    if (withoutEmpty) {
+                        if (val === undefined || _.isEmpty(val)) {
+                            return;
+                        }
+                    }
                     App.Helper.Object.Set(data, parts, val);
                 }
             }
