@@ -9,7 +9,7 @@
     App.provide('Views.Tag.Item', App.Views.Core.ListItem.extend({
         events: {
             'click .delete': 'delete',
-            'click': 'edit'
+            'click .edit': 'edit'
         },
         render:function () {
             // Call parent contructor

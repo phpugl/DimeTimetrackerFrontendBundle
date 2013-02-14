@@ -46,6 +46,7 @@
 <script type="text/template" id="tpl-tag-item">
     <div class="box-title">
         <div class="btn-group pull-right">
+            <a class="btn edit" href="#tag/<%- model.id %>/edit" title="{% trans %}Edit{% endtrans %}"><i class="icon-pencil"></i></a>
             <a class="btn delete" href="#tag/<%- model.id %>/delete" title="{% trans %}Delete{% endtrans %}"><i class="icon-remove"></i></a>
         </div>
         <span class="editable editable-input" contenteditable="true" data-editor-model-key="name"><%- model.get('name') %></span>
