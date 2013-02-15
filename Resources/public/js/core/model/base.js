@@ -67,12 +67,13 @@
                                             var split = relatedTo.belongTo.split(':');
                                             item[split[0]] = (split[1]) ? response[split[1]] : response['id'];
                                         }
-                                        collection.add(new modelFunc(item));
+                                        collection.add(new modelFunc(item, { parse: true }));
                                     });
                                     response.relation[name] = collection;
                                     response[name] = ids;
                                 } else {
-                                    response.relation[name] = new modelFunc(response[name]);
+
+                                    response.relation[name] = new modelFunc(response[name], { parse: true });
                                     response[name] = response[name].id;
                                 }
                             }
