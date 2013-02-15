@@ -129,7 +129,7 @@
                 e.stopPropagation();
             }
 
-            this.$('#activity-filter form').toggle();
+            this.$('#activity-filter').toggle();
 
             return this;
         }
