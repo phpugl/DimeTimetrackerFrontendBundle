@@ -86,6 +86,6 @@ Namespace predefined functions
     Dime.log(msg, level)                ... Basic console.log wrapper
     Dime.provide(name, object, force)   ... Create namespace onject
     Dime.run()                          ... Initialize the whole app
-    Dime.template(name)                 ... Fetch remote templates and store them
+    Dime.render(name, data)             ... Fetch remote templates and store them
 
 
