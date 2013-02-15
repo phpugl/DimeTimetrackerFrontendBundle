@@ -164,6 +164,7 @@
             'click .close': 'close',
             'click .reset': 'reset',
             'click .save': 'save',
+            'click .submit': 'submit',
             'submit': 'submit'
         },
         reset: function(e) {
