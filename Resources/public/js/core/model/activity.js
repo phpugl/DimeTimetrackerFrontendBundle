@@ -26,11 +26,12 @@
             timeslices: {
                 collection: 'App.Collection.Timeslices',
                 model: 'App.Model.Timeslice',
-                belongTo: 'activity:id'
+                belongsTo: 'activity:id'
             },
             tags: {
                 collection: 'App.Collection.Tags',
-                model: 'App.Model.Tag'
+                model: 'App.Model.Tag',
+                belongsTo: 'activity:id'
             }
         },
         start:function (opt) {
@@ -39,7 +40,7 @@
                 timeslices.create(new App.Model.Timeslice({
                     activity:this.id,
                     startedAt: App.Helper.Format.Date()
-                }), opt);
+                }, { parse: true }), opt);
             }
         },
         stop:function (opt) {

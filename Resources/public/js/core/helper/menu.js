@@ -116,10 +116,10 @@
             templateSubmenu:'#tpl-application-menu-submenu'
         },
         initialize:function (config) {
-            _.bindAll(this, 'render');
-
-            if (config && config.options) {
-                this.options = $.extend(true, {}, this.options, config.options);
+            if (config) {
+                if (config.options) {
+                    this.options = $.extend(true, {}, this.options, config.options);
+                }
             }
 
             if (this.options.template) {
@@ -170,10 +170,6 @@
             }
         },
         initialize:function (config) {
-            // Bind all to this, because you want to use
-            // "this" view in callback functions
-            _.bindAll(this, 'render', 'addOne');
-
             // Assign function to collection events
             if (this.collection) {
                 this.collection.on('add', this.addOne, this);
@@ -191,7 +187,7 @@
             this.$el.html('');
 
             if (this.collection && this.collection.length > 0) {
-                this.collection.each(this.addOne);
+                this.collection.each(this.addOne, this);
             }
 
             return this;

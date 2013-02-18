@@ -3,7 +3,7 @@
 /*
  * Dime - app/activity/track.js
  */
-(function ($, App) {
+(function ($, moment, App) {
 
     // Initialize main view - bind on <body>
     App.hook.add({
@@ -24,12 +24,11 @@
             'focus #activity-track-input': 'focusInput',
             'submit':'save'
         },
-        initialize:function () {
-            // Bind all to this, because you want to use
-            // "this" view in callback functions
-            _.bindAll(this, 'save', 'updateTitle', 'blurInput', 'focusInput');
-
+        initialize:function (config) {
             this.documentWidth = $(document).width();
+            this.input = this.$('#activity-track-input');
+            this.date = this.$('#activity-track-date');
+            this.icon = this.$('i');
         },
         updateTitle:function (e) {
             var icon = $('#activity-track-date');
@@ -55,21 +54,23 @@
             }
         },
         save:function (e) {
-            e.preventDefault();
-            var input = $('#activity-track-input'),
-                icon = $('i', '#activity-track').addClass('loading-14-white');
+            if (e) {
+                e.preventDefault();
+            }
 
-            var data = input.val(),
-                date = $('#activity-track-date').data('date') || moment().format('YYYY-MM-DD');
+            var that = this,
+                data = this.input.val(),
+                date = this.date.data('date') || moment().format('YYYY-MM-DD');
 
             if (data && data !== "") {
                 var activity = new App.Model.Activity();
+                this.icon.addClass('loading-14-white');
 
                 activity.save({parse:data, date:date}, {
                     wait: true,
                     success:function (model, response) {
-                        input.val('');
-                        icon.removeClass('loading-14-white');
+                        that.input.val('');
+                        that.icon.removeClass('loading-14-white');
 
                         var activities = App.session.get('activities');
                         if (activities) {
@@ -77,7 +78,7 @@
                         }
                     },
                     error: function(model, response, scope) {
-                        icon.removeClass('loading-14-white');
+                        that.icon.removeClass('loading-14-white');
                         App.notify('Something goes wrong here. [' + response.status + ': ' + response.statusText  +']', 'error');
                     }
                 });
@@ -85,4 +86,4 @@
         }
     }));
 
-})(jQuery, Dime);
+})(jQuery, moment, Dime);

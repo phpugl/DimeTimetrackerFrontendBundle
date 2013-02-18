@@ -8,18 +8,14 @@
     // Create list item view in App.Views.Core
     App.provide('Views.Core.ListItem', Backbone.View.extend({
         prefix:'',
-        initialize:function (opt) {
-            // Bind all to this, because you want to use
-            // "this" view in callback functions
-            _.bindAll(this);
-
+        initialize:function (config) {
             // Grep default values from option
-            if (opt && opt.prefix) {
-                this.prefix = opt.prefix;
+            if (config && config.prefix) {
+                this.prefix = config.prefix;
             }
 
-            if (opt && opt.template) {
-                this.template = opt.template;
+            if (config && config.template) {
+                this.template = config.template;
             }
         },
         elId:function () {
@@ -34,7 +30,7 @@
             this.$el.html(html);
 
             // add element id with prefix
-            this.$el.attr('id', this.elId);
+            this.$el.attr('id', this.elId());
 
             return this;
         },
@@ -61,10 +57,6 @@
             }
         },
         initialize:function (config) {
-            // Bind all to this, because you want to use
-            // "this" view in callback functions
-            _.bindAll(this);
-
             // Assign function to collection events
             if (this.collection) {
                 this.collection.on('reset', this.addAll, this);

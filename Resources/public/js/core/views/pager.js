@@ -18,18 +18,16 @@
         text: '',
         current: false,
         pager: undefined,
-        initialize:function (opt) {
-            _.bindAll(this, 'render', 'update');
-
-            if (opt) {
-                if (opt.text) {
-                    this.text = opt.text;
+        initialize:function (config) {
+            if (config) {
+                if (config.text) {
+                    this.text = config.text;
                 }
 
-                this.current = (opt.current) ? true : false;
+                this.current = (config.current) ? true : false;
 
-                if (opt.pager) {
-                    this.pager = opt.pager;
+                if (config.pager) {
+                    this.pager = config.pager;
                 }
             }
         },
@@ -52,15 +50,14 @@
         },
         text: '',
         pager: undefined,
-        initialize:function (opt) {
-            _.bindAll(this, 'render', 'update');
-            if (opt) {
-                if (opt.text) {
-                    this.text = opt.text;
+        initialize:function (config) {
+            if (config) {
+                if (config.text) {
+                    this.text = config.text;
                 }
 
-                if (opt.pager) {
-                    this.pager = opt.pager;
+                if (config.pager) {
+                    this.pager = config.pager;
                 }
             }
         },
@@ -80,15 +77,14 @@
         },
         text: '',
         pager: undefined,
-        initialize:function (opt) {
-            _.bindAll(this, 'render', 'update');
-            if (opt) {
-                if (opt.text) {
-                    this.text = opt.text;
+        initialize:function (config) {
+            if (config) {
+                if (config.text) {
+                    this.text = config.text;
                 }
 
-                if (opt.pager) {
-                    this.pager = opt.pager;
+                if (config.pager) {
+                    this.pager = config.pager;
                 }
             }
         },

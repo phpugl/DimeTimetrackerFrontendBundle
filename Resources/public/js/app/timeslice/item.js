@@ -20,13 +20,10 @@
             return (id) ? id : this.options.prefix + this.model.get('id');
         },
         initialize:function (config) {
-            // Bind all to this, because you want to use
-            // "this" view in callback functions
-            _.bindAll(this);
-
-            // Grep default values from option
-            if (config && config.options) {
-                this.options = _.extend({}, this.options, config.options);
+            if (config) {
+                if (config.options) {
+                    this.options = _.extend({}, this.options, config.options);
+                }
             }
 
             // bind remove function to model
@@ -44,11 +41,15 @@
             return this;
         },
         edit:function (e) {
-            e.stopPropagation();
+            if (e) {
+                e.stopPropagation();
+            }
         },
         'delete':function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
 
             // confirm destroy action
             if (confirm("Are you sure?")) {

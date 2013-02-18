@@ -13,9 +13,7 @@
             'blur .editable': 'save',
             'keyup .editable': 'keyup'
         },
-        initialize: function(opt) {
-            _.bindAll(this);
-        },
+        initialize: function(config) {},
         render: function() {
             return this;
         },
