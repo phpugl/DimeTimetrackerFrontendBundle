@@ -44,37 +44,59 @@
             if (this.relations) {
                 response.relation = {};
 
+                // cycle through model relations
                 for (var name in this.relations) {
                     if (this.relations.hasOwnProperty(name)) {
                         var relatedTo = this.relations[name];
-
+                        // name does exist in response
                         if (response[name]) {
-
+                            // relation has defined model
                             if (relatedTo.model) {
+                                // get model function
                                 var modelFunc = relatedTo.model;
                                 if (_.isString(modelFunc)) {
                                     modelFunc = App.provide(modelFunc.replace('App.', ''));
                                 }
+                                // relation is a collection
                                 if (relatedTo.collection) {
+                                    // get collection function
                                     var collectionFunc = relatedTo.collection;
                                     if (_.isString(collectionFunc)) {
                                         collectionFunc = App.provide(collectionFunc.replace('App.', ''));
                                     }
-                                    var collection = new collectionFunc(), ids = [];
+
+                                    // create new collection
+                                    var collection = new collectionFunc(),
+                                        ids = [];
+
                                     _.each(response[name], function (item) {
-                                        ids.push(item.id);
-                                        if (relatedTo.belongTo) {
-                                            var split = relatedTo.belongTo.split(':');
-                                            item[split[0]] = (split[1]) ? response[split[1]] : response['id'];
+                                        // create back ref to model
+                                        if (relatedTo.belongsTo) {
+                                            var split = relatedTo.belongsTo.split(':');
+                                            if (split[1]) {
+                                                item[split[0]] = response[split[1]];
+                                            } else {
+                                                item[split[0]] = response['id'];
+                                            }
                                         }
-                                        collection.add(new modelFunc(item, { parse: true }));
-                                    });
+                                        // create submodel
+                                        var newModel = new modelFunc(item, { parse: true });
+                                        // store model ids in list
+                                        ids.push(newModel.id);
+                                        // save submodel in collection
+                                        collection.add(newModel);
+                                    }, this);
+
+                                    // store collection in relation
                                     response.relation[name] = collection;
+                                    // store submodel ids in response
                                     response[name] = ids;
                                 } else {
-
-                                    response.relation[name] = new modelFunc(response[name], { parse: true });
-                                    response[name] = response[name].id;
+                                    // important because submodels can be only an id
+                                    if (_.isObject(response[name])) {
+                                        response.relation[name] = new modelFunc(response[name], { parse: true });
+                                        response[name] = response[name].id;
+                                    }
                                 }
                             }
                         }
