@@ -35,6 +35,10 @@
 
 /* general classes */
 
+.remove-gap {
+    margin-bottom: 0pt;
+}
+
 .t-left {
     text-align: left;
 }

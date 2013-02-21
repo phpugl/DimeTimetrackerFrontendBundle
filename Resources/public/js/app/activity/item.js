@@ -134,7 +134,7 @@
                 e.stopPropagation();
             }
 
-            var data = App.Helper.UI.Form.Serializer(this.$('.box-details')),
+            var data = App.Helper.UI.Form.Serializer(this.$('.box-details'), true),
                 timeslices = this.model.getRelation('timeslices');
 
             if (timeslices && data && data.tags && data.timeslice) {

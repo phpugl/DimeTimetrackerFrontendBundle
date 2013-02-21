@@ -147,7 +147,7 @@
 
                 if (input.type && input.type == 'checkbox' || input.type == 'radio') {
                     if (($input.prop('checked'))) {
-                        App.Helper.Object.Set(data, parts, (val === undefined || _.isEmpty(val)) ? val : true);
+                        App.Helper.Object.Set(data, parts, (val === undefined || _.isEmpty(val)) ? true : val);
                     } else {
                         App.Helper.Object.Set(data, parts, undefined);
                     }
