@@ -146,8 +146,8 @@
                     parts = name.split('-');
 
                 if (input.type && input.type == 'checkbox' || input.type == 'radio') {
-                    if (($input.attr('checked') == 'checked')) {
-                        App.Helper.Object.Set(data, parts, true);
+                    if (($input.prop('checked'))) {
+                        App.Helper.Object.Set(data, parts, (val === undefined || _.isEmpty(val)) ? val : true);
                     } else {
                         App.Helper.Object.Set(data, parts, undefined);
                     }

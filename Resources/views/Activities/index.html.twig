@@ -39,14 +39,15 @@
         <% if (model.hasRelation('project')) { %>
         <span  title="<%- model.get('project.name') %>" class="label" contenteditable="false" >/<%- model.get('project.alias') %></span>
         <% } %>
-        <% if (model.hasRelation('tags')) { model.getRelation('tags').each(function (tag) { %>
+        <% if (model.hasRelation('tags')) { model.getRelation('tags').each(function (tag) { if (!tag.get('system')) { %>
         <span class="badge badge-info" contenteditable="false">#<%- tag.get('name') %></span>
-        <% })} %>
+        <% } })} %>
     </div>
     <div class="box-details">
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th><input type="checkbox" class="timeslice-checkall" name="checkall"></th>
                     <th>{% trans %}Duration{% endtrans %}</th>
                     <th>{% trans %}Start{% endtrans %}</th>
                     <th>{% trans %}Stop{% endtrans %}</th>
@@ -55,16 +56,36 @@
             </thead>
             <tbody>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="input-prepend input-append">
+                            <span class="add-on"><i class="icon-tags"></i></span>
+                            <input type="text" class="timeslice-tags span3" name="tags" value="" placeholder="{% trans %}Add and remove tags with [+] and [-]{% endtrans %}" >
+                            <button class="timeslice-save-tags btn">{% trans %}Save{% endtrans %}</button>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </script>
 
 <script type="text/template" id="tpl-timeslice-empty">
-    <td colspan="5">{% trans %}No time tracked.{% endtrans %}</td>
+    <td colspan="6">{% trans %}No time tracked.{% endtrans %}</td>
 </script>
 
 <script type="text/template" id="tpl-timeslice-item">
-    <td><%- App.Helper.Format.Duration(model.get('duration', 0)) %></td>
+    <td>
+        <input type="checkbox" class="timeslice-checkbox" name="timeslice[]" value="<%- model.id %>" >
+    </td>
+    <td>
+        <% if (model.hasRelation('tags') && model.getRelation('tags').length > 0) { %>
+        <i class="icon-tag" title="#<%- model.getRelation('tags').tagArray().join(' #') %>"></i>
+        <% } %>
+
+        <%- App.Helper.Format.Duration(model.get('duration', 0)) %>
+    </td>
     <td><%= model.get('startedAt', '') %></td>
     <td><%= model.get('stoppedAt', '') %></td>
     <td>
