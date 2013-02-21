@@ -39,6 +39,9 @@
         <% if (model.hasRelation('project')) { %>
         <span  title="<%- model.get('project.name') %>" class="label" contenteditable="false" >/<%- model.get('project.alias') %></span>
         <% } %>
+        <% if (model.hasRelation('service')) { %>
+        <span  title="<%- model.get('service.name') %>" class="label" contenteditable="false" >:<%- model.get('service.alias') %></span>
+        <% } %>
         <% if (model.hasRelation('tags')) { model.getRelation('tags').each(function (tag) { if (!tag.get('system')) { %>
         <span class="badge badge-info" contenteditable="false">#<%- tag.get('name') %></span>
         <% } })} %>
