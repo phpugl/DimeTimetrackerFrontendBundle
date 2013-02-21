@@ -39,18 +39,6 @@
     margin-bottom: 0pt;
 }
 
-.t-left {
-    text-align: left;
-}
-
-.t-center {
-    text-align: center;
-}
-
-.t-right {
-    text-align: right;
-}
-
 .editable {
     cursor: text;
     border: 1px solid transparent;
