@@ -138,32 +138,13 @@
                 timeslices = this.model.getRelation('timeslices');
 
             if (timeslices && data && data.tags && data.timeslice) {
-                var tags = data.tags.split(' '),
-                    addTags = [],
-                    removeTags = [];
-
-                // Filter tags by "-" or "+"
-                for (var i=0; i<tags.length; i++) {
-                    var name = tags[i].replace(/^[+-]/, '');
-                    if (tags[i].search(/^-/) == -1) {
-                        addTags.push(name);
-                    } else {
-                        removeTags.push(name);
-                    }
-                }
+                var tags = App.Helper.Tags.Split(data.tags);
 
                 // Save new tags
                 for (var i=0; i<data.timeslice.length; i++) {
                     var ts = timeslices.get(data.timeslice[i]);
                     if (ts) {
-                        var tsTags = ts.getRelation('tags');
-                        if (tsTags) {
-                            tags = _.union(addTags, tsTags.tagArray(removeTags));
-                        } else {
-                            tags = addTags;
-                        }
-
-                        ts.save({ tags: tags });
+                        App.Helper.Tags.Update(ts, tags);
                     }
                 }
 
