@@ -2,6 +2,11 @@ bazinga_expose_translation:
     default_domains: [ messages ]
     locale_fallback: "en"
 
+lunetics_locale:
+  allowed_locales:
+    - en
+    - de
+
 assetic:
     filters:
         lessphp:

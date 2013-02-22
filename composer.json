@@ -16,6 +16,7 @@
     "require": {
         "php": ">=5.3.3",
         "phpugl/twitter-bootstrap-bundle": "dev-master",
+        "lunetics/locale-bundle": "dev-master",
         "willdurand/expose-translation-bundle": "0.1.*"
     },
     "minimum-stability": "dev",
