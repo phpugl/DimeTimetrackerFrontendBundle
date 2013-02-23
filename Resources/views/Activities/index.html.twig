@@ -54,7 +54,7 @@
                     <th>{% trans %}Duration{% endtrans %}</th>
                     <th>{% trans %}Start{% endtrans %}</th>
                     <th>{% trans %}Stop{% endtrans %}</th>
-                    <th>{% trans %}Actions{% endtrans %}</th>
+                    <th><a class="btn" href="#activity/<%- model.id %>/timeslice/add" title="{% trans %}Add new timeslice{% endtrans %}"><i class="icon-plus"></i></a></th>
                 </tr>
             </thead>
             <tbody>
@@ -63,7 +63,7 @@
                 <tr>
                     <td colspan="6">
                         <div class="input-append">
-                            <input type="text" class="timeslice-tags span3" name="tags" value="" placeholder="{% trans %}Add and remove tags with [+] and [-]{% endtrans %}" >
+                            <input type="text" class="timeslice-tags span3" name="tags" value="" placeholder="{% trans %}Add[+] and remove[-] tags{% endtrans %}" >
                             <button class="timeslice-save-tags btn" title="{% trans %}Execute{% endtrans %}"><i class="icon-tags"></i></button>
                         </div>
                     </td>
