@@ -39,7 +39,6 @@
     // provide list view in App.Views.Core
     App.provide('Views.Core.List', Backbone.View.extend({
         options:{
-            fetch: false,
             emptyTemplate: false,
             prefix:'',
             item:{
@@ -61,22 +60,20 @@
                 this.collection.on('remove', this.removeItem, this);
             }
         },
-        render:function (fetchOpt) {
+        render:function (parent) {
             // grep template with jquery and generate template stub
             if (this.options.template) {
                 var html = App.render(this.options.template, { model:this.model });
 
                 // fill model date into template and push it into element html
                 this.$el.html(html);
-
-                if (this.options.templateEl) {
-                    this.setElement(this.options.templateEl);
-                }
             }
 
-            if (this.options.fetch) {
-                this.collection.fetch(fetchOpt);
-            } else if (this.collection) {
+            if (this.options.templateEl) {
+                this.setElement(this.options.templateEl);
+            }
+
+            if (this.collection) {
                 this.addAll();
             }
 

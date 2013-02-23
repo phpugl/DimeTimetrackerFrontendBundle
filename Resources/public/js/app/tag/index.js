@@ -68,7 +68,6 @@
             this.list = new App.Views.Core.List({
                 el:'#tags',
                 collection:this.tags,
-                fetch: false,
                 prefix:'tag-',
                 emptyTemplate: '#tpl-tag-empty',
                 item:{

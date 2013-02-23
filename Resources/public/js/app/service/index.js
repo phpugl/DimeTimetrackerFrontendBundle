@@ -68,7 +68,6 @@
             this.list = new App.Views.Core.List({
                 el:'#services',
                 collection:this.services,
-                fetch: false,
                 prefix:'service-',
                 emptyTemplate: '#tpl-service-empty',
                 item:{

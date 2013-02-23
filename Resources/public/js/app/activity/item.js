@@ -41,10 +41,9 @@
 
             // show timeslice table
             this.timeslices = new App.Views.Core.List({
-                el:$('.box-details table tbody', this.$el),
+                templateEl:$('.box-details table tbody', this.$el),
                 model:this.model,
                 collection:this.model.getRelation('timeslices'),
-                fetch:false,
                 prefix:'timeslice-',
                 emptyTemplate:'#tpl-timeslice-empty',
                 item:{

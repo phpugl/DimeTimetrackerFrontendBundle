@@ -68,7 +68,6 @@
             this.list = new App.Views.Core.List({
                 el:'#settings',
                 collection:this.settings,
-                fetch: false,
                 prefix:'setting-',
                 emptyTemplate: '#tpl-setting-empty',
                 item:{

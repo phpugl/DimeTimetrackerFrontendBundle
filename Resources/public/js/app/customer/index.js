@@ -68,7 +68,6 @@
             this.list = new App.Views.Core.List({
                 el:'#customers',
                 collection:this.customers,
-                fetch: false,
                 prefix:'customer-',
                 emptyTemplate: '#tpl-customer-empty',
                 item:{

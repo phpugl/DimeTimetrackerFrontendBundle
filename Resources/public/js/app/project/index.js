@@ -77,7 +77,6 @@
             this.list = new App.Views.Core.List({
                 el:'#projects',
                 collection:this.projects,
-                fetch: false,
                 prefix:'project-',
                 emptyTemplate: '#tpl-project-empty',
                 groupBy: {
