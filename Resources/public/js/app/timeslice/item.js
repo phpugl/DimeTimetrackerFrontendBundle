@@ -20,13 +20,6 @@
             return (id) ? id : this.options.prefix + this.model.get('id');
         },
         initialize:function (config) {
-            if (config) {
-                if (config.options) {
-                    this.options = _.extend({}, this.options, config.options);
-                }
-            }
-
-            // bind remove function to model
             this.model.bind('destroy', this.remove, this);
         },
         render:function () {

@@ -9,18 +9,12 @@
         var model = new App.Model.Timeslice({id:id});
         model.fetch({async:false});
 
+        // TODO
         App.menu.activateItem('activity');
         App.router.switchView(new App.Views.Timeslice.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Timeslices:form',
-            options: {
-                backNavigation:'activity',
-                prefix: 'timeslice-',
-                ui: {
-                    title: 'Edit Timeslice',
-                    titleElement: 'header.page-header h1'
-                }
-            }
+            backNavigation:'activity',
+            title: 'Edit Timeslice'
         }));
     });
 
@@ -40,15 +34,8 @@
         App.menu.activateItem('activity');
         App.router.switchView(new App.Views.Timeslice.Form({
             model: model,
-            template:'DimeTimetrackerFrontendBundle:Timeslices:form',
-            options: {
-                backNavigation:'activity',
-                prefix: 'timeslice-',
-                ui: {
-                    title: 'Add Timeslice',
-                    titleElement: 'header.page-header h1'
-                }
-            }
+            backNavigation:'activity',
+            title: 'Add Timeslice'
         }));
     });
 

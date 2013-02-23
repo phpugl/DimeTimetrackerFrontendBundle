@@ -92,8 +92,8 @@
                 this.periodComponent.trigger('change');
             }
 
-            var value = undefined,
-                selection = this.periodComponent.val(),
+            value = undefined;
+            var selection = this.periodComponent.val(),
                 from = moment(this.fromComponent.data('date')).clone(),
                 to = moment(this.fromComponent.data('date')).clone();
 

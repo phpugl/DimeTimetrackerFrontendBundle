@@ -1,45 +1,53 @@
 {# Dime/TimetrackerFrontendBundle/Resources/views/Activities/timesliceForm.html.twig #}
-<section id="timeslice-form">
-  <header class="page-header">
-    <h1>Edit Timeslice</h1>
-  </header>
-  <form class="form-horizontal" data-prefix="timeslice-">
+<header class="page-header">
+    <h1>{% trans %}Timeslice{% endtrans %}</h1>
+</header>
+
+<form id="timeslice-form" class="form-horizontal">
     <fieldset>
-      <div class="control-group">
-        <label for="timeslice-startedAt-date" class="control-label">Started at:</label>
-        <div class="controls">
-          <input id="timeslice-startedAt-date" class="timeslice-startedAt-date input-medium" type="date" value="" placeholder="YYYY-MM-DD" data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-autoclose="true" data-date-weekstart="1">
-          <input id="timeslice-startedAt-time" class="timeslice-startedAt-time input-small" type="time" value="" placeholder="HH:mm:ss">
-          <span class="help-inline"></span>
+        <div class="control-group" id="widget-datetime-startedAt">
+            <label for="timeslice-startedAt-date" class="control-label">{% trans %}Started at{% endtrans %}:</label>
+            <div class="controls">
+                <input id="timeslice-startedAt-date" class="date input-medium" type="date" value=""
+                       placeholder="YYYY-MM-DD" data-toggle="datepicker" data-date-format="YYYY-MM-DD"
+                       data-data-autoclose="true" data-date-weekstart="1">
+                <input id="timeslice-startedAt-time" class="time input-small" type="time" value=""
+                       placeholder="HH:mm:ss">
+                <span class="help-inline"></span>
+            </div>
         </div>
-      </div>
-      <div class="control-group">
-        <label for="timeslice-stoppedAt-date" class="control-label">Stopped at:</label>
-        <div class="controls">
-          <input id="timeslice-stoppedAt-date" class="timeslice-stoppedAt-date input-medium" type="date" value="" placeholder="YYYY-MM-DD" data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-autoclose="true" data-date-weekstart="1">
-          <input id="timeslice-stoppedAt-time" class="timeslice-stoppedAt-time input-small" type="time" value="" placeholder="HH:mm:ss">
-          <span class="help-inline"></span>
+        <div class="control-group" id="widget-datetime-stoppedAt">
+            <label for="timeslice-stoppedAt-date" class="control-label">{% trans %}Stopped at{% endtrans %}:</label>
+            <div class="controls">
+                <input id="timeslice-stoppedAt-date" class="date input-medium" type="date" value=""
+                       placeholder="YYYY-MM-DD" data-toggle="datepicker" data-date-format="YYYY-MM-DD"
+                       data-data-autoclose="true" data-date-weekstart="1">
+                <input id="timeslice-stoppedAt-time" class="time input-small" type="time" value=""
+                       placeholder="HH:mm:ss">
+                <span class="help-inline"></span>
+            </div>
         </div>
-      </div>
-      <div class="control-group">
-        <label for="timeslice-formatDuration" class="control-label">Duration:</label>
-        <div class="controls">
-          <input id="timeslice-formatDuration" class="timeslice-formatDuration input-xlarge" type="number" value="" ><button type="button" class="calculate btn" title="Re-calculate duration"><i class="icon-refresh"></i></button>
-          <span class="help-inline"></span>
+        <div class="control-group">
+            <label for="timeslice-formatDuration" class="control-label">{% trans %}Duration{% endtrans %}:</label>
+            <div class="controls">
+                <div class="input-append">
+                    <input id="timeslice-formatDuration" name="formatDuration" class="input-xlarge" type="number" value="">
+                    <button type="button" class="btn" title="{% trans %}Re-calculate duration{% endtrans %}"><i class="icon-refresh"></i></button>
+                </div>
+                <span class="help-inline"></span>
+            </div>
         </div>
-      </div>
-      <div class="control-group">
-        <label for="timeslice-tags" class="control-label">Tags:</label>
-        <div class="controls">
-          <input type="text" id="timeslice-tags" class="timeslice-tags input-xlarge" />
+        <div class="control-group">
+            <label for="timeslice-tags" class="control-label">{% trans %}Tags{% endtrans %}:</label>
+            <div class="controls">
+                <input type="text" id="timeslice-tags" name="tags" class="input-xlarge"/>
+            </div>
         </div>
-      </div>
     </fieldset>
-  </form>
-  <footer class="form-actions">
-    <div class="pull-right">
-      <button class="cancel btn">Cancel</button>
-      <button class="save btn btn-primary">Save</button>
-    </div>
-  </footer>
-</section>
+    <fieldset class="form-actions">
+        <div class="pull-right">
+            <button type="button" class="cancel btn">{% trans %}Cancel{% endtrans %}</button>
+            <button type="submit" class="save btn btn-primary">{% trans %}Save{% endtrans %}</button>
+        </div>
+    </fieldset>
+</form>
