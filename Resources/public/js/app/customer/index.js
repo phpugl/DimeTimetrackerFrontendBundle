@@ -65,9 +65,10 @@
 
             // Render pager
             this.pager = new App.Views.Core.Pager({
-                collection: this.customers
+                el: '.pagination',
+                collection: this.customers,
+                count: 25
             });
-            $('.pagination').html(this.pager.render().el);
 
             // Render customer list
             this.list = new App.Views.Core.List({

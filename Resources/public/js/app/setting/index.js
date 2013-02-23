@@ -65,9 +65,10 @@
 
             // Render pager
             this.pager = new App.Views.Core.Pager({
-                collection: this.settings
+                el: '.pagination',
+                collection: this.settings,
+                count: 25
             });
-            $('.pagination').html(this.pager.render().el);
 
             // Render setting list
             this.list = new App.Views.Core.List({

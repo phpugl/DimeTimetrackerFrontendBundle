@@ -12,116 +12,78 @@
      */
     App.provide('Views.Core.PagerItem', Backbone.View.extend({
         tagName: 'li',
+        template: '<a href="#"><%- text %></a>',
         events: {
             'click': 'update'
         },
-        text: '',
-        current: false,
-        pager: undefined,
-        initialize:function (config) {
-            if (config) {
-                if (config.text) {
-                    this.text = config.text;
-                }
-
-                this.current = (config.current) ? true : false;
-
-                if (config.pager) {
-                    this.pager = config.pager;
-                }
-            }
+        options: {
+            text: '',
+            current: false,
+            pager: undefined
         },
         render:function () {
-            this.$el.data('page', this.text).text(this.text).wrapInner('<a />');
-            if (this.current) {
+            var template = _.template(this.template);
+
+            this.$el.html(template({ text: this.options.text }));
+
+            if (this.options.current) {
                 this.$el.addClass('active');
             }
             return this;
         },
-        update:function() {
-            this.pager.setPage(this.$el.data('page'));
+        update:function(e) {
+            if (e) {
+                e.stopPropagation();
+                e.preventDefault()
+            }
+            this.options.pager.setPage(this.options.text);
         }
     }));
 
-    App.provide('Views.Core.PagerNext', Backbone.View.extend({
-        tagName: 'li',
-        events: {
-            'click': 'update'
-        },
-        text: '',
-        pager: undefined,
-        initialize:function (config) {
-            if (config) {
-                if (config.text) {
-                    this.text = config.text;
-                }
-
-                if (config.pager) {
-                    this.pager = config.pager;
-                }
-            }
-        },
+    App.provide('Views.Core.PagerNext', App.Views.Core.PagerItem.extend({
+        template: '<a href="#" title="<%- text %>"><i class="icon-chevron-right"></i></a>',
         render:function () {
-            this.$el.html('<a title="' + this.text + '"><i class="icon-chevron-right hide-text">' + this.text + '</i></a>');
+            var template = _.template(this.template);
+            this.$el.html(template({ text: this.options.text }));
             return this;
         },
-        update:function() {
-            this.pager.nextPage();
+        update:function(e) {
+            if (e) {
+                e.stopPropagation();
+                e.preventDefault()
+            }
+            this.options.pager.nextPage();
         }
     }));
 
-    App.provide('Views.Core.PagerPrev', Backbone.View.extend({
-        tagName: 'li',
-        events: {
-            'click': 'update'
-        },
-        text: '',
-        pager: undefined,
-        initialize:function (config) {
-            if (config) {
-                if (config.text) {
-                    this.text = config.text;
-                }
-
-                if (config.pager) {
-                    this.pager = config.pager;
-                }
+    App.provide('Views.Core.PagerPrev', App.Views.Core.PagerNext.extend({
+        template: '<a href="#" title="<%- text %>"><i class="icon-chevron-left"></i></a>',
+        update:function(e) {
+            if (e) {
+                e.stopPropagation();
+                e.preventDefault()
             }
-        },
-        render:function (text) {
-            this.$el.html('<a title="' + this.text + '"><i class="icon-chevron-left hide-text">' + this.text + '</i></a>');
-            return this;
-        },
-        update:function() {
-            this.pager.prevPage();
+            this.options.pager.prevPage();
         }
     }));
 
 
     // provide list view in App.Views.Core
-    App.provide('Views.Core.Pager', Backbone.View.extend({
+    App.provide('Views.Core.PagerList', Backbone.View.extend({
         tagName: 'ul',
         itemViews: [],
-        pager: {},
-        initialize:function (config) {
-            if (this.collection) {
-                this.collection.on('reset', this.render, this);
-                this.collection.on('sync', this.retrievePagerHeader, this);
-            }
-        },
         render:function () {
-            // clear pager
+            // clear list
             for (var i=0; i<this.itemViews.length; i++) {
                 this.itemViews[i].remove();
             }
             this.itemViews = [];
             this.$el.html('');
 
-            this.resetPager();
-            var pager = this.getPager();
+            var pager = this.options.pager.getSettings();
             if (pager.prev) {
                 this.addView(new App.Views.Core.PagerPrev({
-                    pager: this,
+                    pager: this.options.pager,
                     text: 'Prev'
                 }));
             }
@@ -129,7 +91,7 @@
             if (pager.total > 1) {
                 for (i=1; i<=pager.total; i++) {
                     this.addView(new App.Views.Core.PagerItem({
-                        pager: this,
+                        pager: this.options.pager,
                         text: i,
                         current: (i==pager.current)
                     }));
@@ -138,11 +100,42 @@
 
             if (pager.next) {
                 this.addView(new App.Views.Core.PagerNext({
-                    pager: this,
+                    pager: this.options.pager,
                     text: 'Next'
                 }));
             }
-            this.collection.addFetchData('pager', this.getPagerOptions());
+
+            return this;
+        },
+        addView: function(view) {
+            this.itemViews.push(view);
+            this.$el.append(view.render().el);
+            return view;
+        }
+    }));
+
+    App.provide('Views.Core.Pager', Backbone.View.extend({
+        options: {
+            requestTotal: 0,
+            page: 1,
+            count: 25
+        },
+        initialize:function () {
+            if (this.collection) {
+                this.collection.on('sync', this.retrievePagerHeader, this);
+                this.collection.on('reset', this.render, this);
+            }
+        },
+        render: function() {
+            // render ul
+            var list = new App.Views.Core.PagerList({
+                pager: this
+            }).render();
+
+            // put list into element
+            this.$el.html(list.el);
+
+            this.collection.addFetchData('pager', this.getFetchData());
 
             return this;
         },
@@ -151,11 +144,6 @@
                 this.collection.off();
             }
         },
-        addView: function(view) {
-            this.itemViews.push(view);
-            this.$el.append(view.render().el);
-            return view;
-        },
         retrievePagerHeader: function(collection, xhr, options) {
             if(options && options.hasOwnProperty('getResponseHeader')) {
                 options = {
@@ -163,59 +151,64 @@
                 };
             }
             if(options && options.xhr.getResponseHeader('X-Pagination-Total-Results')) {
-                this.pager.total = options.xhr.getResponseHeader('X-Pagination-Total-Results');
+                this.options.requestTotal = options.xhr.getResponseHeader('X-Pagination-Total-Results');
+                if (collection && collection.joinFetchDataCache) {
+                    var opt = collection.joinFetchDataCache();
+                    if (opt && opt.data && opt.data.limit) {
+                        this.options.count = opt.data.limit;
+                    }
+                }
+
+                this.render();
             }
         },
-        getPager: function() {
+        getSettings: function() {
             return {
-                current: this.pager.page,
-                prev: (this.pager.page > 1),
-                next: (this.pager.page < this.pageCount()),
+                current: this.options.page,
+                prev: (this.options.page > 1),
+                next: (this.options.page < this.pageCount()),
                 total: this.pageCount()
             };
         },
-        resetPager:function () {
-            this.pager = {
-                count:20,
-                page:1
+        getFetchData:function () {
+            var offset = (this.options.page - 1) * this.options.count;
+            return {
+                limit: this.options.count,
+                offset: (offset) ? offset : 0
             };
         },
-        getPagerOptions:function () {
-            var offset = (this.pager.page - 1) * this.pager.count;
-
-            return { limit:this.pager.count, offset:offset };
-        },
         pageCount:function () {
-            return (this.pager.count > 0) ? Math.floor(this.pager.total / this.pager.count) : 0;
+            return (this.options.count > 0) ? Math.ceil(this.options.requestTotal / this.options.count) : 0;
         },
         prevPage:function () {
-            if (this.pager.page > 0) {
-                this.pager.page -= 1;
+            if (this.options.page > 0) {
+                this.options.page -= 1;
             } else {
-                this.pager.page = 1;
+                this.options.page = 1;
             }
-            this.collection.addFetchData('pager', this.getPagerOptions());
+            this.collection.addFetchData('pager', this.getFetchData());
             this.collection.load();
         },
         setPage:function (num) {
             num = num || 1;
             if (num >= 1 && num <= this.pageCount()) {
-                this.pager.page = num;
+                this.options.page = num;
             } else {
-                this.pager.page = 1;
+                this.options.page = 1;
             }
-            this.collection.addFetchData('pager', this.getPagerOptions());
+            this.collection.addFetchData('pager', this.getFetchData());
             this.collection.load();
         },
         nextPage:function() {
-            if (this.pager.page <= this.pageCount()) {
-                this.pager.page += 1;
+            if (this.options.page <= this.pageCount()) {
+                this.options.page += 1;
             } else {
-                this.pager.page = this.pageCount();
+                this.options.page = this.pageCount();
             }
-            this.collection.addFetchData('pager', this.getPagerOptions());
+            this.collection.addFetchData('pager', this.getFetchData());
             this.collection.load();
         }
     }));
+
 
 })(window.jQuery, window.Backbone, window._, window.Dime);

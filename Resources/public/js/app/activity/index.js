@@ -81,9 +81,10 @@
 
             // Render pager
             this.pager = new App.Views.Core.Pager({
-                collection: this.activities
+                el: '.pagination',
+                collection: this.activities,
+                count: 25
             });
-            $('.pagination').html(this.pager.render().el);
 
             // Render activities list
             this.list = new App.Views.Core.List({

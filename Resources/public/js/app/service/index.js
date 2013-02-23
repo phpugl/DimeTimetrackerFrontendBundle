@@ -65,9 +65,10 @@
 
             // Render pager
             this.pager = new App.Views.Core.Pager({
-                collection: this.services
+                el: '.pagination',
+                collection: this.services,
+                count: 25
             });
-            $('.pagination').html(this.pager.render().el);
 
             // Render service list
             this.list = new App.Views.Core.List({

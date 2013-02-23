@@ -76,9 +76,10 @@
 
             // Render pager
             this.pager = new App.Views.Core.Pager({
-                collection: this.projects
+                el: '.pagination',
+                collection: this.projects,
+                count: 25
             });
-            $('.pagination').html(this.pager.render().el);
 
             // Create project list
             this.list = new App.Views.Core.List({

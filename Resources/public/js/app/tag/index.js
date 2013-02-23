@@ -65,9 +65,10 @@
 
             // Render pager
             this.pager = new App.Views.Core.Pager({
-                collection: this.tags
+                el: '.pagination',
+                collection: this.tags,
+                count: 25
             });
-            $('.pagination').html(this.pager.render().el);
 
 
             // Render tag list
