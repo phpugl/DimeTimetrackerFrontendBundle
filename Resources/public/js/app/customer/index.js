@@ -24,9 +24,7 @@
         App.menu.activateItem('admin.customer');
         App.router.switchView(new App.Views.Customer.Form({
             model: model,
-            options: {
-                title: 'Add Customer'
-            }
+            title: 'Add Customer'
         }));
     });
     App.router.route("customer/:id/edit", "customer:edit", function (id) {
@@ -36,9 +34,7 @@
         App.menu.activateItem('admin.customer');
         App.router.switchView(new App.Views.Customer.Form({
             model: model,
-            options: {
-                title: 'Edit Customer'
-            }
+            title: 'Edit Customer'
         }));
     });
 
@@ -58,9 +54,7 @@
             this.filter = new App.Views.Core.Form.Filter({
                 el: '#customer-filter',
                 collection: this.customers,
-                options: {
-                    name: 'customer-filter'
-                }
+                name: 'customer-filter'
             }).render();
 
             // Render pager
@@ -68,25 +62,28 @@
                 el: '.pagination',
                 collection: this.customers,
                 count: 25
-            });
+            }).render();
 
             // Render customer list
             this.list = new App.Views.Core.List({
                 el:'#customers',
                 collection:this.customers,
-                options:{
-                    fetch: false,
-                    prefix:'customer-',
-                    emptyTemplate: '#tpl-customer-empty',
-                    item:{
-                        attributes:{ "class":"customer box" },
-                        tagName:'section',
-                        template:'#tpl-customer-item',
-                        View:App.Views.Customer.Item
-                    }
+                fetch: false,
+                prefix:'customer-',
+                emptyTemplate: '#tpl-customer-empty',
+                item:{
+                    attributes:{ "class":"customer box" },
+                    tagName:'section',
+                    template:'#tpl-customer-item',
+                    View:App.Views.Customer.Item
                 }
             }).render();
 
+            // fetch filter settings
+            var settings = App.session.get('settings');
+            if (settings && settings.hasSetting('system', this.filter.options.name)) {
+                this.filter.bind(settings.getSetting('system', this.filter.options.name));
+            }
             this.filter.submit();
 
             return this;

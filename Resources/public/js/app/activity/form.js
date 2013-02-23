@@ -12,15 +12,7 @@
             'change #activity-rate':'rateChange',
             'change #activity-service':'setPrice'
         },
-        options: {},
         template:'DimeTimetrackerFrontendBundle:Activities:form',
-        initialize: function(config) {
-            if (config) {
-                if (config.options) {
-                    this.options = $.extend(true, {}, this.options, config.options);
-                }
-            }
-        },
         render: function() {
             if (this.options.title) {
                 this.$('header.page-header h1').text(this.options.title)
@@ -29,31 +21,29 @@
             this.form = new App.Views.Core.Form.Model({
                 el: '#activity-form',
                 model: this.model,
-                options: {
-                    backNavigation:'activity',
-                    widgets: {
-                        customer: new App.Views.Core.Widget.Select({
-                            el: '#activity-customer',
-                            collection: App.session.get('customer-filter-collection', function () {
-                                return new App.Collection.Customers();
-                            })
-                        }),
-                        project: new App.Views.Core.Widget.Select({
-                            el: '#activity-project',
-                            collection: App.session.get('project-filter-collection', function () {
-                                return new App.Collection.Projects();
-                            })
-                        }),
-                        service: new App.Views.Core.Widget.Select({
-                            el: '#activity-service',
-                            collection: App.session.get('service-filter-collection', function () {
-                                return new App.Collection.Services();
-                            })
-                        }),
-                        tags: new App.Views.Core.Widget.Tags({
-                            el: '#activity-tags'
+                backNavigation:'activity',
+                widgets: {
+                    customer: new App.Views.Core.Widget.Select({
+                        el: '#activity-customer',
+                        collection: App.session.get('customer-filter-collection', function () {
+                            return new App.Collection.Customers();
                         })
-                    }
+                    }),
+                    project: new App.Views.Core.Widget.Select({
+                        el: '#activity-project',
+                        collection: App.session.get('project-filter-collection', function () {
+                            return new App.Collection.Projects();
+                        })
+                    }),
+                    service: new App.Views.Core.Widget.Select({
+                        el: '#activity-service',
+                        collection: App.session.get('service-filter-collection', function () {
+                            return new App.Collection.Services();
+                        })
+                    }),
+                    tags: new App.Views.Core.Widget.Tags({
+                        el: '#activity-tags'
+                    })
                 }
             });
             this.form.render();

@@ -9,13 +9,6 @@
         options: {
             delimiter: ' '
         },
-        initialize:function (config) {
-            if (config) {
-                if (config.options) {
-                    this.options = $.extend(true, {}, this.options, config.options);
-                }
-            }
-        },
         render: function(parent) {
             if (parent) {
                 if (this.el === undefined) {

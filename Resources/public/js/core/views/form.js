@@ -12,37 +12,22 @@
      * bind model data to form item via prefix
      */
     App.provide('Views.Core.Form.Model', Backbone.View.extend({
-        events: {
-            'click .save':'save',
-            'click .close':'close',
-            'click .cancel':'close',
-            'submit': 'save'
-        },
         options: {
+            events: {
+                'click .save':'save',
+                'click .close':'close',
+                'click .cancel':'close',
+                'submit': 'save'
+            },
             backNavigation: undefined,
             ignore: {},
             rendered: false,
             widgets: {}
         },
-        initialize: function(config) {
-            if (config) {
-                if (config.template) {
-                    this.template = config.template;
-                }
-
-                if (config.options) {
-                    this.options = $.extend(true, {}, this.options, config.options);
-                }
-            }
-
-            if (this.options.events) {
-                this.events = $.extend(true, {}, this.events, this.options.events);
-            }
-        },
         render: function() {
             // Load template
-            if (this.template) {
-                var html = App.render(this.template);
+            if (this.options.template) {
+                var html = App.render(this.options.template);
                 this.$el.html(html);
 
                 if (this.options.templateEl) {
@@ -160,12 +145,14 @@
      * extend App.Views.Core.Form.Model
      */
     App.provide('Views.Core.Form.Filter', App.Views.Core.Form.Model.extend({
-        events:{
-            'click .close': 'close',
-            'click .reset': 'reset',
-            'click .save': 'save',
-            'click .submit': 'submit',
-            'submit': 'submit'
+        options: {
+            events:{
+                'click .close': 'close',
+                'click .reset': 'reset',
+                'click .save': 'save',
+                'click .submit': 'submit',
+                'submit': 'submit'
+            }
         },
         reset: function(e) {
             if (e) {

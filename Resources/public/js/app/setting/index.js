@@ -24,9 +24,7 @@
         App.menu.activateItem('admin.setting');
         App.router.switchView(new App.Views.Setting.Form({
             model: model,
-            options: {
-                title: 'Add Setting'
-            }
+            title: 'Add Setting'
         }));
     });
     App.router.route("setting/:id/edit", "setting:edit", function (id) {
@@ -36,9 +34,7 @@
         App.menu.activateItem('admin.setting');
         App.router.switchView(new App.Views.Setting.Form({
             model: model,
-            options: {
-                title: 'Edit Setting'
-            }
+            title: 'Edit Setting'
         }));
     });
 
@@ -58,9 +54,7 @@
             this.filter = new App.Views.Core.Form.Filter({
                 el: '#setting-filter',
                 collection: this.settings,
-                options: {
-                    name: 'setting-filter'
-                }
+                name: 'setting-filter'
             }).render();
 
             // Render pager
@@ -68,24 +62,27 @@
                 el: '.pagination',
                 collection: this.settings,
                 count: 25
-            });
+            }).render();
 
             // Render setting list
             this.list = new App.Views.Core.List({
                 el:'#settings',
                 collection:this.settings,
-                options:{
-                    fetch: false,
-                    prefix:'setting-',
-                    emptyTemplate: '#tpl-setting-empty',
-                    item:{
-                        tagName:"tr",
-                        template:'#tpl-setting-item',
-                        View:App.Views.Setting.Item
-                    }
+                fetch: false,
+                prefix:'setting-',
+                emptyTemplate: '#tpl-setting-empty',
+                item:{
+                    tagName:"tr",
+                    template:'#tpl-setting-item',
+                    View:App.Views.Setting.Item
                 }
             }).render();
 
+            // fetch filter settings
+            var settings = App.session.get('settings');
+            if (settings && settings.hasSetting('system', this.filter.options.name)) {
+                this.filter.bind(settings.getSetting('system', this.filter.options.name));
+            }
             this.filter.submit();
 
             return this;

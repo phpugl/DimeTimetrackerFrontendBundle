@@ -24,9 +24,7 @@
         App.menu.activateItem('activity');
         App.router.switchView(new App.Views.Activity.Form({
             model:model,
-            options:{
-                title:'Add Activity'
-            }
+            title:'Add Activity'
         }));
     });
 
@@ -37,9 +35,7 @@
         App.menu.activateItem('activity');
         App.router.switchView(new App.Views.Activity.Form({
             model:model,
-            options:{
-                title:'Edit Activity'
-            }
+            title:'Edit Activity'
         }));
     });
 

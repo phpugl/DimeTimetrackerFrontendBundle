@@ -24,9 +24,7 @@
         App.menu.activateItem('admin.project');
         App.router.switchView(new App.Views.Project.Form({
             model: model,
-            options: {
-                title: 'Add project'
-            }
+            title: 'Add project'
         }));
     });
     App.router.route("project/:id/edit", "project:edit", function (id) {
@@ -36,9 +34,7 @@
         App.menu.activateItem('admin.project');
         App.router.switchView(new App.Views.Project.Form({
             model: model,
-            options: {
-                title: 'Edit project'
-            }
+            title: 'Edit project'
         }));
     });
 
@@ -58,19 +54,15 @@
             this.filter = new App.Views.Core.Form.Filter({
                 el: '#project-filter',
                 collection: this.projects,
-                options: {
-                    name: 'project-filter',
-                    widgets: {
-                        customer: new App.Views.Core.Widget.Select({
-                            el: '#filter-customer',
-                            collection: App.session.get('customer-filter-collection', function () {
-                                return new App.Collection.Customers();
-                            }),
-                            options: {
-                                blankText: 'by customer'
-                            }
-                        })
-                    }
+                name: 'project-filter',
+                widgets: {
+                    customer: new App.Views.Core.Widget.Select({
+                        el: '#filter-customer',
+                        collection: App.session.get('customer-filter-collection', function () {
+                            return new App.Collection.Customers();
+                        }),
+                        blankText: 'by customer'
+                    })
                 }
             }).render();
 
@@ -79,30 +71,34 @@
                 el: '.pagination',
                 collection: this.projects,
                 count: 25
-            });
+            }).render();
 
             // Create project list
             this.list = new App.Views.Core.List({
                 el:'#projects',
                 collection:this.projects,
-                options:{
-                    fetch: false,
-                    prefix:'project-',
-                    emptyTemplate: '#tpl-project-empty',
-                    groupBy: {
-                        key: 'customer.name',
-                        template: '#tpl-project-header',
-                        'undefined': 'No customer'
-                    },
-                    item:{
-                        attributes:{ "class":"project box box-folded" },
-                        tagName:"section",
-                        template:'#tpl-project-item',
-                        View:App.Views.Project.Item
-                    }
+                fetch: false,
+                prefix:'project-',
+                emptyTemplate: '#tpl-project-empty',
+                groupBy: {
+                    key: 'customer.name',
+                    template: '#tpl-project-header',
+                    'undefined': 'No customer'
+                },
+                item:{
+                    attributes:{ "class":"project box box-folded" },
+                    tagName:"section",
+                    template:'#tpl-project-item',
+                    View:App.Views.Project.Item
                 }
             }).render();
 
+
+            // fetch filter settings
+            var settings = App.session.get('settings');
+            if (settings && settings.hasSetting('system', this.filter.options.name)) {
+                this.filter.bind(settings.getSetting('system', this.filter.options.name));
+            }
             this.filter.submit();
 
             return this;

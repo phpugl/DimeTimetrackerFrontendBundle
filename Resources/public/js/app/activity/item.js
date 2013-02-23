@@ -44,17 +44,15 @@
                 el:$('.box-details table tbody', this.$el),
                 model:this.model,
                 collection:this.model.getRelation('timeslices'),
-                options:{
-                    fetch:false,
-                    prefix:'timeslice-',
-                    emptyTemplate:'#tpl-timeslice-empty',
-                    item:{
-                        attributes:{ "class":"timeslice" },
-                        prepend:true,
-                        prependNew:true,
-                        tagName:"tr",
-                        View:App.Views.Timeslice.Item
-                    }
+                fetch:false,
+                prefix:'timeslice-',
+                emptyTemplate:'#tpl-timeslice-empty',
+                item:{
+                    attributes:{ "class":"timeslice" },
+                    prepend:true,
+                    prependNew:true,
+                    tagName:"tr",
+                    View:App.Views.Timeslice.Item
                 }
             }).render();
 

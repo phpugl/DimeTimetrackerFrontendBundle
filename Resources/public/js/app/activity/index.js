@@ -22,60 +22,46 @@
                 el: '#activity-filter',
                 collection: this.activities,
                 template: 'DimeTimetrackerFrontendBundle:Activities:filter',
-                options: {
-                    name: 'activity-filter',
-                    widgets: {
-                        dateperiod: new App.Views.Core.Widget.DatePeriod({
-                            options: {
-                                templateEl: '#filter-date-period'
-                            }
+                name: 'activity-filter',
+                widgets: {
+                    dateperiod: new App.Views.Core.Widget.DatePeriod({
+                        templateEl: '#filter-date-period'
+                    }),
+                    customer: new App.Views.Core.Widget.Select({
+                        collection: App.session.get('customer-filter-collection', function () {
+                            return new App.Collection.Customers();
                         }),
-                        customer: new App.Views.Core.Widget.Select({
-                            collection: App.session.get('customer-filter-collection', function () {
-                                return new App.Collection.Customers();
-                            }),
-                            options: {
-                                templateEl: '#filter-customer',
-                                blankText: 'by customer'
-                            }
+                        templateEl: '#filter-customer',
+                        blankText: 'by customer'
+                    }),
+                    project: new App.Views.Core.Widget.Select({
+                        collection: App.session.get('project-filter-collection', function () {
+                            return new App.Collection.Projects();
                         }),
-                        project: new App.Views.Core.Widget.Select({
-                            collection: App.session.get('project-filter-collection', function () {
-                                return new App.Collection.Projects();
-                            }),
-                            options: {
-                                templateEl: '#filter-project',
-                                blankText: 'by project'
-                            }
+                        templateEl: '#filter-project',
+                        blankText: 'by project'
+                    }),
+                    service: new App.Views.Core.Widget.Select({
+                        collection: App.session.get('service-filter-collection', function () {
+                            return new App.Collection.Services();
                         }),
-                        service: new App.Views.Core.Widget.Select({
-                            collection: App.session.get('service-filter-collection', function () {
-                                return new App.Collection.Services();
-                            }),
-                            options: {
-                                templateEl: '#filter-service',
-                                blankText: 'by service'
-                            }
+                        templateEl: '#filter-service',
+                        blankText: 'by service'
+                    }),
+                    withTags: new App.Views.Core.Widget.Select({
+                        collection: App.session.get('tag-filter-collection', function () {
+                            return new App.Collection.Tags();
                         }),
-                        withTags: new App.Views.Core.Widget.Select({
-                            collection: App.session.get('tag-filter-collection', function () {
-                                return new App.Collection.Tags();
-                            }),
-                            options: {
-                                templateEl: '#filter-withTags',
-                                blankText: 'with tag'
-                            }
+                        templateEl: '#filter-withTags',
+                        blankText: 'with tag'
+                    }),
+                    withoutTags: new App.Views.Core.Widget.Select({
+                        collection: App.session.get('tag-filter-collection', function () {
+                            return new App.Collection.Tags();
                         }),
-                        withoutTags: new App.Views.Core.Widget.Select({
-                            collection: App.session.get('tag-filter-collection', function () {
-                                return new App.Collection.Tags();
-                            }),
-                            options: {
-                                templateEl: '#filter-withoutTags',
-                                blankText: 'without tag'
-                            }
-                        })
-                    }
+                        templateEl: '#filter-withoutTags',
+                        blankText: 'without tag'
+                    })
                 }
             }).render();
 
@@ -84,29 +70,27 @@
                 el: '.pagination',
                 collection: this.activities,
                 count: 25
-            });
+            }).render();
 
             // Render activities list
             this.list = new App.Views.Core.List({
                 el:'#activities',
                 collection:this.activities,
-                options:{
-                    prefix:'activity-',
-                    emptyTemplate: '#tpl-activity-empty',
-                    item:{
-                        attributes:{ "class":"activity box box-folded" },
-                        prependNew:true,
-                        tagName:"section",
-                        template:'#tpl-activity-item',
-                        View:App.Views.Activity.Item
-                    }
+                prefix:'activity-',
+                emptyTemplate: '#tpl-activity-empty',
+                item:{
+                    attributes:{ "class":"activity box box-folded" },
+                    prependNew:true,
+                    tagName:"section",
+                    template:'#tpl-activity-item',
+                    View:App.Views.Activity.Item
                 }
             }).render();
 
             // fetch filter settings
             var settings = App.session.get('settings');
-            if (settings && settings.hasSetting('system', 'activity-filter')) {
-                this.filter.bind(settings.getSetting('system', 'activity-filter'));
+            if (settings && settings.hasSetting('system', this.filter.options.name)) {
+                this.filter.bind(settings.getSetting('system', this.filter.options.name));
             }
             this.filter.submit();
 

@@ -25,17 +25,6 @@
                 'change #filter-period': 'periodChange'
             }
         },
-        initialize: function(config) {
-            if (config) {
-                if (config.options) {
-                    this.options = $.extend(true, {}, this.options, config.options);
-                }
-            }
-
-            if (this.options.events) {
-                this.events = $.extend(true, {}, this.events, this.options.events);
-            }
-        },
         render: function(parent) {
             if (this.options.templateEl) {
                 this.setElement(this.options.templateEl);
@@ -273,72 +262,6 @@
                 this.toComponent.data('datepicker').setValue();
             }
         }
-
-
-
-//        periodChange: function(e) {
-//            if (e) {
-//                e.stopPropagation();
-//            }
-//
-//            var dayFormat = 'YYYY-MM-DD',
-//                select = this.periodComponent.val(),
-//                from = moment(this.fromComponent.data('date')).clone(),
-//                to = moment(this.fromComponent.data('date')).clone();
-//
-//            filter['date-period'] = select;
-//            switch (select) {
-//                case 'this-month':
-//                    filter[this.options.name] = moment().format('YYYY-MM');
-//                    break;
-//                case 'this-week':
-//                    from = moment();
-//                    if (from.day() === 0) {
-//                        from = from.subtract('days', 1);
-//                    }
-//                    filter[this.options.name] = [from.day(1).format(dayFormat), from.day(7).format(dayFormat)];
-//                    break;
-//                case 'today':
-//                    filter[this.options.name] = moment().format(dayFormat);
-//                    break;
-//                case 'last-month':
-//                    filter[this.options.name] = moment().subtract('months', 1).format('YYYY-MM');
-//                    break;
-//                case 'last-week':
-//                    from = moment().subtract('weeks', 1);
-//                    if (from.day() === 0) {
-//                        from = date.subtract('days', 1);
-//                    }
-//                    filter[this.options.name] = [from.day(1).format(dayFormat), from.day(7).format(dayFormat)];
-//                    break;
-//                case 'yesterday':
-//                    filter[this.options.name] = moment().subtract('days', '1').format(dayFormat);
-//                    break;
-//                case 'D':
-//                    filter[this.options.name] = from.format(dayFormat);
-//                    break;
-//                case 'W':
-//                    if (from.day() === 0) {
-//                        from = from.subtract('days', 1);
-//                    }
-//                    filter[this.options.name] = [from.day(1).format(dayFormat), from.day(7).format(dayFormat)];
-//                    break;
-//                case 'M':
-//                    filter[this.options.name] = from.format('YYYY-MM');
-//                    break;
-//                case 'Y':
-//                    filter[this.options.name] = from.format('YYYY');
-//                    break;
-//                case 'R':
-//                    filter[this.options.name] = [
-//                        from.format(dayFormat),
-//                        to.format(dayFormat)
-//                    ];
-//                    break;
-//                default:
-//                    delete filter[this.options.name];
-//            }
-//        }
     }));
 
 })(jQuery, Backbone, _, moment, Dime);

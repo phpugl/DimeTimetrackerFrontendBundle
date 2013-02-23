@@ -12,11 +12,6 @@
             value:'id',
             blank:''
         },
-        initialize:function (config) {
-            if (config && config.options) {
-                this.options = $.extend(true, {}, this.options, config.options);
-            }
-        },
         render:function () {
             if (this.model) {
                 this.$el
@@ -54,12 +49,6 @@
                 this.collection.on('add', this.addOne, this);
                 this.collection.on('reset', this.addAll, this);
                 this.collection.on('change', this.addAll, this);
-            }
-
-            if (config) {
-                if (config.options) {
-                    this.options = $.extend(true, {}, this.options, config.options);
-                }
             }
         },
         render: function(parent) {

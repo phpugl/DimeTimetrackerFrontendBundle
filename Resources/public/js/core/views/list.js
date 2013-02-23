@@ -9,18 +9,13 @@
     App.provide('Views.Core.ListItem', Backbone.View.extend({
         prefix:'',
         initialize:function (config) {
-            // Grep default values from option
-            if (config && config.prefix) {
-                this.prefix = config.prefix;
-            }
-
             if (config && config.template) {
                 this.template = config.template;
             }
         },
         elId:function () {
             var id = this.$el.attr('id');
-            return (id) ? id : this.prefix + this.model.get('id');
+            return (id) ? id : this.options.prefix + this.model.get('id');
         },
         render:function () {
             // grep template with jquery and generate template stub
@@ -65,30 +60,17 @@
                 this.collection.on('change', this.changeItem, this);
                 this.collection.on('remove', this.removeItem, this);
             }
-
-            // Grep default values from option
-            if (config && config.options) {
-                this.options = $.extend(true, {}, this.options, config.options);
-            }
-
-            if (config && config.template) {
-                this.template = config.template;
-
-                if (config && config.templateEl) {
-                    this.templateEl = config.templateEl;
-                }
-            }
         },
         render:function (fetchOpt) {
             // grep template with jquery and generate template stub
-            if (this.template) {
-                var html = App.render(this.template, { model:this.model });
+            if (this.options.template) {
+                var html = App.render(this.options.template, { model:this.model });
 
                 // fill model date into template and push it into element html
                 this.$el.html(html);
 
-                if (this.templateEl) {
-                    this.setElement(this.templateEl);
+                if (this.options.templateEl) {
+                    this.setElement(this.options.templateEl);
                 }
             }
 

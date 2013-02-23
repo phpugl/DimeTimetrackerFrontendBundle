@@ -116,12 +116,6 @@
             templateSubmenu:'#tpl-application-menu-submenu'
         },
         initialize:function (config) {
-            if (config) {
-                if (config.options) {
-                    this.options = $.extend(true, {}, this.options, config.options);
-                }
-            }
-
             if (this.options.template) {
                 this.template = this.options.template;
             }
@@ -176,11 +170,6 @@
                 this.collection.on('reset', this.render, this);
                 this.collection.on('change', this.render, this);
             }
-
-            // Grep default values from option
-            if (config && config.options) {
-                this.options = $.extend(true, {}, this.options, config.options);
-            }
         },
         render:function () {
             // remove all content
@@ -193,11 +182,11 @@
             return this;
         },
         addOne:function (model) {
-            var view = new this.options.itemView({
-                model:model,
-                attributes:(model.get('active')) ? {'class':'active'} : {},
-                options: this.options.itemOptions
-            });
+            var data = _.clone(this.options.itemOptions);
+            data.model = model;
+            data.attributes =(model.get('active')) ? {'class':'active'} : {};
+
+            var view = new this.options.itemView(data);
 
             if (model.get('active')) {
                 this.currentActive = model;

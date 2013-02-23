@@ -24,9 +24,7 @@
         App.menu.activateItem('admin.tag');
         App.router.switchView(new App.Views.Tag.Form({
             model: model,
-            options: {
-                title: 'Add Tag'
-            }
+            title: 'Add Tag'
         }));
     });
     App.router.route("tag/:id/edit", "tag:edit", function (id) {
@@ -36,9 +34,7 @@
         App.menu.activateItem('admin.tag');
         App.router.switchView(new App.Views.Tag.Form({
             model: model,
-            options: {
-                title: 'Edit Tag'
-            }
+            title: 'Edit Tag'
         }));
     });
 
@@ -58,9 +54,7 @@
             this.filter = new App.Views.Core.Form.Filter({
                 el: '#tag-filter',
                 collection: this.tags,
-                options: {
-                    name: 'tag-filter'
-                }
+                name: 'tag-filter'
             }).render();
 
             // Render pager
@@ -68,26 +62,28 @@
                 el: '.pagination',
                 collection: this.tags,
                 count: 25
-            });
-
+            }).render();
 
             // Render tag list
             this.list = new App.Views.Core.List({
                 el:'#tags',
                 collection:this.tags,
-                options:{
-                    fetch: false,
-                    prefix:'tag-',
-                    emptyTemplate: '#tpl-tag-empty',
-                    item:{
-                        attributes:{ "class":"tag box" },
-                        tagName:'section',
-                        template:'#tpl-tag-item',
-                        View:App.Views.Tag.Item
-                    }
+                fetch: false,
+                prefix:'tag-',
+                emptyTemplate: '#tpl-tag-empty',
+                item:{
+                    attributes:{ "class":"tag box" },
+                    tagName:'section',
+                    template:'#tpl-tag-item',
+                    View:App.Views.Tag.Item
                 }
             }).render();
 
+            // fetch filter settings
+            var settings = App.session.get('settings');
+            if (settings && settings.hasSetting('system', this.filter.options.name)) {
+                this.filter.bind(settings.getSetting('system', this.filter.options.name));
+            }
             this.filter.submit();
 
             return this;

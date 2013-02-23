@@ -24,9 +24,7 @@
         App.menu.activateItem('admin.service');
         App.router.switchView(new App.Views.Service.Form({
             model: model,
-            options: {
-                title: 'Add Service'
-            }
+            title: 'Add Service'
         }));
     });
     App.router.route("service/:id/edit", "service:edit", function (id) {
@@ -36,9 +34,7 @@
         App.menu.activateItem('admin.service');
         App.router.switchView(new App.Views.Service.Form({
             model: model,
-            options: {
-                title: 'Edit Service'
-            }
+            title: 'Edit Service'
         }));
     });
 
@@ -58,9 +54,7 @@
             this.filter = new App.Views.Core.Form.Filter({
                 el: '#service-filter',
                 collection: this.services,
-                options: {
-                    name: 'service-filter'
-                }
+                name: 'service-filter'
             }).render();
 
             // Render pager
@@ -68,25 +62,28 @@
                 el: '.pagination',
                 collection: this.services,
                 count: 25
-            });
+            }).render();
 
             // Render service list
             this.list = new App.Views.Core.List({
                 el:'#services',
                 collection:this.services,
-                options:{
-                    fetch: false,
-                    prefix:'service-',
-                    emptyTemplate: '#tpl-service-empty',
-                    item:{
-                        attributes:{ "class":"service box box-folded" },
-                        tagName:"section",
-                        template:'#tpl-service-item',
-                        View:App.Views.Service.Item
-                    }
+                fetch: false,
+                prefix:'service-',
+                emptyTemplate: '#tpl-service-empty',
+                item:{
+                    attributes:{ "class":"service box box-folded" },
+                    tagName:"section",
+                    template:'#tpl-service-item',
+                    View:App.Views.Service.Item
                 }
             }).render();
 
+            // fetch filter settings
+            var settings = App.session.get('settings');
+            if (settings && settings.hasSetting('system', this.filter.options.name)) {
+                this.filter.bind(settings.getSetting('system', this.filter.options.name));
+            }
             this.filter.submit();
 
             return this;

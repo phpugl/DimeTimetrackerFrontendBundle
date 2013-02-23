@@ -12,9 +12,7 @@
         if (model.get('username')) {
             App.router.switchView(new App.Views.User.Form({
                 model:model,
-                options:{
-                    title:'Edit profile'
-                }
+                title:'Edit profile'
             }));
         } else {
             App.log('Action not allows', 'ERROR');

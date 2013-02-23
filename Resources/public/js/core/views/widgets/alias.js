@@ -10,19 +10,6 @@
             'click .slugify':'slugify',
             'keypress .alias':'alias'
         },
-        options: {},
-        initialize:function (config) {
-            if (config) {
-                if (config.options) {
-                    this.options = $.extend(true, {}, this.options, config.options);
-                }
-            }
-        },
-        render: function(parent) {
-            if (parent) {
-                if (this.el === undefined || this.$el.find('.alias').length <= 0) {
-                    this.setElement(parent.el);
-                }
             }
         },
         name: function() {
