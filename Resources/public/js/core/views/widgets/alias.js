@@ -10,16 +10,22 @@
             'click .slugify':'slugify',
             'keypress .alias':'alias'
         },
+        initialize: function(config) {
+            if (config && config.for) {
+                this.forElement = $(config.for);
             }
+            this.aliasElement = this.$('.alias');
         },
         name: function() {
             return this.options.bind || this.el.name || this.el.id;
         },
         slugify:function (e) {
-            var name = this.$('.name'),
-                alias = this.$('.alias');
-            if (alias) {
-                alias.val(App.Helper.Format.Slugify($.trim(name.val())));
+            if (e) {
+                e.stopPropagation();
+            }
+
+            if (this.aliasElement) {
+                this.aliasElement.val(App.Helper.Format.Slugify($.trim(this.forElement.val())));
             }
         },
         alias:function (e) {

@@ -8,16 +8,16 @@
         <div class="control-group">
             <label for="customer-name" class="control-label">{% trans %}Name{% endtrans %}:</label>
             <div class="controls">
-                <input id="customer-name" name="name" class="customer-name input-block-level" required type="text" value="">
+                <input id="customer-name" name="name" class="input-block-level" required type="text" value="">
                 <span class="help-inline"></span>
             </div>
         </div>
-        <div class="control-group">
+        <div class="control-group" id="widget-alias">
             <label for="customer-alias" class="control-label">{% trans %}Alias{% endtrans %}:</label>
             <div class="controls">
                 <div class="input-append">
-                    <input id="customer-alias" name="alias" class="customer-alias" type="text" value="" maxlength="30">
-                    <a type="button" class="slugify add-on btn" title="Create alias from name"><i class="icon-refresh"></i></a>
+                    <input id="customer-alias" name="alias" class="alias" type="text" value="" maxlength="30">
+                    <button type="button" class="slugify btn" title="{% trans %}Create alias from name{% endtrans %}"><i class="icon-refresh"></i></button>
                 </div>
                 <span class="help-inline"></span>
             </div>
@@ -25,7 +25,7 @@
         <div class="control-group">
             <label for="customer-tags" class="control-label">{% trans %}Tags{% endtrans %}:</label>
             <div class="controls">
-                <input type="text" id="customer-tags" name="tags" class="customer-tags input-block-level"/>
+                <input type="text" id="customer-tags" name="tags" class="input-block-level"/>
             </div>
         </div>
     </fieldset>

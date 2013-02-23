@@ -15,18 +15,17 @@
             <label for="project-name" class="control-label">{% trans %}Name{% endtrans %}:</label>
 
             <div class="controls">
-                <input id="project-name" name="name" class="name input-block-level" type="text" value="">
+                <input id="project-name" name="name" class="input-block-level" type="text" value="">
                 <span class="help-inline"></span>
             </div>
         </div>
-        <div class="control-group">
+        <div class="control-group" id="widget-alias">
             <label for="project-alias" class="control-label">{% trans %}Alias{% endtrans %}:</label>
 
             <div class="controls">
                 <div class="input-append">
                     <input id="project-alias" name="alias" class="alias" type="text" value="" maxlength="30">
-                    <a type="button" class="slugify add-on btn" title="Create alias from name"><i
-                            class="icon-refresh"></i></a>
+                    <button type="button" class="slugify btn" title="{% trans %}Create alias from name{% endtrans %}"><i class="icon-refresh"></i></button>
                 </div>
                 <span class="help-inline"></span>
             </div>
@@ -69,7 +68,7 @@
             <label for="project-budgetPrice" class="control-label">{% trans %}Budget price{% endtrans %}:</label>
 
             <div class="controls">
-                <input id="project-budgetPrice" name="budgetPrice" class="project-budgetPrice input-block-level" type="number"
+                <input id="project-budgetPrice" name="budgetPrice" class="input-block-level" type="number"
                        value="">
                 <span class="help-inline"></span>
             </div>
@@ -78,7 +77,7 @@
             <label for="project-fixedPrice" class="control-label">{% trans %}Fixed price{% endtrans %}:</label>
 
             <div class="controls">
-                <input id="project-fixedPrice" name="fixedPrice" class="project-fixedPrice input-block-level" type="number" value="">
+                <input id="project-fixedPrice" name="fixedPrice" class="input-block-level" type="number" value="">
                 <span class="help-inline"></span>
             </div>
         </div>
@@ -86,7 +85,7 @@
             <label for="project-budgetTime" name="rate" class="control-label">{% trans %}Budget time{% endtrans %}:</label>
 
             <div class="controls">
-                <input id="project-budgetTime" name="budgetTime" class="project-budgetTime input-block-level" type="number" value="">
+                <input id="project-budgetTime" name="budgetTime" class="input-block-level" type="number" value="">
                 <span class="help-inline"></span>
             </div>
         </div>
@@ -96,7 +95,7 @@
             <label for="project-startedAt" class="control-label">{% trans %}Started at{% endtrans %}:</label>
 
             <div class="controls">
-                <input id="project-startedAt" name="startedAt" class="project-startedAt input-block-level" type="date" value=""
+                <input id="project-startedAt" name="startedAt" class="input-block-level" type="date" value=""
                        data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1">
                 <span class="help-inline"></span>
             </div>
@@ -106,7 +105,7 @@
             <label for="project-stoppedAt" class="control-label">{% trans %}Stopped at{% endtrans %}:</label>
 
             <div class="controls">
-                <input id="project-stoppedAt" name="stoppedAt" class="project-stoppedAt input-block-level" type="date" value=""
+                <input id="project-stoppedAt" name="stoppedAt" class="input-block-level" type="date" value=""
                        data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1">
                 <span class="help-inline"></span>
             </div>
@@ -115,7 +114,7 @@
             <label for="project-deadline" class="control-label">{% trans %}Deadline{% endtrans %}:</label>
 
             <div class="controls">
-                <input id="project-deadline" name="deadline" class="project-deadline input-block-level" type="date" value=""
+                <input id="project-deadline" name="deadline" class="input-block-level" type="date" value=""
                        data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1">
                 <span class="help-inline"></span>
             </div>
