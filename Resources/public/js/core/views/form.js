@@ -111,7 +111,7 @@
                         var data = $.parseJSON(response.responseText);
 
                         if (data.errors) {
-                            App.Helper.UI.Form.BindErrors(that.$el, data.errors);
+                            App.Helper.UI.Form.BindError(that.$el, data.errors);
                             App.notify("Hey, you have missed some fields.", "error");
                         } else {
                             App.notify(response.status + ": " + response.statusText, "error");
@@ -122,7 +122,7 @@
             }
         },
         serialize: function(withoutEmpty) {
-            var data = App.Helper.UI.Form.Serializer(this.$el, this.options.ignore, withoutEmpty);
+            var data = App.Helper.UI.Form.Serialize(this.$el, this.options.ignore, withoutEmpty);
 
             // change data by widgets
             for(var name in this.options.widgets) {

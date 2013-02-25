@@ -2,118 +2,79 @@
 
 /**
  * Dime - core/helper/ui.js
- *
- * Register Activity model to namespace App.
  */
 (function (App, $, _) {
 
     /**
-     * Dime.Helper.Object.Set
+     * Dime.Helper.UI.Form.Bind
      *
-     * @param obj
-     * @param path dot-separated string or array
-     * @param value
+     * @param $form jQuery container with input elements
+     * @param data form data object
+     * @param ignore object with name to ignore
      * @return obj
      */
-    App.provide('Helper.Object.Set', function(obj, path, value) {
-        if (_.isString(path)) {
-            path = path.split('.');
-        }
-        var parent = obj,
-            len = path.length;
-
-        for (var i=0; i<len; i++) {
-            var name = path[i];
-            if (i >= len - 1) {
-                if (name.search(/\[\]/) !== -1) {
-                    name = name.replace('[]', '');
-                    if (parent[name] === undefined) {
-                        parent[name] = [];
-                    }
-                    parent[name].push(value);
-                } else {
-                    parent[name] = value;
-                }
-            } else if (parent[name] === undefined) {
-                parent[name] = {};
-            }
-            parent = parent[name];
-        }
-
-        return obj;
-    });
-
-    /**
-     * Dime.Helper.Object.Get
-     *
-     * @param obj
-     * @param path dot-separated string or array
-     * @return value of path or undefined
-     */
-    App.provide('Helper.Object.Get', function(obj, path) {
-        if (obj && path) {
-            if (_.isString(path)) {
-                path = path.split('.');
-            }
-
-            var parent = obj;
-            for (var i=0; i<path.length; i++) {
-                var name = path[i].replace('[]', '');
-                if (parent[name]) {
-                    parent = parent[name];
-                } else {
-                    parent = undefined;
-                    break;
-                }
-            }
-
-            return parent;
-        }
-        return undefined;
-    });
-
     App.provide('Helper.UI.Form.Bind', function($form, data, ignore) {
         ignore = ignore || {};
 
-        $(':input', $form).each(function (idx, input) {
+        $(':input[name]', $form).each(function (idx, input) {
             var $input = $(input),
-                name = input.name || input.id;
+                name = input.name;
 
             if (name && !ignore[name]) {
                 var parts = name.split('-'),
                     value = App.Helper.Object.Get(data, parts);
 
                 if (value !== undefined) {
-                    if (input.type && input.type == 'checkbox' || input.type == 'radio') {
-                        if (value) {
-                            $input.attr('checked', 'checked');
-                        } else {
-                            $input.removeAttr('checked');
-                        }
-                    } else {
-                        $input.val(value);
+                    switch (input.type) {
+                        case 'checkbox':
+                            input.checked = value;
+                            break;
+                        case 'radio':
+                            input.checked = ($input.val() == value);
+                            break;
+                        default:
+                            $input.val(value);
                     }
                 }
             }
         });
     });
 
+    /**
+     * Dime.Helper.UI.Form.BindError
+     *
+     * @param $form jQuery container with input elements
+     * @param errors object with name: message
+     * @return obj
+     */
     App.provide('Helper.UI.Form.BindError', function($form, errors) {
         $('.control-group', $form).removeClass('error');
 
         if (errors) {
-            for (var name in errors) if (errors.hasOwnProperty(name)) {
-                // TODO
-//                var input = this.targetComponent(name);
-//                if (input.length > 0) {
-//                    var group = input.parents('.control-group');
-//                    group.addClass('error');
-//                    $('span.help-inline', group).text(data[name]);
-//                }
-            }
+            // Grep inputs with name
+            $(':input[name]', $form).each(function (idx, input) {
+                var $input = $(input),
+                    name = input.name;
+
+                if (name && errors[name]) {
+                    $('.error-' + name, $form).text(errors[name]);
+
+                    var group = $input.parents('.control-group');
+                    if (group.length > 0) {
+                        group.addClass('error');
+                    }
+                }
+            });
         }
     });
 
+    /**
+     * Dime.Helper.UI.Form.Clear
+     *
+     * @param $form jQuery container with input elements
+     * @param ignore object with name to ignore
+     * @return obj
+     */
     App.provide('Helper.UI.Form.Clear', function($form, ignore) {
         ignore = ignore || {};
 
@@ -124,7 +85,7 @@
             if (name && !ignore[name]) {
                 if (input.type && input.type == 'checkbox' || input.type == 'radio') {
                     input.checked = false;
-                } else if (tag == 'select') {
+                } else if (input.tag == 'select') {
                     input.selectedIndex = -1;
                 } else {
                     $input.val(undefined);
@@ -133,32 +94,61 @@
         });
     });
 
-    App.provide('Helper.UI.Form.Serializer', function($form, ignore, withoutEmpty) {
+    /**
+     * Dime.Helper.UI.Form.Serialize
+     *
+     * @param $form jQuery container with input elements
+     * @param ignore object with name to ignore
+     * @param withoutEmpty
+     * @return obj
+     */
+    App.provide('Helper.UI.Form.Serialize', function($form, ignore, withoutEmpty) {
         ignore = ignore || {};
-        var data = {};
+        var data = {},
+            component = {};
 
+        // Grep inputs with name
         $(':input[name]', $form).each(function (idx, input) {
             var $input = $(input),
                 name = input.name;
 
             if (name) {
+                if (component[name]) {
+                    return;
+                }
+
                 var val = $input.val(),
                     parts = name.split('-');
 
-                if (input.type && input.type == 'checkbox' || input.type == 'radio') {
-                    if (($input.prop('checked'))) {
-                        App.Helper.Object.Set(data, parts, (val === undefined || _.isEmpty(val)) ? true : val);
-                    } else {
-                        App.Helper.Object.Set(data, parts, undefined);
-                    }
-                } else if (input.type && input.type != 'button') {
-                    if (withoutEmpty) {
-                        if (val === undefined || _.isEmpty(val)) {
-                            return;
+                switch(input.type) {
+                    case 'checkbox':
+                        if (input.checked) {
+                            if (val === undefined || _.isEmpty(val)) {
+                                val = true;
+                            }
+                        } else {
+                            val = undefined;
                         }
-                    }
-                    App.Helper.Object.Set(data, parts, val);
+                        break;
+                    case 'radio':
+                        if (input.checked) {
+                            component[name] = true;
+                            if (val === undefined || _.isEmpty(val)) {
+                                val = true;
+                            }
+                        }
+                        break;
+                    case 'button': // button values are not intresting
+                        return;
                 }
+
+                if (withoutEmpty) {
+                    if (val === undefined || _.isEmpty(val)) {
+                        return;
+                    }
+                }
+
+                App.Helper.Object.Set(data, parts, val);
             }
         });
 
