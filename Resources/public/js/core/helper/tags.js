@@ -23,6 +23,7 @@
             App.throw('Parameter "tags" is not a string or an array.', 'Helper.Tags.Split');
         }
 
+        result.data = _.compact(result.data);
         for (var i = 0; i < result.data.length; i++) {
             // remove "+" and "-"
             var tagname = result.data[i].replace(/^[+-]/, '');
@@ -56,6 +57,7 @@
             if (model.hasRelation('tags')) {
                 var modelTags = model.getRelation('tags');
 
+                tags.add = _.compact(tags.add);
                 if (modelTags && modelTags.length > 0) {
                     model.save({ tags: _.union(tags.add, modelTags.tagArray(tags.remove)) });
                 } else {
