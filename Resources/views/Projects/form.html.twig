@@ -16,7 +16,7 @@
 
             <div class="controls">
                 <input id="project-name" name="name" class="input-block-level" type="text" value="">
-                <span class="help-inline"></span>
+                <span class="error-name help-inline"></span>
             </div>
         </div>
         <div class="control-group" id="widget-alias">
@@ -27,7 +27,7 @@
                     <input id="project-alias" name="alias" class="alias" type="text" value="" maxlength="30">
                     <button type="button" class="slugify btn" title="{% trans %}Create alias from name{% endtrans %}"><i class="icon-refresh"></i></button>
                 </div>
-                <span class="help-inline"></span>
+                <span class="error-alias help-inline"></span>
             </div>
         </div>
         <div class="control-group">
@@ -35,7 +35,7 @@
 
             <div class="controls">
                 <textarea id="project-description" name="description" class="input-block-level" rows="3"></textarea>
-                <span class="help-inline"></span>
+                <span class="error-description help-inline"></span>
             </div>
         </div>
         <div class="control-group">
@@ -44,7 +44,7 @@
             <div class="controls">
                 <select id="project-customer" name="customer" class="input-block-level">
                 </select>
-                <span class="help-inline"></span>
+                <span class="error-customer help-inline"></span>
             </div>
         </div>
         <div class="control-group">
@@ -52,7 +52,7 @@
 
             <div class="controls">
                 <input id="project-rate" name="rate" class="input-block-level" type="number" value="">
-                <span class="help-inline"></span>
+                <span class="error-rate help-inline"></span>
             </div>
         </div>
         <div class="control-group">
@@ -60,6 +60,7 @@
 
             <div class="controls">
                 <input type="text" id="project-tags" name="tags" class="input-block-level"/>
+                <span class="error-tags help-inline"></span>
             </div>
         </div>
     </fieldset>
@@ -68,9 +69,8 @@
             <label for="project-budgetPrice" class="control-label">{% trans %}Budget price{% endtrans %}:</label>
 
             <div class="controls">
-                <input id="project-budgetPrice" name="budgetPrice" class="input-block-level" type="number"
-                       value="">
-                <span class="help-inline"></span>
+                <input id="project-budgetPrice" name="budgetPrice" class="input-block-level" type="number" value="">
+                <span class="error-budgetPrice help-inline"></span>
             </div>
         </div>
         <div class="control-group">
@@ -78,7 +78,7 @@
 
             <div class="controls">
                 <input id="project-fixedPrice" name="fixedPrice" class="input-block-level" type="number" value="">
-                <span class="help-inline"></span>
+                <span class="error-fixedPrice help-inline"></span>
             </div>
         </div>
         <div class="control-group">
@@ -86,7 +86,7 @@
 
             <div class="controls">
                 <input id="project-budgetTime" name="budgetTime" class="input-block-level" type="number" value="">
-                <span class="help-inline"></span>
+                <span class="error-budgetTime help-inline"></span>
             </div>
         </div>
     </fieldset>
@@ -97,7 +97,7 @@
             <div class="controls">
                 <input id="project-startedAt" name="startedAt" class="input-block-level" type="date" value=""
                        data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1">
-                <span class="help-inline"></span>
+                <span class="error-startedAt help-inline"></span>
             </div>
         </div>
         </div>
@@ -107,7 +107,7 @@
             <div class="controls">
                 <input id="project-stoppedAt" name="stoppedAt" class="input-block-level" type="date" value=""
                        data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1">
-                <span class="help-inline"></span>
+                <span class="error-stoppedAt help-inline"></span>
             </div>
         </div>
         <div class="control-group">
@@ -116,7 +116,7 @@
             <div class="controls">
                 <input id="project-deadline" name="deadline" class="input-block-level" type="date" value=""
                        data-toggle="datepicker" data-date-format="YYYY-MM-DD" data-data-weekstart="1">
-                <span class="help-inline"></span>
+                <span class="error-deadline help-inline"></span>
             </div>
         </div>
     </fieldset>

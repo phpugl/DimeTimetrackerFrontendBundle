@@ -9,7 +9,7 @@
             <label for="customer-name" class="control-label">{% trans %}Name{% endtrans %}:</label>
             <div class="controls">
                 <input id="customer-name" name="name" class="input-block-level" required type="text" value="">
-                <span class="help-inline"></span>
+                <span class="error-name help-inline"></span>
             </div>
         </div>
         <div class="control-group" id="widget-alias">
@@ -19,13 +19,14 @@
                     <input id="customer-alias" name="alias" class="alias" type="text" value="" maxlength="30">
                     <button type="button" class="slugify btn" title="{% trans %}Create alias from name{% endtrans %}"><i class="icon-refresh"></i></button>
                 </div>
-                <span class="help-inline"></span>
+                <span class="error-alias help-inline"></span>
             </div>
         </div>
         <div class="control-group">
             <label for="customer-tags" class="control-label">{% trans %}Tags{% endtrans %}:</label>
             <div class="controls">
                 <input type="text" id="customer-tags" name="tags" class="input-block-level"/>
+                <span class="error-tags help-inline"></span>
             </div>
         </div>
     </fieldset>

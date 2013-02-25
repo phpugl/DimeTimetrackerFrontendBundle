@@ -13,7 +13,7 @@
                        data-data-autoclose="true" data-date-weekstart="1">
                 <input id="timeslice-startedAt-time" class="time input-small" type="time" value=""
                        placeholder="HH:mm:ss">
-                <span class="help-inline"></span>
+                <span class="error-startedAt help-inline"></span>
             </div>
         </div>
         <div class="control-group" id="widget-datetime-stoppedAt">
@@ -24,7 +24,7 @@
                        data-data-autoclose="true" data-date-weekstart="1">
                 <input id="timeslice-stoppedAt-time" class="time input-small" type="time" value=""
                        placeholder="HH:mm:ss">
-                <span class="help-inline"></span>
+                <span class="error-stoppedAt help-inline"></span>
             </div>
         </div>
         <div class="control-group">
@@ -34,13 +34,14 @@
                     <input id="timeslice-formatDuration" name="formatDuration" class="input-xlarge" type="number" value="">
                     <button type="button" class="btn" title="{% trans %}Re-calculate duration{% endtrans %}"><i class="icon-refresh"></i></button>
                 </div>
-                <span class="help-inline"></span>
+                <span class="error-duration help-inline"></span>
             </div>
         </div>
         <div class="control-group">
             <label for="timeslice-tags" class="control-label">{% trans %}Tags{% endtrans %}:</label>
             <div class="controls">
                 <input type="text" id="timeslice-tags" name="tags" class="input-xlarge"/>
+                <span class="error-tags help-inline"></span>
             </div>
         </div>
     </fieldset>
