@@ -9,8 +9,6 @@
 
     // Create Base collection and add it to App.Collection
     App.provide('Collection.Base', Backbone.Collection.extend({
-        fetchDataCache: {},
-        fetchOptions: {},
         load: function() {
             var opt = this.joinFetchDataCache();
             if (opt) {
@@ -33,6 +31,9 @@
             return fetchOpt;
         },
         addFetchData: function(name, data) {
+            if (!this.fetchDataCache) {
+                this.fetchDataCache = {};
+            }
             if (name) {
                 this.fetchDataCache[name] = data;
             }
@@ -44,6 +45,9 @@
             }
         },
         setFetchOption: function(name, opt) {
+            if (!this.fetchOptions) {
+                this.fetchOptions = {};
+            }
             if (name) {
                 this.fetchOptions[name] = opt;
             }
@@ -52,7 +56,7 @@
             if (name && this.fetchOptions && this.fetchOptions[name]) {
                 delete this.fetchOptions[name];
             }
-        },
+        }
     }));
 
 })(jQuery, Backbone, _, Dime);
