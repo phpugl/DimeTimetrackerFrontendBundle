@@ -13,6 +13,17 @@
         <fieldset class="span6">
             <legend>{% trans %}Filter{% endtrans %}</legend>
             <div class="control-group">
+                <label for="filter-withTags" class="control-label"><i class="icon-tags"></i> {% trans %}Tags{% endtrans %}</label>
+                <div class="controls">
+                    <select id="filter-withTags" name="filter-withTags" class="input-block-level" title="{% trans %}with tag{% endtrans %}">
+                        <option value="">{% trans %}with tag{% endtrans %}</option>
+                    </select>
+                    <select id="filter-withoutTags" name="filter-withoutTags" class="input-block-level" title="{% trans %}without tag{% endtrans %}">
+                        <option value="">{% trans %}without tag{% endtrans %}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
                 <label for="filter-search" class="control-label"><i class="icon-search"></i> {% trans %}Search{% endtrans %}</label>
                 <div class="controls">
                     <input type="text" id="filter-search" name="filter-search" class="input-block-level" title="{% trans %}Search{% endtrans %}" placeholder="{% trans %}Search...{% endtrans %}">

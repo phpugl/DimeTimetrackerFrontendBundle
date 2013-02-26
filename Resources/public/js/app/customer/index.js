@@ -54,7 +54,23 @@
             this.filter = new App.Views.Core.Form.Filter({
                 el: '#customer-filter',
                 collection: this.customers,
-                name: 'customer-filter'
+                name: 'customer-filter',
+                widgets: {
+                    withTags: new App.Views.Core.Widget.Select({
+                        collection: App.session.get('tag-filter-collection', function () {
+                            return new App.Collection.Tags();
+                        }),
+                        templateEl: '#filter-withTags',
+                        blankText: 'with tag'
+                    }),
+                    withoutTags: new App.Views.Core.Widget.Select({
+                        collection: App.session.get('tag-filter-collection', function () {
+                            return new App.Collection.Tags();
+                        }),
+                        templateEl: '#filter-withoutTags',
+                        blankText: 'without tag'
+                    })
+                }
             }).render();
 
             // Render pager

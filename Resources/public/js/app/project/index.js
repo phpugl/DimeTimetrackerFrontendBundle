@@ -62,6 +62,20 @@
                             return new App.Collection.Customers();
                         }),
                         blankText: 'by customer'
+                    }),
+                    withTags: new App.Views.Core.Widget.Select({
+                        el: '#filter-withTags',
+                        collection: App.session.get('tag-filter-collection', function () {
+                            return new App.Collection.Tags();
+                        }),
+                        blankText: 'with tag'
+                    }),
+                    withoutTags: new App.Views.Core.Widget.Select({
+                        el: '#filter-withoutTags',
+                        collection: App.session.get('tag-filter-collection', function () {
+                            return new App.Collection.Tags();
+                        }),
+                        blankText: 'without tag'
                     })
                 }
             }).render();
