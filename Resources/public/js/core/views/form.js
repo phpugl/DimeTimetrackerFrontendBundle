@@ -44,7 +44,7 @@
 
                     // fetch widget
                     if (widget.fetch) {
-                        widget.fetch();
+                        widget.fetch({ async: false });
                     }
                 }
             }
