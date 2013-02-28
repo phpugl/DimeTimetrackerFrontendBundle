@@ -42,6 +42,10 @@
                 response['stoppedAt-time'] = stoppedAt.format('HH:mm:ss');
             }
 
+            if (response.duration) {
+                response.formatDuration = App.Helper.Format.Duration(response.duration);
+            }
+
             return response;
         },
         validate:function (attrs) {
