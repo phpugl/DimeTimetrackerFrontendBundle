@@ -87,7 +87,6 @@
                 that = this,
                 activities = App.session.get('activities');
 
-
             if (!button.hasClass('btn-warning')) {
                 button.data('start', moment());
                 this.model.start({
@@ -104,14 +103,20 @@
                     }
                 });
             } else {
+                if (that.timer) {
+                    clearInterval(that.timer);
+                }
+
+                var width = button.width();
+                button.removeClass('btn-warning');
+                button.html('<i class="icon loading-14"></i>');
+                button.width(width);
                 this.model.stop({
                     wait:true,
                     success:function (timeslice) {
-                        button.removeClass('btn-warning');
+                        var d = moment().diff(button.data('start'), 'seconds');
+                        button.text(App.Helper.Format.Duration(button.data('duration') + d));
 
-                        if (that.timer) {
-                            clearInterval(that.timer);
-                        }
                         model.save({}, {success:function () {
                             model.collection.sort();
                         }});
