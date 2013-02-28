@@ -180,10 +180,10 @@
                 if (this.component){
                     this.element.find('input').prop('value', formated);
                 }
-                this.element.data('date', formated);
             } else {
                 this.element.prop('value', formated);
             }
+            this.element.data('date', formated);
 
             if (this.withPeriod) {
                 this.element.data('date-period', this.period);

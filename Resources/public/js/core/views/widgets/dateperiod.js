@@ -95,7 +95,7 @@
             value = undefined;
             var selection = this.periodComponent.val(),
                 from = moment(this.fromComponent.data('date')).clone(),
-                to = moment(this.fromComponent.data('date')).clone();
+                to = moment(this.toComponent.data('date')).clone();
 
             switch (selection) {
                 case 'this-month':
