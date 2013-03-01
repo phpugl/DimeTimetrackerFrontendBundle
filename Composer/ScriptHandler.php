@@ -36,16 +36,7 @@ class ScriptHandler
     public static function publishAssets(CommandEvent $event)
     {
         $options = self::getOptions($event);
-        $appDir = $options['symfony-app-dir'];
-        $webDir = $options['symfony-web-dir'];
-
-        if (!is_dir($webDir)) {
-            echo 'The symfony-web-dir ('.$webDir.') specified in composer.json was not found in '.getcwd().', can not install assets.'.PHP_EOL;
-
-            return;
-        }
-
-        static::executeCommand($event, $appDir, 'dime:publish-assets '.escapeshellarg($webDir));
+        static::executeCommand($event, $options['symfony-app-dir'], 'dime:publish-assets');
     }
 
     protected static function executeCommand(CommandEvent $event, $appDir, $cmd, $timeout = 300)
