@@ -14,88 +14,77 @@ namespace Dime\TimetrackerFrontendBundle\Composer;
 use Symfony\Component\ClassLoader\ClassCollectionLoader;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
+use Composer\Script\CommandEvent;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
 class ScriptHandler
 {
-    public static function dimeInit($event)
+    /**
+     * Installs the assets under the web root directory.
+     *
+     * For better interoperability, assets are copied instead of symlinked by default.
+     *
+     * Even if symlinks work on Windows, this is only true on Windows Vista and later,
+     * but then, only when running the console with admin rights or when disabling the
+     * strict user permission checks (which can be done on Windows 7 but not on Windows
+     * Vista).
+     *
+     * @param $event CommandEvent A instance
+     */
+    public static function publishAssets(CommandEvent $event)
     {
         $options = self::getOptions($event);
         $appDir = $options['symfony-app-dir'];
+        $webDir = $options['symfony-web-dir'];
 
-        if (!is_dir($appDir)) {
-            echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not clear the cache.'.PHP_EOL;
+        if (!is_dir($webDir)) {
+            echo 'The symfony-web-dir ('.$webDir.') specified in composer.json was not found in '.getcwd().', can not install assets.'.PHP_EOL;
 
             return;
         }
 
-        static::executeCommand($event, $appDir, 'dime:init');
+        static::executeCommand($event, $appDir, 'dime:publish-assets '.escapeshellarg($webDir));
     }
 
-    public static function doBuildBootstrap($appDir)
+    protected static function executeCommand(CommandEvent $event, $appDir, $cmd, $timeout = 300)
     {
-        $file = $appDir.'/bootstrap.php.cache';
-        if (file_exists($file)) {
-            unlink($file);
-        }
-
-        ClassCollectionLoader::load(array(
-            'Symfony\\Component\\DependencyInjection\\ContainerAwareInterface',
-            // Cannot be included because annotations will parse the big compiled class file
-            //'Symfony\\Component\\DependencyInjection\\ContainerAware',
-            'Symfony\\Component\\DependencyInjection\\ContainerInterface',
-            'Symfony\\Component\\DependencyInjection\\Container',
-            'Symfony\\Component\\HttpKernel\\HttpKernelInterface',
-            'Symfony\\Component\\HttpKernel\\KernelInterface',
-            'Symfony\\Component\\HttpKernel\\Kernel',
-            'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
-            'Symfony\\Component\\ClassLoader\\UniversalClassLoader',
-            'Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface',
-            'Symfony\\Component\\HttpKernel\\Bundle\\Bundle',
-            'Symfony\\Component\\Config\\ConfigCache',
-            // cannot be included as commands are discovered based on the path to this class via Reflection
-            //'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
-        ), dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
-
-        file_put_contents($file, "<?php\n\nnamespace { require_once __DIR__.'/autoload.php'; }\n\n".substr(file_get_contents($file), 5));
-    }
-
-    protected static function executeCommand($event, $appDir, $cmd)
-    {
-        $phpFinder = new PhpExecutableFinder;
-        $php = escapeshellarg($phpFinder->find());
+        $php = escapeshellarg(self::getPhp());
         $console = escapeshellarg($appDir.'/console');
         if ($event->getIO()->isDecorated()) {
-            $console.= ' --ansi';
+            $console .= ' --ansi';
         }
 
-        $process = new Process($php.' '.$console.' '.$cmd);
+        $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
         $process->run(function ($type, $buffer) { echo $buffer; });
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
+        }
     }
 
-    protected static function executeBuildBootstrap($appDir)
-    {
-        $phpFinder = new PhpExecutableFinder;
-        $php = escapeshellarg($phpFinder->find());
-        $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
-        $appDir = escapeshellarg($appDir);
-
-        $process = new Process($php.' '.$cmd.' '.$appDir);
-        $process->run(function ($type, $buffer) { echo $buffer; });
-    }
-
-    protected static function getOptions($event)
+    protected static function getOptions(CommandEvent $event)
     {
         $options = array_merge(array(
-            'symfony-app-dir' => 'app',
-            'symfony-web-dir' => 'web',
-            'symfony-assets-install' => 'hard'
-        ), $event->getComposer()->getPackage()->getExtra());
+                'symfony-app-dir' => 'app',
+                'symfony-web-dir' => 'web',
+                'symfony-assets-install' => 'hard'
+            ), $event->getComposer()->getPackage()->getExtra());
 
         $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
 
+        $options['process-timeout'] = $event->getComposer()->getConfig()->get('process-timeout');
+
         return $options;
+    }
+
+    protected static function getPhp()
+    {
+        $phpFinder = new PhpExecutableFinder;
+        if (!$phpPath = $phpFinder->find()) {
+            throw new \RuntimeException('The php executable could not be found, add it to your PATH environment variable and try again');
+        }
+
+        return $phpPath;
     }
 }
