@@ -15,10 +15,16 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "phpugl/twitter-bootstrap-bundle": "dev-master",
+        "symfony/symfony": "2.2.*",
+        "symfony/assetic-bundle": "2.1.*",
+        "phpugl/twitter-bootstrap-bundle": "0.3.*",
         "twitter/bootstrap": "2.3.*",
         "lunetics/locale-bundle": "dev-master",
         "willdurand/expose-translation-bundle": "0.1.*"
+    },
+    "suggest": {
+        "phpugl/dime-invoice-bundle": "*",
+        "phpugl/dime-import-bundle": "*"
     },
     "minimum-stability": "dev",
     "target-dir": "Dime/TimetrackerFrontendBundle"
