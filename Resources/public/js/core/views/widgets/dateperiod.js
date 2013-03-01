@@ -104,6 +104,14 @@
                 case 'last-month':
                     value = moment().subtract('months', 1).format(this.options.format.month);
                     break;
+                case 'last-4-weeks':
+                    from = moment().subtract('weeks', 4);
+                    to = moment();
+                    value = [
+                        from.format(this.options.format.day),
+                        to.format(this.options.format.day)
+                    ];
+                    break;
                 case 'this-week':
                     from = moment();
                     if (from.day() === 0) {
@@ -184,6 +192,22 @@
                     this.fromComponent.val(moment().format(this.options.format.month));
                     this.toComponent.val('');
                     break;
+                case 'last-month':
+                    this.fromComponent.attr({
+                        placeholder: this.options.format.month
+                    }).data({
+                            'date-format': this.options.format.month,
+                            'date-period': 'M'
+                        });
+                    this.fromComponent.val(moment().subtract('months', 1).format(this.options.format.month));
+                    this.toComponent.val('');
+                    break;
+                case 'last-4-weeks':
+                    var from = moment();
+                    var to = from.subtract('weeks', 4);
+                    this.fromComponent.val(from.format(this.options.format.day));
+                    this.toComponent.val(to.format(this.options.format.day));
+                    break;
                 case 'this-week':
                     var from = moment();
                     if (from.day() === 0) {
@@ -192,20 +216,6 @@
                     this.fromComponent.val(from.day(1).format(this.options.format.day));
                     this.toComponent.val(from.day(7).format(this.options.format.day));
                     break;
-                case 'today':
-                    this.fromComponent.val(moment().format(this.options.format.day));
-                    this.toComponent.val('');
-                    break;
-                case 'last-month':
-                    this.fromComponent.attr({
-                        placeholder: this.options.format.month
-                    }).data({
-                        'date-format': this.options.format.month,
-                        'date-period': 'M'
-                    });
-                    this.fromComponent.val(moment().subtract('months', 1).format(this.options.format.month));
-                    this.toComponent.val('');
-                    break;
                 case 'last-week':
                     var from = moment().subtract('weeks', 1);
                     if (from.day() === 0) {
@@ -213,6 +223,10 @@
                     }
                     this.fromComponent.val(from.day(1).format(this.options.format.day));
                     this.toComponent.val(from.day(7).format(this.options.format.day));
+                    break;
+                case 'today':
+                    this.fromComponent.val(moment().format(this.options.format.day));
+                    this.toComponent.val('');
                     break;
                 case 'yesterday':
                     this.fromComponent.val(moment().subtract('days', '1').format(this.options.format.day));
