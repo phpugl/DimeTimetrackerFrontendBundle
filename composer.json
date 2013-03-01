@@ -19,7 +19,6 @@
         "symfony/assetic-bundle": "2.1.*",
         "phpugl/twitter-bootstrap-bundle": "0.3.*",
         "twitter/bootstrap": "2.3.*",
-        "lunetics/locale-bundle": "dev-master",
         "willdurand/expose-translation-bundle": "0.1.*"
     },
     "suggest": {
