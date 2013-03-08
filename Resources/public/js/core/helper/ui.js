@@ -35,19 +35,20 @@
                         default:
                             $input.val(value);
                     }
+                    $input.trigger('change');
                 }
             }
         });
     });
 
     /**
-     * Dime.Helper.UI.Form.BindError
+     * Dime.Helper.UI.Form.Error.Bind
      *
      * @param $form jQuery container with input elements
      * @param errors object with name: message
      * @return obj
      */
-    App.provide('Helper.UI.Form.BindError', function($form, errors) {
+    App.provide('Helper.UI.Form.Error.Bind', function($form, errors) {
         $('.control-group', $form).removeClass('error');
 
         if (errors) {
@@ -69,6 +70,25 @@
     });
 
     /**
+     * Dime.Helper.UI.Form.Error.Clear
+     *
+     * Remove errors from from
+     *
+     * @param $form jQuery container with input elements
+     * @return obj
+     */
+    App.provide('Helper.UI.Form.Error.Clear', function($form) {
+        $('.control-group', $form).removeClass('error');
+
+        $(':input[name]', $form).each(function (idx, input) {
+            var $input = $(input),
+                name = input.name;
+            $('.error-' + name, $form).text('');
+        });
+    });
+
+
+        /**
      * Dime.Helper.UI.Form.Clear
      *
      * @param $form jQuery container with input elements

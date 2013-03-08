@@ -111,7 +111,7 @@
                         var data = $.parseJSON(response.responseText);
 
                         if (data.errors) {
-                            App.Helper.UI.Form.BindError(that.$el, data.errors);
+                            App.Helper.UI.Form.Error.Bind(that.$el, data.errors);
                             App.notify("Hey, you have missed some fields.", "error");
                         } else {
                             App.notify(response.status + ": " + response.statusText, "error");
