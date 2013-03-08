@@ -47,6 +47,7 @@
         initialize:function (config) {
             if (this.collection) {
                 this.collection.on('add', this.addOne, this);
+                this.collection.on('remove', this.addAll, this);
                 this.collection.on('reset', this.addAll, this);
                 this.collection.on('change', this.addAll, this);
             }
