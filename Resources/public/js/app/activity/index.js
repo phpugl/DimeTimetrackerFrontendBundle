@@ -31,6 +31,20 @@
                         collection: App.session.get('customer-filter-collection', function () {
                             return new App.Collection.Customers();
                         }),
+                        events: {
+                            'change': function(e) {
+                                var projects = App.session.get('project-filter-collection', function () {
+                                    return new App.Collection.Projects();
+                                });
+
+                                var value = this.value();
+                                if (value != ''){
+                                    projects.fetch({data: {filter: {customer: value}}});
+                                } else {
+                                    projects.fetch();
+                                }
+                            }
+                        },
                         templateEl: '#filter-customer',
                         blankText: 'by customer'
                     }),
