@@ -65,7 +65,7 @@
         scope: 'initialize',
         callback: function() {
             var settings = new App.Collection.Settings();
-            settings.fetch({ wait: true });
+            settings.fetch({ async: false });
             App.session.set('settings', settings);
         }
     });
