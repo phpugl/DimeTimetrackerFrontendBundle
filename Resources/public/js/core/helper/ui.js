@@ -55,7 +55,7 @@
             // Grep inputs with name
             $(':input[name]', $form).each(function (idx, input) {
                 var $input = $(input),
-                    name = input.name;
+                    name = input.name.replace(/\[\]/g,'');
 
                 if (name && errors[name]) {
                     $('.error-' + name, $form).text(errors[name]);
@@ -82,7 +82,7 @@
 
         $(':input[name]', $form).each(function (idx, input) {
             var $input = $(input),
-                name = input.name;
+                name = input.name.replace(/\[\]/g,'');
             $('.error-' + name, $form).text('');
         });
     });
