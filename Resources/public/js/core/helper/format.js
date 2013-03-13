@@ -24,31 +24,29 @@
      * App.Helper.Format.Duration
      *
      * @param data, a duration in given unit, e.g. seconds
-     * @param unit, default 'seconds' (see at moment,js)
-     * @param format, default 'HH:mm:ss'
-     * @return string formatted as HH:mm:ss or d HH:mm:ss when more than 24 hours
+     * @param unit, default 'seconds' (look at moment.js)
+     * @return string formatted as HH:mm:ss
      */
-    App.provide('Helper.Format.Duration', function (data, unit, format) {
+    App.provide('Helper.Format.Duration', function (data, unit) {
         if (data !== undefined && _.isNumber(data)) {
             unit = unit || 'seconds';
-            format = format || 'HH:mm:ss';
             var duration = moment.duration(data, unit);
-            if (duration >= 86400000) {
-                return Math.floor(duration.asDays()) + 'd '
-                    + moment()
-                    .hours(duration.hours())
-                    .minutes(duration.minutes())
-                    .seconds(duration.seconds())
-                    .milliseconds(duration.milliseconds())
-                    .format('HH:mm:ss');
-            } else {
-                return moment()
-                    .hours(duration.hours())
-                    .minutes(duration.minutes())
-                    .seconds(duration.seconds())
-                    .milliseconds(duration.milliseconds())
-                    .format('HH:mm:ss');
+
+            var hours = Math.floor(duration.asHours()),
+                minute = duration.minutes(),
+                second = duration.seconds();
+
+            if (hours<10) {
+                hours = '0' + hours;
             }
+            if (minute<10) {
+                minute = '0' + minute;
+            }
+            if (second<10) {
+                second = '0' + second;
+            }
+
+            return [hours, minute, second].join(':');
         }
         return '';
     });
