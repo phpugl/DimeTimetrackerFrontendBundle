@@ -29,7 +29,6 @@ assetic:
         js_plugins:
             inputs:
                 - "@PhpuglTwitterBootstrapBundle/Resources/public/js/*"
-                - "@DimeTimetrackerFrontendBundle/Resources/public/js/plugins/*"
         js_app:
             inputs:
                 - "@DimeTimetrackerFrontendBundle/Resources/public/js/application.js"
