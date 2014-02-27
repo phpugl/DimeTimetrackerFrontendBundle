@@ -7,7 +7,7 @@
     app tracking
 
 - block main
-    %ul.tracking(data-ng-controller="TrackingCtrl")
+    %ul.tracking(data-ng-controller="TrackingCtrl" data-ng-show="activities")
         %li(data-ng-repeat="activity in activities | filter:applyFilter" data-ng-controller="ActivityCtrl")
             .pull-right.duration.sum(data-ng-click="toggleRunning()" data-ng-class="{ running: isRunning() }")
                 %i.action.icon-play(data-ng-show="!isRunning()")

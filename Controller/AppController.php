@@ -11,16 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 class AppController extends Controller
 {
     /**
-     * @Route("/")
-     * @Method("GET")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        return array();
-    }
-
-    /**
      * @Route("/template/{name}")
      * @Method("GET")
      * @param  string   $name

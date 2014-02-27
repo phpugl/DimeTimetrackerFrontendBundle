@@ -24,11 +24,58 @@ body.login .login-box label {
 }
 body.app .header {
     background: url(/bundles/dimetimetrackerfrontend/images/background.jpg);
-    height: 4.5em;
+    height: 4.4em;
     border-bottom: 1px inset #97d73d;
 }
 body.app {
     background: rgba(1, 8, 32, 0.9);
+}
+nav.top-navi {
+    padding-top: 1.5em;
+}
+nav.top-navi,
+nav.top-navi ul,
+nav.top-navi .top-bar-section .has-form,
+nav.top-navi .top-bar-section li:not(.has-form) a:not(.button) {
+    background: none;
+}
+nav.top-navi .magic {
+    background: #a8e049;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.8em;
+    height: 2.0em;
+    margin-top: -0.3em;
+    width: 20em;
+}
+nav.top-navi .magic::-webkit-input-placeholder { /* WebKit browsers */
+    color: #363;
+    font-style: italic;
+}
+nav.top-navi .magic:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #363;
+    font-style: italic;
+}
+nav.top-navi .magic::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #363;
+    font-style: italic;
+}
+nav.top-navi .magic:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #363;
+    font-style: italic;
+}
+nav.top-navi ul li .logout {
+    color: #C2E9A3;
+    font-style: italic;
+}
+nav.top-navi .title-area {
+    margin-left: -1em;
+    margin-top: -0.4em;
+}
+nav.top-navi .title-area .name h1 a {
+    font-size: 2em;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 .page-header h1 {
     text-align: right;
@@ -39,6 +86,27 @@ body.app {
     display:block;
     margin-bottom;
 }
+
+.filter {
+    background: #5a9b29;
+}
+.filter .current-conditions {
+    margin: 1em;
+}
+.filter .current-conditions li {
+    background: #88c029;
+    color: #000;
+    padding: 0.3em;
+}
+.filter .current-conditions li * {
+    background: none;
+    color: #000;
+    display: inline;
+    font-size: 0.9em;
+    font-style: italic;
+    padding: 0;
+}
+
 .button {
     background: #172010;
 }

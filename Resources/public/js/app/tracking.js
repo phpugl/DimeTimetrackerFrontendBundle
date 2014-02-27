@@ -1,6 +1,27 @@
 'use strict';
 
 function TrackingCtrl($scope, $http) {
+  $scope.settings = {
+    showHoursSum: true,
+    showIncomeSum: false
+  };
+  $scope.filters = {
+    date: "today",
+    customer: "PHPUGL",
+    project: "Dime",
+    service: "development"
+  }
+  $scope.removeFilterCondition = function(condition) {
+    alert('To do: remove filter :)')
+  }
+  $scope.activites = [
+  { 
+      description: "dummy activity",
+      customer: {id: 1, name: "dummy customer"},
+      project:  {id: 2, name: "dummy project"},
+      service:  {id: 3, name: "dummy service"},
+  }
+  ];
   $scope.applyFilter = function(activity) {
     if (_.isUndefined($scope.filter)) {
       return true;
@@ -47,66 +68,8 @@ function TrackingCtrl($scope, $http) {
     return true;
   }
 }
-FilterCtrl.$inject = ['$scope', '$http'];
-
-function ActivityCtrl($scope, $http) {
-  $scope.stopRunning = function() {
-    _.each($scope.activity.timeslices, function(timeslice, offset) {
-      if (_.isNull(timeslice.stopped_at) || _.isUndefined(timeslice.stopped_at)) {
-        $scope.stopTimeslice(timeslice, function(err, timeslice) {
-          if (err) {
-            console.error(err);
-          } else {
-            $scope.activity.timeslices[offset] = timeslice;
-          }
-        });
-      }
-    });
-  };
-  $scope.startTimeslice = function() {
-    var timeslice = {
-      activity_id: $scope.activity.id,
-      started_at:  moment().format('YYYY-MM-DD HH:mm:ss')
-    }
-    var url = config.backend.url + '/timeslices';
-    $http.post(url, timeslice).success(function(timeslice) {
-      $scope.activity.timeslices.unshift(timeslice);
-    });
-  };
-  $scope.stopTimeslice = function(timeslice, done) {
-    timeslice.stopped_at = moment().format('YYYY-MM-DD HH:mm:ss');
-    timeslice.duration   = moment(timeslice.stopped_at).diff(moment(timeslice.started_at), 'seconds');
-    $scope.saveTimeslice(timeslice, done);
-  };
-  $scope.saveTimeslice = function(timeslice, done) {
-    var url = config.backend.url + '/timeslices/' + timeslice.id;
-    $http.put(url, timeslice).success(function(timeslice, status) {
-      if (200 === status) {
-        done(null, timeslice);
-      } else {
-        done(status, timeslice);
-      }
-    }).error(function (err){
-      done(err);
-    });
-  };
-  $scope.toggleRunning = function() {
-    if ($scope.isRunning()) {
-      $scope.stopRunning();
-    } else {
-      $scope.startTimeslice();
-    }
-  }
-
-  $scope.isRunning = function() {
-    return _.some($scope.activity.timeslices, function(timeslice) {
-      return _.isUndefined(timeslice.duration)
-        || _.isNull(timeslice.duration)
-        || 0 === timeslice.duration;
-    });
-  }
-}
-ActivityCtrl.$inject = ['$scope', '$http'];
+TrackingCtrl.$inject = ['$scope', '$http'];
+dime.controller('TrackingCtrl', TrackingCtrl);
 
 (function(ng) {
   var NS = 'tracking:base';
