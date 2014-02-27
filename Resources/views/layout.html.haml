@@ -1,0 +1,31 @@
+- extends '::base.html.twig'
+
+{% block title %}
+| Dime Timetracker
+{% endblock %}
+
+{% block meta %}
+%meta(name="viewport" content="width=device-width, initial-scale=1.0")
+%meta(name="description" content="Dime Timetracker, improve you work time tracking")
+%meta(name="author" content="PHPUGL")
+{% endblock %}
+
+{% block stylesheets %}
+- stylesheets filter='cssrewrite' '@css_vendors' '@css_plugins' '@css_app'
+  %link(href="#{asset_url}" rel="stylesheet" type="text/css")
+{% endblock %}
+
+{% block body %}
+.container
+  %header#area-header
+    - block header
+  %section#area-content
+    - block content
+  %footer#area-footer
+    %p PHPUGL 2011-2014 | Powered by Symfony2, AngularJS and Foundation
+    - block footer
+{% endblock %}
+
+{% block javascripts %}
+.foo
+{% endblock %}

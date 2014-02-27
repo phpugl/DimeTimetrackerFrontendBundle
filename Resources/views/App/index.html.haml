@@ -1,0 +1,85 @@
+- extends "DimeTimetrackerFrontendBundle::layout.html.twig"
+
+- block content
+  .header(data-ng-controller='BaseCtrl')
+    .row
+      .column
+        %nav.top-bar(data-ng-controller='NavigationCtrl')
+          %ul.title-area
+            %li.name
+              %h1
+                %a(href="/") Dime
+          %section.top-bar-section
+            %ul.left
+              %li.has-form
+                .row
+                  .column.small-3
+                    %input.magic(type='text' placeholder='log /project :service #tag')
+            %ul.right
+              %li(data-ng-repeat='item in navigationItems')
+                %a(data-ng-bind='item') ff
+              %li
+                %a(href="{{ path('fos_user_security_logout') }}" title="{% trans %}Logout{% endtrans %}")
+                  %i.icon-off.icon-white.hide-text {% trans %}Logout{% endtrans %}
+
+    .container.filter
+      .row(data-ng-controller='FilterCtrl' data-ng-init='filter=null')
+        .span3.filters.hidden-phone
+          .span3.filter.date
+            %i.icon-chevron-left
+            .current
+              %i.icon-calendar
+              | heute
+              %ul
+                %li(data-ng-repeat='range in ["Tag", "Woche", "Monat", "Jahr", "unbegrenzt"]' data-ng-bind='range')
+            %i.icon-chevron-right.disabled
+          .span3.filter.search
+            .current
+              %i.icon-search
+              %input.span2.search-query(type='search' data-ng-model='filter.search')
+          .span3.filter.customer(data-ng-init='filter.customer=null')
+            .current
+              %i.icon-user
+              | {{filter.customer.name && filter.customer.name || "Alle Kunden"}}
+              %ul
+                %li
+                  %a(data-ng-click='filter.customer=null')
+                    | Alle Kunden
+                %li(data-ng-repeat='customer in customers' data-ng-model='filter.customer')
+                  %a(data-ng-click='filter.customer=customer')
+                    {{customer.name}}
+          .span3.filter.project(data-ng-init='filter.project=null')
+            .current
+              %i.icon-folder-open
+              | {{filter.project.name && filter.project.name || "Alle Projekte"}}
+              %ul
+                %li
+                  %a(data-ng-click='filter.project=null')
+                    | Alle Projekte
+                %li(data-ng-repeat='project in projects' data-ng-model='filter.project')
+                  %a(data-ng-click='filter.project=project')
+                    {{project.name}}
+          .span3.filter.service(data-ng-init='filter.service=null')
+            .current
+              %i.icon-cog
+              | {{filter.service.name && filter.service.name || "Alle Services"}}
+              %ul
+                %li
+                  %a(data-ng-click='filter.service=null')
+                    | Alle Services
+                %li(data-ng-repeat='service in services' data-ng-model='filter.service')
+                  %a(data-ng-click='filter.service=service')
+                    {{service.name}}
+          .span3.filter.tag(data-ng-init='filter.tag=null')
+            .current
+              %i.icon-tag
+              | {{filter.tag.name && filter.tag.name || "Alle Tags"}}
+              %ul
+                %li
+                  %a(data-ng-click='filter.tag=null')
+                    | Alle Tags
+                %li(data-ng-repeat='tag in tags' data-ng-model='filter.tag')
+                  %a(data-ng-click='filter.tag=tag' data-ng-bind='tag.name')
+    .row.main
+      - block main
+- endblock

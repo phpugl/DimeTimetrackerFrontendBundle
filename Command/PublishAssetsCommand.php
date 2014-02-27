@@ -25,8 +25,8 @@ class PublishAssetsCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $returnCode = $this->runExternalCommand('twitter-bootstrap:clear', $output);
-        $returnCode = $this->runExternalCommand('twitter-bootstrap:compile', $output);
+        #$returnCode = $this->runExternalCommand('twitter-bootstrap:clear', $output);
+        #$returnCode = $this->runExternalCommand('twitter-bootstrap:compile', $output);
 
         switch ($input->getOption("env")) {
             case 'prod':

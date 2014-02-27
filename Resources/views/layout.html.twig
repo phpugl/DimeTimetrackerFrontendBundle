@@ -22,35 +22,6 @@
 {% endblock %}
 
 {% block body %}
-    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        <div id="area-nav-main" class="navbar navbar-fixed-top navbar-inverse">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <div class="brand"><a href="#">Dime</a></div>
-                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <div id="nav-main" class="nav-collapse">
-                            <div class="nav pull-right">
-                                <form id="activity-track" class="navbar-search pull-left">
-                                    <span id="activity-track-date" class="icon-calendar icon-white" title="{{ 'now'|date('Y-m-d') }}" data-toggle="datepicker" data-date="{{ 'now'|date('Y-m-d') }}" data-toggle="datepicker" data-date-autoclose="true" data-date-format="YYYY-MM-DD" data-date-weekstart="1"></span>
-                                    <i class="icon-time icon-white" ></i>
-                                    <input id="activity-track-input" class="search-query" placeholder="{% trans %}Track your activity...{% endtrans %}" type="text" />
-                                </form>
-                                <ul class="nav">
-                                    <li><a href="#profile/{{ app.user.id }}" title="{% trans %}User profile{% endtrans %}"><i class="icon-user icon-white hide-text">{% trans %}Profile{% endtrans %}</i></a></li>
-                                    <li><a href="{{ path('fos_user_security_logout') }}" title="{% trans %}Logout{% endtrans %}"><i class="icon-off icon-white hide-text">{% trans %}Logout{% endtrans %}</i></a></li>
-                                </ul>
-                            </div>
-                        </div><!-- /.nav-collapse -->
-                    {% endif %}
-                </div>
-            </div><!-- /navbar-inner -->
-        </div>
-    {% endif %}
 
     <div class="container">
         <header id="area-header">
@@ -62,7 +33,7 @@
         </section>
 
         <footer id="area-footer">
-            <p>PHPUGL 2011-2013 | Powered by Symfony2, Backbone.js and Bootstrap</p>
+            <p>PHPUGL 2011-2014 | Powered by Symfony2, AngularJS and Foundation</p>
             {% block footer %}{% endblock %}
         </footer>
     </div> <!-- /container -->
