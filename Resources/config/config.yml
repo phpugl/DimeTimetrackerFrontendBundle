@@ -15,6 +15,7 @@ assetic:
         css_app:
             inputs:
                 - "bundles/dimetimetrackerfrontend/css/dime.css"
+                - "bundles/dimetimetrackerfrontend/css/tracking.css"
                 - "bundles/dimetimetrackerfrontend/css/print.css"
 
         js_vendors:

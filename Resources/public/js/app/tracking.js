@@ -1,6 +1,7 @@
 'use strict';
 
 function TrackingCtrl($scope, $http) {
+  $scope.showCreateActivityForm = false;
   $scope.settings = {
     showHoursSum: true,
     showIncomeSum: false
@@ -70,6 +71,11 @@ function TrackingCtrl($scope, $http) {
 }
 TrackingCtrl.$inject = ['$scope', '$http'];
 dime.controller('TrackingCtrl', TrackingCtrl);
+
+function CreateActivityCtrl($scope, $http) {
+}
+CreateActivityCtrl.$inject = ['$scope', '$http'];
+dime.controller('CreateActivityCtrl', CreateActivityCtrl);
 
 (function(ng) {
   var NS = 'tracking:base';

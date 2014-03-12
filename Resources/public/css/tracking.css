@@ -1,0 +1,78 @@
+#tracking {
+    margin-top: 5em;
+}
+#tracking #addIcon {
+    background-color: #97D73D;
+    color: #000000;
+    font-size: 2em;
+    height: 1.3em;
+    left: 0;
+    padding-left: 0.5em;
+    position: absolute;
+    width: 1.6em;
+}
+#tracking .createActivity button,
+#tracking .createActivity input {
+    background: #5b6168;
+    border: none;
+    color: #FFFFFF;
+    float: left;
+    height: 3em;
+    margin-right: 1em;
+}
+#tracking .createActivity button {
+    height: 2.6em;
+}
+#tracking .createActivity input::-webkit-input-placeholder { /* WebKit browsers */
+    color: #ffffff;
+    font-style: italic;
+}
+#tracking .createActivity input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #ffffff;
+    font-style: italic;
+}
+#tracking .createActivity input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #ffffff;
+    font-style: italic;
+}
+#tracking .createActivity input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #ffffff;
+    font-style: italic;
+}
+
+#tracking .createActivity input.tags::-webkit-input-placeholder { /* WebKit browsers */
+    color: #97D73D;
+    font-style: italic;
+}
+#tracking .createActivity input.tags:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #97D73D;
+    font-style: italic;
+}
+#tracking .createActivity input.tags::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #97D73D;
+    font-style: italic;
+}
+#tracking .createActivity input.tags:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #97D73D;
+    font-style: italic;
+}
+
+#tracking .createActivity input.customer,
+#tracking .createActivity input.project,
+#tracking .createActivity input.service {
+    width: 12em;
+}
+#tracking .createActivity input.duration {
+    width: 10em;
+}
+#tracking .createActivity input.submitForm {
+    width: 5em;
+}
+#tracking .createActivity input.description {
+    width: 40em;
+}
+#tracking .createActivity input.tags {
+    color: #97D73D;
+    margin-right: 0;
+    width: 30em;
+}
