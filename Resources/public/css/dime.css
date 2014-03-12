@@ -28,7 +28,7 @@ body.app .header {
     border-bottom: 1px inset #97d73d;
 }
 body.app {
-    background: rgba(1, 8, 32, 0.9);
+    background: url(/bundles/dimetimetrackerfrontend/images/background_internal.png);
 }
 nav.top-navi {
     padding-top: 1.5em;
