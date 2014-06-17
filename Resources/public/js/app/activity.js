@@ -1,8 +1,13 @@
 'use strict';
 function ActivityCtrl($scope, $http) {
+  $scope.showCustomerList = false;
+  $scope.showProjectList  = false;
+  $scope.showServiceList  = false;
+  $scope.showTimeslices   = false;
+
   $scope.stopRunning = function() {
-    _.each($scope.activity.timeslices, function(timeslice, offset) {
-      if (_.isNull(timeslice.stopped_at) || _.isUndefined(timeslice.stopped_at)) {
+    angular.forEach($scope.activity.timeslices, function(timeslice, offset) {
+      if ( null === timeslice.stopped_at || angular.isUndefined(timeslice.stopped_at)) {
         $scope.stopTimeslice(timeslice, function(err, timeslice) {
           if (err) {
             console.error(err);
@@ -49,11 +54,16 @@ function ActivityCtrl($scope, $http) {
   }
 
   $scope.isRunning = function() {
-    return _.some($scope.activity.timeslices, function(timeslice) {
-      return _.isUndefined(timeslice.duration)
-        || _.isNull(timeslice.duration)
-        || 0 === timeslice.duration;
+    var isRunning = false;
+    return angular.forEach($scope.activity.timeslices, function(timeslice) {
+      if (angular.isUndefined(timeslice.duration)
+        || null === timeslice.duration
+        || 0 === timeslice.duration
+        ) {
+          isRunning = true;
+        }
     });
+    return isRunning;
   }
 }
 ActivityCtrl.$inject = ['$scope', '$http'];

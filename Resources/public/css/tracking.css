@@ -4,12 +4,22 @@
 #tracking #addIcon {
     background-color: #97D73D;
     color: #000000;
+    cursor: pointer;
     font-size: 2em;
     height: 1.3em;
-    left: 0;
-    padding-left: 0.5em;
-    position: absolute;
-    width: 1.6em;
+    text-align: center;
+    width: 100%;
+}
+@media only screen and (min-width: 40.063em) {
+    #tracking #addIcon {
+        left: 0;
+        position: absolute;
+        width: 1.6em;
+    }
+}
+
+#tracking form.createActivity {
+    height: 8em;
 }
 #tracking .createActivity button,
 #tracking .createActivity input {
@@ -75,4 +85,14 @@
     color: #97D73D;
     margin-right: 0;
     width: 30em;
+}
+#tracking ul.activities > li {
+    background: rgba(0, 0, 50, 0.5);
+    list-style: none;
+    margin-left: -1.2em;
+    margin-bottom: 1em;
+}
+#tracking ul.activities .timeslices .table-head .column .column {
+    background: rgba(200, 200, 220, 0.5);
+    padding: 2px 0;
 }

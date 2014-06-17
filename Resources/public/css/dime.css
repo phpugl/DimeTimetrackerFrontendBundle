@@ -46,6 +46,7 @@ nav.top-navi .magic {
     font-size: 0.8em;
     height: 2.0em;
     margin-top: -0.3em;
+    padding: 0 1em;
     width: 20em;
 }
 nav.top-navi .magic::-webkit-input-placeholder { /* WebKit browsers */
@@ -90,21 +91,37 @@ nav.top-navi .title-area .name h1 a {
 .filter {
     background: #5a9b29;
 }
-.filter .current-conditions {
-    margin: 1em;
+.filter .current-conditions,
+.filter .summary {
+    margin-bottom: 1em;
+    margin-top: 1em;
 }
-.filter .current-conditions li {
+.filter .current-conditions .no-condition,
+.filter .current-conditions .condition,
+.filter .summary .sum {
     background: #88c029;
-    color: #000;
-    padding: 0.3em;
-}
-.filter .current-conditions li * {
-    background: none;
-    color: #000;
+    color: #363;
     display: inline;
     font-size: 0.9em;
     font-style: italic;
-    padding: 0;
+    padding: 0.3em;
+}
+.filter .current-conditions .condition,
+.filter .summary .sum {
+    color: #000;
+    font-style: normal;
+}
+.filter .current-conditions ul {
+    background: #88c029;
+    margin-left: 0;
+    margin-top: 0.4em;
+    padding: 0 1em;
+    position: fixed;
+    z-index: 2;
+}
+.filter .current-conditions ul li {
+    background: #88c029;
+    display: block;
 }
 
 .button {

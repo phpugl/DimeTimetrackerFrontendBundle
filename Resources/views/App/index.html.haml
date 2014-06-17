@@ -21,20 +21,61 @@
               %a.logout(href="{{ path('fos_user_security_logout') }}" title="{% trans %}Logout{% endtrans %}") Logout
 
     .row.filter
-      %ul.inline-list.current-conditions(data-ng-controller='TrackingCtrl')
-        %li.condition(data-ng-repeat="condition in filters")
-          %span.label(data-ng-bind="condition")
-          %a(href='#' data-ng-click="removeFilterCondition(condition)") ×
-        %li.condition.new
-          %a(href='#' onclick="alert('To do: Open dropdown with filter options :)')") +
-        %li.sumHours(data-ng-hide="settings.hideHourSum")
-          &Sigma;
-          .value(data-ng-bind="sum.hours")
-          h
-        %li.sumIncome(data-ng-hide="settings.hideIncomeSum")
-          &Sigma;
-          .value(data-ng-bind="sum.income")
-          €
+      .current-conditions.column.small-10(data-ng-controller='TrackingCtrl')
+        .row
+          .small-2.column.customer(data-ng-click="showCustomerList = !showCustomerList")
+            .condition(title='@{{filter.customer.name}} - Click to change customer' data-ng-show='filter.customer')
+              @{{filter.customer.alias}}
+            .no-condition(title='Click to filter by customer' data-ng-hide='filter.customer')
+              Any Customer
+            %ul(data-ng-show="showCustomerList")
+              %li
+                %a(data-ng-click='filter.customer=null')
+                  Any Customer
+              %li(data-ng-repeat='customer in customers' data-ng-model='filter.customer')
+                %a(data-ng-click='filter.customer=customer')
+                  {{customer.name}}
+          .small-2.column.project(data-ng-click="showProjectList = !showProjectList")
+            .condition(title='{{filter.project.name}} - Click to change project' data-ng-show='filter.project')
+              \/{{filter.project.alias}}
+            .no-condition(title='Click to filter by project' data-ng-hide='filter.project')
+              Any Project
+            %ul(data-ng-show="showProjectList")
+              %li
+                %a(data-ng-click='filter.project=null')
+                  Any Project
+              %li(data-ng-repeat='project in projects' data-ng-model='filter.project')
+                %a(data-ng-click='filter.project=project')
+                  {{project.name}}
+          .small-2.column.service(data-ng-click="showServiceList = !showServiceList")
+            .condition(title='{{filter.service.name}} - Click to change service' data-ng-show='filter.service')
+              &colon;{{filter.service.alias}}
+            .no-condition(title='Click to filter by service' data-ng-hide='filter.service')
+              Any Service
+            %ul(data-ng-show="showServiceList")
+              %li
+                %a(data-ng-click='filter.service=null')
+                  Any Service
+              %li(data-ng-repeat='service in services' data-ng-model='filter.service')
+                %a(data-ng-click='filter.service=service')
+                  {{service.name}}
+          .small-2.column.end.tags
+            %span(title='Click to edit tags')
+              .condition(class="tag" data-ng-repeat='tag in filter.tags') &#x23;{{tag}}
+              .no-condition(class="no-tags" data-ng-hide="filter.tags")
+                &#x23;
+      .summary.column.small-2.text-right
+        .row
+          .column.sumHours.small-6(data-ng-hide="settings.hideHourSum")
+            .sum
+              &Sigma;
+              %span.value(data-ng-bind="getHours()")
+              h
+          .column.sumIncome.small-6(data-ng-hide="settings.hideIncomeSum")
+            .sum
+              &Sigma;
+              %span.value(data-ng-bind="getIncome()")
+              €
     .row.main
       - block main
 - endblock

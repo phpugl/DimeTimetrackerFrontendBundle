@@ -1,69 +1,89 @@
 - extends "DimeTimetrackerFrontendBundle::App/index.html.haml"
 
 - block title
-    Your Activities
+  Your Activities
 
 - block bodyclass
-    app tracking
+  app tracking
 
 - block main
-    #tracking(data-ng-controller="TrackingCtrl")
-        #addActivity
-            #addIcon(data-ng-click="showCreateActivityForm=!showCreateActivityForm" data-ng-submit="submitForm") +
-            %form.createActivity(data-ng-show="showCreateActivityForm" data-ng-controller="CreateActivityCtrl")
-                %input.customer(type="text" placeholder="@customer" title="@customer" data-ng-model="customer")
-                %input.project(type="text" placeholder="/project" title="/project" data-ng-model="project")
-                %input.service(type="text" placeholder=":service" title=":service" data-ng-model="service")
-                %input.duration(type="text" placeholder="00h 00m" title="00h 00m" data-ng-model="duration")
-                %button.submitForm(data-ng-click="submitForm")
-                %input.description(type="text" placeholder="@description" title="@description" data-ng-model="description")
-                %input.tags(type="text" placeholder="#tags" title="#tags" data-ng-model="tags")
-        %ul.tracking(data-ng-show="activities")
-            %li(data-ng-repeat="activity in activities | filter:applyFilter" data-ng-controller="ActivityCtrl")
-                .pull-right.duration.sum(data-ng-click="toggleRunning()" data-ng-class="{ running: isRunning() }")
-                    %i.action.icon-play(data-ng-show="!isRunning()")
-                    %i.action.icon-stop(data-ng-show="isRunning()")
-                    .pull-right {{ activity.timeslices | sumDuration }}
-                %h4 {{activity.description}}
-                %span.tags
-                .relations
-                    .row
-                        .span2.relation(data-ng-click="showCustomerList = !showCustomerList")
-                            .icon-user
-                            %span(title='Click to change') {{activity.customer.name}}
-                            %ul(data-ng-class='{"active": showCustomerList}')
-                                %li
-                                    %a(data-ng-click='activity.customer=null')
-                                        | Kein Kunde
-                                %li(data-ng-repeat='customer in customers' data-ng-model='activity.customer')
-                                    %a(data-ng-click='activity.customer=customer')
-                                        {{customer.name}}
-                        .span2.relation(data-ng-click="showProjectList = !showProjectList")
-                            .icon-folder-open
-                            %span(title='Click to change') {{activity.project.name}}
-                            %ul(data-ng-class='{"active": showProjectList}')
-                                %li
-                                    %a(data-ng-click='activity.project=null')
-                                        | Alle Projekte
-                                %li(data-ng-repeat='project in projects' data-ng-model='activity.project')
-                                    %a(data-ng-click='activity.project=project')
-                                        {{project.name}}
-                        .span2.relation(data-ng-click="showServiceList = !showServiceList")
-                            .icon-cog
-                            %span(title='Click to change') {{activity.service.name}}
-                            %ul(data-ng-class='{"active": showServiceList}')
-                                %li
-                                    %a(data-ng-click='activity.service=null')
-                                        | Alle Services
-                                %li(data-ng-repeat='service in services' data-ng-model='activity.service')
-                                    %a(data-ng-click='activity.service=service')
-                                        {{service.name}}
-                %ul.timeslices
-                    %li(data-ng-repeat="timeslice in activity.timeslices")
-                        .span1.duration
-                            | {{ timeslice.duration | formatHours }} h
-                        .span5.date
-                            | ({{timeslice.started_at | date:'medium' }}
-                            |  - {{timeslice.stopped_at | date:'medium' }})
-                        .span1
-                            i.icon-remove(data-ng-click="timeslice.del")
+  #tracking(data-ng-controller="TrackingCtrl")
+    #addActivity
+      #addIcon(data-ng-click="showCreateActivityForm=!showCreateActivityForm" data-ng-submit="submitForm") +
+      %form.createActivity(data-ng-show="showCreateActivityForm" data-ng-controller="CreateActivityCtrl")
+        %input.customer(type="text" placeholder="@customer" title="@customer" data-ng-model="customer")
+        %input.project(type="text" placeholder="/project" title="/project" data-ng-model="project")
+        %input.service(type="text" placeholder=":service" title=":service" data-ng-model="service")
+        %input.duration(type="text" placeholder="00h 00m" title="00h 00m" data-ng-model="duration")
+        %button.submitForm(data-ng-click="submitForm")
+        %input.description(type="text" placeholder="@description" title="@description" data-ng-model="description")
+        %input.tags(type="text" placeholder="#tags" title="#tags" data-ng-model="tags")
+
+    %ul.activities(data-ng-show="activities")
+      %li(data-ng-repeat="activity in activities | filter:applyFilter" data-ng-controller="ActivityCtrl")
+        .facts.small-12.column
+          .small-2.column.customer(data-ng-click="showCustomerList = !showCustomerList")
+            %span(title='@{{activity.customer.name}} - Click to change customer')
+              @{{activity.customer.alias}}
+            %ul(data-ng-show="showCustomerList")
+              %li
+                %a(data-ng-click='activity.customer=null')
+                  Kein Kunde
+              %li(data-ng-repeat='customer in customers' data-ng-model='activity.customer')
+                %a(data-ng-click='activity.customer=customer')
+                  {{customer.name}}
+          .small-2.column.project(data-ng-click="showProjectList = !showProjectList")
+            %span(title='{{activity.project.name}} - Click to change project')
+              \/{{activity.project.alias}}
+            %ul(data-ng-show="showProjectList")
+              %li
+                %a(data-ng-click='activity.project=null')
+                  Alle Projekte
+              %li(data-ng-repeat='project in projects' data-ng-model='activity.project')
+                %a(data-ng-click='activity.project=project')
+                  {{project.name}}
+          .small-2.column.service(data-ng-click="showServiceList = !showServiceList")
+            %span(title='{{activity.service.name}} - Click to change service')
+              &colon;{{activity.service.alias}}
+            %ul(data-ng-show="showServiceList")
+              %li
+                %a(data-ng-click='activity.service=null')
+                  Alle Services
+              %li(data-ng-repeat='service in services' data-ng-model='activity.service')
+                %a(data-ng-click='activity.service=service')
+                  {{service.name}}
+          .small-3.column.tags
+            %span(title='Click to edit tags')
+              %span(class="tag" data-ng-repeat='tag in activity.tags') &#x23;{{tag}}
+              %span(class="no-tags" data-ng-hide="activity.tags")
+                &dash;
+          .small-2.column.duration.sum(data-ng-click="toggleRunning()" data-ng-class="{ running: isRunning() }")
+            .pull-right {{ activity.timeslices | sumDuration }}
+          .small-1.column.actions
+            %span.action.list(data-ng-click='showTimeslices = !showTimeslices' title='show timeslices')
+              [T]
+            %span.action.list(data-ng-click='delete()' title='delete activity')
+              [X]
+        .row
+          .description.medium-offset-2.medium-10.small-12.column
+            {{activity.description}}
+          .medium-offset-4.medium-8.small-12.column.timeslices(data-ng-show="showTimeslices")
+            .row.table-head
+              .small-2.column.duration
+                .small-12.column.text-center +
+              .small-3.column.started_at
+                .small-12.column.text-center started at
+              .small-3.column.stopped_at
+                .small-12.column.text-center stopped at
+              .small-2.column.end.duration
+                .small-12.column.text-center duration
+            .row(data-ng-repeat="timeslice in activity.timeslices")
+              .small-offset-2.small-3.column.started_at
+                {{ timeslice.started_at | date:'medium' }} &nbsp;
+              .small-3.column.stopped_at
+                {{ timeslice.stopped_at | date:'medium' }} &nbsp;
+              .small-2.column.duration
+                {{ timeslice.duration | formatHours }} h
+              .small-2.column.actions
+                %span.action.remove(data-ng-click='timeslice.del' title='delete timeslice')
+                  [X]

@@ -6,35 +6,21 @@ function TrackingCtrl($scope, $http) {
     showHoursSum: true,
     showIncomeSum: false
   };
-  $scope.filters = {
-    date: "today",
-    customer: "PHPUGL",
-    project: "Dime",
-    service: "development"
-  }
   $scope.removeFilterCondition = function(condition) {
     alert('To do: remove filter :)')
-  }
-  $scope.activites = [
-  { 
-      description: "dummy activity",
-      customer: {id: 1, name: "dummy customer"},
-      project:  {id: 2, name: "dummy project"},
-      service:  {id: 3, name: "dummy service"},
-  }
-  ];
+  };
   $scope.applyFilter = function(activity) {
-    if (_.isUndefined($scope.filter)) {
+    if (angular.isUndefined($scope.filter)) {
       return true;
     }
 
-    if (_.isString($scope.filter.search)
+    if (angular.isString($scope.filter.search)
       && -1 === activity.description.indexOf($scope.filter.search)
     ) {
       return false;
     }
 
-    if (_.isObject($scope.filter.customer)
+    if (angular.isObject($scope.filter.customer)
       && null !== $scope.filter.customer
     ) {
       if (activity.customer.id !== $scope.filter.customer.id) {
@@ -42,7 +28,7 @@ function TrackingCtrl($scope, $http) {
       }
     }
 
-    if (_.isObject($scope.filter.project)
+    if (angular.isObject($scope.filter.project)
       && null !== $scope.filter.project
     ) {
       if (activity.project.id !== $scope.filter.project.id) {
@@ -50,7 +36,7 @@ function TrackingCtrl($scope, $http) {
       }
     }
 
-    if (_.isObject($scope.filter.service)
+    if (angular.isObject($scope.filter.service)
       && null !== $scope.filter.service
     ) {
       if (activity.service.id !== $scope.filter.service.id) {
@@ -58,7 +44,7 @@ function TrackingCtrl($scope, $http) {
       }
     }
 
-    if (_.isObject($scope.filter.tag)
+    if (angular.isObject($scope.filter.tag)
       && null !== $scope.filter.tag
     ) {
       if (activity.tag.id !== $scope.filter.tag.id) {
@@ -90,7 +76,7 @@ dime.controller('CreateActivityCtrl', CreateActivityCtrl);
   module.filter('sumDuration', function() {
     return function(timeslices) {
       var duration = 0;
-      _.each(timeslices, function(timeslice) {
+      angular.forEach(timeslices, function(timeslice) {
         duration += timeslice.duration;
       })
       duration = moment.duration(duration, 'seconds');
